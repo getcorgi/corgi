@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - lts/*
+install:
+  - yarn
+script:
+  - yarn commitlint --from=HEAD~1
+  - yarn lint
+  - CI=true yarn test --coverage
+  - yarn build
+after_success:
+  - cat coverage/lcov.info | yarn coveralls
+cache:
+  yarn: true
+  directories:
+    - node_modules
+notifications:
+  email: false
