@@ -1,6 +1,5 @@
 import React from 'react';
 
-import useCards, { UseCardsResult } from '../../lib/hooks/useCards';
 import useGroup, { UseGroupResult } from '../../lib/hooks/useGroup';
 import renderWithRouter from '../../lib/test/renderWithRouter';
 import { GroupType } from '../../lib/types';
@@ -11,16 +10,6 @@ jest.mock('../../lib/hooks/useCards');
 jest.mock('../../lib/hooks/useAddCard');
 
 describe('BoardContainer', () => {
-  beforeAll(() => {
-    (useCards as jest.Mock).mockImplementation(
-      (): UseCardsResult => ({
-        data: [],
-        error: undefined,
-        loading: true,
-      }),
-    );
-  });
-
   it('does not show board on loading', () => {
     (useGroup as jest.Mock).mockImplementation(
       (): UseGroupResult => ({

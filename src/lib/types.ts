@@ -3,6 +3,7 @@ export interface CollectionQueryResult<QueryDocumentData> {
   snapshot?: firebase.firestore.QuerySnapshot;
   loading: boolean;
   error?: any;
+  query?: firebase.firestore.Query;
 }
 
 export interface DocumentQueryResult<DocumentData> {

@@ -7,28 +7,24 @@ export default function(options?: { client?: typeof firebase }) {
   const client = (options && options.client) || firebase;
   const db = client.firestore();
 
-  return async (
+  return (
     variables: {
-      groupId?: string;
-      description?: string;
+      groupId: string;
+      message: string;
+      userId: string;
     },
     options: {
       merge?: boolean;
     } = { merge: true },
   ) => {
-    const currentUser = firebase.auth().currentUser;
-
-    if (!currentUser) {
-      throw new Error('Not Logged In');
-    }
-
     const ref = db
       .collection('groups')
       .doc(variables.groupId)
-      .collection('cards');
+      .collection('peers');
 
-    return await ref.add({
-      description: variables.description,
+    return ref.add({
+      userId: variables.userId,
+      message: variables.message,
     });
   };
 }

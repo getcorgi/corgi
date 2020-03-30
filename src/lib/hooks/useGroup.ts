@@ -27,6 +27,8 @@ export default function useGroup(
     throw new Error('Not Logged In');
   }
 
+  console.log(currentUser);
+
   const query = db.collection('groups').doc(id);
 
   const [snapshot, loading, error] = useDocument(query);

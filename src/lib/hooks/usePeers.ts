@@ -3,33 +3,32 @@ import { useCollection } from 'react-firebase-hooks/firestore';
 
 import { FirebaseContext } from '../../components/Firebase';
 import { CollectionQueryResult } from '../types';
+import useCurrentUser from './useCurrentUser';
 
-export interface CardsDocumentData {
+export interface PeersDocumentData {
   id: string;
-  description: string;
+  userId: string;
+  message: string;
 }
 
-export type UseCardsResult = CollectionQueryResult<CardsDocumentData>;
+export type UsePeersResult = CollectionQueryResult<PeersDocumentData>;
 
-export default function useCards(
+export default function usePeers(
   id: string,
   options: {
     client?: typeof firebase;
   } = {},
-): UseCardsResult {
+): UsePeersResult {
   const { firebase } = useContext(FirebaseContext);
   const client = options.client || firebase;
   const db = client.firestore();
 
-  const currentUser = client.auth().currentUser;
-  if (!currentUser) {
-    throw new Error('Not Logged In');
-  }
+  useCurrentUser();
 
   const query = db
     .collection('groups')
     .doc(id)
-    .collection('cards');
+    .collection('peers');
 
   const [snapshot, loading, error] = useCollection(query);
 
@@ -38,10 +37,11 @@ export default function useCards(
   }
 
   return {
+    query,
     snapshot,
     data: snapshot
       ? snapshot.docs.map(doc => {
-          return { id: doc.id, ...doc.data() } as CardsDocumentData;
+          return { id: doc.id, ...doc.data() } as PeersDocumentData;
         })
       : [],
     loading,

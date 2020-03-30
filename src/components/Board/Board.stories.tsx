@@ -8,10 +8,11 @@ export default {
 };
 
 export const Default = () => (
-  <Board
-    name="Great Red Board... argh"
-    start={noop}
-    call={noop}
-    hangup={noop}
-  />
+  <div></div>
+  // <Board
+  //   name="Great Red Board... argh"
+  //   start={noop}
+  //   call={noop}
+  //   hangup={noop}
+  // />
 );

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import useAddCard from '../../lib/hooks/useAddCard';
-import useCards from '../../lib/hooks/useCards';
+import useAddPeer from '../../lib/hooks/useAddPeer';
+import useCurrentUser from '../../lib/hooks/useCurrentUser';
 import useGroup from '../../lib/hooks/useGroup';
+import usePeers, { PeersDocumentData } from '../../lib/hooks/usePeers';
 import Board from './Board';
 
 interface Props {
@@ -14,174 +15,128 @@ interface Props {
   };
 }
 
-export default function BoardContainer(props: Props) {
-  const video1 = document.querySelector('video#video1');
-  const video2 = document.querySelector('video#video2');
-  const video3 = document.querySelector('video#video3');
+const offerOptions = {
+  offerToReceiveAudio: 1,
+  offerToReceiveVideo: 1,
+};
 
-  let pc1Local;
-  let pc1Remote;
-  let pc2Local;
-  let pc2Remote;
-  const offerOptions = {
-    offerToReceiveAudio: 1,
-    offerToReceiveVideo: 1
+const configuration = {
+  iceServers: [
+    {
+      urls: [
+        'stun:stun1.l.google.com:19302',
+        'stun:stun2.l.google.com:19302',
+        'stun:stun.services.mozilla.com',
+      ],
+    },
+  ],
+};
+
+const peerConnection = new RTCPeerConnection(configuration);
+
+async function getLocalStream() {
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: true,
+    audio: true,
+  });
+
+  return stream;
+}
+
+export default function BoardContainer(props: Props) {
+  const groupId = props.match.params.boardId;
+  const addPeer = useAddPeer();
+  const peers = usePeers(groupId);
+  const currentUser = useCurrentUser();
+  const userIdRef = useRef(currentUser.uid + Date.now());
+  const [streams, setStreams] = useState<Set<MediaStream>>(new Set([]));
+  const isConnected = useRef(false);
+
+  const localStream = useRef<MediaStream>();
+
+  peerConnection.onicecandidate = event =>
+    event.candidate
+      ? sendMessage(JSON.stringify({ ice: event.candidate }))
+      : console.log('Sent All Ice');
+
+  peerConnection.ontrack = event => {
+    console.log('remote stream', event);
+
+    setStreams(prevStreams => new Set([...prevStreams, event.streams[0]]));
   };
 
-  function gotStream(stream) {
-    console.log('Received local stream');
-    video1.srcObject = stream;
-    window.localStream = stream;
-    callButton.disabled = false;
+  useEffect(() => {
+    (async () => {
+      const stream = await getLocalStream();
+
+      localStream.current = stream;
+      setStreams(prevStreams => new Set([...prevStreams, stream]));
+      stream.getTracks().forEach(track => {
+        peerConnection.addTrack(track, stream);
+      });
+    })();
+  }, []);
+
+  async function sendMessage(message: string) {
+    const ref = await addPeer({ userId: userIdRef.current, groupId, message });
+    ref.delete();
   }
 
-  function start() {
-    console.log('Requesting local stream');
-    startButton.disabled = true;
-    navigator.mediaDevices
-      .getUserMedia({
-        audio: true,
-        video: true
-      })
-      .then(gotStream)
-      .catch(e => console.log('getUserMedia() error: ', e));
+  function onNewPeerAdded(peer: PeersDocumentData) {
+    console.log({ peer });
+
+    if (!peer) return;
+
+    const msg = JSON.parse(peer.message);
+    const senderId = peer.userId;
+
+    console.log(senderId, userIdRef.current, peers, msg);
+
+    if (senderId !== userIdRef.current) {
+      if (msg.ice) {
+        peerConnection.addIceCandidate(new RTCIceCandidate(msg.ice));
+      } else if (msg.sdp.type === 'offer') {
+        peerConnection
+          .setRemoteDescription(new RTCSessionDescription(msg.sdp))
+          .then(() => peerConnection.createAnswer())
+          .then(answer => peerConnection.setLocalDescription(answer))
+          .then(() =>
+            sendMessage(
+              JSON.stringify({ sdp: peerConnection.localDescription }),
+            ),
+          );
+      } else if (msg.sdp.type === 'answer')
+        peerConnection.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+    }
   }
+
+  console.log(peers.snapshot);
+
+  peers?.snapshot?.docChanges().forEach(function(change) {
+    console.log(change);
+
+    if (change.type === 'added' && isConnected.current) {
+      console.log('added');
+      onNewPeerAdded(change.doc.data() as PeersDocumentData);
+    }
+  });
+
+  const hangup = () => {};
 
   function call() {
-    callButton.disabled = true;
-    hangupButton.disabled = false;
-    console.log('Starting calls');
-    const audioTracks = window.localStream.getAudioTracks();
-    const videoTracks = window.localStream.getVideoTracks();
-    if (audioTracks.length > 0) {
-      console.log(`Using audio device: ${audioTracks[0].label}`);
-    }
-    if (videoTracks.length > 0) {
-      console.log(`Using video device: ${videoTracks[0].label}`);
-    }
-    // Create an RTCPeerConnection via the polyfill.
-    const servers = null;
-    pc1Local = new RTCPeerConnection(servers);
-    pc1Remote = new RTCPeerConnection(servers);
-    pc1Remote.ontrack = gotRemoteStream1;
-    pc1Local.onicecandidate = iceCallback1Local;
-    pc1Remote.onicecandidate = iceCallback1Remote;
-    console.log('pc1: created local and remote peer connection objects');
-
-    pc2Local = new RTCPeerConnection(servers);
-    pc2Remote = new RTCPeerConnection(servers);
-    pc2Remote.ontrack = gotRemoteStream2;
-    pc2Local.onicecandidate = iceCallback2Local;
-    pc2Remote.onicecandidate = iceCallback2Remote;
-    console.log('pc2: created local and remote peer connection objects');
-
-    window.localStream.getTracks().forEach(track => pc1Local.addTrack(track, window.localStream));
-    console.log('Adding local stream to pc1Local');
-    pc1Local
-      .createOffer(offerOptions)
-      .then(gotDescription1Local, onCreateSessionDescriptionError);
-
-    window.localStream.getTracks().forEach(track => pc2Local.addTrack(track, window.localStream));
-    console.log('Adding local stream to pc2Local');
-    pc2Local.createOffer(offerOptions)
-      .then(gotDescription2Local, onCreateSessionDescriptionError);
+    peerConnection
+      .createOffer()
+      .then(offer => peerConnection.setLocalDescription(offer))
+      .then(() => {
+        isConnected.current = true;
+        sendMessage(JSON.stringify({ sdp: peerConnection.localDescription }));
+      });
   }
 
-  function onCreateSessionDescriptionError(error) {
-    console.log(`Failed to create session description: ${error.toString()}`);
-  }
+  console.log(streams);
 
-  function gotDescription1Local(desc) {
-    pc1Local.setLocalDescription(desc);
-    console.log(`Offer from pc1Local\n${desc.sdp}`);
-    pc1Remote.setRemoteDescription(desc);
-    // Since the 'remote' side has no media stream we need
-    // to pass in the right constraints in order for it to
-    // accept the incoming offer of audio and video.
-    pc1Remote.createAnswer().then(gotDescription1Remote, onCreateSessionDescriptionError);
-  }
-
-  function gotDescription1Remote(desc) {
-    pc1Remote.setLocalDescription(desc);
-    console.log(`Answer from pc1Remote\n${desc.sdp}`);
-    pc1Local.setRemoteDescription(desc);
-  }
-
-  function gotDescription2Local(desc) {
-    pc2Local.setLocalDescription(desc);
-    console.log(`Offer from pc2Local\n${desc.sdp}`);
-    pc2Remote.setRemoteDescription(desc);
-    // Since the 'remote' side has no media stream we need
-    // to pass in the right constraints in order for it to
-    // accept the incoming offer of audio and video.
-    pc2Remote.createAnswer().then(gotDescription2Remote, onCreateSessionDescriptionError);
-  }
-
-  function gotDescription2Remote(desc: string) {
-    pc2Remote.setLocalDescription(desc);
-    console.log(`Answer from pc2Remote\n${desc.sdp}`);
-    pc2Local.setRemoteDescription(desc);
-  }
-
-  function hangup() {
-    console.log('Ending calls');
-    pc1Local.close();
-    pc1Remote.close();
-    pc2Local.close();
-    pc2Remote.close();
-    pc1Local = pc1Remote = null;
-    pc2Local = pc2Remote = null;
-    hangupButton.disabled = true;
-    callButton.disabled = false;
-  }
-
-  function gotRemoteStream(e) {
-    if (video2.srcObject !== e.streams[0]) {
-      video2.srcObject = e.streams[0];
-      console.log('pc1: received remote stream');
-    }
-  }
-
-  function iceCallbackLocal(event: any) {
-    handleCandidate(event.candidate, pc1Remote, 'pc1: ', 'local');
-  }
-
-  function iceCallbackRemote(event: any) {
-    handleCandidate(event.candidate, pc1Local, 'pc1: ', 'remote');
-  }
-
-  function handleCandidate(candidate, dest, prefix, type) {
-    dest.addIceCandidate(candidate)
-      .then(onAddIceCandidateSuccess, onAddIceCandidateError);
-    console.log(`${prefix}New ${type} ICE candidate: ${candidate ? candidate.candidate : '(null)'}`);
-  }
-
-  function onAddIceCandidateSuccess() {
-    console.log('AddIceCandidate success.');
-  }
-
-  function onAddIceCandidateError(error) {
-    console.log(`Failed to add ICE candidate: ${error.toString()}`);
-  }
-  /// OLD STUFF
-  const boardId = props.match.params.boardId;
-  const { data, loading, error } = useGroup(props.match.params.boardId);
-  const { data: cardsData } = useCards(boardId);
-  const addCard = useAddCard();
-
-  function onAddCard() {
-    addCard({
-      groupId: boardId,
-      description: '',
-    });
-  }
-
-  if (error) {
-    return <Redirect to="/error" />;
-  }
-
-  if (data && !loading && !error) {
-    return <Board name={data.name} start={start} call={call} hangup={hangup} />;
+  if (peers.data && !peers.loading && !peers.error) {
+    return <Board call={call} hangup={hangup} streams={streams} />;
   }
 
   return null;
