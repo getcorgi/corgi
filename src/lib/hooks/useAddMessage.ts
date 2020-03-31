@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { FirebaseContext } from '../../components/Firebase';
 
-export default function (options?: { client?: typeof firebase }) {
+export default function(options?: { client?: typeof firebase }) {
   const { firebase } = useContext(FirebaseContext);
   const client = (options && options.client) || firebase;
   const db = client.firestore();
@@ -10,6 +10,7 @@ export default function (options?: { client?: typeof firebase }) {
   return (
     variables: {
       groupId: string;
+      message: string;
       userId: string;
     },
     options: {
@@ -19,10 +20,11 @@ export default function (options?: { client?: typeof firebase }) {
     const ref = db
       .collection('groups')
       .doc(variables.groupId)
-      .collection('peers');
+      .collection('messages');
 
-    return ref.doc(variables.userId).set({
-      id: variables.userId,
+    return ref.add({
+      userId: variables.userId,
+      message: variables.message,
     });
   };
 }

@@ -5,19 +5,20 @@ import { FirebaseContext } from '../../components/Firebase';
 import { CollectionQueryResult } from '../types';
 import useCurrentUser from './useCurrentUser';
 
-export interface PeersDocumentData {
+export interface MessagesDocumentData {
   id: string;
+  userId: string;
   message: string;
 }
 
-export type UsePeersResult = CollectionQueryResult<PeersDocumentData>;
+export type UseMessagesResult = CollectionQueryResult<MessagesDocumentData>;
 
-export default function usePeers(
+export default function useMessages(
   id: string,
   options: {
     client?: typeof firebase;
   } = {},
-): UsePeersResult {
+): UseMessagesResult {
   const { firebase } = useContext(FirebaseContext);
   const client = options.client || firebase;
   const db = client.firestore();
@@ -27,7 +28,7 @@ export default function usePeers(
   const query = db
     .collection('groups')
     .doc(id)
-    .collection('peers');
+    .collection('messages');
 
   const [snapshot, loading, error] = useCollection(query);
 
@@ -40,7 +41,7 @@ export default function usePeers(
     snapshot,
     data: snapshot
       ? snapshot.docs.map(doc => {
-          return { id: doc.id, ...doc.data() } as PeersDocumentData;
+          return { id: doc.id, ...doc.data() } as MessagesDocumentData;
         })
       : [],
     loading,

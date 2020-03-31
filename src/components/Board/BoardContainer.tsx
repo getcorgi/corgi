@@ -6,6 +6,9 @@ import useCurrentUser from '../../lib/hooks/useCurrentUser';
 import useGroup from '../../lib/hooks/useGroup';
 import usePeers, { PeersDocumentData } from '../../lib/hooks/usePeers';
 import Board from './Board';
+import useAddMessage from '../../lib/hooks/useAddMessage';
+import useMessages, { MessagesDocumentData } from '../../lib/hooks/useMessages';
+import useRemovePeer from '../../lib/hooks/useRemovePeer';
 
 interface Props {
   match: {
@@ -32,8 +35,6 @@ const configuration = {
   ],
 };
 
-const peerConnection = new RTCPeerConnection(configuration);
-
 async function getLocalStream() {
   const stream = await navigator.mediaDevices.getUserMedia({
     video: true,
@@ -46,24 +47,18 @@ async function getLocalStream() {
 export default function BoardContainer(props: Props) {
   const groupId = props.match.params.boardId;
   const addPeer = useAddPeer();
+  const removePeer = useRemovePeer();
   const peers = usePeers(groupId);
+  const addMessage = useAddMessage();
+  const messages = useMessages(groupId);
   const currentUser = useCurrentUser();
-  const userIdRef = useRef(currentUser.uid + Date.now());
+  const userIdRef = useRef(currentUser.uid);
   const [streams, setStreams] = useState<Set<MediaStream>>(new Set([]));
   const isConnected = useRef(false);
 
+  const connections = useRef<Map<string, RTCPeerConnection>>(new Map([]));
+
   const localStream = useRef<MediaStream>();
-
-  peerConnection.onicecandidate = event =>
-    event.candidate
-      ? sendMessage(JSON.stringify({ ice: event.candidate }))
-      : console.log('Sent All Ice');
-
-  peerConnection.ontrack = event => {
-    console.log('remote stream', event);
-
-    setStreams(prevStreams => new Set([...prevStreams, event.streams[0]]));
-  };
 
   useEffect(() => {
     (async () => {
@@ -71,72 +66,127 @@ export default function BoardContainer(props: Props) {
 
       localStream.current = stream;
       setStreams(prevStreams => new Set([...prevStreams, stream]));
-      stream.getTracks().forEach(track => {
-        peerConnection.addTrack(track, stream);
-      });
     })();
+    return function cleanup() {
+      removePeer({ groupId, userId: userIdRef.current })
+    }
   }, []);
 
   async function sendMessage(message: string) {
-    const ref = await addPeer({ userId: userIdRef.current, groupId, message });
+    console.log('sendMessage');
+    const ref = await addMessage({ userId: userIdRef.current, groupId, message });
     ref.delete();
   }
 
-  function onNewPeerAdded(peer: PeersDocumentData) {
-    console.log({ peer });
+  async function onMessageReceived({ message, userId }: MessagesDocumentData) {
+    if (!message) return;
 
-    if (!peer) return;
+    try {
+      const msg = JSON.parse(message);
 
-    const msg = JSON.parse(peer.message);
-    const senderId = peer.userId;
+      const peerConnection = connections.current.get(userId);
+      console.log(peerConnection, connections.current)
+      console.log(userId, userIdRef.current, message, msg);
 
-    console.log(senderId, userIdRef.current, peers, msg);
+      if (userId !== userIdRef.current && peerConnection) {
+        console.log('onMessageReceived')
+        if (msg.ice) {
+          peerConnection.addIceCandidate(new RTCIceCandidate(msg.ice));
+        } else if (msg.sdp.type === 'offer') {
+          await peerConnection.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+          const answer = await peerConnection.createAnswer();
+          await peerConnection.setLocalDescription(answer);
 
-    if (senderId !== userIdRef.current) {
-      if (msg.ice) {
-        peerConnection.addIceCandidate(new RTCIceCandidate(msg.ice));
-      } else if (msg.sdp.type === 'offer') {
-        peerConnection
-          .setRemoteDescription(new RTCSessionDescription(msg.sdp))
-          .then(() => peerConnection.createAnswer())
-          .then(answer => peerConnection.setLocalDescription(answer))
-          .then(() =>
-            sendMessage(
-              JSON.stringify({ sdp: peerConnection.localDescription }),
-            ),
-          );
-      } else if (msg.sdp.type === 'answer')
-        peerConnection.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+          sendMessage(JSON.stringify({ sdp: peerConnection.localDescription }));
+        } else if (msg.sdp.type === 'answer') {
+          await peerConnection.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+        }
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  /**
+   *  peers collection
+   *  document peer
+   *  id
+   * 
+   *  messages collection
+   *  
+   */
+
+  async function onNewPeerAdded(peer: PeersDocumentData) {
+    if (connections.current.get(peer.id) || peer.id === userIdRef.current) return;
+
+    const peerConnection = new RTCPeerConnection(configuration);
+    connections.current.set(peer.id, peerConnection)
+
+    peerConnection.onicecandidate = event =>
+      event.candidate
+        ? sendMessage(JSON.stringify({ ice: event.candidate }))
+        : console.log('Sent All Ice');
+
+    peerConnection.ontrack = event => {
+      console.log('remote stream', event);
+
+      setStreams(prevStreams => new Set([...prevStreams, event.streams[0]]));
+    };
+
+    localStream.current?.getTracks().forEach(track => {
+      if (!localStream.current) return;
+
+      peerConnection.addTrack(track, localStream.current);
+    });
+
+    const offer = await peerConnection.createOffer();
+    await peerConnection.setLocalDescription(offer);
+    sendMessage(JSON.stringify({ sdp: peerConnection.localDescription }));
+  }
+
+  useEffect(() => {
+    const unsubscribe = messages?.snapshot?.docChanges().forEach(function (change) {
+
+      if (change.type === 'added' && isConnected.current) {
+        // console.log('added');
+        onMessageReceived(change.doc.data() as MessagesDocumentData);
+      }
+    })
+
+    return () => {
+      if (unsubscribe) {
+        //@ts-ignore
+        unsubscribe();
+      }
+    }
+  }, [messages.snapshot]
+  )
+
+  useEffect(() => {
+    if (isConnected.current) {
+      console.log('ON CONNECTE')
+      peers.data.forEach(onNewPeerAdded)
+    }
+  }, [JSON.stringify(peers.data), isConnected.current])
+
+  const hangup = () => { };
+
+  async function call() {
+    isConnected.current = true;
+    peers.data.forEach(onNewPeerAdded)
+    
+    if (userIdRef.current) {
+      await addPeer({ groupId, userId: userIdRef.current })
     }
   }
 
-  console.log(peers.snapshot);
-
-  peers?.snapshot?.docChanges().forEach(function(change) {
-    console.log(change);
-
-    if (change.type === 'added' && isConnected.current) {
-      console.log('added');
-      onNewPeerAdded(change.doc.data() as PeersDocumentData);
-    }
-  });
-
-  const hangup = () => {};
-
-  function call() {
-    peerConnection
-      .createOffer()
-      .then(offer => peerConnection.setLocalDescription(offer))
-      .then(() => {
-        isConnected.current = true;
-        sendMessage(JSON.stringify({ sdp: peerConnection.localDescription }));
-      });
-  }
-
-  console.log(streams);
+  // console.log(streams);
 
   if (peers.data && !peers.loading && !peers.error) {
-    return <Board call={call} hangup={hangup} streams={streams} />;
+    return <>
+      {peers.data.map((peer) => <p>{peer.id}</p>)}
+      ME: {userIdRef.current}
+      <Board call={call} hangup={hangup} streams={streams} />
+    </>;
   }
 
   return null;
