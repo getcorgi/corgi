@@ -6,9 +6,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Board from './components/Board';
-import Boards from './components/Boards';
 import ErrorPage from './components/ErrorPage';
 import { FirebaseProvider } from './components/Firebase';
+import Groups from './components/Groups';
 import Header from './components/Header';
 import { firebaseConfig } from './constants';
 
@@ -26,8 +26,8 @@ const App: React.FC = () => {
         <FirebaseProvider config={firebaseConfig}>
           <Router>
             <Header />
-            <Route exact path="/" component={Boards} />
-            <Route exact path="/boards/:boardId" component={Board} />
+            <Route exact path="/" component={Groups} />
+            <Route exact path="/groups/:groupId" component={Board} />
             <Route exact path="/error" component={ErrorPage} />
           </Router>
         </FirebaseProvider>

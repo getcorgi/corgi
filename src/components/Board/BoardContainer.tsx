@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import useAddMessage from '../../lib/hooks/useAddMessage';
 import useAddPeer from '../../lib/hooks/useAddPeer';
 import useCurrentUser from '../../lib/hooks/useCurrentUser';
 import useGroup from '../../lib/hooks/useGroup';
-import usePeers, { PeersDocumentData } from '../../lib/hooks/usePeers';
-import Board from './Board';
-import useAddMessage from '../../lib/hooks/useAddMessage';
 import useMessages, { MessagesDocumentData } from '../../lib/hooks/useMessages';
+import usePeers, { PeersDocumentData } from '../../lib/hooks/usePeers';
 import useRemovePeer from '../../lib/hooks/useRemovePeer';
+import Board from './Board';
 
 interface Props {
   match: {
@@ -85,16 +85,18 @@ export default function BoardContainer(props: Props) {
   }, [isMuted]);
 
   useEffect(() => {
+    let stream: MediaStream;
     (async () => {
-      const stream = await getLocalStream();
+      stream = await getLocalStream();
 
       localStream.current = stream;
       setStreams(prevStreams => new Set([...prevStreams, stream]));
     })();
     return function cleanup() {
       removePeer({ groupId, userId: userIdRef.current });
+      stream.getTracks().forEach(track => track.stop());
     };
-  }, []);
+  }, [groupId, removePeer]);
 
   async function sendMessage(message: string) {
     console.log('sendMessage');
@@ -192,14 +194,14 @@ export default function BoardContainer(props: Props) {
         unsubscribe();
       }
     };
-  }, [messages.snapshot]);
+  }, [messages, messages.snapshot, onMessageReceived]);
 
   useEffect(() => {
     if (isConnected.current) {
       console.log('ON CONNECTE');
       peers.data.forEach(onNewPeerAdded);
     }
-  }, [JSON.stringify(peers.data), isConnected.current]);
+  }, [onNewPeerAdded, peers.data]);
 
   const hangup = () => {};
 

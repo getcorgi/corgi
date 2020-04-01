@@ -3,7 +3,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router';
 
 import useGroups, { UseGroupsResult } from '../../lib/hooks/useGroups';
-import Boards from './BoardsContainer';
+import Boards from './GroupsContainer';
 
 jest.mock('../../lib/hooks/useGroups', () => jest.fn());
 jest.mock('../../lib/hooks/useUpdateGroups', () => jest.fn());

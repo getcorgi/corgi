@@ -6,14 +6,14 @@ import Typography from '@material-ui/core/Typography';
 import React from 'react';
 
 import Tile from '../Tile';
-import * as S from './Boards.styles';
+import * as S from './Groups.styles';
 
 interface Props {
-  boards: {
+  groups: {
     id: string;
     name: string;
   }[];
-  onAddBoard: () => void;
+  onAddGroup: () => void;
 }
 
 export default function(props: Props) {
@@ -24,18 +24,18 @@ export default function(props: Props) {
     <>
       <Box m={theme.spacing(0.5)}>
         <Typography variant="h4" component="h1">
-          Boards
+          Rooms
         </Typography>
       </Box>
       <Divider />
       <Box m={theme.spacing(0.5)} pb={addButtonSpacing}>
         <Grid container spacing={4}>
-          {props.boards.map(board => (
+          {props.groups.map(group => (
             <Tile
-              key={board.id}
-              id={board.id}
-              name={board.name}
-              link={`boards/${board.id}`}
+              key={group.id}
+              id={group.id}
+              name={group.name}
+              link={`group/${group.id}`}
             />
           ))}
         </Grid>
@@ -44,11 +44,11 @@ export default function(props: Props) {
             color="primary"
             aria-label="add"
             spacing={theme.spacing(2)}
-            onClick={props.onAddBoard}
+            onClick={props.onAddGroup}
             variant="extended"
           >
             <S.AddButtonIcon spacing={addButtonSpacing} />
-            Create New Board
+            Create New Room
           </S.AddButton>
         </Box>
       </Box>

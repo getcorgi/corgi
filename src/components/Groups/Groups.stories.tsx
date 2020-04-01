@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { noop } from '../../constants';
-import Boards from './Boards';
+import Groups from './Groups';
 
 export default {
-  title: 'Boards',
+  title: 'Groups',
 };
 
 export const Default = () => (
-  <Boards
-    boards={[
+  <Groups
+    groups={[
       {
         id: '1',
         name: 'Board A',
@@ -27,6 +27,6 @@ export const Default = () => (
         name: 'Board D',
       },
     ]}
-    onAddBoard={noop}
+    onAddGroup={noop}
   />
 );

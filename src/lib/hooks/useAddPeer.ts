@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { FirebaseContext } from '../../components/Firebase';
 
-export default function (options?: { client?: typeof firebase }) {
+export default function(options?: { client?: typeof firebase }) {
   const { firebase } = useContext(FirebaseContext);
   const client = (options && options.client) || firebase;
   const db = client.firestore();

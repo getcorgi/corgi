@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`generateBoardName generates a name based on date 1`] = `"Board - 1/30/2000, 12:00 AM"`;

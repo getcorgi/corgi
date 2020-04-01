@@ -3,16 +3,16 @@ import React from 'react';
 import useGroups from '../../lib/hooks/useGroups';
 import useUpdateGroups from '../../lib/hooks/useUpdateGroups';
 import { GroupType } from '../../lib/types';
-import Boards from './Boards';
+import Groups from './Groups';
 
-export default function BoardsContainer() {
+export default function GroupsContainer() {
   const { data, loading, error } = useGroups();
-  const updateBoard = useUpdateGroups();
+  const updateGroup = useUpdateGroups();
 
-  function onAddBoard() {
-    updateBoard({
+  function onAddGroup() {
+    updateGroup({
       type: GroupType.Board,
-      name: `Board - ${new Date().toLocaleDateString('en-US', {
+      name: `Group - ${new Date().toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'numeric',
         day: 'numeric',
@@ -30,5 +30,5 @@ export default function BoardsContainer() {
     return <div>Error Loading Boards</div>;
   }
 
-  return <Boards boards={data} onAddBoard={onAddBoard} />;
+  return <Groups groups={data} onAddGroup={onAddGroup} />;
 }
