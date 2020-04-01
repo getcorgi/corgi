@@ -3,9 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import useAddMessage from '../../lib/hooks/useAddMessage';
 import useAddPeer from '../../lib/hooks/useAddPeer';
 import useCurrentUser from '../../lib/hooks/useCurrentUser';
+import useGroup from '../../lib/hooks/useGroup';
 import useMessages, { MessagesDocumentData } from '../../lib/hooks/useMessages';
 import usePeers, { PeersDocumentData } from '../../lib/hooks/usePeers';
 import useRemovePeer from '../../lib/hooks/useRemovePeer';
+import Preview from './components/Preview';
 import Group from './Group';
 
 interface Props {
@@ -44,6 +46,7 @@ async function getLocalStream() {
 
 export default function GroupContainer(props: Props) {
   const groupId = props.match.params.groupId;
+  const group = useGroup(groupId);
   const addPeer = useAddPeer();
   const removePeer = useRemovePeer();
   const peers = usePeers(groupId);
@@ -52,13 +55,60 @@ export default function GroupContainer(props: Props) {
   const currentUser = useCurrentUser();
   const userIdRef = useRef(currentUser.uid);
   const [streams, setStreams] = useState<Set<MediaStream>>(new Set([]));
-  const isConnected = useRef(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isCameraOff, setIsCameraOff] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
 
   const connections = useRef<Map<string, RTCPeerConnection>>(new Map([]));
 
   const localStream = useRef<MediaStream>();
+
+  const hangup = () => {
+    removePeer({ groupId, userId: userIdRef.current });
+    setIsConnected(false);
+  };
+
+  const toggleCamera = () => {
+    setIsCameraOff(!isCameraOff);
+  };
+
+  const toggleIsMuted = () => {
+    setIsMuted(!isMuted);
+  };
+
+  useEffect(() => {
+    if (isConnected) {
+      console.log('ON CONNECTE');
+      peers.data.forEach(onNewPeerAdded);
+    }
+  }, [isConnected, peers.data]);
+
+  async function call() {
+    setIsConnected(true);
+    peers.data.forEach(onNewPeerAdded);
+
+    if (userIdRef.current) {
+      await addPeer({ groupId, userId: userIdRef.current });
+    }
+  }
+
+  useEffect(() => {
+    const unsubscribe = messages?.snapshot
+      ?.docChanges()
+      .forEach(function(change) {
+        if (change.type === 'added' && isConnected) {
+          // console.log('added');
+          onMessageReceived(change.doc.data() as MessagesDocumentData);
+        }
+      });
+
+    return () => {
+      if (unsubscribe) {
+        //@ts-ignore
+        unsubscribe();
+      }
+    };
+  }, [isConnected, messages, messages.snapshot]);
 
   useEffect(() => {
     const track = localStream.current?.getVideoTracks()[0];
@@ -91,10 +141,7 @@ export default function GroupContainer(props: Props) {
       setStreams(prevStreams => new Set([...prevStreams, stream]));
     })();
     return function cleanup() {
-      if (stream) {
-        stream.getTracks().forEach(track => track.stop());
-      }
-      removePeer({ groupId, userId: userIdRef.current });
+      hangup();
     };
   }, [groupId]);
 
@@ -140,14 +187,6 @@ export default function GroupContainer(props: Props) {
       console.error(e);
     }
   }
-  /**
-   *  peers collection
-   *  document peer
-   *  id
-   *
-   *  messages collection
-   *
-   */
 
   async function onNewPeerAdded(peer: PeersDocumentData) {
     if (connections.current.get(peer.id) || peer.id === userIdRef.current)
@@ -178,49 +217,17 @@ export default function GroupContainer(props: Props) {
     sendMessage(JSON.stringify({ sdp: peerConnection.localDescription }));
   }
 
-  useEffect(() => {
-    const unsubscribe = messages?.snapshot
-      ?.docChanges()
-      .forEach(function(change) {
-        if (change.type === 'added' && isConnected.current) {
-          // console.log('added');
-          onMessageReceived(change.doc.data() as MessagesDocumentData);
-        }
-      });
-
-    return () => {
-      if (unsubscribe) {
-        //@ts-ignore
-        unsubscribe();
-      }
-    };
-  }, [messages, messages.snapshot, onMessageReceived]);
-
-  useEffect(() => {
-    if (isConnected.current) {
-      console.log('ON CONNECTE');
-      peers.data.forEach(onNewPeerAdded);
-    }
-  }, [peers.data]);
-
-  const hangup = () => {};
-
-  async function call() {
-    isConnected.current = true;
-    peers.data.forEach(onNewPeerAdded);
-
-    if (userIdRef.current) {
-      await addPeer({ groupId, userId: userIdRef.current });
-    }
+  if (!isConnected && localStream.current) {
+    return (
+      <Preview
+        onJoin={call}
+        groupName={group.data?.name || ''}
+        stream={localStream.current}
+        toggleCamera={toggleCamera}
+        toggleIsMuted={toggleIsMuted}
+      />
+    );
   }
-
-  const toggleCamera = () => {
-    setIsCameraOff(!isCameraOff);
-  };
-
-  const toggleAudio = () => {
-    setIsMuted(!isMuted);
-  };
 
   if (peers.data && !peers.loading && !peers.error) {
     return (
@@ -229,10 +236,13 @@ export default function GroupContainer(props: Props) {
           <p>{peer.id}</p>
         ))}
         ME: {userIdRef.current}
-        <Group call={call} hangup={hangup} streams={streams} />
-        {isMuted && 'muted'}
-        <button onClick={toggleAudio}>mute</button>
-        <button onClick={toggleCamera}>camera</button>
+        <Group
+          call={call}
+          hangup={hangup}
+          streams={streams}
+          toggleCamera={toggleCamera}
+          toggleIsMuted={toggleIsMuted}
+        />
       </>
     );
   }

@@ -1,5 +1,4 @@
 import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
 import { useTheme } from '@material-ui/core/styles';
 import React from 'react';
 
@@ -10,19 +9,18 @@ interface Props {
   call: () => void;
   hangup: () => void;
   streams: Set<MediaStream>;
+  toggleIsMuted: () => void;
+  toggleCamera: () => void;
 }
 
 export default function Group(props: Props) {
   const theme = useTheme();
   const addButtonSpacing = theme.spacing(1);
 
-  console.log(props.streams);
-
   const [yourStream, ...streams] = props.streams;
 
   return (
     <Box data-testid="group">
-      <Divider />
       <Box m={theme.spacing(0.5)} pb={addButtonSpacing}>
         {yourStream && (
           <Video
@@ -31,6 +29,8 @@ export default function Group(props: Props) {
             autoPlay={true}
             isMuted={true}
             isMirrored={true}
+            width="600px"
+            height="400px"
           />
         )}
 
@@ -40,6 +40,8 @@ export default function Group(props: Props) {
             srcObject={stream}
             autoPlay={true}
             isMuted={false}
+            width="600px"
+            height="400px"
           />
         ))}
 
