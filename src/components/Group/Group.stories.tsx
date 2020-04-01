@@ -1,16 +1,16 @@
 import React from 'react';
 
 import { noop } from '../../constants';
-import Board from './Board';
+import Group from './Group';
 
 export default {
-  title: 'Board',
+  title: 'Group',
 };
 
 export const Default = () => (
   <div></div>
-  // <Board
-  //   name="Great Red Board... argh"
+  // <Group
+  //   name="Great Red Group... argh"
   //   start={noop}
   //   call={noop}
   //   hangup={noop}

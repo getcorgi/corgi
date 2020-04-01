@@ -14,5 +14,5 @@ export interface DocumentQueryResult<DocumentData> {
 }
 
 export enum GroupType {
-  Board = 'board',
+  Group = 'group',
 }

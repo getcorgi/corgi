@@ -11,7 +11,7 @@ export default function GroupsContainer() {
 
   function onAddGroup() {
     updateGroup({
-      type: GroupType.Board,
+      type: GroupType.Group,
       name: `Group - ${new Date().toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'numeric',
@@ -27,7 +27,7 @@ export default function GroupsContainer() {
   }
 
   if (error) {
-    return <div>Error Loading Boards</div>;
+    return <div>Error Loading Groups</div>;
   }
 
   return <Groups groups={data} onAddGroup={onAddGroup} />;

@@ -1,19 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Redirect } from 'react-router-dom';
 
 import useAddMessage from '../../lib/hooks/useAddMessage';
 import useAddPeer from '../../lib/hooks/useAddPeer';
 import useCurrentUser from '../../lib/hooks/useCurrentUser';
-import useGroup from '../../lib/hooks/useGroup';
 import useMessages, { MessagesDocumentData } from '../../lib/hooks/useMessages';
 import usePeers, { PeersDocumentData } from '../../lib/hooks/usePeers';
 import useRemovePeer from '../../lib/hooks/useRemovePeer';
-import Board from './Board';
+import Group from './Group';
 
 interface Props {
   match: {
     params: {
-      boardId: string;
+      groupId: string;
     };
   };
 }
@@ -44,8 +42,8 @@ async function getLocalStream() {
   return stream;
 }
 
-export default function BoardContainer(props: Props) {
-  const groupId = props.match.params.boardId;
+export default function GroupContainer(props: Props) {
+  const groupId = props.match.params.groupId;
   const addPeer = useAddPeer();
   const removePeer = useRemovePeer();
   const peers = usePeers(groupId);
@@ -96,7 +94,7 @@ export default function BoardContainer(props: Props) {
       removePeer({ groupId, userId: userIdRef.current });
       stream.getTracks().forEach(track => track.stop());
     };
-  }, [groupId, removePeer]);
+  }, [groupId]);
 
   async function sendMessage(message: string) {
     console.log('sendMessage');
@@ -201,7 +199,7 @@ export default function BoardContainer(props: Props) {
       console.log('ON CONNECTE');
       peers.data.forEach(onNewPeerAdded);
     }
-  }, [onNewPeerAdded, peers.data]);
+  }, [peers.data]);
 
   const hangup = () => {};
 
@@ -229,7 +227,7 @@ export default function BoardContainer(props: Props) {
           <p>{peer.id}</p>
         ))}
         ME: {userIdRef.current}
-        <Board call={call} hangup={hangup} streams={streams} />
+        <Group call={call} hangup={hangup} streams={streams} />
         {isMuted && 'muted'}
         <button onClick={toggleAudio}>mute</button>
         <button onClick={toggleCamera}>camera</button>

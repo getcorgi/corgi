@@ -5,9 +5,9 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Board from './components/Board';
 import ErrorPage from './components/ErrorPage';
 import { FirebaseProvider } from './components/Firebase';
+import Group from './components/Group';
 import Groups from './components/Groups';
 import Header from './components/Header';
 import { firebaseConfig } from './constants';
@@ -27,7 +27,7 @@ const App: React.FC = () => {
           <Router>
             <Header />
             <Route exact path="/" component={Groups} />
-            <Route exact path="/groups/:groupId" component={Board} />
+            <Route exact path="/groups/:groupId" component={Group} />
             <Route exact path="/error" component={ErrorPage} />
           </Router>
         </FirebaseProvider>

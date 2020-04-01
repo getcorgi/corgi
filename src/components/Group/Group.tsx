@@ -3,8 +3,8 @@ import Divider from '@material-ui/core/Divider';
 import { useTheme } from '@material-ui/core/styles';
 import React from 'react';
 
-import * as S from './Board.styles';
 import Video from './components/Video';
+import * as S from './Group.styles';
 
 interface Props {
   call: () => void;
@@ -12,13 +12,13 @@ interface Props {
   streams: Set<MediaStream>;
 }
 
-export default function Board(props: Props) {
+export default function Group(props: Props) {
   const theme = useTheme();
   const addButtonSpacing = theme.spacing(1);
 
   return (
-    <Box data-testid="board">
-      <Divider /> */}
+    <Box data-testid="group">
+      <Divider />
       <Box m={theme.spacing(0.5)} pb={addButtonSpacing}>
         {[...props.streams].map(stream => (
           <Video

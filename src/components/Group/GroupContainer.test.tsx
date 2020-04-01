@@ -3,14 +3,14 @@ import React from 'react';
 import useGroup, { UseGroupResult } from '../../lib/hooks/useGroup';
 import renderWithRouter from '../../lib/test/renderWithRouter';
 import { GroupType } from '../../lib/types';
-import BoardContainer from './BoardContainer';
+import GroupContainer from './GroupContainer';
 
 jest.mock('../../lib/hooks/useGroup');
 jest.mock('../../lib/hooks/useCards');
 jest.mock('../../lib/hooks/useAddCard');
 
-describe('BoardContainer', () => {
-  it('does not show board on loading', () => {
+describe('GroupContainer', () => {
+  it('does not show group on loading', () => {
     (useGroup as jest.Mock).mockImplementation(
       (): UseGroupResult => ({
         data: undefined,
@@ -20,24 +20,24 @@ describe('BoardContainer', () => {
     );
 
     const { queryByTestId } = renderWithRouter(
-      <BoardContainer
+      <GroupContainer
         match={{
           params: {
-            boardId: 'mockid',
+            groupId: 'mockid',
           },
         }}
       />,
     );
-    expect(queryByTestId(/board/)).toBeFalsy();
+    expect(queryByTestId(/group/)).toBeFalsy();
   });
 
-  it('shows the board on success', () => {
+  it('shows the group on success', () => {
     (useGroup as jest.Mock).mockImplementation(
       (): UseGroupResult => ({
         data: {
           id: 'mockid',
           name: 'mock group',
-          type: GroupType.Board,
+          type: GroupType.group,
         },
         error: undefined,
         loading: false,
@@ -45,15 +45,15 @@ describe('BoardContainer', () => {
     );
 
     const { getByTestId } = renderWithRouter(
-      <BoardContainer
+      <GroupContainer
         match={{
           params: {
-            boardId: 'mockid',
+            groupId: 'mockid',
           },
         }}
       />,
     );
-    expect(getByTestId(/board/)).toBeTruthy();
+    expect(getByTestId(/group/)).toBeTruthy();
   });
 
   it('redirects on error', () => {
@@ -68,10 +68,10 @@ describe('BoardContainer', () => {
     );
 
     const { history } = renderWithRouter(
-      <BoardContainer
+      <GroupContainer
         match={{
           params: {
-            boardId: 'mockid',
+            groupId: 'mockid',
           },
         }}
       />,

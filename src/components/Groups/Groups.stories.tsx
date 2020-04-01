@@ -12,19 +12,19 @@ export const Default = () => (
     groups={[
       {
         id: '1',
-        name: 'Board A',
+        name: 'Group A',
       },
       {
         id: '2',
-        name: 'Board B',
+        name: 'Group B',
       },
       {
         id: '3',
-        name: 'Board C',
+        name: 'Group C',
       },
       {
         id: '4',
-        name: 'Board D',
+        name: 'Group D',
       },
     ]}
     onAddGroup={noop}

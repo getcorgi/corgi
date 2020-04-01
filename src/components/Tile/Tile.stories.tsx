@@ -6,4 +6,4 @@ export default {
   title: 'Tile',
 };
 
-export const Default = () => <Tile id="1" name="Board A" />;
+export const Default = () => <Tile id="1" name="Group A" />;

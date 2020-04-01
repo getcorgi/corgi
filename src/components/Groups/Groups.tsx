@@ -35,7 +35,7 @@ export default function(props: Props) {
               key={group.id}
               id={group.id}
               name={group.name}
-              link={`group/${group.id}`}
+              link={`groups/${group.id}`}
             />
           ))}
         </Grid>

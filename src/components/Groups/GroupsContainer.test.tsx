@@ -3,12 +3,12 @@ import React from 'react';
 import { MemoryRouter } from 'react-router';
 
 import useGroups, { UseGroupsResult } from '../../lib/hooks/useGroups';
-import Boards from './GroupsContainer';
+import Groups from './GroupsContainer';
 
 jest.mock('../../lib/hooks/useGroups', () => jest.fn());
 jest.mock('../../lib/hooks/useUpdateGroups', () => jest.fn());
 
-describe('Boards', () => {
+describe('Groups', () => {
   it('renders loading when useGroups is loading', () => {
     (useGroups as jest.Mock).mockImplementation(
       (): UseGroupsResult => ({
@@ -20,7 +20,7 @@ describe('Boards', () => {
 
     const { getByText } = render(
       <MemoryRouter>
-        <Boards />
+        <Groups />
       </MemoryRouter>,
     );
     expect(getByText(/Loading.../)).toBeTruthy();
@@ -37,10 +37,10 @@ describe('Boards', () => {
 
     const { getByText } = render(
       <MemoryRouter>
-        <Boards />
+        <Groups />
       </MemoryRouter>,
     );
-    expect(getByText(/Error Loading Boards/)).toBeTruthy();
+    expect(getByText(/Error Loading Groups/)).toBeTruthy();
   });
 
   it('renders component when useGroups returns data', () => {
@@ -60,7 +60,7 @@ describe('Boards', () => {
 
     const { getByText } = render(
       <MemoryRouter>
-        <Boards />
+        <Groups />
       </MemoryRouter>,
     );
     expect(getByText(/mockName/)).toBeTruthy();

@@ -29,7 +29,7 @@ export default function useGroups(
   const query = db
     .collection('groups')
     .where('roles.viewers', 'array-contains', currentUser.uid)
-    .where('type', '==', GroupType.Board)
+    .where('type', '==', GroupType.Group)
     .orderBy('createdAt', 'desc');
 
   const [snapshot, loading, error] = useCollection(query);
