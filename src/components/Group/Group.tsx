@@ -16,16 +16,30 @@ export default function Group(props: Props) {
   const theme = useTheme();
   const addButtonSpacing = theme.spacing(1);
 
+  console.log(props.streams);
+
+  const [yourStream, ...streams] = props.streams;
+
   return (
     <Box data-testid="group">
       <Divider />
       <Box m={theme.spacing(0.5)} pb={addButtonSpacing}>
-        {[...props.streams].map(stream => (
+        {yourStream && (
+          <Video
+            key={yourStream.id}
+            srcObject={yourStream}
+            autoPlay={true}
+            isMuted={true}
+            isMirrored={true}
+          />
+        )}
+
+        {streams.map(stream => (
           <Video
             key={stream.id}
             srcObject={stream}
             autoPlay={true}
-            isMuted={true}
+            isMuted={false}
           />
         ))}
 

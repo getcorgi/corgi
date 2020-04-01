@@ -91,8 +91,10 @@ export default function GroupContainer(props: Props) {
       setStreams(prevStreams => new Set([...prevStreams, stream]));
     })();
     return function cleanup() {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+      }
       removePeer({ groupId, userId: userIdRef.current });
-      stream.getTracks().forEach(track => track.stop());
     };
   }, [groupId]);
 
