@@ -18,7 +18,7 @@ export default function Group(props: Props) {
   const addButtonSpacing = theme.spacing(1);
 
   const streams = Object.values(props.streams);
-  console.log(props.localStream.stream);
+  console.log(streams);
 
   return (
     <Box data-testid="group">

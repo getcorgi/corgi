@@ -7,7 +7,8 @@ import useCurrentUser from './useCurrentUser';
 
 export interface MessagesDocumentData {
   id: string;
-  userId: string;
+  senderId: string;
+  receiverId: string;
   message: string;
 }
 
@@ -23,12 +24,13 @@ export default function useMessages(
   const client = options.client || firebase;
   const db = client.firestore();
 
-  useCurrentUser();
+  const currentUser = useCurrentUser();
 
   const query = db
     .collection('groups')
     .doc(id)
-    .collection('messages');
+    .collection('messages')
+    .where('receiverId', '==', currentUser.uid);
 
   const [snapshot, loading, error] = useCollection(query);
 

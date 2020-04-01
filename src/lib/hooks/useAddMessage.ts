@@ -11,7 +11,8 @@ export default function(options?: { client?: typeof firebase }) {
     variables: {
       groupId: string;
       message: string;
-      userId: string;
+      senderId: string;
+      receiverId: string;
     },
     options: {
       merge?: boolean;
@@ -23,7 +24,8 @@ export default function(options?: { client?: typeof firebase }) {
       .collection('messages');
 
     return ref.add({
-      userId: variables.userId,
+      senderId: variables.senderId,
+      receiverId: variables.receiverId,
       message: variables.message,
     });
   };
