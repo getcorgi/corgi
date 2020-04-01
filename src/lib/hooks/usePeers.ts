@@ -7,7 +7,8 @@ import useCurrentUser from './useCurrentUser';
 
 export interface PeersDocumentData {
   id: string;
-  message: string;
+  state: string;
+  last_changed: string;
 }
 
 export type UsePeersResult = CollectionQueryResult<PeersDocumentData>;
@@ -27,7 +28,8 @@ export default function usePeers(
   const query = db
     .collection('groups')
     .doc(id)
-    .collection('peers');
+    .collection('peers')
+    .where('state', '==', 'online');
 
   const [snapshot, loading, error] = useCollection(query);
 

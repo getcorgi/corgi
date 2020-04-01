@@ -23,6 +23,8 @@ export default function(options?: { client?: typeof firebase }) {
 
     return ref.doc(variables.userId).set({
       id: variables.userId,
+      state: 'online',
+      last_changed: firebase.firestore.FieldValue.serverTimestamp(),
     });
   };
 }

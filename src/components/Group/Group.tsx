@@ -6,9 +6,9 @@ import Video from './components/Video';
 import * as S from './Group.styles';
 
 interface Props {
-  call: () => void;
   hangup: () => void;
-  streams: Set<MediaStream>;
+  streams: { [key: string]: { userId: string, stream?: MediaStream } };
+  localStream: { userId: string, stream?: MediaStream };
   toggleIsMuted: () => void;
   toggleCamera: () => void;
 }
@@ -17,15 +17,16 @@ export default function Group(props: Props) {
   const theme = useTheme();
   const addButtonSpacing = theme.spacing(1);
 
-  const [yourStream, ...streams] = props.streams;
+  const streams = Object.values(props.streams);
+  console.log(props.localStream.stream);
 
   return (
     <Box data-testid="group">
       <Box m={theme.spacing(0.5)} pb={addButtonSpacing}>
-        {yourStream && (
+        {props.localStream?.stream && (
           <Video
-            key={yourStream.id}
-            srcObject={yourStream}
+            key={props.localStream.stream.id}
+            srcObject={props.localStream.stream}
             autoPlay={true}
             isMuted={true}
             isMirrored={true}
@@ -34,21 +35,22 @@ export default function Group(props: Props) {
           />
         )}
 
-        {streams.map(stream => (
-          <Video
-            key={stream.id}
-            srcObject={stream}
-            autoPlay={true}
-            isMuted={false}
-            width="600px"
-            height="400px"
-          />
-        ))}
+        {streams.map(({ stream }) => {
+          if (!stream) return null;
+
+          return (
+            <Video
+              key={stream?.id}
+              srcObject={stream}
+              autoPlay={true}
+              isMuted={false}
+              width="600px"
+              height="400px"
+            />
+          )
+        })}
 
         <div>
-          <button onClick={props.call} id="callButton">
-            Call
-          </button>
           <button onClick={props.hangup} id="hangupButton">
             Hang Up
           </button>
