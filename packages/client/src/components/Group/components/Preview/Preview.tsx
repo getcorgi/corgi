@@ -1,18 +1,22 @@
-import { Button, Card, Typography } from '@material-ui/core';
+import { Button, Card, IconButton, Typography } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { useTheme } from '@material-ui/core/styles';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import VideocamOffIcon from '@material-ui/icons/VideocamOff';
+import VolumeOffIcon from '@material-ui/icons/VolumeOff';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import React from 'react';
-
-import classes from '*.module.css';
 
 import Video from '../Video';
 
 interface Props {
   groupName: string;
+  isCameraOff: boolean;
+  isMuted: boolean;
   onJoin: () => void;
   stream: MediaStream;
-  toggleIsMuted: () => void;
   toggleCamera: () => void;
+  toggleIsMuted: () => void;
 }
 
 export default function Preview(props: Props) {
@@ -33,6 +37,22 @@ export default function Preview(props: Props) {
               width="740px"
               height="400px"
             />
+
+            <IconButton
+              onClick={props.toggleIsMuted}
+              aria-label="mute"
+              color="primary"
+            >
+              {props.isMuted ? <VolumeOffIcon /> : <VolumeUpIcon />}
+            </IconButton>
+
+            <IconButton
+              onClick={props.toggleCamera}
+              aria-label="toggle-camera"
+              color="primary"
+            >
+              {props.isCameraOff ? <VideocamOffIcon /> : <VideocamIcon />}
+            </IconButton>
           </Card>
         </Box>
         <Box
