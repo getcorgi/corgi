@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Peer from 'simple-peer';
 import io from 'socket.io-client';
 
@@ -6,6 +6,7 @@ import useCurrentUser from '../../lib/hooks/useCurrentUser';
 import useGroup from '../../lib/hooks/useGroup';
 import Preview from './components/Preview';
 import Group from './Group';
+import useMediaStream from './lib/useLocalMediaStream';
 import useMute from './lib/useMute';
 import useToggleCamera from './lib/useToggleCamera';
 
@@ -15,15 +16,6 @@ interface Props {
       groupId: string;
     };
   };
-}
-
-async function getLocalStream() {
-  const stream = await navigator.mediaDevices.getUserMedia({
-    video: true,
-    audio: true,
-  });
-
-  return stream;
 }
 
 type SetStreamsState = React.Dispatch<
@@ -149,25 +141,11 @@ export default function GroupContainer(props: Props) {
 
   const socket = useRef(io('http://localhost:8080'));
 
-  const [localStream, setLocalStream] = useState<MediaStream>();
-
+  const { localStream } = useMediaStream();
   const { toggleIsMuted, isMuted } = useMute(localStream);
   const { toggleCamera, isCameraOff } = useToggleCamera(localStream);
 
-  useEffect(() => {
-    let stream: MediaStream;
-    (async () => {
-      stream = await getLocalStream();
-
-      setLocalStream(stream);
-    })();
-    return function cleanup() {
-      hangup();
-      localStream?.getTracks().forEach(track => track.stop());
-    };
-  }, []);
-
-  function call() {
+  function onJoinCall() {
     setHasJoinedCall(true);
     initializeSocket({
       localStream,
@@ -178,7 +156,7 @@ export default function GroupContainer(props: Props) {
     });
   }
 
-  const hangup = () => {
+  const onHangup = () => {
     setHasJoinedCall(false);
     connections.current.forEach(connection => connection.destroy());
     socket.current.emit('userDisconnected', {
@@ -191,8 +169,10 @@ export default function GroupContainer(props: Props) {
   if (!hasJoinedCall && localStream) {
     return (
       <Preview
-        onJoin={call}
         groupName={group.data?.name || ''}
+        isCameraOff={isCameraOff}
+        isMuted={isMuted}
+        onJoin={onJoinCall}
         stream={localStream}
         toggleCamera={toggleCamera}
         toggleIsMuted={toggleIsMuted}
@@ -204,11 +184,10 @@ export default function GroupContainer(props: Props) {
     return (
       <>
         <Group
-          hangup={hangup}
-          localStream={{
-            userId: currentUser.uid,
-            stream: localStream,
-          }}
+          onHangup={onHangup}
+          isCameraOff={isCameraOff}
+          isMuted={isMuted}
+          localStream={localStream}
           streams={streams}
           toggleCamera={toggleCamera}
           toggleIsMuted={toggleIsMuted}

@@ -1,15 +1,23 @@
+import { IconButton } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { useTheme } from '@material-ui/core/styles';
+import CallEndIcon from '@material-ui/icons/CallEnd';
+import VideocamIcon from '@material-ui/icons/Videocam';
+import VideocamOffIcon from '@material-ui/icons/VideocamOff';
+import VolumeOffIcon from '@material-ui/icons/VolumeOff';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import React from 'react';
 
 import Video from './components/Video';
 
 interface Props {
-  hangup: () => void;
+  onHangup: () => void;
+  isCameraOff: boolean;
+  isMuted: boolean;
+  localStream: MediaStream;
   streams: { [key: string]: { userId: string; stream?: MediaStream } };
-  localStream: { userId: string; stream?: MediaStream };
-  toggleIsMuted: () => void;
   toggleCamera: () => void;
+  toggleIsMuted: () => void;
 }
 
 export default function Group(props: Props) {
@@ -21,16 +29,33 @@ export default function Group(props: Props) {
   return (
     <Box data-testid="group">
       <Box m={theme.spacing(0.5)} pb={addButtonSpacing}>
-        {props.localStream?.stream && (
-          <Video
-            key={props.localStream.stream.id}
-            srcObject={props.localStream.stream}
-            autoPlay={true}
-            isMuted={true}
-            isMirrored={true}
-            width="600px"
-            height="400px"
-          />
+        {props.localStream && (
+          <Box>
+            <Video
+              key={props.localStream.id}
+              srcObject={props.localStream}
+              autoPlay={true}
+              isMuted={true}
+              isMirrored={true}
+              width="600px"
+              height="400px"
+            />
+            <IconButton
+              onClick={props.toggleIsMuted}
+              aria-label="mute"
+              color="primary"
+            >
+              {props.isMuted ? <VolumeOffIcon /> : <VolumeUpIcon />}
+            </IconButton>
+
+            <IconButton
+              onClick={props.toggleCamera}
+              aria-label="toggle-camera"
+              color="primary"
+            >
+              {props.isCameraOff ? <VideocamOffIcon /> : <VideocamIcon />}
+            </IconButton>
+          </Box>
         )}
 
         {streams.map(({ stream }) => {
@@ -48,11 +73,13 @@ export default function Group(props: Props) {
           );
         })}
 
-        <div>
-          <button onClick={props.hangup} id="hangupButton">
-            Hang Up
-          </button>
-        </div>
+        <IconButton
+          onClick={props.onHangup}
+          aria-label="hang-up"
+          color="primary"
+        >
+          <CallEndIcon />
+        </IconButton>
       </Box>
     </Box>
   );
