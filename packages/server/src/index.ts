@@ -10,10 +10,17 @@ interface ExtendedSocket extends SocketIO.Socket {
   userData: User;
 }
 
-const app = http.createServer();
+const PORT = 8080;
+
+const app = http.createServer((req, res) => {
+  res.write('ok');
+  res.end();
+});
+
 const io = socketIo(app);
 
-app.listen(8080);
+app.listen(PORT);
+console.log(`🚀 Server started, listening on :${PORT}`);
 
 io.on('connection', (socket: ExtendedSocket) => {
   let room: string;
