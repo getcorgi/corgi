@@ -8,6 +8,7 @@
     "./packages/server"
   ],
   "scripts": {
-    "start": "react-scripts start packages/client"
+    "start:client": "cd packages/client && yarn start",
+    "start:server": "cd packages/server && yarn start"
   }
 }
