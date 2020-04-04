@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import Peer from 'simple-peer';
 import io from 'socket.io-client';
 
+import { appConfig } from '../../../constants';
+
 type SetStreamsState = React.Dispatch<
   React.SetStateAction<{
     [key: string]: {
@@ -123,7 +125,7 @@ export default function useSocketHandler({
   groupId: string;
   localStream?: MediaStream;
 }) {
-  const socket = useRef(io('http://localhost:8080'));
+  const socket = useRef(io(appConfig.socketServer));
   const connections = useRef<Map<string, Peer.Instance>>(new Map([]));
   const [users, setUsers] = useState<User[]>([]);
   const [streams, setStreams] = useState<{
@@ -141,7 +143,7 @@ export default function useSocketHandler({
     socket.current.on('gotUsers', ({ users }: { users: User[] }) => {
       setUsers(users);
     });
-  }, [socket.current.id]);
+  }, [groupId, socket.current.id]);
 
   const connect = (userData: { name: string }) => {
     initializeSocketHandler({

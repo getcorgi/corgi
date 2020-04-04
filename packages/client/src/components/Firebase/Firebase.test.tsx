@@ -5,7 +5,7 @@ import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 
-import { firebaseConfig } from '../../constants';
+import { appConfig } from '../../constants';
 import { FirebaseContext, FirebaseProvider } from './Firebase';
 
 jest.mock('firebase/app', () => {
@@ -32,7 +32,7 @@ describe('FirebaseProvider', () => {
 
     act(() => {
       ReactDOM.render(
-        <FirebaseProvider config={firebaseConfig}>
+        <FirebaseProvider config={appConfig}>
           <MockComponent />
         </FirebaseProvider>,
         div,

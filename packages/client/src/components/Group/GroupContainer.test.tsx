@@ -37,7 +37,7 @@ describe('GroupContainer', () => {
         data: {
           id: 'mockid',
           name: 'mock group',
-          type: GroupType.group,
+          type: GroupType.Group,
         },
         error: undefined,
         loading: false,
