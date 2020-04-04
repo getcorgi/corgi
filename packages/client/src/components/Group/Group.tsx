@@ -15,9 +15,12 @@ interface Props {
   isCameraOff: boolean;
   isMuted: boolean;
   localStream: MediaStream;
-  streams: { [key: string]: { userId: string; stream?: MediaStream } };
+  streams: {
+    [key: string]: { user: { name: string; id: string }; stream?: MediaStream };
+  };
   toggleCamera: () => void;
   toggleIsMuted: () => void;
+  userName: string;
 }
 
 export default function Group(props: Props) {
@@ -31,6 +34,7 @@ export default function Group(props: Props) {
       <Box m={theme.spacing(0.5)} pb={addButtonSpacing}>
         {props.localStream && (
           <Box>
+            <h3>{props.userName} (You)</h3>
             <Video
               key={props.localStream.id}
               srcObject={props.localStream}
@@ -58,18 +62,20 @@ export default function Group(props: Props) {
           </Box>
         )}
 
-        {streams.map(({ stream }) => {
+        {streams.map(({ stream, user }) => {
           if (!stream) return null;
 
           return (
-            <Video
-              key={stream?.id}
-              srcObject={stream}
-              autoPlay={true}
-              isMuted={false}
-              width="600px"
-              height="400px"
-            />
+            <Box key={stream?.id}>
+              <h3>{user.name}</h3>
+              <Video
+                srcObject={stream}
+                autoPlay={true}
+                isMuted={false}
+                width="600px"
+                height="400px"
+              />
+            </Box>
           );
         })}
 

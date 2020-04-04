@@ -7,6 +7,7 @@ import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import React from 'react';
 
+import { User } from '../../lib/useSocketHandler';
 import Video from '../Video';
 
 interface Props {
@@ -17,6 +18,9 @@ interface Props {
   stream: MediaStream;
   toggleCamera: () => void;
   toggleIsMuted: () => void;
+  userName: string;
+  onUserNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  users: User[];
 }
 
 export default function Preview(props: Props) {
@@ -64,6 +68,10 @@ export default function Preview(props: Props) {
           <Box mb={theme.spacing(0.5)}>
             <Typography>{props.groupName}</Typography>
           </Box>
+          <input onChange={props.onUserNameChange} value={props.userName} />
+          {props.users.map(user => (
+            <div key={user.id}>{user.name}</div>
+          ))}
           <Button
             onClick={props.onJoin}
             variant="contained"

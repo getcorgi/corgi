@@ -1,28 +1,72 @@
 import http from 'http';
-import socketIo, { Socket } from 'socket.io';
+import socketIo from 'socket.io';
+
+interface User {
+  name: string;
+  id: string;
+}
+
+interface ExtendedSocket extends SocketIO.Socket {
+  userData: User;
+}
 
 const app = http.createServer();
 const io = socketIo(app);
 
 app.listen(8080);
 
-io.on('connection', (socket: Socket) => {
+io.on('connection', (socket: ExtendedSocket) => {
   let room: string;
 
-  socket.on('userJoinedCall', (data: { groupId: string; socketId: string }) => {
-    room = data.groupId;
-    const socketId = data.socketId;
+  socket.on(
+    'userJoinedCall',
+    (data: {
+      groupId: string;
+      socketId: string;
+      userData: Pick<User, 'name'>;
+    }) => {
+      room = data.groupId;
+      const socketId = data.socketId;
 
-    socket.join(data.groupId, () => {
-      socket.to(room).emit('userJoined', {
-        socketId,
+      socket.userData = { ...data.userData, id: socketId };
+
+      socket.join(data.groupId, () => {
+        socket.to(room).emit('userJoined', {
+          socketId,
+          userData: data.userData,
+        });
       });
-    });
-  });
+
+      io.of('/')
+        .in(room)
+        .clients((err: string, clients: string[]) => {
+          const users = clients.map((socketId: string) => {
+            const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
+            return clientSocket.userData;
+          });
+          io.emit('gotUsers', { users });
+        });
+    },
+  );
+
+  socket.on(
+    'getUsers',
+    ({ from, roomId }: { from: string; roomId: string }) => {
+      io.of('/')
+        .in(roomId)
+        .clients((err: string, clients: string[]) => {
+          const users = clients.map((socketId: string) => {
+            const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
+            return clientSocket.userData;
+          });
+          io.emit('gotUsers', { users });
+        });
+    },
+  );
 
   socket.on(
     'sendSignal',
-    (data: { signal: {}; to: string; socket: Socket }) => {
+    (data: { signal: {}; to: string; socket: ExtendedSocket }) => {
       io.to(data.to).emit('gotSignal', {
         signal: data.signal,
         from: socket.id,
@@ -38,6 +82,18 @@ io.on('connection', (socket: Socket) => {
     const socketId = data.socketId;
     socket.to(room).emit('userDisconnected', {
       socketId,
+    });
+
+    socket.leave(room, () => {
+      io.of('/')
+        .in(room)
+        .clients((err: string, clients: string[]) => {
+          const users = clients.map((socketId: string) => {
+            const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
+            return clientSocket.userData;
+          });
+          io.emit('gotUsers', { users });
+        });
     });
   });
 });

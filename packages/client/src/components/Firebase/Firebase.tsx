@@ -46,8 +46,6 @@ export function FirebaseProvider(props: FirebaseProviderProps) {
     // Update logged in state
     const unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        // Fetch the current user's ID from Firebase Authentication.
-        var uid = firebase.auth()?.currentUser?.uid;
         // User is signed in.
         setIsLoggedIn(true);
       } else {
