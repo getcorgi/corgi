@@ -1,5 +1,5 @@
 {
-  "*.{ts,tsx}": ["yarn lint", "git add"],
+  "*.{ts,tsx}": ["yarn lint:client", "yarn lint:server", "git add"],
   "*.{html,json,md,yml}": ["prettier --write", "git add"],
   "*.*rc": ["prettier --write --parser json", "git add"]
 }

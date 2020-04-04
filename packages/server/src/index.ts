@@ -10,7 +10,7 @@ interface ExtendedSocket extends SocketIO.Socket {
   userData: User;
 }
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const app = http.createServer((req, res) => {
   res.write('ok');
