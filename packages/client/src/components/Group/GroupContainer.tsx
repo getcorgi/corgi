@@ -1,15 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Peer from 'simple-peer';
+import io from 'socket.io-client';
 
-import useAddMessage from '../../lib/hooks/useAddMessage';
-import useAddPeer from '../../lib/hooks/useAddPeer';
 import useCurrentUser from '../../lib/hooks/useCurrentUser';
 import useGroup from '../../lib/hooks/useGroup';
-import useMessages, { MessagesDocumentData } from '../../lib/hooks/useMessages';
-import usePeers, { PeersDocumentData } from '../../lib/hooks/usePeers';
-import useRemovePeer from '../../lib/hooks/useRemovePeer';
 import Preview from './components/Preview';
 import Group from './Group';
-import useUpdatePeerStatus from '../../lib/hooks/useUpdatePeerStatus';
 
 interface Props {
   match: {
@@ -18,23 +14,6 @@ interface Props {
     };
   };
 }
-
-const offerOptions = {
-  offerToReceiveAudio: 1,
-  offerToReceiveVideo: 1,
-};
-
-const configuration = {
-  iceServers: [
-    {
-      urls: [
-        'stun:stun1.l.google.com:19302',
-        'stun:stun2.l.google.com:19302',
-        'stun:stun.services.mozilla.com',
-      ],
-    },
-  ],
-};
 
 async function getLocalStream() {
   const stream = await navigator.mediaDevices.getUserMedia({
@@ -48,59 +27,113 @@ async function getLocalStream() {
 export default function GroupContainer(props: Props) {
   const groupId = props.match.params.groupId;
   const group = useGroup(groupId);
-  const addPeer = useAddPeer();
-  const removePeer = useRemovePeer();
-  const peers = usePeers(groupId);
-  const addMessage = useAddMessage();
-  const messages = useMessages(groupId);
   const currentUser = useCurrentUser();
-  const userIdRef = useRef(currentUser.uid);
   const [streams, setStreams] = useState<{
     [key: string]: { userId: string; stream: MediaStream };
   }>({});
   const [isMuted, setIsMuted] = useState(false);
   const [isCameraOff, setIsCameraOff] = useState(false);
-  const myPeerData = peers.data.find(peer => peer.id === userIdRef.current);
-  const isConnected = Boolean(myPeerData);
 
   const [hasJoinedCall, setHasJoinedCall] = useState(false);
 
-  useUpdatePeerStatus({ isConnected, groupId });
+  const connections = useRef<Map<string, Peer.Instance>>(new Map([]));
 
-  const connections = useRef<Map<string, RTCPeerConnection>>(new Map([]));
+  const socket = useRef(io('http://localhost:8080'));
 
   const [localStream, setLocalStream] = useState<MediaStream | null>(null);
 
-  async function onPeerRemoved(peer: PeersDocumentData) {
-    removePeer({ groupId, userId: peer.id });
-    const peerConnection = connections.current.get(peer.id);
+  function peerCreated(peerId: string, peer: Peer.Instance) {
+    peer.on('connect', function() {
+      console.log('connected');
+    });
 
-    if (!peerConnection) return;
+    peer.on('error', function(err) {
+      console.log('error', err);
+    });
 
-    peerConnection?.close();
-    connections.current.delete(peer.id);
-    setStreams(prevStreams => {
-      const newStreams = { ...prevStreams };
-      delete newStreams[peer.id];
-      return newStreams;
+    peer.on('stream', function(stream) {
+      console.log('new stream arrived .. ', peerId);
+      setStreams(prevStreams => {
+        return {
+          ...prevStreams,
+          [peerId]: { userId: peerId, stream },
+        };
+      });
+    });
+
+    peer.on('close', function() {
+      console.log('connection closed .. ', peerId);
+      setStreams(prevStreams => {
+        const newStreams = { ...prevStreams };
+        delete newStreams[peerId];
+
+        return newStreams;
+      });
     });
   }
 
   function call() {
-    peers.data.forEach(onNewPeerAdded);
     setHasJoinedCall(true);
+    socket.current.emit('userJoinedCall', {
+      groupId,
+      socketId: socket.current.id,
+    });
 
-    if (userIdRef.current) {
-      addPeer({ groupId, userId: userIdRef.current });
-    }
+    socket.current.on('gotSignal', (data: any) => {
+      connections.current?.get(data.from)?.signal(data.signal);
+    });
+
+    socket.current.on('ack', (data: any) => {
+      if (data.ack && localStream) {
+        const peer = new Peer({ initiator: true, stream: localStream });
+        connections.current.set(data.from, peer);
+
+        peer.on('signal', function(signalData) {
+          socket.current.emit('sendSignal', {
+            to: data.from,
+            signal: signalData,
+          });
+        });
+        peerCreated(data.from, peer);
+      }
+    });
+
+    socket.current.on('userJoined', (data: any) => {
+      const clientId = data.socketId;
+
+      if (
+        connections.current.has(clientId) ||
+        clientId === socket.current.id ||
+        !localStream
+      ) {
+        return;
+      }
+
+      const connection = new Peer({ stream: localStream });
+
+      connection.on('signal', (data: any) => {
+        socket.current.emit('sendSignal', {
+          to: clientId,
+          signal: data,
+        });
+      });
+
+      peerCreated(clientId, connection);
+
+      socket.current.emit('ack', { to: clientId, from: socket.current.id });
+
+      connections.current.set(clientId, connection);
+    });
   }
 
   const hangup = () => {
-    if (!myPeerData) return;
-    connections.current.forEach(connection => connection.close());
     setHasJoinedCall(false);
-
-    onPeerRemoved(myPeerData);
+    connections.current.forEach(connection => connection.destroy());
+    socket.current.emit('userDisconnected', {
+      socketId: socket.current.id,
+    });
+    localStream?.getTracks().forEach(track => track.stop());
+    window.history.pushState(null, '', '/');
   };
 
   const toggleCamera = () => {
@@ -110,24 +143,6 @@ export default function GroupContainer(props: Props) {
   const toggleIsMuted = () => {
     setIsMuted(!isMuted);
   };
-
-  useEffect(() => {
-    if (isConnected) {
-      peers.data.forEach(onNewPeerAdded);
-    }
-  }, [isConnected, peers.data]);
-
-  useEffect(() => {
-    messages?.snapshot?.docChanges().forEach(function(change) {
-      if (
-        change.type === 'added' &&
-        isConnected &&
-        change.doc.data().userId !== userIdRef.current
-      ) {
-        onMessageReceived(change.doc.data() as MessagesDocumentData);
-      }
-    });
-  }, [messages.snapshot]);
 
   useEffect(() => {
     const track = localStream?.getVideoTracks()[0];
@@ -162,117 +177,7 @@ export default function GroupContainer(props: Props) {
       hangup();
       localStream?.getTracks().forEach(track => track.stop());
     };
-  }, [groupId]);
-
-  async function sendMessage(message: string, receiverId: string) {
-    const ref = await addMessage({
-      senderId: userIdRef.current,
-      groupId,
-      message,
-      receiverId,
-    });
-    ref.delete();
-  }
-
-  async function onMessageReceived({
-    message,
-    senderId,
-  }: MessagesDocumentData) {
-    if (!message) return;
-
-    try {
-      const msg = JSON.parse(message);
-      console.log(msg, senderId);
-
-      const peerConnection = connections.current.get(senderId);
-
-      if (senderId !== userIdRef.current && peerConnection) {
-        if (msg.ice) {
-          peerConnection.addIceCandidate(new RTCIceCandidate(msg.ice));
-        }
-
-        if (msg.offer) {
-          await peerConnection.setRemoteDescription(msg.offer);
-          const answer = await peerConnection.createAnswer();
-          await peerConnection.setLocalDescription(answer);
-
-          sendMessage(
-            JSON.stringify({ answer: peerConnection.localDescription }),
-            senderId,
-          );
-        }
-
-        if (msg.answer) {
-          await peerConnection.setRemoteDescription(msg.answer);
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  async function onNewPeerAdded(peer: PeersDocumentData) {
-    if (connections.current.get(peer.id) || peer.id === userIdRef.current)
-      return;
-    console.log('add new peer');
-
-    const peerConnection = new RTCPeerConnection(configuration);
-    connections.current.set(peer.id, peerConnection);
-    console.log('CONNECTIONS', connections.current);
-
-    peerConnection.onicecandidate = event =>
-      event.candidate
-        ? sendMessage(JSON.stringify({ ice: event.candidate }), peer.id)
-        : console.log('all ice sent');
-
-    peerConnection.ontrack = event => {
-      setStreams(prevStreams => ({
-        ...prevStreams,
-        [peer.id]: { userId: peer.id, stream: event.streams[0] },
-      }));
-    };
-
-    const offer = await peerConnection.createOffer();
-    await peerConnection.setLocalDescription(offer);
-    sendMessage(
-      JSON.stringify({ offer: peerConnection.localDescription }),
-      peer.id,
-    );
-
-    localStream?.getTracks().forEach(track => {
-      if (!localStream) return;
-
-      peerConnection.addTrack(track, localStream);
-    });
-  }
-
-  useEffect(() => {
-    const unsubscribe = peers?.snapshot?.docChanges().forEach(
-      function(change) {
-        if (change.type === 'added' && isConnected) {
-          if (isConnected) {
-            onNewPeerAdded(change.doc.data() as PeersDocumentData);
-          }
-        }
-        if (change.type === 'removed') {
-          onPeerRemoved(change.doc.data() as PeersDocumentData);
-        }
-        if (change.type === 'modified' && isConnected) {
-          if (change.doc.data().state === 'offline') {
-            onPeerRemoved(change.doc.data() as PeersDocumentData);
-          }
-        }
-      },
-      [peers.snapshot],
-    );
-
-    return () => {
-      if (unsubscribe) {
-        //@ts-ignore
-        unsubscribe();
-      }
-    };
-  }, [peers.snapshot]);
+  }, []);
 
   if (!hasJoinedCall && localStream) {
     return (
@@ -286,17 +191,13 @@ export default function GroupContainer(props: Props) {
     );
   }
 
-  if (peers.data && !peers.loading && !peers.error && localStream) {
+  if (localStream) {
     return (
       <>
-        {peers.data.map(peer => (
-          <p key={peer.id}>{peer.id}</p>
-        ))}
-        ME: {userIdRef.current}
         <Group
           hangup={hangup}
           localStream={{
-            userId: userIdRef.current,
+            userId: currentUser.uid,
             stream: localStream,
           }}
           streams={streams}
