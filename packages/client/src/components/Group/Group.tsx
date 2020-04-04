@@ -3,12 +3,11 @@ import { useTheme } from '@material-ui/core/styles';
 import React from 'react';
 
 import Video from './components/Video';
-import * as S from './Group.styles';
 
 interface Props {
   hangup: () => void;
-  streams: { [key: string]: { userId: string, stream?: MediaStream } };
-  localStream: { userId: string, stream?: MediaStream };
+  streams: { [key: string]: { userId: string; stream?: MediaStream } };
+  localStream: { userId: string; stream?: MediaStream };
   toggleIsMuted: () => void;
   toggleCamera: () => void;
 }
@@ -18,7 +17,6 @@ export default function Group(props: Props) {
   const addButtonSpacing = theme.spacing(1);
 
   const streams = Object.values(props.streams);
-  console.log(streams);
 
   return (
     <Box data-testid="group">
@@ -47,7 +45,7 @@ export default function Group(props: Props) {
               width="600px"
               height="400px"
             />
-          )
+          );
         })}
 
         <div>
