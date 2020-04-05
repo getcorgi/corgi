@@ -1,4 +1,12 @@
-import { Box, Card, FormControl as MUIFormControl } from '@material-ui/core';
+import {
+  Avatar as MUIAvatar,
+  Box,
+  Card,
+  FormControl as MUIFormControl,
+  Theme,
+  makeStyles,
+  createStyles,
+} from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 
 export const Controls = styled(Box)({
@@ -31,3 +39,16 @@ export const Gradient = styled('div')({
   backgroundImage:
     '-webkit-linear-gradient(bottom,rgba(0,0,0,0.7) 0,rgba(0,0,0,0.3) 50%,rgba(0,0,0,0) 100%)',
 });
+
+export const Avatar = styled(MUIAvatar)<{ theme: any }>({
+  backgroundColor: ({ theme }) => theme.palette.secondary.main,
+});
+
+export const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    Avatar: {
+      backgroundColor: theme.palette.secondary.main,
+      color: theme.palette.secondary.contrastText,
+    },
+  }),
+);

@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Grid,
   IconButton,
@@ -8,6 +9,7 @@ import {
   Select,
   TextField,
   Typography,
+  Tooltip,
 } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { useTheme } from '@material-ui/core/styles';
@@ -16,11 +18,13 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
 
 import { User } from '../../lib/useSocketHandler';
 import Video from '../Video';
 import * as S from './Preview.styles';
+import classes from '*.module.css';
 
 interface Props {
   groupName: string;
@@ -42,6 +46,7 @@ interface Props {
 
 export default function Preview(props: Props) {
   const theme = useTheme();
+  const classes = S.useStyles();
 
   const [
     settingsMenuAnchorEl,
@@ -131,9 +136,19 @@ export default function Preview(props: Props) {
                   />
                 </Box>
 
-                {props.users.map(user => (
-                  <div key={user.id}>{user.name}</div>
-                ))}
+                <Box mb={theme.spacing(0.2)}>
+                  <AvatarGroup max={5}>
+                    {props.users.map(user => (
+                      <Tooltip title={user.name}>
+                        <Avatar
+                          className={classes.Avatar}
+                          alt={user.name}
+                          src="fallback"
+                        />
+                      </Tooltip>
+                    ))}
+                  </AvatarGroup>
+                </Box>
 
                 <Button
                   onClick={props.onJoin}

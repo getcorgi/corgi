@@ -16,6 +16,7 @@ type SetStreamsState = React.Dispatch<
 export interface User {
   name: string;
   id: string;
+  avatarUrl: string;
 }
 
 function onPeerCreated({
