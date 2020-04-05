@@ -58,7 +58,7 @@ io.on('connection', (socket: ExtendedSocket) => {
 
   socket.on(
     'getUsers',
-    ({ from, roomId }: { from: string; roomId: string }) => {
+    ({ roomId }: { from: string; roomId: string }) => {
       io.of('/')
         .in(roomId)
         .clients((err: string, clients: string[]) => {
