@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import useGroup from '../../lib/hooks/useGroup';
+import BasicView from './BasicView';
 import Preview from './components/Preview';
-import Group from './Group';
 import useMediaStream from './lib/useLocalMediaStream';
 import useMute from './lib/useMute';
 import useSocketHandler from './lib/useSocketHandler';
 import useToggleCamera from './lib/useToggleCamera';
+import VideoView from './VideoView';
 
 interface Props {
   match: {
@@ -81,16 +82,22 @@ export default function GroupContainer(props: Props) {
   if (localStream) {
     return (
       <>
-        <Group
+        <VideoView
           onHangup={onHangup}
           isCameraOff={isCameraOff}
           isMuted={isMuted}
-          localStream={localStream}
           streams={streams}
           toggleCamera={toggleCamera}
           toggleIsMuted={toggleIsMuted}
-          userName={userName}
-        />
+        >
+          {({ streams }) => (
+            <BasicView
+              localStream={localStream}
+              userName={userName}
+              streams={streams}
+            />
+          )}
+        </VideoView>
       </>
     );
   }
