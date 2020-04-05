@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function useMediaStream() {
   const [localStream, setLocalStream] = useState<MediaStream>();
   const [currentAudioDevice, setCurrentAudioDevice] = useState<string>();
   const [currentVideoDevice, setCurrentVideoDevice] = useState<string>();
-  const videoDevices = useRef<MediaDeviceInfo[]>([]);
-  const audioDevices = useRef<MediaDeviceInfo[]>([]);
+  const [audioDevices, setAudioDevices] = useState<MediaDeviceInfo[]>([]);
+  const [videoDevices, setVideoDevices] = useState<MediaDeviceInfo[]>([]);
 
   const defaultConstraints = {
     video: true,
@@ -17,10 +17,14 @@ export default function useMediaStream() {
       await (await navigator.mediaDevices.enumerateDevices()).forEach(
         device => {
           if (device.kind === 'audioinput') {
-            audioDevices.current.push(device);
+            setAudioDevices(audioDevices => {
+              return [...audioDevices, device];
+            });
           }
           if (device.kind === 'videoinput') {
-            videoDevices.current.push(device);
+            setVideoDevices(videooDevices => {
+              return [...videooDevices, device];
+            });
           }
         },
       );
@@ -28,6 +32,10 @@ export default function useMediaStream() {
   }, []);
 
   useEffect(() => {
+    if (!currentVideoDevice && videoDevices[0]) {
+      setCurrentVideoDevice(videoDevices[0].deviceId);
+    }
+
     (async () => {
       const constraints = {
         ...defaultConstraints,
@@ -42,7 +50,7 @@ export default function useMediaStream() {
 
       setLocalStream(stream);
     })();
-  }, [currentVideoDevice]);
+  }, [currentVideoDevice, videoDevices]);
 
   return {
     currentVideoDevice,
@@ -50,7 +58,7 @@ export default function useMediaStream() {
     localStream,
     setCurrentVideoDevice,
     setCurrentAudioDevice,
-    audioDevices: audioDevices.current,
-    videoDevices: videoDevices.current,
+    audioDevices: audioDevices,
+    videoDevices: videoDevices,
   };
 }

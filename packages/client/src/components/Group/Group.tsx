@@ -38,7 +38,6 @@ export default function Group(props: Props) {
             <Video
               key={props.localStream.id}
               srcObject={props.localStream}
-              autoPlay={true}
               isMuted={true}
               isMirrored={true}
               width="600px"
@@ -70,7 +69,6 @@ export default function Group(props: Props) {
               <h3>{user.name}</h3>
               <Video
                 srcObject={stream}
-                autoPlay={true}
                 isMuted={false}
                 width="600px"
                 height="400px"

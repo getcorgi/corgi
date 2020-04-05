@@ -50,28 +50,15 @@ export default function GroupContainer(props: Props) {
     setUserName(event.target.value);
   };
 
-  const onSelectVideoDevice = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
-    setCurrentVideoDevice(e.target.value);
+  const onSelectVideoDevice = (
+    e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
+  ) => {
+    setCurrentVideoDevice(e.target.value as string);
   };
-
-  console.log(audioDevices);
-  console.log(videoDevices);
 
   if (!isConnected && localStream) {
     return (
       <>
-        <select onChange={onSelectVideoDevice}>
-          {videoDevices.map(device => (
-            <option
-              selected={device.deviceId === currentVideoDevice}
-              key={device.deviceId}
-              value={device.deviceId}
-            >
-              {device.label}
-            </option>
-          ))}
-        </select>
         <Preview
           groupName={group.data?.name || ''}
           isCameraOff={isCameraOff}
@@ -83,6 +70,9 @@ export default function GroupContainer(props: Props) {
           userName={userName}
           onUserNameChange={onUserNameChange}
           users={users}
+          onSelectVideoDevice={onSelectVideoDevice}
+          videoDevices={videoDevices}
+          currentVideoDevice={currentVideoDevice}
         />
       </>
     );

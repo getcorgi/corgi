@@ -27,8 +27,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  playsInline?: boolean;
-  autoPlay?: boolean;
   srcObject: MediaStream;
   isMuted?: boolean;
   isMirrored?: boolean;
@@ -50,8 +48,8 @@ export default function(props: Props) {
     <Box className={classes.wrapper}>
       <video
         ref={videoRef}
-        playsInline={props.playsInline}
-        autoPlay={props.autoPlay}
+        playsInline={true}
+        autoPlay={true}
         muted={props.isMuted}
         className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
           classes.video
