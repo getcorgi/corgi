@@ -37,6 +37,8 @@ export default function useMediaStream() {
   }, []);
 
   useEffect(() => {
+    if (localStream || isLocalStreamLoading) return;
+
     if (!currentVideoDevice && videoDevices[0]) {
       setCurrentVideoDevice(videoDevices[0].deviceId);
     }
@@ -51,11 +53,8 @@ export default function useMediaStream() {
         },
       };
 
-      if (localStream || isLocalStreamLoading) return;
-
       setIsLocalStreamLoading(true);
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
-
       setLocalStream(stream);
       setIsLocalStreamLoading(false);
     })();
