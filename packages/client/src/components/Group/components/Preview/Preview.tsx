@@ -84,8 +84,6 @@ export default function Preview(props: Props) {
                   srcObject={props.stream}
                   isMuted={true}
                   isMirrored={true}
-                  width="100%"
-                  height="100%"
                 />
               </Box>
 

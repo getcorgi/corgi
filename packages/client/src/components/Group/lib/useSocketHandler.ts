@@ -175,6 +175,8 @@ export default function useSocketHandler({
   const enhancedStreams = users.reduce((acc, user) => {
     const stream = streams?.[user.id]?.stream;
 
+    if (!stream) return acc;
+
     return {
       ...acc,
       [user.id]: {

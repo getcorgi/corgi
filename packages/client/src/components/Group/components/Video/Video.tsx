@@ -4,21 +4,14 @@ import React, { useEffect, useRef } from 'react';
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     wrapper: {
-      width: ({ width }: Props) => width,
-      height: ({ height }: Props) => height,
       position: 'relative',
       overflow: 'hidden',
+      width: '100%',
+      height: '100%',
     },
     video: {
-      position: 'absolute',
-      right: 0,
-      bottom: 0,
-      minWidth: '100%',
-      minHeight: '100%',
-      width: 'auto',
+      width: '100%',
       height: 'auto',
-      backgroundSize: 'cover',
-      overflow: 'hidden',
     },
     mirroredVideo: {
       transform: 'rotateY(180deg)',
@@ -30,8 +23,6 @@ interface Props {
   srcObject: MediaStream;
   isMuted?: boolean;
   isMirrored?: boolean;
-  width: string;
-  height: string;
 }
 
 export default function(props: Props) {

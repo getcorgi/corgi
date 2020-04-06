@@ -46,8 +46,6 @@ export default function BrowseTogetherView(props: Props) {
             srcObject={props.localStream}
             isMuted={true}
             isMirrored={true}
-            width="100%"
-            height="100%"
           />
           <S.Label>{props.userName} (You)</S.Label>
         </Box>
@@ -63,12 +61,7 @@ export default function BrowseTogetherView(props: Props) {
             height={videoHeight}
             position="relative"
           >
-            <Video
-              srcObject={stream}
-              isMuted={false}
-              width="100%"
-              height="100%"
-            />
+            <Video srcObject={stream} isMuted={false} />
             <S.Label>{user.name}</S.Label>
           </Box>
         );
