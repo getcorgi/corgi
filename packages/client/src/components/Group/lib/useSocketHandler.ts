@@ -163,7 +163,6 @@ export default function useSocketHandler({
     socket.current.emit('userDisconnected', {
       socketId: socket.current.id,
     });
-    localStream?.getTracks().forEach(track => track.stop());
     setIsConnected(false);
   };
 

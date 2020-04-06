@@ -5,6 +5,7 @@ import { useTheme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 
+import Header from '../Header';
 import Tile from '../Tile';
 import * as S from './Groups.styles';
 
@@ -22,6 +23,7 @@ export default function(props: Props) {
 
   return (
     <>
+      <Header />
       <Box m={theme.spacing(0.5)}>
         <Typography variant="h4" component="h1">
           Rooms

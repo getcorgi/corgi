@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 import useGroup from '../../lib/hooks/useGroup';
-import BasicView from './BasicView';
+import BasicView from './components/BasicView';
 import Preview from './components/Preview';
+import VideoView from './components/VideoView';
 import useMediaStream from './lib/useLocalMediaStream';
 import useMute from './lib/useMute';
 import useSocketHandler from './lib/useSocketHandler';
 import useToggleCamera from './lib/useToggleCamera';
-import VideoView from './VideoView';
 
 interface Props {
   match: {

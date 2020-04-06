@@ -12,6 +12,10 @@ export default function useMediaStream() {
     audio: true,
   };
 
+  const stopStream = () => {
+    localStream?.getTracks().forEach(track => track.stop());
+  };
+
   useEffect(() => {
     (async () => {
       await (await navigator.mediaDevices.enumerateDevices()).forEach(
@@ -46,11 +50,18 @@ export default function useMediaStream() {
         },
       };
 
+      if (localStream) return;
+
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
 
       setLocalStream(stream);
     })();
-  }, [currentVideoDevice, videoDevices]);
+
+    return function onUnmount() {
+      console.log('stoppppp!', localStream);
+      stopStream();
+    };
+  }, [currentVideoDevice, videoDevices, localStream]);
 
   return {
     currentVideoDevice,

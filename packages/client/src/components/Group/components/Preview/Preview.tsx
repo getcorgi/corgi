@@ -8,23 +8,24 @@ import {
   Popover,
   Select,
   TextField,
-  Typography,
   Tooltip,
+  Typography,
 } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { useTheme } from '@material-ui/core/styles';
+import MicIcon from '@material-ui/icons/Mic';
+import MicOffIcon from '@material-ui/icons/MicOff';
 import SettingsIcon from '@material-ui/icons/Settings';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
-import VolumeOffIcon from '@material-ui/icons/VolumeOff';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
+
+import classes from '*.module.css';
 
 import { User } from '../../lib/useSocketHandler';
 import Video from '../Video';
 import * as S from './Preview.styles';
-import classes from '*.module.css';
 
 interface Props {
   groupName: string;
@@ -94,7 +95,7 @@ export default function Preview(props: Props) {
               <S.Controls>
                 <Box>
                   <IconButton onClick={props.toggleIsMuted} aria-label="mute">
-                    {props.isMuted ? <VolumeOffIcon /> : <VolumeUpIcon />}
+                    {props.isMuted ? <MicOffIcon /> : <MicIcon />}
                   </IconButton>
 
                   <IconButton
@@ -125,39 +126,43 @@ export default function Preview(props: Props) {
                 <Box mb={theme.spacing(0.5)}>
                   <Typography variant="h4">{props.groupName}</Typography>
                 </Box>
+                <form onSubmit={props.onJoin}>
+                  <Box>
+                    <Box mb={theme.spacing(0.5)} width="100%">
+                      <TextField
+                        fullWidth={true}
+                        label="Whats your name?"
+                        onChange={props.onUserNameChange}
+                        value={props.userName}
+                        variant="outlined"
+                      />
+                    </Box>
 
-                <Box mb={theme.spacing(0.5)} width="100%">
-                  <TextField
-                    fullWidth={true}
-                    label="Whats your name?"
-                    onChange={props.onUserNameChange}
-                    value={props.userName}
-                    variant="outlined"
-                  />
-                </Box>
+                    <Box mb={theme.spacing(0.2)}>
+                      <AvatarGroup max={5}>
+                        {props.users.map(user => (
+                          <Tooltip title={user.name}>
+                            <Avatar
+                              className={classes.Avatar}
+                              alt={user.name}
+                              src="fallback"
+                            />
+                          </Tooltip>
+                        ))}
+                      </AvatarGroup>
+                    </Box>
 
-                <Box mb={theme.spacing(0.2)}>
-                  <AvatarGroup max={5}>
-                    {props.users.map(user => (
-                      <Tooltip title={user.name}>
-                        <Avatar
-                          className={classes.Avatar}
-                          alt={user.name}
-                          src="fallback"
-                        />
-                      </Tooltip>
-                    ))}
-                  </AvatarGroup>
-                </Box>
-
-                <Button
-                  onClick={props.onJoin}
-                  variant="contained"
-                  color="primary"
-                  id="callButton"
-                >
-                  Join
-                </Button>
+                    <Button
+                      onClick={props.onJoin}
+                      fullWidth={true}
+                      variant="contained"
+                      color="primary"
+                      id="callButton"
+                    >
+                      Join
+                    </Button>
+                  </Box>
+                </form>
               </Box>
             </Box>
           </Grid>

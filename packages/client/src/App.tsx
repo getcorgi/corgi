@@ -9,7 +9,6 @@ import ErrorPage from './components/ErrorPage';
 import { FirebaseProvider } from './components/Firebase';
 import Group from './components/Group';
 import Groups from './components/Groups';
-import Header from './components/Header';
 import { appConfig } from './constants';
 
 const theme = createMuiTheme({
@@ -25,7 +24,6 @@ const App: React.FC = () => {
         <CssBaseline />
         <FirebaseProvider config={appConfig}>
           <Router>
-            <Header />
             <Route exact path="/" component={Groups} />
             <Route exact path="/groups/:groupId" component={Group} />
             <Route exact path="/error" component={ErrorPage} />
