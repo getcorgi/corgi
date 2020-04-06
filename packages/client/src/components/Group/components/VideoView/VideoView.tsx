@@ -7,6 +7,7 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import React from 'react';
 
+import Activities from '../Activities';
 import * as S from './VideoView.styles';
 
 export interface StreamsDict {
@@ -21,15 +22,33 @@ interface Props {
   toggleCamera: () => void;
   toggleIsMuted: () => void;
   children: ({ streams }: { streams: StreamsDict }) => React.ReactNode;
+  activeViewId: string;
+  setActiveViewId: (id: string) => void;
 }
 
 export default function VideoView(props: Props) {
   const theme = useTheme();
 
   return (
-    <Box position="relative">
-      <div>{props.children({ streams: props.streams })}</div>
-
+    <Box
+      position="relative"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      height="100%"
+    >
+      <Box
+        display="flex"
+        justifyContent="center"
+        position="absolute"
+        width="100%"
+      >
+        <Activities
+          setActiveViewId={props.setActiveViewId}
+          activeViewId={props.activeViewId}
+        />
+      </Box>
+      <Box height="100%">{props.children({ streams: props.streams })}</Box>
       <S.Controls>
         <Box>
           <IconButton

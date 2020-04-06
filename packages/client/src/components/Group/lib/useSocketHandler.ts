@@ -170,7 +170,7 @@ export default function useSocketHandler({
     return function onUnmount() {
       disconnect();
     };
-  }, [connections.current]);
+  }, []);
 
   const enhancedStreams = users.reduce((acc, user) => {
     const stream = streams?.[user.id]?.stream;

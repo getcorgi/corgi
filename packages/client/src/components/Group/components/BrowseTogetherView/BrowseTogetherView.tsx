@@ -4,7 +4,7 @@ import React from 'react';
 
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
-import * as S from './BasicView.styles';
+import * as S from './BrowseTogetherView.styles';
 
 interface Props {
   streams: StreamsDict;
@@ -28,7 +28,7 @@ const getVideoHeight = (count: number) => {
   }
 };
 
-export default function BasicView(props: Props) {
+export default function BrowseTogetherView(props: Props) {
   const theme = useTheme();
 
   const streams = Object.values(props.streams);

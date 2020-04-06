@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import useGroup from '../../lib/hooks/useGroup';
 import BasicView from './components/BasicView';
+import BrowseTogether from './components/BrowseTogetherView';
 import Preview from './components/Preview';
 import VideoView from './components/VideoView';
 import useMediaStream from './lib/useLocalMediaStream';
@@ -19,6 +20,7 @@ interface Props {
 export default function GroupContainer(props: Props) {
   const groupId = props.match.params.groupId;
   const group = useGroup(groupId);
+  const [activeViewId, setActiveViewId] = useState('0');
 
   const [userName, setUserName] = useState('');
 
@@ -89,14 +91,32 @@ export default function GroupContainer(props: Props) {
           streams={streams}
           toggleCamera={toggleCamera}
           toggleIsMuted={toggleIsMuted}
+          setActiveViewId={setActiveViewId}
+          activeViewId={activeViewId}
         >
-          {({ streams }) => (
-            <BasicView
-              localStream={localStream}
-              userName={userName}
-              streams={streams}
-            />
-          )}
+          {({ streams }) => {
+            switch (activeViewId) {
+              case '1': {
+                return (
+                  <BrowseTogether
+                    localStream={localStream}
+                    userName={userName}
+                    streams={streams}
+                  />
+                );
+              }
+              case '0':
+              default: {
+                return (
+                  <BasicView
+                    localStream={localStream}
+                    userName={userName}
+                    streams={streams}
+                  />
+                );
+              }
+            }
+          }}
         </VideoView>
       </>
     );

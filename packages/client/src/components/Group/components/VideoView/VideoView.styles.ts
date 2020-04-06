@@ -7,6 +7,5 @@ export const Controls = styled('div')({
   display: 'flex',
   height: '72px',
   justifyContent: 'center',
-  position: 'absolute',
   width: '100%',
 });

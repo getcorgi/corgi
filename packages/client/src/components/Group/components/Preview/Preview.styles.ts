@@ -2,10 +2,10 @@ import {
   Avatar as MUIAvatar,
   Box,
   Card,
-  FormControl as MUIFormControl,
-  Theme,
-  makeStyles,
   createStyles,
+  FormControl as MUIFormControl,
+  makeStyles,
+  Theme,
 } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 
