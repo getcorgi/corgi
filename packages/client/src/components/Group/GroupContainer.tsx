@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import useGroup from '../../lib/hooks/useGroup';
+import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
 import BasicView from './components/BasicView';
 import BrowseTogether from './components/BrowseTogetherView';
 import Preview from './components/Preview';
@@ -20,7 +21,7 @@ interface Props {
 export default function GroupContainer(props: Props) {
   const groupId = props.match.params.groupId;
   const group = useGroup(groupId);
-  const [activeViewId, setActiveViewId] = useState('0');
+  const updateGroup = useUpdateGroup();
 
   const [userName, setUserName] = useState('');
 
@@ -60,6 +61,7 @@ export default function GroupContainer(props: Props) {
   };
 
   if (!isConnected && localStream) {
+    console.log('PREVIEW', Boolean(!isConnected), Boolean(localStream));
     return (
       <>
         <Preview
@@ -82,6 +84,7 @@ export default function GroupContainer(props: Props) {
   }
 
   if (localStream) {
+    console.log('VIDEO VIEW', typeof group.data?.activityId);
     return (
       <>
         <VideoView
@@ -91,17 +94,26 @@ export default function GroupContainer(props: Props) {
           streams={streams}
           toggleCamera={toggleCamera}
           toggleIsMuted={toggleIsMuted}
-          setActiveViewId={setActiveViewId}
-          activeViewId={activeViewId}
+          setActiveViewId={id => {
+            updateGroup({
+              groupId,
+              activityId: id,
+            });
+          }}
+          activeViewId={group.data?.activityId || '0'}
         >
           {({ streams }) => {
-            switch (activeViewId) {
+            switch (group.data?.activityId) {
               case '1': {
                 return (
                   <BrowseTogether
                     localStream={localStream}
                     userName={userName}
                     streams={streams}
+                    activityUrl={group.data?.activityUrl}
+                    updateActivityUrl={value =>
+                      updateGroup({ groupId, activityUrl: value })
+                    }
                   />
                 );
               }

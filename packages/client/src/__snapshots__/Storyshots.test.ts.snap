@@ -1,167 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots Board Default 1`] = `
+exports[`Storyshots ErrorPage Default 1`] = `
 <div
-  className="MuiBox-root MuiBox-root-2"
-  data-testid="board"
+  className="MuiTypography-root MuiTypography-body1"
 >
   <div
-    className="MuiBox-root MuiBox-root-3"
+    className="MuiBox-root MuiBox-root-32"
   >
-    <h1
-      className="MuiTypography-root MuiTypography-h4"
-    >
-      Great Red Board... argh
-    </h1>
+    Oops... The link you are trying to reach cannot be found
   </div>
-  <hr
-    className="MuiDivider-root"
-  />
   <div
-    className="MuiBox-root MuiBox-root-40"
+    className="MuiBox-root MuiBox-root-33"
   >
-    <div
-      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4"
-    >
-      <div
-        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-3"
-      >
-        <div
-          className="MuiPaper-root MuiCard-root MuiPaper-elevation1 MuiPaper-rounded"
-        >
-          <div
-            className="MuiCardHeader-root"
-          >
-            <div
-              className="MuiCardHeader-avatar"
-            >
-              <div
-                className="MuiAvatar-root MuiAvatar-circle MuiAvatar-colorDefault"
-              >
-                M
-              </div>
-            </div>
-            <div
-              className="MuiCardHeader-content"
-            >
-              <span
-                className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock"
-              >
-                my test story
-              </span>
-            </div>
-          </div>
-          <div
-            className="MuiCardActions-root MuiCardActions-spacing"
-          >
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"
-              disabled={false}
-              onBlur={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              <span
-                className="MuiButton-label"
-              >
-                Edit
-              </span>
-            </button>
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-textSizeSmall MuiButton-sizeSmall"
-              disabled={false}
-              onBlur={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              <span
-                className="MuiButton-label"
-              >
-                Delete
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <button
-      aria-label="add"
-      className="MuiButtonBase-root MuiFab-root WithStyles(ForwardRef(Fab))-root-220 WithStyles(ForwardRef(Fab))-root-221 MuiFab-extended MuiFab-primary"
-      disabled={false}
-      onBlur={[Function]}
+    <a
+      href="/"
       onClick={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      spacing={16}
-      tabIndex={0}
-      type="button"
     >
-      <span
-        className="MuiFab-label"
-      >
-        <svg
-          aria-hidden="true"
-          className="MuiSvgIcon-root AddIcon-root-232 AddIcon-root-233"
-          focusable="false"
-          role="presentation"
-          spacing={8}
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-          />
-        </svg>
-        Add a Card
-      </span>
-    </button>
+      Go Home
+    </a>
   </div>
 </div>
 `;
 
-exports[`Storyshots Boards Default 1`] = `
+exports[`Storyshots Groups Default 1`] = `
 Array [
+  <header
+    className="makeStyles-root-34"
+  >
+    <header
+      className="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary MuiPaper-elevation4"
+    >
+      <div
+        className="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+      >
+        <h6
+          className="MuiTypography-root makeStyles-title-36 MuiTypography-h6"
+        >
+          <a
+            className="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-logo-37 MuiTypography-colorPrimary"
+            href="/"
+            onBlur={[Function]}
+            onFocus={[Function]}
+          >
+            corgi
+          </a>
+        </h6>
+      </div>
+    </header>
+  </header>,
   <div
-    className="MuiBox-root MuiBox-root-244"
+    className="MuiBox-root MuiBox-root-118"
   >
     <h1
       className="MuiTypography-root MuiTypography-h4"
     >
-      Boards
+      Rooms
     </h1>
   </div>,
   <hr
     className="MuiDivider-root"
   />,
   <div
-    className="MuiBox-root MuiBox-root-281"
+    className="MuiBox-root MuiBox-root-126"
   >
     <div
       className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4"
@@ -190,8 +90,8 @@ Array [
             type="button"
           >
             <a
-              className="Link-root-420"
-              href="/boards/1"
+              className="Link-root-237"
+              href="/groups/1"
               onClick={[Function]}
             >
               <div
@@ -203,7 +103,7 @@ Array [
                   <div
                     className="MuiAvatar-root MuiAvatar-circle MuiAvatar-colorDefault"
                   >
-                    B
+                    G
                   </div>
                 </div>
                 <div
@@ -212,7 +112,7 @@ Array [
                   <span
                     className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock"
                   >
-                    Board A
+                    Group A
                   </span>
                 </div>
               </div>
@@ -297,8 +197,8 @@ Array [
             type="button"
           >
             <a
-              className="Link-root-420"
-              href="/boards/2"
+              className="Link-root-237"
+              href="/groups/2"
               onClick={[Function]}
             >
               <div
@@ -310,7 +210,7 @@ Array [
                   <div
                     className="MuiAvatar-root MuiAvatar-circle MuiAvatar-colorDefault"
                   >
-                    B
+                    G
                   </div>
                 </div>
                 <div
@@ -319,7 +219,7 @@ Array [
                   <span
                     className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock"
                   >
-                    Board B
+                    Group B
                   </span>
                 </div>
               </div>
@@ -404,8 +304,8 @@ Array [
             type="button"
           >
             <a
-              className="Link-root-420"
-              href="/boards/3"
+              className="Link-root-237"
+              href="/groups/3"
               onClick={[Function]}
             >
               <div
@@ -417,7 +317,7 @@ Array [
                   <div
                     className="MuiAvatar-root MuiAvatar-circle MuiAvatar-colorDefault"
                   >
-                    B
+                    G
                   </div>
                 </div>
                 <div
@@ -426,7 +326,7 @@ Array [
                   <span
                     className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock"
                   >
-                    Board C
+                    Group C
                   </span>
                 </div>
               </div>
@@ -511,8 +411,8 @@ Array [
             type="button"
           >
             <a
-              className="Link-root-420"
-              href="/boards/4"
+              className="Link-root-237"
+              href="/groups/4"
               onClick={[Function]}
             >
               <div
@@ -524,7 +424,7 @@ Array [
                   <div
                     className="MuiAvatar-root MuiAvatar-circle MuiAvatar-colorDefault"
                   >
-                    B
+                    G
                   </div>
                 </div>
                 <div
@@ -533,7 +433,7 @@ Array [
                   <span
                     className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock"
                   >
-                    Board D
+                    Group D
                   </span>
                 </div>
               </div>
@@ -596,11 +496,11 @@ Array [
       </div>
     </div>
     <div
-      className="MuiBox-root MuiBox-root-465"
+      className="MuiBox-root MuiBox-root-282"
     >
       <button
         aria-label="add"
-        className="MuiButtonBase-root MuiFab-root WithStyles(ForwardRef(Fab))-root-466 WithStyles(ForwardRef(Fab))-root-467 MuiFab-extended MuiFab-primary"
+        className="MuiButtonBase-root MuiFab-root WithStyles(ForwardRef(Fab))-root-283 WithStyles(ForwardRef(Fab))-root-284 MuiFab-extended MuiFab-primary"
         disabled={false}
         onBlur={[Function]}
         onClick={[Function]}
@@ -623,9 +523,8 @@ Array [
         >
           <svg
             aria-hidden="true"
-            className="MuiSvgIcon-root AddIcon-root-478 AddIcon-root-479"
+            className="MuiSvgIcon-root AddIcon-root-295 AddIcon-root-296"
             focusable="false"
-            role="presentation"
             spacing={8}
             viewBox="0 0 24 24"
           >
@@ -633,34 +532,12 @@ Array [
               d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
             />
           </svg>
-          Create New Board
+          Create New Room
         </span>
       </button>
     </div>
   </div>,
 ]
-`;
-
-exports[`Storyshots ErrorPage Default 1`] = `
-<div
-  className="MuiTypography-root MuiTypography-body1"
->
-  <div
-    className="MuiBox-root MuiBox-root-520"
-  >
-    Oops... The link you are trying to reach cannot be found
-  </div>
-  <div
-    className="MuiBox-root MuiBox-root-521"
-  >
-    <a
-      href="/"
-      onClick={[Function]}
-    >
-      Go Home
-    </a>
-  </div>
-</div>
 `;
 
 exports[`Storyshots Tile Default 1`] = `
@@ -679,7 +556,7 @@ exports[`Storyshots Tile Default 1`] = `
         <div
           className="MuiAvatar-root MuiAvatar-circle MuiAvatar-colorDefault"
         >
-          B
+          G
         </div>
       </div>
       <div
@@ -688,7 +565,7 @@ exports[`Storyshots Tile Default 1`] = `
         <span
           className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock"
         >
-          Board A
+          Group A
         </span>
       </div>
     </div>

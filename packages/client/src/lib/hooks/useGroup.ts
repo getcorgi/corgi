@@ -6,6 +6,8 @@ import { DocumentQueryResult } from '../types';
 
 interface GroupDocumentData {
   id: string;
+  activityId: string;
+  activityUrl?: string; //TEMPORARY: This will live elswhere,
   type: string;
   name: string;
 }
