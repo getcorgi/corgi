@@ -6,6 +6,7 @@ import { DocumentQueryResult } from '../types';
 
 interface GroupDocumentData {
   id: string;
+  activityId: string;
   type: string;
   name: string;
 }

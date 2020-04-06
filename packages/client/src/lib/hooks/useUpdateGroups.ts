@@ -34,6 +34,7 @@ export default function(options?: { client?: typeof firebase }) {
     }
 
     return await ref.add({
+      activityId: '0',
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       roles: {
         byId: {
