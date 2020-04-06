@@ -60,13 +60,7 @@ export default function useMediaStream() {
     return function onUnmount() {
       stopStream();
     };
-  }, [
-    currentVideoDevice,
-    videoDevices,
-    localStream,
-    defaultConstraints,
-    stopStream,
-  ]);
+  }, [currentVideoDevice, videoDevices, localStream]);
 
   return {
     currentVideoDevice,

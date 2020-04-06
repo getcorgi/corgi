@@ -1,4 +1,4 @@
-import { Box, IconButton } from '@material-ui/core';
+import { Box, IconButton, Fab } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import MicIcon from '@material-ui/icons/Mic';
@@ -51,27 +51,21 @@ export default function VideoView(props: Props) {
       <Box height="100%">{props.children({ streams: props.streams })}</Box>
       <S.Controls>
         <Box>
-          <IconButton
-            onClick={props.onHangup}
-            aria-label="hang-up"
-            color="primary"
-          >
-            <CallEndIcon />
-          </IconButton>
-
-          <IconButton
-            onClick={props.toggleIsMuted}
-            aria-label="mute"
-            color="primary"
-          >
+          <IconButton onClick={props.toggleIsMuted} aria-label="mute">
             {props.isMuted ? <MicOffIcon /> : <MicIcon />}
           </IconButton>
 
-          <IconButton
-            onClick={props.toggleCamera}
-            aria-label="toggle-camera"
-            color="primary"
-          >
+          <Box display="inline-block" mx={theme.spacing(0.2)}>
+            <Fab
+              onClick={props.onHangup}
+              aria-label="hang-up"
+              color="secondary"
+            >
+              <CallEndIcon />
+            </Fab>
+          </Box>
+
+          <IconButton onClick={props.toggleCamera} aria-label="toggle-camera">
             {props.isCameraOff ? <VideocamOffIcon /> : <VideocamIcon />}
           </IconButton>
         </Box>

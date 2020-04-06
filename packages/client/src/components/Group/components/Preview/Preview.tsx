@@ -21,8 +21,6 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
 
-import classes from '*.module.css';
-
 import { User } from '../../lib/useSocketHandler';
 import Video from '../Video';
 import * as S from './Preview.styles';
@@ -131,6 +129,7 @@ export default function Preview(props: Props) {
                     <Box mb={theme.spacing(0.5)} width="100%">
                       <TextField
                         fullWidth={true}
+                        autoFocus={true}
                         label="Whats your name?"
                         onChange={props.onUserNameChange}
                         value={props.userName}

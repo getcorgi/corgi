@@ -63,19 +63,19 @@ export default function GroupContainer(props: Props) {
     return (
       <>
         <Preview
+          currentVideoDevice={currentVideoDevice}
           groupName={group.data?.name || ''}
           isCameraOff={isCameraOff}
           isMuted={isMuted}
           onJoin={onJoinCall}
+          onSelectVideoDevice={onSelectVideoDevice}
+          onUserNameChange={onUserNameChange}
           stream={localStream}
           toggleCamera={toggleCamera}
           toggleIsMuted={toggleIsMuted}
           userName={userName}
-          onUserNameChange={onUserNameChange}
           users={users}
-          onSelectVideoDevice={onSelectVideoDevice}
           videoDevices={videoDevices}
-          currentVideoDevice={currentVideoDevice}
         />
       </>
     );

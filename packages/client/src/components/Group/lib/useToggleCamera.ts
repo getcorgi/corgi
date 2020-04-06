@@ -16,7 +16,7 @@ export default function useToggleCamera(localStream?: MediaStream) {
     } else {
       track.enabled = true;
     }
-  }, [isCameraOff, localStream]);
+  }, [isCameraOff]);
 
   return { isCameraOff, toggleCamera };
 }
