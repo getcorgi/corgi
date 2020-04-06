@@ -75,14 +75,14 @@ export default function BasicView(props: Props) {
         );
       })}
       {props.localStream && (
-        <S.LocalVideo>
+        <S.LocalVideo elevation={10}>
           <Video
             key={props.localStream.id}
             srcObject={props.localStream}
             isMuted={true}
             isMirrored={true}
           />
-          <S.Label>{props.userName} (You)</S.Label>
+          <S.Label>(You)</S.Label>
         </S.LocalVideo>
       )}
     </Box>

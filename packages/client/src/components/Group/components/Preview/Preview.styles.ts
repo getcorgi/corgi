@@ -1,5 +1,4 @@
 import {
-  Avatar as MUIAvatar,
   Box,
   Card,
   createStyles,
@@ -38,10 +37,6 @@ export const Gradient = styled('div')({
   bottom: 0,
   backgroundImage:
     '-webkit-linear-gradient(bottom,rgba(0,0,0,0.7) 0,rgba(0,0,0,0.3) 50%,rgba(0,0,0,0) 100%)',
-});
-
-export const Avatar = styled(MUIAvatar)<{ theme: any }>({
-  backgroundColor: ({ theme }) => theme.palette.secondary.main,
 });
 
 export const useStyles = makeStyles((theme: Theme) =>

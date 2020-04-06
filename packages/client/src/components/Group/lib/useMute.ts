@@ -14,7 +14,7 @@ export default function useMute(localStream?: MediaStream) {
     } else {
       track.enabled = true;
     }
-  }, [isMuted]);
+  }, [isMuted, localStream]);
 
   return {
     isMuted,
