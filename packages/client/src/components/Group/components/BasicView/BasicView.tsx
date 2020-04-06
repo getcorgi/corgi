@@ -1,4 +1,4 @@
-import { useTheme, Typography, Input } from '@material-ui/core';
+import { Typography, useTheme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import React from 'react';
 
@@ -30,14 +30,11 @@ const getVideoHeight = (count: number) => {
 
 export default function BasicView(props: Props) {
   const theme = useTheme();
-
   const streams = Object.values(props.streams);
   const streamCount = streams.length;
 
   const videoWidth = 1 / streamCount;
   const videoHeight = getVideoHeight(streamCount);
-
-  console.log(streams);
 
   return (
     <Box display="flex" flexWrap="wrap" height="100%" width="100%">

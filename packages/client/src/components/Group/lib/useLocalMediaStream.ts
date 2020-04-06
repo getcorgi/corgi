@@ -1,20 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
+const DEFAULT_CONSTRAINTS = {
+  video: true,
+  audio: true,
+};
 
 export default function useMediaStream() {
+  const [isLocalStreamLoading, setIsLocalStreamLoading] = useState(false);
   const [localStream, setLocalStream] = useState<MediaStream>();
   const [currentAudioDevice, setCurrentAudioDevice] = useState<string>();
   const [currentVideoDevice, setCurrentVideoDevice] = useState<string>();
   const [audioDevices, setAudioDevices] = useState<MediaDeviceInfo[]>([]);
   const [videoDevices, setVideoDevices] = useState<MediaDeviceInfo[]>([]);
 
-  const defaultConstraints = {
-    video: true,
-    audio: true,
-  };
-
-  const stopStream = () => {
+  const stopStream = useCallback(() => {
     localStream?.getTracks().forEach(track => track.stop());
-  };
+  }, [localStream]);
 
   useEffect(() => {
     (async () => {
@@ -36,13 +37,15 @@ export default function useMediaStream() {
   }, []);
 
   useEffect(() => {
+    if (localStream || isLocalStreamLoading) return;
+
     if (!currentVideoDevice && videoDevices[0]) {
       setCurrentVideoDevice(videoDevices[0].deviceId);
     }
 
     (async () => {
       const constraints = {
-        ...defaultConstraints,
+        ...DEFAULT_CONSTRAINTS,
         video: {
           deviceId: {
             exact: currentVideoDevice,
@@ -50,17 +53,22 @@ export default function useMediaStream() {
         },
       };
 
-      if (localStream) return;
-
+      setIsLocalStreamLoading(true);
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
-
       setLocalStream(stream);
+      setIsLocalStreamLoading(false);
     })();
 
     return function onUnmount() {
       stopStream();
     };
-  }, [currentVideoDevice, videoDevices, localStream]);
+  }, [
+    currentVideoDevice,
+    videoDevices,
+    localStream,
+    stopStream,
+    isLocalStreamLoading,
+  ]);
 
   return {
     currentVideoDevice,

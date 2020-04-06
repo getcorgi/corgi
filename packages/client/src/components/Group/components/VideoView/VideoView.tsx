@@ -1,5 +1,4 @@
-import { Box, IconButton, Fab } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
+import { Box, Fab, IconButton, useTheme } from '@material-ui/core';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import MicIcon from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';

@@ -56,20 +56,17 @@ io.on('connection', (socket: ExtendedSocket) => {
     },
   );
 
-  socket.on(
-    'getUsers',
-    ({ roomId }: { from: string; roomId: string }) => {
-      io.of('/')
-        .in(roomId)
-        .clients((err: string, clients: string[]) => {
-          const users = clients.map((socketId: string) => {
-            const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
-            return clientSocket.userData;
-          });
-          io.emit('gotUsers', { users });
+  socket.on('getUsers', ({ roomId }: { from: string; roomId: string }) => {
+    io.of('/')
+      .in(roomId)
+      .clients((err: string, clients: string[]) => {
+        const users = clients.map((socketId: string) => {
+          const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
+          return clientSocket.userData;
         });
-    },
-  );
+        io.emit('gotUsers', { users });
+      });
+  });
 
   socket.on(
     'sendSignal',

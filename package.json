@@ -12,5 +12,8 @@
     "start:server": "cd packages/server && yarn start",
     "lint:client": "cd packages/client && yarn lint",
     "lint:server": "cd packages/server && yarn lint"
+  },
+  "devDependencies": {
+    "husky": "^4.0.6"
   }
 }
