@@ -51,7 +51,7 @@ io.on('connection', (socket: ExtendedSocket) => {
             const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
             return clientSocket.userData;
           });
-          io.emit('gotUsers', { users });
+          io.to(room).emit('gotUsers', { users });
         });
     },
   );
@@ -64,7 +64,7 @@ io.on('connection', (socket: ExtendedSocket) => {
           const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
           return clientSocket.userData;
         });
-        io.emit('gotUsers', { users });
+        io.to(room).emit('gotUsers', { users });
       });
   });
 
@@ -96,7 +96,7 @@ io.on('connection', (socket: ExtendedSocket) => {
             const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
             return clientSocket.userData;
           });
-          io.emit('gotUsers', { users });
+          io.to(room).emit('gotUsers', { users });
         });
     });
   });
