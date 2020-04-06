@@ -155,6 +155,7 @@ export default function Preview(props: Props) {
                       variant="contained"
                       color="primary"
                       id="callButton"
+                      type="submit"
                     >
                       Join
                     </Button>

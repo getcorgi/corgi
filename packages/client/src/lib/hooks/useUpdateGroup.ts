@@ -7,7 +7,11 @@ export default function(options?: { client?: typeof firebase }) {
   const client = (options && options.client) || firebase;
   const db = client.firestore();
 
-  return async (variables: { groupId?: string; activityId?: string }) => {
+  return async (variables: {
+    groupId?: string;
+    activityId?: string;
+    activityUrl?: string; // TEMPORARY. This will live elsewhere.
+  }) => {
     const currentUser = firebase.auth().currentUser;
 
     if (!currentUser) {

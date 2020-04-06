@@ -1,5 +1,7 @@
+import { IconButton, InputBase, Paper } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import React from 'react';
+import SearchIcon from '@material-ui/icons/Search';
+import React, { useEffect, useState } from 'react';
 
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
@@ -9,60 +11,85 @@ interface Props {
   streams: StreamsDict;
   localStream: MediaStream;
   userName: string;
+  activityUrl: string;
+  updateActivityUrl: (value: string) => void;
 }
 
-const getVideoHeight = (count: number) => {
-  switch (count) {
-    case 3:
-    case 4:
-      return '50%';
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-      return '33.33%';
-    default:
-      return '100%';
-  }
+const defaultProps = {
+  activityUrl: '',
 };
 
-export default function BrowseTogetherView(props: Props) {
-  const streams = Object.values(props.streams);
-  const streamCount = streams.length || 1;
+function addProtocol(url: string) {
+  if (!/^(?:f|ht)tps?:\/\//.test(url)) {
+    url = 'https://' + url;
+  }
+  return url;
+}
 
-  const videoWidth = 1 / streamCount;
-  const videoHeight = getVideoHeight(streamCount);
+function BrowseTogetherView(props: Props) {
+  const streams = Object.values(props.streams);
+  const [activityUrl, setActivityUrl] = useState(
+    addProtocol(props.activityUrl),
+  );
+
+  useEffect(() => {
+    setActivityUrl(addProtocol(props.activityUrl));
+  }, [props.activityUrl]);
 
   return (
-    <Box display="flex" flexWrap="wrap" height="100%" width="100%">
-      {props.localStream && (
-        <Box width={videoWidth} height={videoHeight} position="relative">
-          <Video
-            key={props.localStream.id}
-            srcObject={props.localStream}
-            isMuted={true}
-            isMirrored={true}
-          />
-          <S.Label>{props.userName} (You)</S.Label>
-        </Box>
-      )}
-
-      {streams.map(({ stream, user }) => {
-        if (!stream) return null;
-
-        return (
-          <Box
-            width={videoWidth}
-            key={stream?.id}
-            height={videoHeight}
-            position="relative"
-          >
-            <Video srcObject={stream} isMuted={false} />
-            <S.Label>{user.name}</S.Label>
+    <Box
+      display="flex"
+      flexWrap="wrap"
+      height="100%"
+      width="100%"
+      justifyContent="space-between"
+    >
+      <Box width="75%" display="flex" flexDirection="column">
+        <Paper
+          component="form"
+          square
+          onSubmit={(e: React.FormEvent) => {
+            e.preventDefault();
+            props.updateActivityUrl(activityUrl);
+          }}
+        >
+          <Box px={2} display="flex" justifyContent="space-between">
+            <InputBase
+              style={{ width: '100%' }}
+              value={activityUrl}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                setActivityUrl(addProtocol(event.target.value))
+              }
+              inputProps={{ 'aria-label': 'go to url' }}
+            />
+            <IconButton type="submit" aria-label="search">
+              <SearchIcon />
+            </IconButton>
           </Box>
-        );
-      })}
+        </Paper>
+        <iframe
+          title="shared-browser"
+          style={{ border: 0, outline: 'none', maxHeight: '100%' }}
+          width="100%"
+          height="100%"
+          src={props.activityUrl}
+        />
+      </Box>
+      <Box width="25%">
+        {streams.map(({ stream, user }) => {
+          if (!stream) return null;
+
+          return (
+            <Box key={stream?.id} width="100%" position="relative">
+              <Video srcObject={stream} isMuted={false} />
+              <S.Label>{user.name}</S.Label>
+            </Box>
+          );
+        })}
+      </Box>
     </Box>
   );
 }
+
+BrowseTogetherView.defaultProps = defaultProps;
+export default BrowseTogetherView;

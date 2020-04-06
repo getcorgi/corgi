@@ -61,6 +61,7 @@ export default function GroupContainer(props: Props) {
   };
 
   if (!isConnected && localStream) {
+    console.log('PREVIEW', Boolean(!isConnected), Boolean(localStream));
     return (
       <>
         <Preview
@@ -83,6 +84,7 @@ export default function GroupContainer(props: Props) {
   }
 
   if (localStream) {
+    console.log('VIDEO VIEW', typeof group.data?.activityId);
     return (
       <>
         <VideoView
@@ -108,6 +110,10 @@ export default function GroupContainer(props: Props) {
                     localStream={localStream}
                     userName={userName}
                     streams={streams}
+                    activityUrl={group.data?.activityUrl}
+                    updateActivityUrl={value =>
+                      updateGroup({ groupId, activityUrl: value })
+                    }
                   />
                 );
               }
