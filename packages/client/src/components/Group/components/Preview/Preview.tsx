@@ -21,8 +21,6 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
 
-import classes from '*.module.css';
-
 import { User } from '../../lib/useSocketHandler';
 import Video from '../Video';
 import * as S from './Preview.styles';

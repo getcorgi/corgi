@@ -1,4 +1,3 @@
-import { useTheme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import React from 'react';
 
@@ -29,7 +28,6 @@ const getVideoHeight = (count: number) => {
 };
 
 export default function BasicView(props: Props) {
-  const theme = useTheme();
 
   const streams = Object.values(props.streams);
   const streamCount = streams.length || 1;

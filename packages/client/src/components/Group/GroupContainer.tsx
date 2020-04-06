@@ -29,7 +29,7 @@ export default function GroupContainer(props: Props) {
     currentVideoDevice,
     setCurrentVideoDevice,
     videoDevices,
-    audioDevices,
+    // audioDevices,
   } = useMediaStream();
   const { toggleIsMuted, isMuted } = useMute(localStream);
   const { toggleCamera, isCameraOff } = useToggleCamera(localStream);

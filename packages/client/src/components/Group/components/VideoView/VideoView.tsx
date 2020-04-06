@@ -1,5 +1,4 @@
 import { Box, IconButton } from '@material-ui/core';
-import { useTheme } from '@material-ui/core/styles';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import MicIcon from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';
@@ -27,8 +26,6 @@ interface Props {
 }
 
 export default function VideoView(props: Props) {
-  const theme = useTheme();
-
   return (
     <Box
       position="relative"

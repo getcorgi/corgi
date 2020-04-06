@@ -1,9 +1,6 @@
 import {
   AppBar,
   Box,
-  Button,
-  ButtonGroup,
-  Paper,
   Tab,
   Tabs,
 } from '@material-ui/core';
