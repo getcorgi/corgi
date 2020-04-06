@@ -68,6 +68,8 @@ export default function Preview(props: Props) {
         display="flex"
         alignItems="center"
         height="100%"
+        maxWidth="1600px"
+        mx="auto"
         p={[
           theme.spacing(0.5),
           theme.spacing(0.5),
@@ -78,7 +80,7 @@ export default function Preview(props: Props) {
         <Grid container={true} spacing={10}>
           <Grid item={true} sm={12} md={7}>
             <S.VideoCard elevation={5}>
-              <Box width="100%" height="400px">
+              <Box width="100%" height="440px">
                 <Video
                   key={props.stream.id}
                   srcObject={props.stream}

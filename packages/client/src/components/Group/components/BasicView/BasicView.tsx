@@ -12,20 +12,18 @@ interface Props {
   userName: string;
 }
 
-const getVideoHeight = (count: number) => {
-  switch (count) {
-    case 3:
-    case 4:
-      return '50%';
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-      return '33.33%';
-    default:
-      return '100%';
+const getVideoRatios = (count: number) => {
+  // max out at 5 x 5 for now
+  if (count >= 10) {
+    return '20%';
   }
+  if (count >= 5 && count <= 9) {
+    return '33.33%';
+  }
+  if (count >= 2 && count <= 4) {
+    return '50%';
+  }
+  return '100%';
 };
 
 export default function BasicView(props: Props) {
@@ -33,11 +31,18 @@ export default function BasicView(props: Props) {
   const streams = Object.values(props.streams);
   const streamCount = streams.length;
 
-  const videoWidth = 1 / streamCount;
-  const videoHeight = getVideoHeight(streamCount);
+  const videoWidth = getVideoRatios(streamCount);
+  const videoHeight = getVideoRatios(streamCount);
 
   return (
-    <Box display="flex" flexWrap="wrap" height="100%" width="100%">
+    <Box
+      display="flex"
+      flexWrap="wrap"
+      height="100%"
+      width="100%"
+      justifyContent="center"
+      alignItems="center"
+    >
       {streams.length < 1 && (
         <Box
           display="flex"

@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     video: {
       width: '100%',
-      height: 'auto',
+      height: '100%',
+      objectFit: 'cover',
     },
     mirroredVideo: {
       transform: 'rotateY(180deg)',

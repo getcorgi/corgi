@@ -38,7 +38,7 @@ const Container = (props: { children: React.ReactNode }) => (
   </div>
 );
 
-export const OneUser = () => {
+export const Default = () => {
   const streamCount = number('streamCount', 0);
 
   const streams = createStreams(streamCount);
@@ -49,21 +49,3 @@ export const OneUser = () => {
     </Container>
   );
 };
-
-export const TwoUsers = () => (
-  <Container>
-    <BasicView {...defaultProps} streams={createStreams(1)} />
-  </Container>
-);
-
-export const ThreeUsers = () => (
-  <Container>
-    <BasicView {...defaultProps} streams={createStreams(2)} />
-  </Container>
-);
-
-export const FourUsers = () => (
-  <Container>
-    <BasicView {...defaultProps} streams={createStreams(3)} />
-  </Container>
-);
