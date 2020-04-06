@@ -28,7 +28,6 @@ const getVideoHeight = (count: number) => {
 };
 
 export default function BasicView(props: Props) {
-
   const streams = Object.values(props.streams);
   const streamCount = streams.length || 1;
 

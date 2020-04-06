@@ -1,9 +1,4 @@
-import {
-  AppBar,
-  Box,
-  Tab,
-  Tabs,
-} from '@material-ui/core';
+import { AppBar, Box, Tab, Tabs } from '@material-ui/core';
 import VideoCallIcon from '@material-ui/icons/VideoCall';
 import WebIcon from '@material-ui/icons/Web';
 import React from 'react';
