@@ -58,7 +58,6 @@ export default function useMediaStream() {
     })();
 
     return function onUnmount() {
-      console.log('stoppppp!', localStream);
       stopStream();
     };
   }, [currentVideoDevice, videoDevices, localStream]);
