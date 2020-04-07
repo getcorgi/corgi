@@ -64,7 +64,7 @@ io.on('connection', (socket: ExtendedSocket) => {
           const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
           return clientSocket.userData;
         });
-        io.to(room).emit('gotUsers', { users });
+        io.to(roomId).emit('gotUsers', { users });
       });
   });
 
