@@ -25,13 +25,7 @@ export default function GroupContainer(props: Props) {
 
   const [userName, setUserName] = useState('');
 
-  const {
-    localStream,
-    currentVideoDevice,
-    setCurrentVideoDevice,
-    videoDevices,
-    // audioDevices,
-  } = useMediaStream();
+  const { localStream } = useMediaStream();
   const { toggleIsMuted, isMuted } = useMute(localStream);
   const { toggleCamera, isCameraOff } = useToggleCamera(localStream);
 
@@ -54,37 +48,24 @@ export default function GroupContainer(props: Props) {
     setUserName(event.target.value);
   };
 
-  const onSelectVideoDevice = (
-    e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
-  ) => {
-    setCurrentVideoDevice(e.target.value as string);
-  };
-
   if (!isConnected && localStream) {
-    console.log('PREVIEW', Boolean(!isConnected), Boolean(localStream));
     return (
-      <>
-        <Preview
-          currentVideoDevice={currentVideoDevice}
-          groupName={group.data?.name || ''}
-          isCameraOff={isCameraOff}
-          isMuted={isMuted}
-          onJoin={onJoinCall}
-          onSelectVideoDevice={onSelectVideoDevice}
-          onUserNameChange={onUserNameChange}
-          stream={localStream}
-          toggleCamera={toggleCamera}
-          toggleIsMuted={toggleIsMuted}
-          userName={userName}
-          users={users}
-          videoDevices={videoDevices}
-        />
-      </>
+      <Preview
+        groupName={group.data?.name || ''}
+        isCameraOff={isCameraOff}
+        isMuted={isMuted}
+        onJoin={onJoinCall}
+        onUserNameChange={onUserNameChange}
+        stream={localStream}
+        toggleCamera={toggleCamera}
+        toggleIsMuted={toggleIsMuted}
+        userName={userName}
+        users={users}
+      />
     );
   }
 
   if (localStream) {
-    console.log('VIDEO VIEW', typeof group.data?.activityId);
     return (
       <>
         <VideoView

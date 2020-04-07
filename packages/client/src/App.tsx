@@ -8,6 +8,7 @@ import ErrorPage from './components/ErrorPage';
 import { FirebaseProvider } from './components/Firebase';
 import Group from './components/Group';
 import Groups from './components/Groups';
+import { MediaSettingsProvider } from './components/MediaSettingsProvider';
 import { appConfig } from './constants';
 
 const theme = createMuiTheme({
@@ -22,11 +23,13 @@ const App: React.FC = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <FirebaseProvider config={appConfig}>
-          <Router>
-            <Route exact path="/" component={Groups} />
-            <Route exact path="/groups/:groupId" component={Group} />
-            <Route exact path="/error" component={ErrorPage} />
-          </Router>
+          <MediaSettingsProvider>
+            <Router>
+              <Route exact path="/" component={Groups} />
+              <Route exact path="/groups/:groupId" component={Group} />
+              <Route exact path="/error" component={ErrorPage} />
+            </Router>
+          </MediaSettingsProvider>
         </FirebaseProvider>
       </ThemeProvider>
     </>

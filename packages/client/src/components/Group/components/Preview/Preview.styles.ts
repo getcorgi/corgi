@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  createStyles,
-  FormControl as MUIFormControl,
-  makeStyles,
-  Theme,
-} from '@material-ui/core';
+import { Box, Card, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 
 export const Controls = styled(Box)({
@@ -20,14 +13,6 @@ export const Controls = styled(Box)({
 export const VideoCard = styled(Card)({
   position: 'relative',
   borderRadius: '8px',
-});
-
-export const SettingsPopover = styled(Box)({
-  width: '280px',
-});
-
-export const FormControl = styled(MUIFormControl)({
-  width: '100%',
 });
 
 export const Gradient = styled('div')({

@@ -3,10 +3,6 @@ import {
   Button,
   Grid,
   IconButton,
-  InputLabel,
-  MenuItem,
-  Popover,
-  Select,
   TextField,
   Tooltip,
   Typography,
@@ -15,13 +11,13 @@ import Box from '@material-ui/core/Box';
 import { useTheme } from '@material-ui/core/styles';
 import MicIcon from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';
-import SettingsIcon from '@material-ui/icons/Settings';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
 
 import { User } from '../../lib/useSocketHandler';
+import MediaSettingsPopover from '../MediaSettingsPopover';
 import Video from '../Video';
 import * as S from './Preview.styles';
 
@@ -30,37 +26,17 @@ interface Props {
   isCameraOff: boolean;
   isMuted: boolean;
   onJoin: () => void;
-  stream: MediaStream;
+  onUserNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   toggleCamera: () => void;
   toggleIsMuted: () => void;
-  userName: string;
-  onUserNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  stream: MediaStream;
   users: User[];
-  onSelectVideoDevice: (
-    e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
-  ) => void;
-  videoDevices: MediaDeviceInfo[];
-  currentVideoDevice?: string;
+  userName: string;
 }
 
 export default function Preview(props: Props) {
   const theme = useTheme();
   const classes = S.useStyles();
-
-  const [
-    settingsMenuAnchorEl,
-    setSettingsMenuAnchorEl,
-  ] = React.useState<HTMLButtonElement | null>(null);
-
-  const handleOpenSettingsMenu = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    setSettingsMenuAnchorEl(event.currentTarget);
-  };
-
-  const handleCloseSettingsMenu = () => {
-    setSettingsMenuAnchorEl(null);
-  };
 
   return (
     <>
@@ -104,12 +80,7 @@ export default function Preview(props: Props) {
                   </IconButton>
                 </Box>
                 <Box>
-                  <IconButton
-                    onClick={handleOpenSettingsMenu}
-                    aria-label="open-settings-modal"
-                  >
-                    <SettingsIcon />
-                  </IconButton>
+                  <MediaSettingsPopover />
                 </Box>
               </S.Controls>
             </S.VideoCard>
@@ -168,37 +139,6 @@ export default function Preview(props: Props) {
           </Grid>
         </Grid>
       </Box>
-
-      <Popover
-        open={!!settingsMenuAnchorEl}
-        anchorEl={settingsMenuAnchorEl}
-        onClose={handleCloseSettingsMenu}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-      >
-        <S.SettingsPopover p={theme.spacing(0.5)}>
-          <S.FormControl variant="outlined">
-            <InputLabel id="camera-select">Camera</InputLabel>
-            <Select
-              labelId="camera-select"
-              value={props.currentVideoDevice}
-              onChange={props.onSelectVideoDevice}
-            >
-              {props.videoDevices.map(device => (
-                <MenuItem key={device.deviceId} value={device.deviceId}>
-                  {device.label}
-                </MenuItem>
-              ))}
-            </Select>
-          </S.FormControl>
-        </S.SettingsPopover>
-      </Popover>
     </>
   );
 }
