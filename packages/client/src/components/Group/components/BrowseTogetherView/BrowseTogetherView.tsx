@@ -44,7 +44,7 @@ function BrowseTogetherView(props: Props) {
       width="100%"
       justifyContent="space-between"
     >
-      <Box width="75%" display="flex" flexDirection="column">
+      <Box width={5 / 6} display="flex" flexDirection="column">
         <Paper
           component="form"
           square
@@ -75,7 +75,19 @@ function BrowseTogetherView(props: Props) {
           src={props.activityUrl}
         />
       </Box>
-      <Box width="25%">
+      <S.Streams width={1 / 6}>
+        {props.localStream && (
+          <Box>
+            <Video
+              key={props.localStream.id}
+              srcObject={props.localStream}
+              isMuted={true}
+              isMirrored={true}
+            />
+            <S.Label>(You)</S.Label>
+          </Box>
+        )}
+
         {streams.map(({ stream, user }) => {
           if (!stream) return null;
 
@@ -86,7 +98,7 @@ function BrowseTogetherView(props: Props) {
             </Box>
           );
         })}
-      </Box>
+      </S.Streams>
     </Box>
   );
 }

@@ -9,11 +9,15 @@ import { FirebaseProvider } from './components/Firebase';
 import Group from './components/Group';
 import Groups from './components/Groups';
 import { MediaSettingsProvider } from './components/MediaSettingsProvider';
-import { appConfig } from './constants';
+import { appConfig, backgroundColor } from './constants';
 
 const theme = createMuiTheme({
   palette: {
     type: 'dark',
+    background: {
+      default: backgroundColor[800],
+      paper: backgroundColor[800],
+    },
   },
 });
 

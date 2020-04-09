@@ -11,3 +11,8 @@ export const appConfig = {
 };
 
 export const noop = (...args: any[]): any => {};
+
+export const backgroundColor = {
+  900: '#14151d',
+  800: '#1a1c25',
+};

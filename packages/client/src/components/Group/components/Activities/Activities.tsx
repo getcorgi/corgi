@@ -47,24 +47,6 @@ export default function Activities(props: Props) {
             icon={<WebIcon />}
             {...a11yProps(1)}
           />
-          <Tab
-            style={{ minWidth: 50, width: 50 }}
-            aria-label="Browse Together"
-            icon={<WebIcon />}
-            {...a11yProps(1)}
-          />
-          <Tab
-            style={{ minWidth: 50, width: 50 }}
-            aria-label="Browse Together"
-            icon={<WebIcon />}
-            {...a11yProps(1)}
-          />
-          <Tab
-            style={{ minWidth: 50, width: 50 }}
-            aria-label="Browse Together"
-            icon={<WebIcon />}
-            {...a11yProps(1)}
-          />
         </Tabs>
       </AppBar>
     </Box>
