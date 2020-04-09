@@ -7,6 +7,7 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import React from 'react';
 
 import Activities from '../Activities';
+import MediaSettingsPopover from '../MediaSettingsPopover';
 import * as S from './VideoView.styles';
 
 export interface StreamsDict {
@@ -49,7 +50,8 @@ export default function VideoView(props: Props) {
       </Box>
       <Box height="100%">{props.children({ streams: props.streams })}</Box>
       <S.Controls>
-        <Box>
+        <Box />
+        <S.ActionWrapper>
           <IconButton onClick={props.toggleIsMuted} aria-label="mute">
             {props.isMuted ? <MicOffIcon /> : <MicIcon />}
           </IconButton>
@@ -67,7 +69,10 @@ export default function VideoView(props: Props) {
           <IconButton onClick={props.toggleCamera} aria-label="toggle-camera">
             {props.isCameraOff ? <VideocamOffIcon /> : <VideocamIcon />}
           </IconButton>
-        </Box>
+        </S.ActionWrapper>
+        <S.ActionWrapper>
+          <MediaSettingsPopover />
+        </S.ActionWrapper>
       </S.Controls>
     </Box>
   );
