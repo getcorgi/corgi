@@ -117,6 +117,15 @@ function initializeSocketHandler({
 
     connections.set(clientId, connection);
   });
+
+  socket.on('userDisconnected', ({ socketId }: { socketId: string }) => {
+    const peer = connections.get(socketId);
+    if (peer) {
+      peer?.destroy();
+
+      connections.delete(socketId);
+    }
+  });
 }
 
 export default function useSocketHandler({
@@ -137,12 +146,15 @@ export default function useSocketHandler({
   useEffect(() => {
     if (!socket.current.id) return;
 
+    socket.current.emit('userIsStaging', { roomId: groupId });
+
     socket.current.emit('getUsers', {
       from: socket.current.id,
       roomId: groupId,
     });
+
     socket.current.on('gotUsers', ({ users }: { users: User[] }) => {
-      setUsers(users);
+      setUsers(users.filter(Boolean));
     });
   }, [groupId, socket.current.id]);
 
@@ -160,7 +172,7 @@ export default function useSocketHandler({
 
   const disconnect = () => {
     connections.current.forEach(connection => connection.destroy());
-    socket.current.emit('userDisconnected', {
+    socket.current.emit('userIsDisconnecting', {
       socketId: socket.current.id,
     });
     setIsConnected(false);
@@ -173,7 +185,7 @@ export default function useSocketHandler({
   }, []);
 
   const enhancedStreams = users.reduce((acc, user) => {
-    const stream = streams?.[user.id]?.stream;
+    const stream = streams?.[user?.id]?.stream;
 
     if (!stream) return acc;
 

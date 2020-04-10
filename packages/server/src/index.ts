@@ -25,6 +25,10 @@ console.log(`🚀 Server started, listening on :${PORT}`);
 io.on('connection', (socket: ExtendedSocket) => {
   let room: string;
 
+  socket.on('userIsStaging', (data: { roomId: string }) => {
+    socket.join(data.roomId);
+  });
+
   socket.on(
     'userJoinedCall',
     (data: {
@@ -37,22 +41,19 @@ io.on('connection', (socket: ExtendedSocket) => {
 
       socket.userData = { ...data.userData, id: socketId };
 
-      socket.join(data.groupId, () => {
-        socket.to(room).emit('userJoined', {
-          socketId,
-          userData: data.userData,
-        });
+      socket.to(room).emit('userJoined', {
+        socketId,
+        userData: data.userData,
       });
 
-      io.of('/')
-        .in(room)
-        .clients((err: string, clients: string[]) => {
-          const users = clients.map((socketId: string) => {
-            const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
-            return clientSocket.userData;
-          });
-          io.to(room).emit('gotUsers', { users });
+      io.in(room).clients((err: string, clients: string[]) => {
+        const users = clients.map((socketId: string) => {
+          const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
+          return clientSocket.userData;
         });
+
+        io.in(room).emit('gotUsers', { users });
+      });
     },
   );
 
@@ -64,7 +65,7 @@ io.on('connection', (socket: ExtendedSocket) => {
           const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
           return clientSocket.userData;
         });
-        io.to(roomId).emit('gotUsers', { users });
+        io.in(room).emit('gotUsers', { users });
       });
   });
 
@@ -82,7 +83,7 @@ io.on('connection', (socket: ExtendedSocket) => {
     io.to(data.to).emit('ack', { from: data.from, ack: true });
   });
 
-  socket.on('userDisconnected', (data: { socketId: string }) => {
+  socket.on('userIsDisconnecting', (data: { socketId: string }) => {
     const socketId = data.socketId;
     socket.to(room).emit('userDisconnected', {
       socketId,
@@ -96,7 +97,8 @@ io.on('connection', (socket: ExtendedSocket) => {
             const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
             return clientSocket.userData;
           });
-          io.to(room).emit('gotUsers', { users });
+
+          io.in(room).emit('gotUsers', { users });
         });
     });
   });

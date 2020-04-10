@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import useGroup from '../../lib/hooks/useGroup';
 import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
@@ -22,6 +23,7 @@ export default function GroupContainer(props: Props) {
   const groupId = props.match.params.groupId;
   const group = useGroup(groupId);
   const updateGroup = useUpdateGroup();
+  const history = useHistory();
 
   const [userName, setUserName] = useState('');
 
@@ -42,6 +44,7 @@ export default function GroupContainer(props: Props) {
 
   const onHangup = () => {
     disconnect();
+    history.push('/');
   };
 
   const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
