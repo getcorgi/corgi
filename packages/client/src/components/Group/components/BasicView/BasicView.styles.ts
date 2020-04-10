@@ -16,3 +16,9 @@ export const LocalVideo = styled(Card)({
   width: '150px',
   height: '100px',
 });
+
+export const EmptyMessage = styled('div')({
+  color: 'rgba(255, 255, 255, 0.14)',
+  fontWeight: 600,
+  fontSize: '30px',
+});

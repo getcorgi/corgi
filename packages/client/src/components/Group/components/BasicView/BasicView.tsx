@@ -51,17 +51,17 @@ export default function BasicView(props: Props) {
           alignItems="center"
           justifyContent="center"
         >
-          <Box>
-            <Typography variant="h5" color="textSecondary" align="center">
-              Looks like you're the only one here,
+          <S.EmptyMessage>
+            <Typography variant="h5" color="inherit" align="center">
+              <strong>Looks like you're the only one here,</strong>
             </Typography>
-            <Typography variant="h5" color="textSecondary" align="center">
-              send out this link to invite someone!
+            <Typography variant="h5" color="inherit" align="center">
+              <strong>send out this link to invite someone!</strong>
             </Typography>
-            <Typography variant="h6" align="center">
+            <Typography variant="h6" align="center" color="primary">
               <Box mt={theme.spacing(0.2)}>{window.location.href}</Box>
             </Typography>
-          </Box>
+          </S.EmptyMessage>
         </Box>
       )}
 

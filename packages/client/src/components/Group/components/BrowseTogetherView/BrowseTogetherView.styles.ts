@@ -12,5 +12,5 @@ export const Label = styled('div')({
 });
 
 export const Streams = styled(Box)({
-  backgroundColor: backgroundColor['900'],
+  backgroundColor: backgroundColor['800'],
 });

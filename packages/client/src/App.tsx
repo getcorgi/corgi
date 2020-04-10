@@ -16,8 +16,8 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark',
     background: {
-      default: backgroundColor[800],
-      paper: backgroundColor[800],
+      default: backgroundColor[700],
+      paper: backgroundColor[700],
     },
   },
 });

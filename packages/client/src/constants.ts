@@ -14,5 +14,6 @@ export const noop = (...args: any[]): any => {};
 
 export const backgroundColor = {
   900: '#14151d',
-  800: '#1a1c25',
+  800: '#1e1f23',
+  700: '#28292d',
 };

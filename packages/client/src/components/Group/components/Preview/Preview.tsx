@@ -54,7 +54,7 @@ export default function Preview(props: Props) {
         ]}
       >
         <Grid container={true} spacing={10}>
-          <Grid item={true} sm={12} md={7}>
+          <Grid item={true} xs={12} md={7}>
             <S.VideoCard elevation={5}>
               <Box width="100%" height="440px">
                 <Video
@@ -85,12 +85,13 @@ export default function Preview(props: Props) {
               </S.Controls>
             </S.VideoCard>
           </Grid>
-          <Grid item={true} sm={12} md={5}>
+          <Grid item={true} xs={12} md={5}>
             <Box display="flex" alignItems="center" height="100%">
               <Box
                 display="flex"
                 justifyContent="center"
                 flexDirection="column"
+                width="100%"
               >
                 <Box mb={theme.spacing(0.5)}>
                   <Typography variant="h4">{props.groupName}</Typography>
