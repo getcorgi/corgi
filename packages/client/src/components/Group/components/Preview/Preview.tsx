@@ -100,10 +100,11 @@ export default function Preview(props: Props) {
                   <Box>
                     <Box mb={theme.spacing(0.5)} width="100%">
                       <TextField
-                        fullWidth={true}
                         autoFocus={true}
-                        label="Whats your name?"
+                        fullWidth={true}
+                        label="Name"
                         onChange={props.onUserNameChange}
+                        required={true}
                         value={props.userName}
                         variant="outlined"
                       />
@@ -124,12 +125,13 @@ export default function Preview(props: Props) {
                     </Box>
 
                     <Button
-                      onClick={props.onJoin}
-                      fullWidth={true}
-                      variant="contained"
                       color="primary"
+                      disabled={!props.userName}
+                      fullWidth={true}
                       id="callButton"
+                      onClick={props.onJoin}
                       type="submit"
+                      variant="contained"
                     >
                       Join
                     </Button>

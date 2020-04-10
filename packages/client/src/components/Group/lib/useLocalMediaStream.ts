@@ -1,14 +1,16 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { MediaSettingsContext } from '../../MediaSettingsProvider';
+
+const stopStream = (localStream?: MediaStream) => {
+  localStream?.getTracks().forEach(track => {
+    track.stop();
+  });
+};
 
 export default function useMediaStream() {
   const [localStream, setLocalStream] = useState<MediaStream>();
   const { mediaConstraints } = useContext(MediaSettingsContext);
-
-  const stopStream = useCallback(() => {
-    localStream?.getTracks().forEach(track => track.stop());
-  }, [localStream]);
 
   useEffect(() => {
     (async () => {
@@ -19,9 +21,9 @@ export default function useMediaStream() {
     })();
 
     return function onUnmount() {
-      stopStream();
+      stopStream(localStream);
     };
-  }, [mediaConstraints]);
+  }, [mediaConstraints]); //eslint-disable-line
 
   return {
     localStream,

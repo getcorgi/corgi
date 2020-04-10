@@ -6,7 +6,8 @@ import { backgroundColor } from '../../constants';
 export const FormWrapper = styled(Box)({});
 
 export const Form = styled('form')({
-  background: backgroundColor['900'],
+  background: backgroundColor['800'],
   padding: '24px',
-  width: '400px',
+  width: '600px',
+  borderRadius: '8px',
 });
