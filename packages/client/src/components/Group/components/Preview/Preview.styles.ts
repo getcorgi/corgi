@@ -20,8 +20,6 @@ export const Gradient = styled('div')({
   width: '100%',
   height: '80px',
   bottom: 0,
-  backgroundImage:
-    '-webkit-linear-gradient(bottom,rgba(0,0,0,0.7) 0,rgba(0,0,0,0.3) 50%,rgba(0,0,0,0) 100%)',
 });
 
 export const useStyles = makeStyles((theme: Theme) =>

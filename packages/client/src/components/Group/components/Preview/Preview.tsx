@@ -67,6 +67,7 @@ export default function Preview(props: Props) {
 
               <S.Gradient />
               <S.Controls>
+                <Box />
                 <Box>
                   <IconButton onClick={props.toggleIsMuted} aria-label="mute">
                     {props.isMuted ? <MicOffIcon /> : <MicIcon />}
@@ -112,8 +113,8 @@ export default function Preview(props: Props) {
 
                     <Box mb={theme.spacing(0.2)}>
                       <AvatarGroup max={5}>
-                        {props.users.map(user => (
-                          <Tooltip title={user.name}>
+                        {props.users.map((user, idx) => (
+                          <Tooltip title={user.name} key={idx}>
                             <Avatar
                               className={classes.Avatar}
                               alt={user.name}

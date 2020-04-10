@@ -74,8 +74,7 @@ export default function BasicView(props: Props) {
             height={videoHeight}
             position="relative"
           >
-            <Video srcObject={stream} isMuted={false} />
-            <S.Label>{user.name}</S.Label>
+            <Video srcObject={stream} isMuted={false} label={user.name} />
           </Box>
         );
       })}
@@ -86,8 +85,8 @@ export default function BasicView(props: Props) {
             srcObject={props.localStream}
             isMuted={true}
             isMirrored={true}
+            label="(You)"
           />
-          <S.Label>(You)</S.Label>
         </S.LocalVideo>
       )}
     </Box>

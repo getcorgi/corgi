@@ -83,8 +83,8 @@ function BrowseTogetherView(props: Props) {
               srcObject={props.localStream}
               isMuted={true}
               isMirrored={true}
+              label="(You)"
             />
-            <S.Label>(You)</S.Label>
           </Box>
         )}
 
@@ -93,8 +93,7 @@ function BrowseTogetherView(props: Props) {
 
           return (
             <Box key={stream?.id} width="100%" position="relative">
-              <Video srcObject={stream} isMuted={false} />
-              <S.Label>{user.name}</S.Label>
+              <Video srcObject={stream} isMuted={false} label={user.name} />
             </Box>
           );
         })}
