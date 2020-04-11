@@ -9,7 +9,7 @@ import * as S from './BrowseTogetherView.styles';
 
 interface Props {
   streams: StreamsDict;
-  localStream: MediaStream;
+  localStream: MediaStream | null;
   userName: string;
   activityUrl: string;
   updateActivityUrl: (value: string) => void;

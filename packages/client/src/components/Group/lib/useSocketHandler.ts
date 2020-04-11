@@ -64,7 +64,7 @@ function initializeSocketHandler({
   userData,
 }: {
   socket: SocketIOClient.Socket;
-  localStream?: MediaStream;
+  localStream?: MediaStream | null;
   groupId: string;
   connections: Map<string, Peer.Instance>;
   setStreams: SetStreamsState;
@@ -81,8 +81,11 @@ function initializeSocketHandler({
   });
 
   socket.on('ack', (data: any) => {
-    if (data.ack && localStream) {
-      const peer = new Peer({ initiator: true, stream: localStream });
+    if (data.ack && localStream !== undefined) {
+      const peer = new Peer({
+        initiator: true,
+        stream: localStream || undefined,
+      });
       connections.set(data.from, peer);
 
       peer.on('signal', function(signalData) {
@@ -98,7 +101,11 @@ function initializeSocketHandler({
   socket.on('userJoined', (data: any) => {
     const clientId = data.socketId;
 
-    if (connections.has(clientId) || clientId === socket.id || !localStream) {
+    if (
+      connections.has(clientId) ||
+      clientId === socket.id ||
+      localStream !== undefined
+    ) {
       return;
     }
 
@@ -133,7 +140,7 @@ export default function useSocketHandler({
   groupId,
 }: {
   groupId: string;
-  localStream?: MediaStream;
+  localStream?: MediaStream | null;
 }) {
   const socket = useRef(io(appConfig.socketServer));
   const connections = useRef<Map<string, Peer.Instance>>(new Map([]));

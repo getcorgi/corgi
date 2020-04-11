@@ -9,21 +9,29 @@ const stopStream = (localStream?: MediaStream) => {
 };
 
 export default function useMediaStream() {
-  const [localStream, setLocalStream] = useState<MediaStream>();
+  const [localStream, setLocalStream] = useState<MediaStream | null>();
   const { mediaConstraints } = useContext(MediaSettingsContext);
 
   useEffect(() => {
     (async () => {
-      const stream = await navigator.mediaDevices.getUserMedia(
-        mediaConstraints,
-      );
-      setLocalStream(stream);
+      if (localStream) return;
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia(
+          mediaConstraints,
+        );
+        setLocalStream(stream);
+      } catch (e) {
+        console.log('No input devices found');
+      }
     })();
 
     return function onUnmount() {
-      stopStream(localStream);
+      if (localStream) {
+        stopStream(localStream);
+      }
     };
-  }, [mediaConstraints]); //eslint-disable-line
+  }, [mediaConstraints, localStream]);
 
   return {
     localStream,

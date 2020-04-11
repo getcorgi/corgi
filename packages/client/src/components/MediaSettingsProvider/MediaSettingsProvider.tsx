@@ -2,43 +2,47 @@ import React, { useEffect, useState } from 'react';
 
 import { noop } from '../../constants';
 
-interface MediaSettingsContextValues {
-  audioInputDevices: MediaDeviceInfo[];
-  audioOutputDevices: MediaDeviceInfo[];
-  currentAudioInputDevice?: string;
-  currentAudioOutputDevice?: string;
-  currentVideoDevice?: string;
-  setCurrentAudioInputDevice: React.Dispatch<
-    React.SetStateAction<string | undefined>
-  >;
-  setCurrentAudioOutputDevice: React.Dispatch<
-    React.SetStateAction<string | undefined>
-  >;
-  setCurrentVideoDevice: React.Dispatch<
-    React.SetStateAction<string | undefined>
-  >;
-  videoDevices: MediaDeviceInfo[];
-  mediaConstraints: MediaStreamConstraints;
+const DEFAULT_MEDIA_CONSTRAINTS = {
+  video: false,
+  audio: false,
+};
+interface ActiveDevices {
+  audioInput?: string;
+  audioOutput?: string;
+  videoInput?: string;
+}
+interface AvailableDevices {
+  audioInput: MediaDeviceInfo[];
+  audioOutput: MediaDeviceInfo[];
+  videoInput: MediaDeviceInfo[];
 }
 
-const DEFAULT_MEDIA_CONSTRAINTS = {
-  video: true,
-  audio: true,
+interface MediaSettingsContextValues {
+  activeDevices: ActiveDevices;
+  availableDevices: AvailableDevices;
+  mediaConstraints: MediaStreamConstraints;
+  setActiveDevices: React.Dispatch<React.SetStateAction<ActiveDevices>>;
+}
+
+const DEFAULT_AVAILABLE_DEVICES = {
+  audioInput: [],
+  audioOutput: [],
+  videoInput: [],
+};
+
+const DEFAULT_ACTIVE_DEVICES = {
+  audioInput: undefined,
+  audioOutput: undefined,
+  videoInput: undefined,
 };
 
 export const MediaSettingsContext = React.createContext<
   MediaSettingsContextValues
 >({
-  audioInputDevices: [],
-  audioOutputDevices: [],
-  currentAudioInputDevice: '',
-  currentAudioOutputDevice: '',
-  currentVideoDevice: '',
-  setCurrentAudioInputDevice: noop,
-  setCurrentAudioOutputDevice: noop,
-  setCurrentVideoDevice: noop,
-  videoDevices: [],
+  activeDevices: DEFAULT_ACTIVE_DEVICES,
+  availableDevices: DEFAULT_AVAILABLE_DEVICES,
   mediaConstraints: DEFAULT_MEDIA_CONSTRAINTS,
+  setActiveDevices: noop,
 });
 
 interface Props {
@@ -46,94 +50,84 @@ interface Props {
 }
 
 export function MediaSettingsProvider(props: Props) {
-  const [currentAudioInputDevice, setCurrentAudioInputDevice] = useState<
-    string
-  >();
-  const [currentAudioOutputDevice, setCurrentAudioOutputDevice] = useState<
-    string
-  >();
-  const [currentVideoDevice, setCurrentVideoDevice] = useState<string>();
-  const [audioInputDevices, setAudioInputDevices] = useState<MediaDeviceInfo[]>(
-    [],
+  const [availableDevices, setAvailableDevices] = useState<AvailableDevices>(
+    DEFAULT_AVAILABLE_DEVICES,
   );
-  const [audioOutputDevices, setAudioOutputDevices] = useState<
-    MediaDeviceInfo[]
-  >([]);
-  const [videoDevices, setVideoDevices] = useState<MediaDeviceInfo[]>([]);
+  const [areAvailableDevicesLoaded, setAreAvailableDevicesLoaded] = useState(
+    false,
+  );
+  const [activeDevices, setActiveDevices] = useState<ActiveDevices>(
+    DEFAULT_ACTIVE_DEVICES,
+  );
+  const [areActiveDevicesSet, setAreActiveDevicesSet] = useState(false);
   const [mediaConstraints, setMediaConstraints] = useState<
     MediaStreamConstraints
   >(DEFAULT_MEDIA_CONSTRAINTS);
 
   useEffect(() => {
     (async () => {
-      await (await navigator.mediaDevices.enumerateDevices()).forEach(
-        device => {
-          if (device.kind === 'audioinput') {
-            setAudioInputDevices(devices => {
-              return [...devices, device];
-            });
+      if (!areAvailableDevicesLoaded) {
+        let devices: {
+          audioInput: MediaDeviceInfo[];
+          audioOutput: MediaDeviceInfo[];
+          videoInput: MediaDeviceInfo[];
+        } = DEFAULT_AVAILABLE_DEVICES;
+        (await navigator.mediaDevices.enumerateDevices()).forEach(device => {
+          if (devices) {
+            if (device.kind === 'audioinput') {
+              devices.audioInput.push(device);
+            }
+            if (device.kind === 'videoinput') {
+              devices.videoInput.push(device);
+            }
+            if (device.kind === 'audiooutput') {
+              devices.audioOutput.push(device);
+            }
           }
-          if (device.kind === 'videoinput') {
-            setVideoDevices(devices => {
-              return [...devices, device];
-            });
-          }
-          if (device.kind === 'audiooutput') {
-            setAudioOutputDevices(devices => {
-              return [...devices, device];
-            });
-          }
-        },
-      );
+        });
+
+        setAvailableDevices(devices);
+        setAreAvailableDevicesLoaded(true);
+      }
     })();
-  }, []);
+  }, [availableDevices, areAvailableDevicesLoaded]);
 
   useEffect(() => {
-    if (!currentVideoDevice && videoDevices[0]) {
-      setCurrentVideoDevice(videoDevices[0].deviceId);
-    }
-    if (!currentAudioInputDevice && audioInputDevices[0]) {
-      setCurrentAudioInputDevice(audioInputDevices[0].deviceId);
-    }
-    if (!currentAudioOutputDevice && audioOutputDevices[0]) {
-      setCurrentAudioOutputDevice(audioOutputDevices[0].deviceId);
+    if (!areActiveDevicesSet && areAvailableDevicesLoaded) {
+      setActiveDevices(
+        Object.entries(availableDevices).reduce((acc, [key, value]) => {
+          console.log(value);
+          return {
+            ...acc,
+            [key]: value[0]?.deviceId,
+          };
+        }, DEFAULT_ACTIVE_DEVICES),
+      );
+      setAreActiveDevicesSet(true);
     }
   }, [
-    audioInputDevices,
-    audioOutputDevices,
-    currentAudioInputDevice,
-    currentAudioOutputDevice,
-    currentVideoDevice,
-    videoDevices,
+    activeDevices,
+    availableDevices,
+    areActiveDevicesSet,
+    areAvailableDevicesLoaded,
   ]);
 
   useEffect(() => {
-    setMediaConstraints({
-      ...DEFAULT_MEDIA_CONSTRAINTS,
-      audio: currentAudioInputDevice
-        ? {
-            deviceId: { exact: currentAudioInputDevice },
-          }
-        : true,
-
-      video: currentVideoDevice
-        ? {
-            deviceId: { exact: currentVideoDevice },
-          }
-        : true,
-    });
-  }, [currentAudioInputDevice, currentVideoDevice]);
+    if (activeDevices) {
+      (async () => {
+        setMediaConstraints({
+          ...DEFAULT_MEDIA_CONSTRAINTS,
+          ...(activeDevices.audioInput ? { audio: true } : {}),
+          ...(activeDevices.videoInput ? { video: true } : {}),
+        });
+      })();
+    }
+  }, [activeDevices]);
 
   const value = {
-    audioInputDevices,
-    audioOutputDevices,
-    currentAudioInputDevice,
-    currentAudioOutputDevice,
-    currentVideoDevice,
-    setCurrentAudioInputDevice,
-    setCurrentAudioOutputDevice,
-    setCurrentVideoDevice,
-    videoDevices,
+    activeDevices,
+    availableDevices,
+    setActiveDevices,
     mediaConstraints,
   };
 

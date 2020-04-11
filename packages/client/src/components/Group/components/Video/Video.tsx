@@ -57,7 +57,7 @@ export default function(props: Props) {
   const track = props.srcObject?.getAudioTracks()[0];
   const isRemoteMuted = track.muted || !track.enabled;
 
-  const { currentAudioOutputDevice } = useContext(MediaSettingsContext);
+  const { activeDevices } = useContext(MediaSettingsContext);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -68,10 +68,10 @@ export default function(props: Props) {
   useEffect(() => {
     const ref = videoRef.current as ExperimentalHTMLVideoElement;
 
-    if (ref && ref.setSinkId && currentAudioOutputDevice) {
-      ref?.setSinkId(currentAudioOutputDevice);
+    if (ref && ref.setSinkId && activeDevices.audioOutput) {
+      ref?.setSinkId(activeDevices.audioOutput);
     }
-  }, [currentAudioOutputDevice]);
+  }, [activeDevices.audioOutput]);
 
   return (
     <Box className={classes.wrapper}>

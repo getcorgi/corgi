@@ -32,32 +32,33 @@ export default function MediaSettingsPopover() {
     setSettingsMenuAnchorEl(null);
   };
 
-  const {
-    audioInputDevices,
-    audioOutputDevices,
-    currentAudioInputDevice,
-    currentAudioOutputDevice,
-    currentVideoDevice,
-    setCurrentAudioInputDevice,
-    setCurrentAudioOutputDevice,
-    setCurrentVideoDevice,
-    videoDevices,
-  } = useContext(MediaSettingsContext);
+  const { availableDevices, activeDevices, setActiveDevices } = useContext(
+    MediaSettingsContext,
+  );
 
   const onSelectAudioInputDevice = (
     e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
   ) => {
-    setCurrentAudioInputDevice(e.target.value as string);
+    setActiveDevices(prevActiveDevices => ({
+      ...prevActiveDevices,
+      audioInput: e.target.value as string,
+    }));
   };
   const onSelectVideoDevice = (
     e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
   ) => {
-    setCurrentVideoDevice(e.target.value as string);
+    setActiveDevices(prevActiveDevices => ({
+      ...prevActiveDevices,
+      videoInput: e.target.value as string,
+    }));
   };
   const onSelectAudioOutputDevice = (
     e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
   ) => {
-    setCurrentAudioOutputDevice(e.target.value as string);
+    setActiveDevices(prevActiveDevices => ({
+      ...prevActiveDevices,
+      audioOutput: e.target.value as string,
+    }));
   };
 
   return (
@@ -92,10 +93,10 @@ export default function MediaSettingsPopover() {
               <InputLabel id="camera-select">Camera</InputLabel>
               <Select
                 labelId="camera-select"
-                value={currentVideoDevice}
+                value={activeDevices.videoInput}
                 onChange={onSelectVideoDevice}
               >
-                {videoDevices.map(device => (
+                {availableDevices.videoInput.map((device: MediaDeviceInfo) => (
                   <MenuItem key={device.deviceId} value={device.deviceId}>
                     {device.label}
                   </MenuItem>
@@ -108,10 +109,10 @@ export default function MediaSettingsPopover() {
               <InputLabel id="audio-input-select">Audio Input</InputLabel>
               <Select
                 labelId="audio-input-select"
-                value={currentAudioInputDevice}
+                value={activeDevices.audioInput}
                 onChange={onSelectAudioInputDevice}
               >
-                {audioInputDevices.map(device => (
+                {availableDevices.audioInput.map((device: MediaDeviceInfo) => (
                   <MenuItem key={device.deviceId} value={device.deviceId}>
                     {device.label}
                   </MenuItem>
@@ -124,10 +125,10 @@ export default function MediaSettingsPopover() {
               <InputLabel id="audio-output-select">Audio Output</InputLabel>
               <Select
                 labelId="audio-output-select"
-                value={currentAudioOutputDevice}
+                value={activeDevices.audioOutput}
                 onChange={onSelectAudioOutputDevice}
               >
-                {audioOutputDevices.map(device => (
+                {availableDevices.audioOutput.map((device: MediaDeviceInfo) => (
                   <MenuItem key={device.deviceId} value={device.deviceId}>
                     {device.label}
                   </MenuItem>

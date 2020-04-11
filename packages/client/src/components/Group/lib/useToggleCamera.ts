@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useToggleCamera(localStream?: MediaStream) {
+export default function useToggleCamera(localStream?: MediaStream | null) {
   const [isCameraOff, setIsCameraOff] = useState(false);
 
   const toggleCamera = () => {
