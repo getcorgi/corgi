@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useMute(localStream?: MediaStream) {
+export default function useMute(localStream?: MediaStream | null) {
   const [isMuted, setIsMuted] = useState(false);
 
   const toggleIsMuted = () => {

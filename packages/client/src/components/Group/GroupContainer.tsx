@@ -51,7 +51,7 @@ export default function GroupContainer(props: Props) {
     setUserName(event.target.value);
   };
 
-  if (!isConnected && localStream) {
+  if (!isConnected || localStream === undefined) {
     return (
       <Preview
         groupName={group.data?.name || ''}
@@ -68,7 +68,7 @@ export default function GroupContainer(props: Props) {
     );
   }
 
-  if (localStream) {
+  if (isConnected && localStream !== undefined) {
     return (
       <>
         <VideoView

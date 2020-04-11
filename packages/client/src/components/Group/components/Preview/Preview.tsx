@@ -29,7 +29,7 @@ interface Props {
   onUserNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   toggleCamera: () => void;
   toggleIsMuted: () => void;
-  stream: MediaStream;
+  stream?: MediaStream | null;
   users: User[];
   userName: string;
 }
@@ -57,12 +57,14 @@ export default function Preview(props: Props) {
           <Grid item={true} xs={12} md={7}>
             <S.VideoCard elevation={5}>
               <Box width="100%" height="440px">
-                <Video
-                  key={props.stream.id}
-                  srcObject={props.stream}
-                  isMuted={true}
-                  isMirrored={true}
-                />
+                {props.stream && (
+                  <Video
+                    key={props.stream.id}
+                    srcObject={props.stream}
+                    isMuted={true}
+                    isMirrored={true}
+                  />
+                )}
               </Box>
 
               <S.Gradient />
