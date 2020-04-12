@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import { MediaSettingsContext } from '../../MediaSettingsProvider';
 
@@ -11,12 +11,18 @@ const stopStream = (localStream?: MediaStream) => {
 export default function useMediaStream() {
   const [localStream, setLocalStream] = useState<MediaStream>();
   const { mediaConstraints } = useContext(MediaSettingsContext);
+  const mediaConstraintsRef = useRef(mediaConstraints);
 
   useEffect(() => {
     (async () => {
       // No input devices available
-      if (localStream || (!mediaConstraints.audio && !mediaConstraints.video))
+      if (
+        (!mediaConstraints.audio && !mediaConstraints.video) ||
+        (localStream && mediaConstraintsRef.current === mediaConstraints)
+      )
         return;
+
+      mediaConstraintsRef.current = mediaConstraints;
 
       try {
         const stream = await navigator.mediaDevices.getUserMedia(

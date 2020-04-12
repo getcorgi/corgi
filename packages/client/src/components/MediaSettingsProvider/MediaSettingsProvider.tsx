@@ -116,8 +116,24 @@ export function MediaSettingsProvider(props: Props) {
       (async () => {
         setMediaConstraints({
           ...DEFAULT_MEDIA_CONSTRAINTS,
-          ...(activeDevices.audioInput ? { audio: true } : {}),
-          ...(activeDevices.videoInput ? { video: true } : {}),
+          ...(activeDevices.audioInput
+            ? {
+                audio: {
+                  deviceId: {
+                    exact: activeDevices.audioInput,
+                  },
+                },
+              }
+            : {}),
+          ...(activeDevices.videoInput
+            ? {
+                video: {
+                  deviceId: {
+                    exact: activeDevices.videoInput,
+                  },
+                },
+              }
+            : {}),
         });
       })();
     }
