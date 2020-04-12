@@ -96,7 +96,6 @@ export function MediaSettingsProvider(props: Props) {
     if (!areActiveDevicesSet && areAvailableDevicesLoaded) {
       setActiveDevices(
         Object.entries(availableDevices).reduce((acc, [key, value]) => {
-          console.log(value);
           return {
             ...acc,
             [key]: value[0]?.deviceId,

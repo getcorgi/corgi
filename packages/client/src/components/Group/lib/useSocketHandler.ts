@@ -64,7 +64,7 @@ function initializeSocketHandler({
   userData,
 }: {
   socket: SocketIOClient.Socket;
-  localStream?: MediaStream | null;
+  localStream?: MediaStream;
   groupId: string;
   connections: Map<string, Peer.Instance>;
   setStreams: SetStreamsState;
@@ -101,11 +101,7 @@ function initializeSocketHandler({
   socket.on('userJoined', (data: any) => {
     const clientId = data.socketId;
 
-    if (
-      connections.has(clientId) ||
-      clientId === socket.id ||
-      localStream !== undefined
-    ) {
+    if (connections.has(clientId) || clientId === socket.id) {
       return;
     }
 
@@ -140,7 +136,7 @@ export default function useSocketHandler({
   groupId,
 }: {
   groupId: string;
-  localStream?: MediaStream | null;
+  localStream?: MediaStream;
 }) {
   const socket = useRef(io(appConfig.socketServer));
   const connections = useRef<Map<string, Peer.Instance>>(new Map([]));
@@ -149,6 +145,14 @@ export default function useSocketHandler({
     [key: string]: { userId: string; stream: MediaStream };
   }>({});
   const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener('beforeunload', disconnect);
+
+    return () => {
+      window.removeEventListener('beforeunload', disconnect);
+    };
+  }, []);
 
   useEffect(() => {
     if (!socket.current.id) return;

@@ -9,12 +9,14 @@ const stopStream = (localStream?: MediaStream) => {
 };
 
 export default function useMediaStream() {
-  const [localStream, setLocalStream] = useState<MediaStream | null>();
+  const [localStream, setLocalStream] = useState<MediaStream>();
   const { mediaConstraints } = useContext(MediaSettingsContext);
 
   useEffect(() => {
     (async () => {
-      if (localStream) return;
+      // No input devices available
+      if (localStream || (!mediaConstraints.audio && !mediaConstraints.video))
+        return;
 
       try {
         const stream = await navigator.mediaDevices.getUserMedia(
@@ -22,7 +24,7 @@ export default function useMediaStream() {
         );
         setLocalStream(stream);
       } catch (e) {
-        console.log('No input devices found');
+        // Handle Error
       }
     })();
 
