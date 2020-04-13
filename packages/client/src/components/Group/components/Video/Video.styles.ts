@@ -10,7 +10,7 @@ export const AudioIndicator = styled('div')({
 export const AudioSignal = styled('div')({
   height: '10px',
   width: '10px',
-  background: 'green',
+  background: '#67e4a6',
   borderRadius: '10px',
 });
 

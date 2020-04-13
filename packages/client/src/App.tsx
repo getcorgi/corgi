@@ -13,6 +13,9 @@ import { appConfig, backgroundColor } from './constants';
 const theme = createMuiTheme({
   palette: {
     type: 'dark',
+    primary: {
+      main: '#6a6abf',
+    },
     background: {
       default: backgroundColor[700],
       paper: backgroundColor[700],

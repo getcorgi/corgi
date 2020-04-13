@@ -55,7 +55,7 @@ export default function(props: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const classes = useStyles(props);
   const track = props.srcObject?.getAudioTracks()[0];
-  const isRemoteMuted = track.muted || !track.enabled;
+  const isRemoteMuted = !track?.enabled;
 
   const { activeDevices } = useContext(MediaSettingsContext);
 

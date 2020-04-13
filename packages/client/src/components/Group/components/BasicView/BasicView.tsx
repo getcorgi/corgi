@@ -35,7 +35,7 @@ export default function BasicView(props: Props) {
   const videoHeight = getVideoRatios(streamCount);
 
   return (
-    <Box
+    <S.BasicView
       display="flex"
       flexWrap="wrap"
       height="100%"
@@ -89,6 +89,6 @@ export default function BasicView(props: Props) {
           />
         </S.LocalVideo>
       )}
-    </Box>
+    </S.BasicView>
   );
 }

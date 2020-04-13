@@ -1,4 +1,4 @@
-import { Card } from '@material-ui/core';
+import { Box, Card } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 
 export const LocalVideo = styled(Card)({
@@ -13,4 +13,8 @@ export const EmptyMessage = styled('div')({
   color: 'rgba(255, 255, 255, 0.14)',
   fontWeight: 600,
   fontSize: '30px',
+});
+
+export const BasicView = styled(Box)({
+  flexFlow: 'wrap-reverse',
 });
