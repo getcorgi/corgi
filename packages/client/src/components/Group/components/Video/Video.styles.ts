@@ -1,17 +1,10 @@
 import { styled } from '@material-ui/core';
 
 export const AudioIndicator = styled('div')({
-  width: '20px',
+  width: '28px',
   marginRight: '8px',
   display: 'flex',
   justifyContent: 'center',
-});
-
-export const AudioSignal = styled('div')({
-  height: '10px',
-  width: '10px',
-  background: '#67e4a6',
-  borderRadius: '10px',
 });
 
 export const Information = styled('div')({

@@ -10,6 +10,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
 import * as S from './Video.styles';
+import AudioVisualizer from '../AudioVisualizer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -66,6 +67,14 @@ export default function(props: Props) {
   }, [props.srcObject]);
 
   useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.onvolumechange = (e: Event) => {
+        console.log(e);
+      };
+    }
+  }, [videoRef.current]);
+
+  useEffect(() => {
     const ref = videoRef.current as ExperimentalHTMLVideoElement;
 
     if (ref && ref.setSinkId && activeDevices.audioOutput) {
@@ -91,7 +100,7 @@ export default function(props: Props) {
               <MicOffIcon className={classes.muteIcon} />
             </Avatar>
           ) : (
-            <S.AudioSignal />
+            <AudioVisualizer mediaStream={props.srcObject} />
           )}
         </S.AudioIndicator>
         {props.label && <span>{props.label}</span>}
