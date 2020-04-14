@@ -2,7 +2,7 @@ import { styled } from '@material-ui/core';
 
 export const AudioIndicator = styled('div')({
   width: '28px',
-  marginRight: '8px',
+  marginRight: '4px',
   display: 'flex',
   justifyContent: 'center',
 });

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import useGroup from '../../lib/hooks/useGroup';
 import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
+import useUser from '../../lib/hooks/useUser';
+import { MeContext } from '../MeProvider';
 import BasicView from './components/BasicView';
 import BrowseTogether from './components/BrowseTogetherView';
 import Preview from './components/Preview';
@@ -24,8 +26,10 @@ export default function GroupContainer(props: Props) {
   const group = useGroup(groupId);
   const updateGroup = useUpdateGroup();
   const history = useHistory();
+  const me = useContext(MeContext);
+  const { update: updateUser } = useUser();
 
-  const [userName, setUserName] = useState('');
+  const [userName, setUserName] = useState(me?.name || '');
 
   const { localStream } = useMediaStream();
   const { toggleIsMuted, isMuted } = useMute(localStream);
@@ -38,6 +42,12 @@ export default function GroupContainer(props: Props) {
     },
   );
 
+  useEffect(() => {
+    if (me?.name && !userName) {
+      setUserName(me.name);
+    }
+  }, [me, userName]);
+
   function onJoinCall() {
     connect({ name: userName });
   }
@@ -48,7 +58,9 @@ export default function GroupContainer(props: Props) {
   };
 
   const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserName(event.target.value);
+    const name = event.target.value;
+    setUserName(name);
+    updateUser({ name, id: me?.id });
   };
 
   if (!isConnected || localStream === undefined) {

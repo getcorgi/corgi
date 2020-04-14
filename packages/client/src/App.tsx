@@ -8,6 +8,7 @@ import { FirebaseProvider } from './components/Firebase';
 import Group from './components/Group';
 import Home from './components/Home';
 import { MediaSettingsProvider } from './components/MediaSettingsProvider';
+import { MeProvider } from './components/MeProvider';
 import { appConfig, backgroundColor } from './constants';
 
 const theme = createMuiTheme({
@@ -29,13 +30,15 @@ const App: React.FC = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <FirebaseProvider config={appConfig}>
-          <MediaSettingsProvider>
-            <Router>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/groups/:groupId" component={Group} />
-              <Route exact path="/error" component={ErrorPage} />
-            </Router>
-          </MediaSettingsProvider>
+          <MeProvider>
+            <MediaSettingsProvider>
+              <Router>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/groups/:groupId" component={Group} />
+                <Route exact path="/error" component={ErrorPage} />
+              </Router>
+            </MediaSettingsProvider>
+          </MeProvider>
         </FirebaseProvider>
       </ThemeProvider>
     </>

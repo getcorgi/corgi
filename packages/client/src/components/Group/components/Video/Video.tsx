@@ -9,8 +9,8 @@ import MicOffIcon from '@material-ui/icons/MicOff';
 import React, { useContext, useEffect, useRef } from 'react';
 
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
-import * as S from './Video.styles';
 import AudioVisualizer from '../AudioVisualizer';
+import * as S from './Video.styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -72,7 +72,7 @@ export default function(props: Props) {
         console.log(e);
       };
     }
-  }, [videoRef.current]);
+  }, []);
 
   useEffect(() => {
     const ref = videoRef.current as ExperimentalHTMLVideoElement;
