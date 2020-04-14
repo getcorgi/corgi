@@ -42,8 +42,10 @@ export default function AudioVisualizer(props: Props) {
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
 
+    let raf: number;
+
     function draw() {
-      requestAnimationFrame(draw);
+      raf = requestAnimationFrame(draw);
       analyser.getByteFrequencyData(dataArray);
       setVelocity(v => {
         return {
@@ -54,6 +56,10 @@ export default function AudioVisualizer(props: Props) {
     }
 
     draw();
+
+    return function cleanup() {
+      cancelAnimationFrame(raf);
+    };
   }, [props.mediaStream]);
 
   return (
