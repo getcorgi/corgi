@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Peer from 'simple-peer';
 import io from 'socket.io-client';
+import useSound from 'use-sound';
+import { PlayFunction } from 'use-sound/dist/types';
 
 import { appConfig } from '../../../constants';
 
@@ -56,18 +58,22 @@ function onPeerCreated({
 }
 
 function initializeSocketHandler({
-  socket,
-  localStream,
   connections,
-  setStreams,
   groupId,
+  localStream,
+  playUserJoinedBloop,
+  playUserLeftBloop,
+  setStreams,
+  socket,
   userData,
 }: {
-  socket: SocketIOClient.Socket;
-  localStream?: MediaStream;
-  groupId: string;
   connections: Map<string, Peer.Instance>;
+  groupId: string;
+  localStream?: MediaStream;
+  playUserJoinedBloop: PlayFunction;
+  playUserLeftBloop: PlayFunction;
   setStreams: SetStreamsState;
+  socket: SocketIOClient.Socket;
   userData: { name: string };
 }) {
   socket.emit('userJoinedCall', {
@@ -105,6 +111,8 @@ function initializeSocketHandler({
       return;
     }
 
+    playUserJoinedBloop({});
+
     const connection = new Peer({ stream: localStream });
 
     connection.on('signal', (data: any) => {
@@ -124,6 +132,7 @@ function initializeSocketHandler({
   socket.on('userDisconnected', ({ socketId }: { socketId: string }) => {
     const peer = connections.get(socketId);
     if (peer) {
+      playUserLeftBloop({});
       peer?.destroy();
 
       connections.delete(socketId);
@@ -144,6 +153,15 @@ export default function useSocketHandler({
   const [streams, setStreams] = useState<{
     [key: string]: { userId: string; stream: MediaStream };
   }>({});
+
+  const [
+    playUserJoinedBloop,
+  ] = useSound(`${process.env.PUBLIC_URL}/joinBloop.mp3`, { volume: 0.25 });
+
+  const [
+    playUserLeftBloop,
+  ] = useSound(`${process.env.PUBLIC_URL}/leaveBloop.mp3`, { volume: 0.25 });
+
   const [isConnected, setIsConnected] = useState(false);
   const localStreamRef = useRef(localStream);
 
@@ -185,14 +203,17 @@ export default function useSocketHandler({
 
   const connect = (userData: { name: string }) => {
     initializeSocketHandler({
+      connections: connections.current,
       groupId,
       localStream,
+      playUserJoinedBloop,
+      playUserLeftBloop,
       setStreams,
-      userData,
-      connections: connections.current,
       socket: socket.current,
+      userData,
     });
     setIsConnected(true);
+    playUserJoinedBloop({});
   };
 
   const disconnect = () => {
@@ -201,6 +222,7 @@ export default function useSocketHandler({
       socketId: socket.current.id,
     });
     setIsConnected(false);
+    playUserLeftBloop({});
   };
 
   useEffect(() => {
