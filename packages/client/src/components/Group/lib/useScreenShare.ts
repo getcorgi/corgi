@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface ExperimentalMediaDevices extends MediaDevices {
   getDisplayMedia: (options: any) => Promise<MediaStream>;
@@ -38,40 +38,42 @@ export default function useScreenShare({
   const [isSharingScreen, setIsSharingScreen] = useState(false);
   const [hasSetScreenShare, setHasSetScreenShare] = useState(false);
 
-  const toggleIsSharingScreen = () => {
-    setIsSharingScreen(!isSharingScreen);
-  };
+  const clonedStream = useRef<MediaStream | undefined>();
 
-  useEffect(() => {
-    (async () => {
-      console.log({ isSharingScreen, hasSetScreenShare });
-      if (isSharingScreen && !hasSetScreenShare) {
-        const clonedStream = localStream?.clone();
-        const stream = await startCapture();
+  const toggleIsSharingScreen = async () => {
+    if (!isSharingScreen && !hasSetScreenShare) {
+      setIsSharingScreen(true);
+      const stream = await startCapture();
+      clonedStream.current = localStream?.clone();
 
-        // User hit cancel, or screen share errored
-        if (!stream) {
-          setHasSetScreenShare(false);
-          setIsSharingScreen(false);
-          return;
-        }
-
-        const videoTrack = stream?.getVideoTracks()[0];
-
-        videoTrack?.addEventListener('ended', () => {
-          console.log('eyyyy yooooo');
-          setLocalStream(clonedStream);
-          setHasSetScreenShare(false);
-          setIsSharingScreen(false);
-        });
-
-        if (stream) {
-          setLocalStream(stream);
-          setHasSetScreenShare(true);
-        }
+      // User hit cancel, or screen share errored
+      if (!stream) {
+        setHasSetScreenShare(false);
+        setIsSharingScreen(false);
+        return;
       }
-    })();
-  }, [isSharingScreen, hasSetScreenShare, setLocalStream, localStream]);
+
+      if (stream) {
+        setLocalStream(stream);
+        setHasSetScreenShare(true);
+      }
+
+      const videoTrack = stream?.getVideoTracks()[0];
+
+      // Handle ending screen share natively
+      videoTrack?.addEventListener('ended', () => {
+        setIsSharingScreen(false);
+        setHasSetScreenShare(false);
+        setLocalStream(clonedStream.current);
+      });
+      return;
+    }
+
+    setIsSharingScreen(false);
+    setHasSetScreenShare(false);
+    setLocalStream(clonedStream.current);
+    clonedStream.current = undefined;
+  };
 
   return {
     isSharingScreen,
