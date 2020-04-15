@@ -19,6 +19,7 @@ export interface StreamsDict {
 interface Props {
   activeViewId: string;
   children: ({ streams }: { streams: StreamsDict }) => React.ReactNode;
+  isAdmin: boolean;
   isCameraOff: boolean;
   isMuted: boolean;
   isSharingScreen: boolean;
@@ -41,17 +42,19 @@ export default function VideoView(props: Props) {
       justifyContent="space-between"
       height="100%"
     >
-      <Box
-        display="flex"
-        justifyContent="center"
-        position="absolute"
-        width="100%"
-      >
-        <Activities
-          setActiveViewId={props.setActiveViewId}
-          activeViewId={props.activeViewId}
-        />
-      </Box>
+      {props.isAdmin && (
+        <Box
+          display="flex"
+          justifyContent="center"
+          position="absolute"
+          width="100%"
+        >
+          <Activities
+            setActiveViewId={props.setActiveViewId}
+            activeViewId={props.activeViewId}
+          />
+        </Box>
+      )}
       <Box height="100%">{props.children({ streams: props.streams })}</Box>
       <S.Controls>
         <S.ActionWrapper>

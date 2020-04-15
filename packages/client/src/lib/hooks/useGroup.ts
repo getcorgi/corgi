@@ -10,6 +10,9 @@ interface GroupDocumentData {
   activityUrl?: string; //TEMPORARY: This will live elswhere,
   type: string;
   name: string;
+  roles: {
+    byId: { [key: string]: number };
+  };
 }
 
 export type UseGroupResult = DocumentQueryResult<GroupDocumentData>;

@@ -30,6 +30,12 @@ export default function GroupContainer(props: Props) {
   const me = useContext(MeContext);
   const { update: updateUser } = useUser();
 
+  const groupAdminId = group?.data?.roles.byId;
+  let isAdmin = false;
+  if (groupAdminId) {
+    isAdmin = Object.keys(groupAdminId)[0] === me?.firebaseAuthId;
+  }
+
   const [userName, setUserName] = useState(me?.name || '');
 
   const { localStream, setLocalStream } = useMediaStream();
@@ -87,24 +93,27 @@ export default function GroupContainer(props: Props) {
   }
 
   if (isConnected && localStream !== undefined) {
+    const setActiveView = (id: string) => {
+      updateGroup({
+        groupId,
+        activityId: id,
+      });
+    };
+
     return (
       <>
         <VideoView
-          onHangup={onHangup}
+          activeViewId={group.data?.activityId || '0'}
+          isAdmin={isAdmin}
           isCameraOff={isCameraOff}
           isMuted={isMuted}
+          isSharingScreen={isSharingScreen}
+          onHangup={onHangup}
+          setActiveViewId={setActiveView}
           streams={streams}
           toggleCamera={toggleCamera}
           toggleIsMuted={toggleIsMuted}
           toggleIsSharingScreen={toggleIsSharingScreen}
-          isSharingScreen={isSharingScreen}
-          setActiveViewId={id => {
-            updateGroup({
-              groupId,
-              activityId: id,
-            });
-          }}
-          activeViewId={group.data?.activityId || '0'}
         >
           {({ streams }) => {
             switch (group.data?.activityId) {
