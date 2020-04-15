@@ -67,6 +67,10 @@ io.on('connection', (socket: ExtendedSocket) => {
       });
   });
 
+  socket.on('userUpdated', (userData: User) => {
+    socket.userData = { ...socket.userData, ...userData };
+  });
+
   socket.on(
     'sendSignal',
     (data: { signal: {}; to: string; socket: ExtendedSocket }) => {
@@ -83,7 +87,7 @@ io.on('connection', (socket: ExtendedSocket) => {
       io.to(data.to).emit('ack', {
         from: data.from,
         ack: true,
-        userData: data.userData,
+        userData: socket.userData,
       });
     },
   );

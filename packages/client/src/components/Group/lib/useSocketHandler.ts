@@ -43,8 +43,14 @@ function onPeerCreated({
     console.log('error', err);
   });
 
-  peer.on('stream', function(stream) {
+  peer.on('stream', function(stream: MediaStream) {
+    const isMuted = connections.get(peerId)?.userData?.isMuted;
+
     setStreams(prevStreams => {
+      stream.getAudioTracks().forEach(track => {
+        track.enabled = !isMuted;
+      });
+
       return {
         ...prevStreams,
         [peerId]: { userId: peerId, stream },
@@ -89,7 +95,7 @@ function initializeSocketHandler({
   playUserLeftBloop,
   setStreams,
   socket,
-  userData,
+  myUserData,
 }: {
   connections: Connections;
   groupId: string;
@@ -98,11 +104,11 @@ function initializeSocketHandler({
   playUserLeftBloop: PlayFunction;
   setStreams: SetStreamsState;
   socket: SocketIOClient.Socket;
-  userData: User;
+  myUserData: User;
 }) {
   socket.emit('userJoinedCall', {
     groupId,
-    userData,
+    userData: myUserData,
     socketId: socket.id,
   });
 
@@ -112,12 +118,14 @@ function initializeSocketHandler({
     connection?.peer.signal(data.signal);
   });
 
+  // When you join a new room and say hi to everyone
   socket.on('ack', (data: { ack: boolean; userData: User; from: string }) => {
     if (data.ack && localStream !== undefined) {
       const peer = new Peer({
         initiator: true,
         stream: localStream || undefined,
       });
+
       connections.set(data.from, { peer, userData: data.userData });
 
       peer.on('signal', function(signalData) {
@@ -130,6 +138,7 @@ function initializeSocketHandler({
     }
   });
 
+  // When a new user joins a room you are already in
   socket.on('userJoined', (data: { socketId: string; userData: User }) => {
     const clientId = data.socketId;
 
@@ -150,7 +159,7 @@ function initializeSocketHandler({
 
     onPeerCreated({ peerId: clientId, peer, setStreams, connections });
 
-    socket.emit('ack', { to: clientId, from: socket.id, userData });
+    socket.emit('ack', { to: clientId, from: socket.id, userData: myUserData });
 
     connections.set(clientId, { peer, userData: data.userData });
   });
@@ -202,7 +211,7 @@ export default function useSocketHandler({
   }, []);
 
   useEffect(() => {
-    connections.current.forEach(peer => {
+    connections.current.forEach(({ peer }) => {
       peer.send(
         JSON.stringify({
           message: isMuted ? 'muted' : 'unmuted',
@@ -210,6 +219,8 @@ export default function useSocketHandler({
         }),
       );
     });
+
+    socket.current.emit('userUpdated', { isMuted });
   }, [isMuted]);
 
   useEffect(() => {
@@ -249,17 +260,17 @@ export default function useSocketHandler({
       playUserLeftBloop,
       setStreams,
       socket: socket.current,
-      userData,
+      myUserData: userData,
     });
     setIsConnected(true);
     playUserJoinedBloop({});
   };
 
   const disconnect = () => {
-    connections.current.forEach(({ peer }) => peer.destroy());
     socket.current.emit('userIsDisconnecting', {
       socketId: socket.current.id,
     });
+    connections.current.forEach(({ peer }) => peer.destroy());
     setIsConnected(false);
     playUserLeftBloop({});
   };
