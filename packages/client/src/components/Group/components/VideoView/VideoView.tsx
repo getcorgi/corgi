@@ -2,6 +2,8 @@ import { Box, Fab, IconButton, useTheme } from '@material-ui/core';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import MicIcon from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';
+import ScreenShareIcon from '@material-ui/icons/ScreenShare';
+import StopScreenShareIcon from '@material-ui/icons/StopScreenShare';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import React from 'react';
@@ -15,15 +17,17 @@ export interface StreamsDict {
 }
 
 interface Props {
-  onHangup: () => void;
+  activeViewId: string;
+  children: ({ streams }: { streams: StreamsDict }) => React.ReactNode;
   isCameraOff: boolean;
   isMuted: boolean;
+  isSharingScreen: boolean;
+  onHangup: () => void;
+  setActiveViewId: (id: string) => void;
   streams: StreamsDict;
   toggleCamera: () => void;
   toggleIsMuted: () => void;
-  children: ({ streams }: { streams: StreamsDict }) => React.ReactNode;
-  activeViewId: string;
-  setActiveViewId: (id: string) => void;
+  toggleIsSharingScreen: () => void;
 }
 
 export default function VideoView(props: Props) {
@@ -50,7 +54,18 @@ export default function VideoView(props: Props) {
       </Box>
       <Box height="100%">{props.children({ streams: props.streams })}</Box>
       <S.Controls>
-        <Box />
+        <S.ActionWrapper>
+          <IconButton
+            onClick={props.toggleIsSharingScreen}
+            aria-label="share-screen"
+          >
+            {props.isSharingScreen ? (
+              <StopScreenShareIcon />
+            ) : (
+              <ScreenShareIcon />
+            )}
+          </IconButton>
+        </S.ActionWrapper>
         <S.ActionWrapper>
           <IconButton onClick={props.toggleIsMuted} aria-label="mute">
             {props.isMuted ? <MicOffIcon /> : <MicIcon />}
