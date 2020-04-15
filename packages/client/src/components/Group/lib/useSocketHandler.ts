@@ -15,20 +15,25 @@ type SetStreamsState = React.Dispatch<
   }>
 >;
 
+type Connections = Map<string, { peer: Peer.Instance; userData: User }>;
+
 export interface User {
+  avatarUrl?: string;
+  id?: string;
+  isMuted?: boolean;
   name: string;
-  id: string;
-  avatarUrl: string;
 }
 
 function onPeerCreated({
   peerId,
   peer,
   setStreams,
+  connections,
 }: {
   peerId: string;
   peer: Peer.Instance;
   setStreams: SetStreamsState;
+  connections: Connections;
 }) {
   peer.on('connect', function() {
     console.log('connected');
@@ -38,8 +43,14 @@ function onPeerCreated({
     console.log('error', err);
   });
 
-  peer.on('stream', function(stream) {
+  peer.on('stream', function(stream: MediaStream) {
+    const isMuted = connections.get(peerId)?.userData?.isMuted;
+
     setStreams(prevStreams => {
+      stream.getAudioTracks().forEach(track => {
+        track.enabled = !isMuted;
+      });
+
       return {
         ...prevStreams,
         [peerId]: { userId: peerId, stream },
@@ -55,6 +66,25 @@ function onPeerCreated({
       return newStreams;
     });
   });
+
+  peer.on('data', function(data: string) {
+    const { message, id } = JSON.parse(data) as {
+      message: 'muted' | 'unmuted';
+      id: string;
+    };
+
+    return setStreams(prevStreams => {
+      const newStream = prevStreams[id].stream;
+      newStream.getAudioTracks().forEach(track => {
+        track.enabled = message !== 'muted';
+      });
+
+      return {
+        ...prevStreams,
+        [id]: { ...prevStreams[id], stream: newStream },
+      };
+    });
+  });
 }
 
 function initializeSocketHandler({
@@ -65,34 +95,38 @@ function initializeSocketHandler({
   playUserLeftBloop,
   setStreams,
   socket,
-  userData,
+  myUserData,
 }: {
-  connections: Map<string, Peer.Instance>;
+  connections: Connections;
   groupId: string;
   localStream?: MediaStream;
   playUserJoinedBloop: PlayFunction;
   playUserLeftBloop: PlayFunction;
   setStreams: SetStreamsState;
   socket: SocketIOClient.Socket;
-  userData: { name: string };
+  myUserData: User;
 }) {
   socket.emit('userJoinedCall', {
     groupId,
-    userData,
+    userData: myUserData,
     socketId: socket.id,
   });
 
-  socket.on('gotSignal', (data: any) => {
-    connections.get(data.from)?.signal(data.signal);
+  socket.on('gotSignal', (data: { from: string; signal: string }) => {
+    const connection = connections.get(data.from);
+
+    connection?.peer.signal(data.signal);
   });
 
-  socket.on('ack', (data: any) => {
+  // When you join a new room and say hi to everyone
+  socket.on('ack', (data: { ack: boolean; userData: User; from: string }) => {
     if (data.ack && localStream !== undefined) {
       const peer = new Peer({
         initiator: true,
         stream: localStream || undefined,
       });
-      connections.set(data.from, peer);
+
+      connections.set(data.from, { peer, userData: data.userData });
 
       peer.on('signal', function(signalData) {
         socket.emit('sendSignal', {
@@ -100,11 +134,12 @@ function initializeSocketHandler({
           signal: signalData,
         });
       });
-      onPeerCreated({ peerId: data.from, peer, setStreams });
+      onPeerCreated({ peerId: data.from, peer, setStreams, connections });
     }
   });
 
-  socket.on('userJoined', (data: { socketId: string }) => {
+  // When a new user joins a room you are already in
+  socket.on('userJoined', (data: { socketId: string; userData: User }) => {
     const clientId = data.socketId;
 
     if (connections.has(clientId) || clientId === socket.id) {
@@ -113,27 +148,27 @@ function initializeSocketHandler({
 
     playUserJoinedBloop({});
 
-    const connection = new Peer({ stream: localStream });
+    const peer = new Peer({ stream: localStream });
 
-    connection.on('signal', (data: any) => {
+    peer.on('signal', (data: any) => {
       socket.emit('sendSignal', {
         to: clientId,
         signal: data,
       });
     });
 
-    onPeerCreated({ peerId: clientId, peer: connection, setStreams });
+    onPeerCreated({ peerId: clientId, peer, setStreams, connections });
 
-    socket.emit('ack', { to: clientId, from: socket.id });
+    socket.emit('ack', { to: clientId, from: socket.id, userData: myUserData });
 
-    connections.set(clientId, connection);
+    connections.set(clientId, { peer, userData: data.userData });
   });
 
   socket.on('userDisconnected', ({ socketId }: { socketId: string }) => {
-    const peer = connections.get(socketId);
-    if (peer) {
+    const connection = connections.get(socketId);
+    if (connection?.peer) {
       playUserLeftBloop({});
-      peer?.destroy();
+      connection?.peer?.destroy();
 
       connections.delete(socketId);
     }
@@ -143,12 +178,14 @@ function initializeSocketHandler({
 export default function useSocketHandler({
   localStream,
   groupId,
+  isMuted,
 }: {
   groupId: string;
   localStream?: MediaStream;
+  isMuted: boolean;
 }) {
   const socket = useRef(io(appConfig.socketServer));
-  const connections = useRef<Map<string, Peer.Instance>>(new Map([]));
+  const connections = useRef<Connections>(new Map([]));
   const [users, setUsers] = useState<User[]>([]);
   const [streams, setStreams] = useState<{
     [key: string]: { userId: string; stream: MediaStream };
@@ -174,8 +211,21 @@ export default function useSocketHandler({
   }, []);
 
   useEffect(() => {
+    connections.current.forEach(({ peer }) => {
+      peer.send(
+        JSON.stringify({
+          message: isMuted ? 'muted' : 'unmuted',
+          id: socket.current.id,
+        }),
+      );
+    });
+
+    socket.current.emit('userUpdated', { isMuted });
+  }, [isMuted]);
+
+  useEffect(() => {
     if (isConnected && localStream !== localStreamRef.current) {
-      connections.current.forEach(peer => {
+      connections.current.forEach(({ peer }) => {
         if (localStreamRef.current && localStream) {
           peer.removeStream(localStreamRef.current);
           peer.addStream(localStream);
@@ -201,7 +251,7 @@ export default function useSocketHandler({
     });
   }, [groupId, socket.current.id]);
 
-  const connect = (userData: { name: string }) => {
+  const connect = (userData: Omit<User, 'id'>) => {
     initializeSocketHandler({
       connections: connections.current,
       groupId,
@@ -210,17 +260,17 @@ export default function useSocketHandler({
       playUserLeftBloop,
       setStreams,
       socket: socket.current,
-      userData,
+      myUserData: userData,
     });
     setIsConnected(true);
     playUserJoinedBloop({});
   };
 
   const disconnect = () => {
-    connections.current.forEach(connection => connection.destroy());
     socket.current.emit('userIsDisconnecting', {
       socketId: socket.current.id,
     });
+    connections.current.forEach(({ peer }) => peer.destroy());
     setIsConnected(false);
     playUserLeftBloop({});
   };
@@ -232,13 +282,15 @@ export default function useSocketHandler({
   }, [disconnect]);
 
   const enhancedStreams = users.reduce((acc, user) => {
+    if (!user.id) return acc;
+
     const stream = streams?.[user?.id]?.stream;
 
     if (!stream) return acc;
 
     return {
       ...acc,
-      [user.id]: {
+      [user?.id]: {
         stream,
         user,
       },
