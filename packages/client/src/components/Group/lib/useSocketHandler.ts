@@ -60,6 +60,25 @@ function onPeerCreated({
       return newStreams;
     });
   });
+
+  peer.on('data', function(data: string) {
+    const { message, id } = JSON.parse(data) as {
+      message: 'muted' | 'unmuted';
+      id: string;
+    };
+
+    return setStreams(prevStreams => {
+      const newStream = prevStreams[id].stream;
+      newStream.getAudioTracks().forEach(track => {
+        track.enabled = message !== 'muted';
+      });
+
+      return {
+        ...prevStreams,
+        [id]: { ...prevStreams[id], stream: newStream },
+      };
+    });
+  });
 }
 
 function initializeSocketHandler({
@@ -150,9 +169,11 @@ function initializeSocketHandler({
 export default function useSocketHandler({
   localStream,
   groupId,
+  isMuted,
 }: {
   groupId: string;
   localStream?: MediaStream;
+  isMuted: boolean;
 }) {
   const socket = useRef(io(appConfig.socketServer));
   const connections = useRef<Connections>(new Map([]));
@@ -179,6 +200,17 @@ export default function useSocketHandler({
       window.removeEventListener('beforeunload', disconnect);
     };
   }, []);
+
+  useEffect(() => {
+    connections.current.forEach(peer => {
+      peer.send(
+        JSON.stringify({
+          message: isMuted ? 'muted' : 'unmuted',
+          id: socket.current.id,
+        }),
+      );
+    });
+  }, [isMuted]);
 
   useEffect(() => {
     if (isConnected && localStream !== localStreamRef.current) {

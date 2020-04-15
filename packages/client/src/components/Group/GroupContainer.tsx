@@ -39,6 +39,7 @@ export default function GroupContainer(props: Props) {
     {
       groupId,
       localStream,
+      isMuted,
     },
   );
 

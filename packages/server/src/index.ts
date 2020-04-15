@@ -2,8 +2,10 @@ import http from 'http';
 import socketIo from 'socket.io';
 
 interface User {
-  name: string;
+  avatarUrl?: string;
   id: string;
+  isMuted: boolean;
+  name: string;
 }
 
 interface ExtendedSocket extends SocketIO.Socket {
@@ -31,11 +33,7 @@ io.on('connection', (socket: ExtendedSocket) => {
 
   socket.on(
     'userJoinedCall',
-    (data: {
-      groupId: string;
-      socketId: string;
-      userData: Pick<User, 'name'>;
-    }) => {
+    (data: { groupId: string; socketId: string; userData: User }) => {
       room = data.groupId;
       const socketId = data.socketId;
 
