@@ -79,9 +79,16 @@ io.on('connection', (socket: ExtendedSocket) => {
     },
   );
 
-  socket.on('ack', (data: { to: string; from: string; ack: boolean }) => {
-    io.to(data.to).emit('ack', { from: data.from, ack: true });
-  });
+  socket.on(
+    'ack',
+    (data: { to: string; from: string; ack: boolean; userData: User }) => {
+      io.to(data.to).emit('ack', {
+        from: data.from,
+        ack: true,
+        userData: data.userData,
+      });
+    },
+  );
 
   socket.on('userIsDisconnecting', (data: { socketId: string }) => {
     const socketId = data.socketId;
