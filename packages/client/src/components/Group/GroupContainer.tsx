@@ -11,6 +11,7 @@ import Preview from './components/Preview';
 import VideoView from './components/VideoView';
 import useMediaStream from './lib/useLocalMediaStream';
 import useMute from './lib/useMute';
+import useScreenShare from './lib/useScreenShare';
 import useSocketHandler from './lib/useSocketHandler';
 import useToggleCamera from './lib/useToggleCamera';
 
@@ -31,7 +32,7 @@ export default function GroupContainer(props: Props) {
 
   const [userName, setUserName] = useState(me?.name || '');
 
-  const { localStream } = useMediaStream();
+  const { localStream, setLocalStream } = useMediaStream();
   const { toggleIsMuted, isMuted } = useMute(localStream);
   const { toggleCamera, isCameraOff } = useToggleCamera(localStream);
 
@@ -42,6 +43,10 @@ export default function GroupContainer(props: Props) {
       isMuted,
     },
   );
+  const { isSharingScreen, toggleIsSharingScreen } = useScreenShare({
+    localStream,
+    setLocalStream,
+  });
 
   useEffect(() => {
     if (me?.name && !userName) {
@@ -91,6 +96,8 @@ export default function GroupContainer(props: Props) {
           streams={streams}
           toggleCamera={toggleCamera}
           toggleIsMuted={toggleIsMuted}
+          toggleIsSharingScreen={toggleIsSharingScreen}
+          isSharingScreen={isSharingScreen}
           setActiveViewId={id => {
             updateGroup({
               groupId,

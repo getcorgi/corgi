@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Peer from 'simple-peer';
 import io from 'socket.io-client';
 import useSound from 'use-sound';
@@ -212,6 +212,8 @@ export default function useSocketHandler({
 
   useEffect(() => {
     connections.current.forEach(({ peer }) => {
+      if (!peer) return;
+
       peer.send(
         JSON.stringify({
           message: isMuted ? 'muted' : 'unmuted',
@@ -266,20 +268,20 @@ export default function useSocketHandler({
     playUserJoinedBloop({});
   };
 
-  const disconnect = () => {
+  const disconnect = useCallback(() => {
     socket.current.emit('userIsDisconnecting', {
       socketId: socket.current.id,
     });
     connections.current.forEach(({ peer }) => peer.destroy());
     setIsConnected(false);
     playUserLeftBloop({});
-  };
+  }, []);
 
   useEffect(() => {
     return function onUnmount() {
       disconnect();
     };
-  }, []);
+  }, [disconnect]);
 
   const enhancedStreams = users.reduce((acc, user) => {
     if (!user.id) return acc;

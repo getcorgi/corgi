@@ -7,8 +7,8 @@ import { StreamsDict } from '../VideoView/VideoView';
 import * as S from './BasicView.styles';
 
 interface Props {
-  streams: StreamsDict;
   localStream: MediaStream | null;
+  streams: StreamsDict;
   userName: string;
 }
 

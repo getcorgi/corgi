@@ -43,5 +43,6 @@ export default function useMediaStream() {
 
   return {
     localStream,
+    setLocalStream,
   };
 }
