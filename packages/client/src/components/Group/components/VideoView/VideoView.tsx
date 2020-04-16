@@ -37,7 +37,7 @@ export default function VideoView(props: Props) {
   const { isIdle } = useIdleTimer({ wait: 3500 });
 
   return (
-    <Box
+    <S.VideoView
       position="relative"
       display="flex"
       flexDirection="column"
@@ -94,6 +94,6 @@ export default function VideoView(props: Props) {
           <MediaSettingsPopover />
         </S.ActionWrapper>
       </S.Controls>
-    </Box>
+    </S.VideoView>
   );
 }

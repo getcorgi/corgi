@@ -59,7 +59,9 @@ export default function BasicView(props: Props) {
               <strong>send out this link to invite someone!</strong>
             </Typography>
             <Typography variant="h6" align="center" color="primary">
-              <Box mt={theme.spacing(0.2)}>{window.location.href}</Box>
+              <S.LinkWrapper mt={theme.spacing(0.2)}>
+                {window.location.href}
+              </S.LinkWrapper>
             </Typography>
           </S.EmptyMessage>
         </Box>

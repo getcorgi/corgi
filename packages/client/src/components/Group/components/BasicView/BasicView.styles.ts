@@ -10,9 +10,15 @@ export const LocalVideo = styled(Card)({
 });
 
 export const EmptyMessage = styled('div')({
-  color: 'rgba(255, 255, 255, 0.14)',
+  color: 'rgba(255, 255, 255, 0.7)',
   fontWeight: 600,
   fontSize: '30px',
+});
+
+export const LinkWrapper = styled(Box)({
+  background: '#33325a',
+  padding: '2px 10px',
+  borderRadius: '8px',
 });
 
 export const BasicView = styled(Box)({

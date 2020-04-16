@@ -202,13 +202,39 @@ export default function useSocketHandler({
   const [isConnected, setIsConnected] = useState(false);
   const localStreamRef = useRef(localStream);
 
+  const connect = (userData: Omit<User, 'id'>) => {
+    initializeSocketHandler({
+      connections: connections.current,
+      groupId,
+      localStream,
+      playUserJoinedBloop,
+      playUserLeftBloop,
+      setStreams,
+      socket: socket.current,
+      myUserData: userData,
+    });
+    setIsConnected(true);
+    playUserJoinedBloop({});
+  };
+
+  const disconnect = useCallback(() => {
+    if (!isConnected) return;
+
+    socket.current.emit('userIsDisconnecting', {
+      socketId: socket.current.id,
+    });
+    connections.current.forEach(({ peer }) => peer.destroy());
+    playUserLeftBloop({});
+    setIsConnected(false);
+  }, [playUserLeftBloop, isConnected]);
+
   useEffect(() => {
     window.addEventListener('beforeunload', disconnect);
 
     return () => {
       window.removeEventListener('beforeunload', disconnect);
     };
-  }, []);
+  }, [disconnect]);
 
   useEffect(() => {
     connections.current.forEach(({ peer }) => {
@@ -252,30 +278,6 @@ export default function useSocketHandler({
       setUsers(users.filter(Boolean));
     });
   }, [groupId, socket.current.id]);
-
-  const connect = (userData: Omit<User, 'id'>) => {
-    initializeSocketHandler({
-      connections: connections.current,
-      groupId,
-      localStream,
-      playUserJoinedBloop,
-      playUserLeftBloop,
-      setStreams,
-      socket: socket.current,
-      myUserData: userData,
-    });
-    setIsConnected(true);
-    playUserJoinedBloop({});
-  };
-
-  const disconnect = useCallback(() => {
-    socket.current.emit('userIsDisconnecting', {
-      socketId: socket.current.id,
-    });
-    connections.current.forEach(({ peer }) => peer.destroy());
-    setIsConnected(false);
-    playUserLeftBloop({});
-  }, []);
 
   useEffect(() => {
     return function onUnmount() {
