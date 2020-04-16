@@ -5,6 +5,7 @@ import useGroup from '../../lib/hooks/useGroup';
 import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
 import useUser from '../../lib/hooks/useUser';
 import { MeContext } from '../MeProvider';
+import ActivityView from './components/ActivityView';
 import BasicView from './components/BasicView';
 import BrowseTogether from './components/BrowseTogetherView';
 import Preview from './components/Preview';
@@ -130,10 +131,19 @@ export default function GroupContainer(props: Props) {
                   />
                 );
               }
-              case '0':
-              default: {
+              case '0': {
                 return (
                   <BasicView
+                    localStream={localStream}
+                    userName={userName}
+                    streams={streams}
+                  />
+                );
+              }
+              default: {
+                return (
+                  <ActivityView
+                    id={group.data?.activityId || '0'}
                     localStream={localStream}
                     userName={userName}
                     streams={streams}
