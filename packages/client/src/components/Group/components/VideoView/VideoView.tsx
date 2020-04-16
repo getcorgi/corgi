@@ -8,6 +8,7 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import React from 'react';
 
+import useIdleTimer from '../../../../lib/hooks/useIdleTImer';
 import Activities from '../Activities';
 import MediaSettingsPopover from '../MediaSettingsPopover';
 import * as S from './VideoView.styles';
@@ -33,6 +34,7 @@ interface Props {
 
 export default function VideoView(props: Props) {
   const theme = useTheme();
+  const { isIdle } = useIdleTimer({ wait: 3500 });
 
   return (
     <Box
@@ -56,7 +58,7 @@ export default function VideoView(props: Props) {
         </Box>
       )}
       <Box height="100%">{props.children({ streams: props.streams })}</Box>
-      <S.Controls>
+      <S.Controls isIdle={isIdle}>
         <S.ActionWrapper>
           <IconButton
             onClick={props.toggleIsSharingScreen}
