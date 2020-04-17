@@ -15,8 +15,7 @@ export default function(props: {
     return React.createElement(
       'div',
       null,
-      // @ts-ignore
-      parseComponentTree([activity.data?.componentTree], props),
+      parseComponentTree(activity.data?.componentTree, props),
     );
   }
   return null;
