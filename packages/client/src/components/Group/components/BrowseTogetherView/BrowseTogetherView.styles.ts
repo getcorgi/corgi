@@ -5,4 +5,6 @@ import { backgroundColor } from '../../../../constants';
 
 export const Streams = styled(Box)({
   backgroundColor: backgroundColor['800'],
+  maxHeight: '100%',
+  overflow: 'auto',
 });

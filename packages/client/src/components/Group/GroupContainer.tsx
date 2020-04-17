@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router-dom';
 
 import useGroup from '../../lib/hooks/useGroup';
@@ -76,20 +77,30 @@ export default function GroupContainer(props: Props) {
     updateUser({ name, id: me?.id });
   };
 
+  const renderMeta = () => (
+    <Helmet>
+      <title>{`Corgi - ${group.data?.name}`}</title>
+      <meta name="description" content={`Join my room - ${group.data?.name}`} />
+    </Helmet>
+  );
+
   if (!isConnected || localStream === undefined) {
     return (
-      <Preview
-        groupName={group.data?.name || ''}
-        isCameraOff={isCameraOff}
-        isMuted={isMuted}
-        onJoin={onJoinCall}
-        onUserNameChange={onUserNameChange}
-        stream={localStream}
-        toggleCamera={toggleCamera}
-        toggleIsMuted={toggleIsMuted}
-        userName={userName}
-        users={users}
-      />
+      <>
+        {renderMeta()}
+        <Preview
+          groupName={group.data?.name || ''}
+          isCameraOff={isCameraOff}
+          isMuted={isMuted}
+          onJoin={onJoinCall}
+          onUserNameChange={onUserNameChange}
+          stream={localStream}
+          toggleCamera={toggleCamera}
+          toggleIsMuted={toggleIsMuted}
+          userName={userName}
+          users={users}
+        />
+      </>
     );
   }
 
@@ -103,6 +114,7 @@ export default function GroupContainer(props: Props) {
 
     return (
       <>
+        {renderMeta()}
         <VideoView
           activeViewId={group.data?.activityId || '0'}
           isAdmin={isAdmin}

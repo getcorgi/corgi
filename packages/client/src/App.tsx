@@ -1,6 +1,7 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import ErrorPage from './components/ErrorPage';
@@ -27,6 +28,11 @@ const theme = createMuiTheme({
 const App: React.FC = () => {
   return (
     <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>Corgi</title>
+        <meta name="description" content="Get a conversation started" />
+      </Helmet>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <FirebaseProvider config={appConfig}>

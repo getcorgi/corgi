@@ -44,7 +44,7 @@ function BrowseTogetherView(props: Props) {
       width="100%"
       justifyContent="space-between"
     >
-      <Box width={5 / 6} display="flex" flexDirection="column">
+      <Box width={7 / 8} display="flex" flexDirection="column">
         <Paper
           component="form"
           square
@@ -75,7 +75,7 @@ function BrowseTogetherView(props: Props) {
           src={props.activityUrl}
         />
       </Box>
-      <S.Streams width={1 / 6}>
+      <S.Streams width={1 / 8}>
         {props.localStream && (
           <Box>
             <Video
