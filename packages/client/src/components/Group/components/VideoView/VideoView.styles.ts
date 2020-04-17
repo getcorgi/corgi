@@ -2,7 +2,7 @@ import { Box } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 
 export const VideoView = styled(Box)({
-  '&::after': {
+  '&::before': {
     content: '""',
     backgroundImage: `url("${process.env.PUBLIC_URL}/inspiration-geometry.png")`,
     position: 'absolute',
