@@ -36,7 +36,8 @@ export default function useActivities(
     throw new Error('Not Logged In');
   }
 
-  const query = db.collection('activities');
+  const viewLevel = process.env.NODE_ENV === 'development' ? 1 : 0;
+  const query = db.collection('activities').where('viewLevel', '<=', viewLevel);
 
   const [snapshot, loading, error] = useCollection(query);
   if (error) {
