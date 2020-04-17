@@ -1,9 +1,9 @@
-import { AppBar, Box, Tab, Tabs } from '@material-ui/core';
-import VideoCallIcon from '@material-ui/icons/VideoCall';
-import WebIcon from '@material-ui/icons/Web';
+import { AppBar, Box, Icon, Tab, Tabs, Tooltip } from '@material-ui/core';
 import React from 'react';
 
-function a11yProps(index: number) {
+import useActivities from '../../../../lib/hooks/useActivities';
+
+function a11yProps(index: number | string) {
   return {
     id: `scrollable-force-tab-${index}`,
     'aria-controls': `scrollable-force-tabpanel-${index}`,
@@ -16,6 +16,29 @@ interface Props {
 }
 
 export default function Activities(props: Props) {
+  const { data, loading } = useActivities();
+
+  if (loading) {
+    return null;
+  }
+  const builtInActivities = [
+    {
+      id: '0',
+      name: 'Basic Video',
+      icon: 'video_call',
+    },
+    {
+      id: '1',
+      name: 'Browse Together',
+      icon: 'web',
+    },
+  ];
+
+  const activities = [...builtInActivities, ...data];
+  const activeActivityIndex = activities.findIndex(
+    activity => activity.id === props.activeViewId,
+  );
+
   return (
     <Box
       width="250px"
@@ -25,7 +48,7 @@ export default function Activities(props: Props) {
     >
       <AppBar position="static" color="default">
         <Tabs
-          value={Number(props.activeViewId)}
+          value={activeActivityIndex}
           onChange={(event, value) => {
             props.setActiveViewId(`${value}`);
           }}
@@ -35,18 +58,23 @@ export default function Activities(props: Props) {
           textColor="primary"
           aria-label="scrollable force tabs example"
         >
-          <Tab
-            style={{ minWidth: 50, width: 50 }}
-            aria-label="Basic Video"
-            icon={<VideoCallIcon />}
-            {...a11yProps(0)}
-          />
-          <Tab
-            style={{ minWidth: 50, width: 50 }}
-            aria-label="Browse Together"
-            icon={<WebIcon />}
-            {...a11yProps(1)}
-          />
+          {activities.map(activity => {
+            return (
+              <Tooltip
+                key={activity.id}
+                title={activity.name}
+                aria-label={activity.name}
+              >
+                <Tab
+                  style={{ minWidth: 50, width: 50 }}
+                  aria-label={activity.name}
+                  icon={<Icon>{activity.icon}</Icon>}
+                  value={activity.id}
+                  {...a11yProps(activity.id)}
+                />
+              </Tooltip>
+            );
+          })}
         </Tabs>
       </AppBar>
     </Box>
