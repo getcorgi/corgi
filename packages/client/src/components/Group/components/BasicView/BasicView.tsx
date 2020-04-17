@@ -1,6 +1,6 @@
-import { Typography, useTheme } from '@material-ui/core';
+import { Tooltip, Typography, useTheme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
@@ -34,6 +34,22 @@ export default function BasicView(props: Props) {
   const videoWidth = getVideoRatios(streamCount);
   const videoHeight = getVideoRatios(streamCount);
 
+  const [isCopiedTooltipOpen, setIsCopiedTooltipOpen] = useState(false);
+
+  const isEmpty = streams.length < 1;
+
+  const onClickLink = () => {
+    navigator.clipboard.writeText(window.location.href).then(function() {
+      /* clipboard successfully set */
+      console.log('success');
+      setIsCopiedTooltipOpen(isOpen => true);
+
+      setTimeout(() => {
+        setIsCopiedTooltipOpen(isOpen => false);
+      }, 1000);
+    });
+  };
+
   return (
     <S.BasicView
       display="flex"
@@ -43,7 +59,7 @@ export default function BasicView(props: Props) {
       justifyContent="center"
       alignItems="center"
     >
-      {streams.length < 1 && (
+      {isEmpty && (
         <Box
           display="flex"
           height="100%"
@@ -59,9 +75,11 @@ export default function BasicView(props: Props) {
               <strong>send out this link to invite someone!</strong>
             </Typography>
             <Typography variant="h6" align="center" color="primary">
-              <S.LinkWrapper mt={theme.spacing(0.2)}>
-                {window.location.href}
-              </S.LinkWrapper>
+              <S.Tooltip title="Copied!" open={isCopiedTooltipOpen}>
+                <S.LinkWrapper onClick={onClickLink} mt={theme.spacing(0.5)}>
+                  {window.location.href}
+                </S.LinkWrapper>
+              </S.Tooltip>
             </Typography>
           </S.EmptyMessage>
         </Box>
