@@ -12,6 +12,7 @@ interface GroupDocumentData {
   name: string;
   roles: {
     byId: { [key: string]: number };
+    editors: string[];
   };
 }
 

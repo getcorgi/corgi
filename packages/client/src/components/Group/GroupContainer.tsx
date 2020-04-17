@@ -32,11 +32,9 @@ export default function GroupContainer(props: Props) {
   const me = useContext(MeContext);
   const { update: updateUser } = useUser();
 
-  const groupAdminId = group?.data?.roles.byId;
-  let isAdmin = false;
-  if (groupAdminId) {
-    isAdmin = Object.keys(groupAdminId)[0] === me?.firebaseAuthId;
-  }
+  const isAdmin = Boolean(
+    group.data?.roles.editors.some(editor => editor === me?.firebaseAuthId),
+  );
 
   const [userName, setUserName] = useState(me?.name || '');
 
@@ -79,7 +77,9 @@ export default function GroupContainer(props: Props) {
 
   const renderMeta = () => (
     <Helmet>
-      <title>{`Corgi - ${group.data?.name}`}</title>
+      <title>{`Corgi${
+        group.data?.name ? ` - ${group.data?.name}` : ''
+      }`}</title>
       <meta name="description" content={`Join my room - ${group.data?.name}`} />
     </Helmet>
   );
