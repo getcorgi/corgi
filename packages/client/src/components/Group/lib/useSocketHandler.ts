@@ -21,6 +21,7 @@ export interface User {
   avatarUrl?: string;
   id?: string;
   isMuted?: boolean;
+  isCameraOff?: boolean;
   name: string;
 }
 
@@ -45,10 +46,15 @@ function onPeerCreated({
 
   peer.on('stream', function(stream: MediaStream) {
     const isMuted = connections.get(peerId)?.userData?.isMuted;
+    const isCameraOff = connections.get(peerId)?.userData?.isCameraOff;
 
     setStreams(prevStreams => {
       stream.getAudioTracks().forEach(track => {
         track.enabled = !isMuted;
+      });
+
+      stream.getVideoTracks().forEach(track => {
+        track.enabled = !isCameraOff;
       });
 
       return {
@@ -69,14 +75,17 @@ function onPeerCreated({
 
   peer.on('data', function(data: string) {
     const { message, id } = JSON.parse(data) as {
-      message: 'muted' | 'unmuted';
+      message: { isMuted: boolean; isCameraOff: boolean };
       id: string;
     };
 
     return setStreams(prevStreams => {
       const newStream = prevStreams[id].stream;
       newStream.getAudioTracks().forEach(track => {
-        track.enabled = message !== 'muted';
+        track.enabled = !message.isMuted;
+      });
+      newStream.getVideoTracks().forEach(track => {
+        track.enabled = !message.isCameraOff;
       });
 
       return {
@@ -179,10 +188,12 @@ export default function useSocketHandler({
   localStream,
   groupId,
   isMuted,
+  isCameraOff,
 }: {
   groupId: string;
   localStream?: MediaStream;
   isMuted: boolean;
+  isCameraOff: boolean;
 }) {
   const socket = useRef(io(appConfig.socketServer));
   const connections = useRef<Connections>(new Map([]));
@@ -242,14 +253,14 @@ export default function useSocketHandler({
 
       peer.send(
         JSON.stringify({
-          message: isMuted ? 'muted' : 'unmuted',
+          message: { isMuted, isCameraOff },
           id: socket.current.id,
         }),
       );
     });
 
-    socket.current.emit('userUpdated', { isMuted });
-  }, [isMuted]);
+    socket.current.emit('userUpdated', { isMuted, isCameraOff });
+  }, [isMuted, isCameraOff]);
 
   useEffect(() => {
     if (isConnected && localStream !== localStreamRef.current) {

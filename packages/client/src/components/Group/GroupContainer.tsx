@@ -47,6 +47,7 @@ export default function GroupContainer(props: Props) {
       groupId,
       localStream,
       isMuted,
+      isCameraOff,
     },
   );
   const { isSharingScreen, toggleIsSharingScreen } = useScreenShare({

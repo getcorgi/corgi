@@ -1,10 +1,4 @@
-import {
-  Avatar,
-  Box,
-  createStyles,
-  makeStyles,
-  Theme,
-} from '@material-ui/core';
+import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import React, { useContext, useEffect, useRef } from 'react';
 
@@ -14,12 +8,6 @@ import * as S from './Video.styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    wrapper: {
-      position: 'relative',
-      overflow: 'hidden',
-      width: '100%',
-      height: '100%',
-    },
     video: {
       width: '100%',
       height: '100%',
@@ -41,11 +29,12 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  srcObject: MediaStream;
-  isMuted?: boolean;
-  isMirrored?: boolean;
   audioOutputDevice?: string;
+  isMirrored?: boolean;
+  isMuted?: boolean;
   label?: string;
+  srcObject: MediaStream;
+  userName?: string;
 }
 
 interface ExperimentalHTMLVideoElement extends HTMLVideoElement {
@@ -54,25 +43,25 @@ interface ExperimentalHTMLVideoElement extends HTMLVideoElement {
 
 export default function(props: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const classes = useStyles(props);
-  const track = props.srcObject?.getAudioTracks()[0];
-  const isRemoteMuted = !track?.enabled;
+  const audioTrack = props.srcObject?.getAudioTracks()[0];
+  const videoTrack = props.srcObject?.getVideoTracks()[0];
+
+  const isRemoteMuted = !audioTrack?.enabled;
+  const isRemoteCameraOff = !videoTrack?.enabled;
 
   const { activeDevices } = useContext(MediaSettingsContext);
+
+  const clientRect = containerRef.current?.getBoundingClientRect();
+
+  const avatarSize = clientRect ? clientRect?.height / 2 : 0;
 
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.srcObject = props.srcObject;
     }
-  }, [props.srcObject]);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.onvolumechange = (e: Event) => {
-        console.log(e);
-      };
-    }
-  }, []);
+  }, [props.srcObject, isRemoteMuted, isRemoteCameraOff]);
 
   useEffect(() => {
     const ref = videoRef.current as ExperimentalHTMLVideoElement;
@@ -83,16 +72,29 @@ export default function(props: Props) {
   }, [activeDevices.audioOutput]);
 
   return (
-    <Box className={classes.wrapper}>
-      <video
-        ref={videoRef}
-        playsInline={true}
-        autoPlay={true}
-        muted={props.isMuted}
-        className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
-          classes.video
-        }`}
-      />
+    <S.Video ref={containerRef}>
+      {isRemoteCameraOff ? (
+        <S.EmptyVideo
+          height="100%"
+          width="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <S.UserAvatar alt={props.userName} src="fallback" size={avatarSize} />
+        </S.EmptyVideo>
+      ) : (
+        <video
+          ref={videoRef}
+          playsInline={true}
+          autoPlay={true}
+          muted={props.isMuted}
+          className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
+            classes.video
+          }`}
+        />
+      )}
+
       <S.Information>
         <S.AudioIndicator>
           {isRemoteMuted ? (
@@ -105,6 +107,6 @@ export default function(props: Props) {
         </S.AudioIndicator>
         {props.label && <span>{props.label}</span>}
       </S.Information>
-    </Box>
+    </S.Video>
   );
 }

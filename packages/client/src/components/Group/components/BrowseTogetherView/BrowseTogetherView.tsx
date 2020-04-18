@@ -49,6 +49,7 @@ function BrowseTogetherView(props: Props) {
 
   const streamSidebarWidth = resizedWidth || window.innerWidth / 8;
   const mainViewWidth = window.innerWidth - streamSidebarWidth;
+  const maxVideoHeight = streamSidebarWidth * 0.75;
 
   return (
     <Box
@@ -97,12 +98,13 @@ function BrowseTogetherView(props: Props) {
       <S.Streams width={streamSidebarWidth}>
         <S.Dragger ref={draggerRef} />
         {props.localStream && (
-          <Box>
+          <Box height={maxVideoHeight}>
             <Video
               key={props.localStream.id}
               srcObject={props.localStream}
               isMuted={true}
               isMirrored={true}
+              userName={props.userName}
               label="(You)"
             />
           </Box>
@@ -113,7 +115,12 @@ function BrowseTogetherView(props: Props) {
 
           return (
             <Box key={stream?.id} width="100%" position="relative">
-              <Video srcObject={stream} isMuted={false} label={user.name} />
+              <Video
+                srcObject={stream}
+                isMuted={false}
+                label={user.name}
+                userName={user.name}
+              />
             </Box>
           );
         })}

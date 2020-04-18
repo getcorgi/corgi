@@ -1,4 +1,4 @@
-import { styled } from '@material-ui/core';
+import { Avatar, Box, styled } from '@material-ui/core';
 
 export const AudioIndicator = styled('div')({
   width: '28px',
@@ -18,4 +18,21 @@ export const Information = styled('div')({
   width: '100%',
   backgroundImage:
     '-webkit-linear-gradient(bottom,rgba(0,0,0,0.7) 0,rgba(0,0,0,0.3) 50%,rgba(0,0,0,0) 100%)',
+});
+
+export const UserAvatar = styled(Avatar)({
+  width: ({ size }: { size: number }) => `${size}px`,
+  height: ({ size }: { size: number }) => `${size}px`,
+  fontSize: ({ size }: { size: number }) => `${size / 2}px`,
+});
+
+export const Video = styled('div')({
+  position: 'relative',
+  overflow: 'hidden',
+  width: '100%',
+  height: '100%',
+});
+
+export const EmptyVideo = styled(Box)({
+  backgroundColor: '#16161d8a',
 });

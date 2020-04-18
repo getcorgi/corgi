@@ -15,7 +15,7 @@ export const Streams = styled(Box)({
 
 export const Dragger = styled('div')({
   width: DRAGGER_SIZE,
-  cursor: 'ew-resize',
+  cursor: 'col-resize',
   position: 'absolute',
   top: 0,
   left: 0,

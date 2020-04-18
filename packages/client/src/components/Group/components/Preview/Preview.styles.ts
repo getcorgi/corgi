@@ -24,9 +24,6 @@ export const Gradient = styled('div')({
 
 export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    Avatar: {
-      backgroundColor: theme.palette.secondary.main,
-      color: theme.palette.secondary.contrastText,
-    },
+    Avatar: {},
   }),
 );
