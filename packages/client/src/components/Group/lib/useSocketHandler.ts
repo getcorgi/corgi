@@ -252,9 +252,9 @@ export default function useSocketHandler({
 
   useEffect(() => {
     connections.current.forEach(({ peer }) => {
-      if (!peer || !peer.send) return;
+      if (!peer || !peer.write) return;
 
-      peer.send(
+      peer.write(
         JSON.stringify({
           message: { isMuted, isCameraOff },
           id: socket.current.id,
