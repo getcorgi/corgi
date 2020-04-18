@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>
     muteIcon: {
       fontSize: '14px',
     },
+    cameraOff: {
+      opacity: 0,
+    },
   }),
 );
 
@@ -73,7 +76,7 @@ export default function(props: Props) {
 
   return (
     <S.Video ref={containerRef}>
-      {isRemoteCameraOff ? (
+      {isRemoteCameraOff && (
         <S.EmptyVideo
           height="100%"
           width="100%"
@@ -83,17 +86,16 @@ export default function(props: Props) {
         >
           <S.UserAvatar alt={props.userName} src="fallback" size={avatarSize} />
         </S.EmptyVideo>
-      ) : (
-        <video
-          ref={videoRef}
-          playsInline={true}
-          autoPlay={true}
-          muted={props.isMuted}
-          className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
-            classes.video
-          }`}
-        />
       )}
+      <video
+        ref={videoRef}
+        playsInline={true}
+        autoPlay={true}
+        muted={props.isMuted}
+        className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
+          classes.video
+        } ${isRemoteCameraOff ? classes.cameraOff : ''}`}
+      />
 
       <S.Information>
         <S.AudioIndicator>

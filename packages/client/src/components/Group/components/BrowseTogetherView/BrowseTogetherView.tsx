@@ -114,7 +114,12 @@ function BrowseTogetherView(props: Props) {
           if (!stream) return null;
 
           return (
-            <Box key={stream?.id} width="100%" position="relative">
+            <Box
+              height={maxVideoHeight}
+              key={stream?.id}
+              width="100%"
+              position="relative"
+            >
               <Video
                 srcObject={stream}
                 isMuted={false}
