@@ -1,8 +1,9 @@
 import { IconButton, InputBase, Paper } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import SearchIcon from '@material-ui/icons/Search';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
+import { useResizableContainer } from '../../../../lib/hooks/useResizableContainer';
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
 import * as S from './BrowseTogetherView.styles';
@@ -32,9 +33,22 @@ function BrowseTogetherView(props: Props) {
     addProtocol(props.activityUrl),
   );
 
+  const draggerRef = useRef<HTMLDivElement>(null);
+
+  const { width: resizedWidth, isResizing } = useResizableContainer({
+    draggerRef: draggerRef.current,
+    minWidth: 50,
+    maxWidth: 600,
+  });
+
+  console.log(resizedWidth);
+
   useEffect(() => {
     setActivityUrl(addProtocol(props.activityUrl));
   }, [props.activityUrl]);
+
+  const streamSidebarWidth = resizedWidth || window.innerWidth / 8;
+  const mainViewWidth = window.innerWidth - streamSidebarWidth;
 
   return (
     <Box
@@ -44,7 +58,7 @@ function BrowseTogetherView(props: Props) {
       width="100%"
       justifyContent="space-between"
     >
-      <Box width={7 / 8} display="flex" flexDirection="column">
+      <Box width={mainViewWidth} display="flex" flexDirection="column">
         <Paper
           component="form"
           square
@@ -69,13 +83,19 @@ function BrowseTogetherView(props: Props) {
         </Paper>
         <iframe
           title="shared-browser"
-          style={{ border: 0, outline: 'none', maxHeight: '100%' }}
+          style={{
+            border: 0,
+            outline: 'none',
+            maxHeight: '100%',
+            pointerEvents: isResizing ? 'none' : 'all',
+          }}
           width="100%"
           height="100%"
           src={props.activityUrl}
         />
       </Box>
-      <S.Streams width={1 / 8}>
+      <S.Streams width={streamSidebarWidth}>
+        <S.Dragger ref={draggerRef} />
         {props.localStream && (
           <Box>
             <Video
