@@ -254,7 +254,7 @@ export default function useSocketHandler({
     connections.current.forEach(({ peer }) => {
       if (!peer || !peer.send) return;
 
-      peer.send(
+      peer.write(
         JSON.stringify({
           message: { isMuted, isCameraOff },
           id: socket.current.id,
