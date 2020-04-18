@@ -1,6 +1,5 @@
-import 'firebase/auth';
-
 import firebase from 'firebase/app';
+import 'firebase/auth';
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';

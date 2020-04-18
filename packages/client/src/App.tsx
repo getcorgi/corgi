@@ -1,5 +1,5 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -10,20 +10,8 @@ import Group from './components/Group';
 import Home from './components/Home';
 import { MediaSettingsProvider } from './components/MediaSettingsProvider';
 import { MeProvider } from './components/MeProvider';
-import { appConfig, backgroundColor } from './constants';
-
-const theme = createMuiTheme({
-  palette: {
-    type: 'dark',
-    primary: {
-      main: '#6a6abf',
-    },
-    background: {
-      default: backgroundColor[700],
-      paper: backgroundColor[700],
-    },
-  },
-});
+import { appConfig } from './constants';
+import theme from './lib/theme';
 
 const App: React.FC = () => {
   return (

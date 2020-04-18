@@ -1,7 +1,7 @@
 import { Box } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 
-import { backgroundColor } from '../../../../constants';
+import { backgroundColor } from '../../../../lib/theme';
 
 const DRAGGER_SIZE = '5px';
 

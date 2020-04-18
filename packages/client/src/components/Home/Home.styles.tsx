@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box';
 import { styled } from '@material-ui/core/styles';
 
-import { backgroundColor } from '../../constants';
+import { backgroundColor } from '../../lib/theme';
 
 export const FormWrapper = styled(Box)({});
 
