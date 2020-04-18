@@ -1,10 +1,11 @@
+import './index.css';
+
 import * as Sentry from '@sentry/browser';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
 import { appConfig } from './constants';
-import './index.css';
 import * as serviceWorker from './serviceWorker';
 
 Sentry.init({
