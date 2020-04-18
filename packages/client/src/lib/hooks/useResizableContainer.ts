@@ -14,7 +14,6 @@ export function useResizableContainer(options: Options) {
     if (!options.draggerRef) return;
 
     const handleMouseDown = () => {
-      console.log('mousedown');
       setIsResizing(true);
     };
 
@@ -33,7 +32,6 @@ export function useResizableContainer(options: Options) {
     };
 
     const handleMouseUp = () => {
-      console.log('mouseup');
       setIsResizing(false);
     };
 

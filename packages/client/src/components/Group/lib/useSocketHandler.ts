@@ -48,8 +48,6 @@ function onPeerCreated({
     const isMuted = connections.get(peerId)?.userData?.isMuted;
     const isCameraOff = connections.get(peerId)?.userData?.isCameraOff;
 
-    console.log('HELLLOOOO!', connections.get(peerId), peerId);
-
     setStreams(prevStreams => {
       stream.getAudioTracks().forEach(track => {
         track.enabled = !isMuted;
@@ -80,8 +78,6 @@ function onPeerCreated({
       message: { isMuted: boolean; isCameraOff: boolean };
       id: string;
     };
-
-    console.log('HELLLOOOO!', { message });
 
     return setStreams(prevStreams => {
       const newStream = prevStreams[id].stream;
@@ -253,9 +249,7 @@ export default function useSocketHandler({
 
   useEffect(() => {
     connections.current.forEach(({ peer }) => {
-      if (!peer) return;
-
-      console.log('MMEEEEEE', { isMuted, isCameraOff });
+      if (!peer || !peer.send) return;
 
       peer.send(
         JSON.stringify({
