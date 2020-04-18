@@ -8,6 +8,7 @@ export const appConfig = {
   appId: process.env.REACT_APP_ID,
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
   socketServer: process.env.REACT_APP_SOCKET_SERVER || '',
+  sentryDsn: process.env.REACT_APP_SENTRY_DSN,
 };
 
 export const noop = (...args: any[]): any => {};

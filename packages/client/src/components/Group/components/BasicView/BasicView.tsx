@@ -1,6 +1,6 @@
-import { Tooltip, Typography, useTheme } from '@material-ui/core';
+import { Typography, useTheme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
