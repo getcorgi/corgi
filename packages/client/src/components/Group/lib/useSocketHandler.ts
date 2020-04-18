@@ -80,7 +80,10 @@ function onPeerCreated({
     };
 
     return setStreams(prevStreams => {
-      const newStream = prevStreams[id].stream;
+      const newStream = prevStreams[id]?.stream;
+
+      if (!newStream) return prevStreams;
+
       newStream.getAudioTracks().forEach(track => {
         track.enabled = !message.isMuted;
       });

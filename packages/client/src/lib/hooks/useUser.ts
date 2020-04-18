@@ -52,6 +52,8 @@ export default function useUser() {
     name?: string;
     id?: string;
   }) => {
+    if (!variables.id) return;
+
     const ref = db.collection('users').doc(variables.id);
 
     return await ref.update({
