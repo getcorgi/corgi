@@ -252,7 +252,7 @@ export default function useSocketHandler({
 
   useEffect(() => {
     connections.current.forEach(({ peer }) => {
-      if (!peer || !peer.send) return;
+      if (!peer || !peer.write) return;
 
       peer.write(
         JSON.stringify({
