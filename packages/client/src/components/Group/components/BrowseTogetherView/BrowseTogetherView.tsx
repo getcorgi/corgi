@@ -38,10 +38,8 @@ function BrowseTogetherView(props: Props) {
   const { width: resizedWidth, isResizing } = useResizableContainer({
     draggerRef: draggerRef.current,
     minWidth: 50,
-    maxWidth: 600,
+    maxWidth: window.innerWidth / 2,
   });
-
-  console.log(resizedWidth);
 
   useEffect(() => {
     setActivityUrl(addProtocol(props.activityUrl));

@@ -12,27 +12,35 @@ interface Props {
   userName: string;
 }
 
+// TODO: this sucks, make better
 const getVideoRatios = (count: number) => {
   // max out at 5 x 5 for now
   if (count >= 10) {
-    return '20%';
+    return { width: '20%', height: '20%' };
   }
   if (count >= 5 && count <= 9) {
-    return '33.33%';
+    const width = '33.33%';
+    let height = '50%';
+    if (count > 6) {
+      height = '33%';
+    }
+
+    return { width, height };
   }
   if (count >= 2 && count <= 4) {
-    return '50%';
+    return { width: '50%', height: '50%' };
   }
-  return '100%';
+
+  return { width: '100%', height: '100%' };
 };
 
 export default function BasicView(props: Props) {
   const theme = useTheme();
   const streams = Object.values(props.streams);
-  const streamCount = streams.length;
+  const streamCount = 5 || streams.length;
 
-  const videoWidth = getVideoRatios(streamCount);
-  const videoHeight = getVideoRatios(streamCount);
+  const videoWidth = getVideoRatios(streamCount).width;
+  const videoHeight = getVideoRatios(streamCount).height;
 
   const [isCopiedTooltipOpen, setIsCopiedTooltipOpen] = useState(false);
 
