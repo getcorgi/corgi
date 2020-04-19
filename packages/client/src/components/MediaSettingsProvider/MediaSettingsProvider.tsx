@@ -122,6 +122,7 @@ export function MediaSettingsProvider(props: Props) {
                   deviceId: {
                     exact: activeDevices.audioInput,
                   },
+                  echoCancellation: true,
                 },
               }
             : {}),
