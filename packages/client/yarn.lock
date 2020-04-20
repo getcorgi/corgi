@@ -16201,6 +16201,13 @@ use-callback-ref@^1.2.1:
   resolved "https://registry.yarnpkg.com/use-callback-ref/-/use-callback-ref-1.2.1.tgz#898759ccb9e14be6c7a860abafa3ffbd826c89bb"
   integrity sha512-C3nvxh0ZpaOxs9RCnWwAJ+7bJPwQI8LHF71LzbQ3BvzH5XkdtlkMadqElGevg5bYBDFip4sAnD4m06zAKebg1w==
 
+use-resize-observer@^6.1.0-alpha.1:
+  version "6.1.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/use-resize-observer/-/use-resize-observer-6.1.0-alpha.1.tgz#2146bd87a5b763087f62d3b9dd0fa30de92edc13"
+  integrity sha512-wu44tDFT3bSIXkf0XeHYLlUP4FmbIRm6tN9OiC0t/dv/lAtbYsvyJhMmv/fOJGOi0T7QAI44504ckW98SGPbGA==
+  dependencies:
+    resize-observer-polyfill "^1.5.1"
+
 use-sidecar@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/use-sidecar/-/use-sidecar-1.0.2.tgz#e72f582a75842f7de4ef8becd6235a4720ad8af6"

@@ -1,6 +1,7 @@
 import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import React, { useContext, useEffect, useRef } from 'react';
+import useResizeObserver from 'use-resize-observer';
 
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
 import AudioVisualizer from '../AudioVisualizer';
@@ -46,7 +47,10 @@ interface ExperimentalHTMLVideoElement extends HTMLVideoElement {
 
 export default function(props: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const {
+    ref: containerRef,
+    height: containerRefHeight = 1,
+  } = useResizeObserver<HTMLDivElement>();
   const classes = useStyles(props);
   const audioTrack = props.srcObject?.getAudioTracks()[0];
   const videoTrack = props.srcObject?.getVideoTracks()[0];
@@ -56,9 +60,7 @@ export default function(props: Props) {
 
   const { activeDevices } = useContext(MediaSettingsContext);
 
-  const clientRect = containerRef.current?.getBoundingClientRect();
-
-  const avatarSize = clientRect ? clientRect?.height / 2 : 0;
+  const avatarSize = containerRefHeight / 2;
 
   useEffect(() => {
     if (videoRef.current) {

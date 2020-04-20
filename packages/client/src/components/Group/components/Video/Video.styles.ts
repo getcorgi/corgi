@@ -31,8 +31,10 @@ export const Video = styled('div')({
   overflow: 'hidden',
   width: '100%',
   height: '100%',
+  paddingBottom: '25%',
 });
 
 export const EmptyVideo = styled(Box)({
+  position: 'absolute',
   backgroundColor: '#16161d8a',
 });
