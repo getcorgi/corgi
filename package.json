@@ -8,17 +8,15 @@
     "./packages/server"
   ],
   "scripts": {
-    "start:client": "cd packages/client && yarn start",
-    "start:server": "cd packages/server && yarn start",
+    "start-client": "yarn workspace client start",
+    "start-server": "yarn workspace server start-dev",
+    "start": "concurrently --kill-others-on-fail -p \"[{name}]\" -n \"CLIENT,SERVER\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn:start-client\" \"yarn:start-server\"",
     "lint": "yarn workspaces run lint"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.4",
     "@commitlint/config-conventional": "^8.3.4",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-simple-import-sort": "^5.0.2",
+    "concurrently": "^5.1.0",
     "husky": "^4.0.6",
     "lint-staged": "^9.5.0"
   }
