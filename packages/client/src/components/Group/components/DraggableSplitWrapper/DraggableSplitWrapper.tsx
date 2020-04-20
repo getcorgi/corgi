@@ -14,8 +14,8 @@ interface Props {
 
 const defaultProps = {
   draggerSize: 5,
-  minAsideWidth: 50,
-  maxAsideWidth: 600,
+  minAsideWidth: '15%',
+  maxAsideWidth: '35%',
   draggerColor: 'rgba(255,255,255, 0.1)',
 };
 
