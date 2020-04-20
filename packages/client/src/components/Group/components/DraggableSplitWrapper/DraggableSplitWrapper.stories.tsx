@@ -9,6 +9,10 @@ export default {
 
 export const Default = () => (
   <Box width="1000px" height="500px">
-    <DraggableSplitWrapper left={<Box>hi</Box>} right={<Box>hi</Box>} />
+    <DraggableSplitWrapper
+      draggerColor="blue"
+      left={<Box>hi</Box>}
+      right={<Box>hi</Box>}
+    />
   </Box>
 );
