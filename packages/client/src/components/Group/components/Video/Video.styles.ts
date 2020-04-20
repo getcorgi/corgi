@@ -27,11 +27,10 @@ export const UserAvatar = styled(Avatar)({
 });
 
 export const Video = styled('div')({
-  position: 'relative',
+  position: 'absolute',
   overflow: 'hidden',
   width: '100%',
   height: '100%',
-  paddingBottom: '25%',
 });
 
 export const EmptyVideo = styled(Box)({
