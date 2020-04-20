@@ -117,15 +117,18 @@ export default function Preview(props: Props) {
 
                     <Box mb={theme.spacing(0.2)}>
                       <AvatarGroup max={5}>
-                        {props.users.map((user, idx) => (
-                          <Tooltip title={user.name} key={idx}>
-                            <Avatar
-                              className={classes.Avatar}
-                              alt={user.name}
-                              src="fallback"
-                            />
-                          </Tooltip>
-                        ))}
+                        {props.users.map(
+                          (user, idx) =>
+                            user.id && (
+                              <Tooltip title={user.name} key={idx}>
+                                <Avatar
+                                  className={classes.Avatar}
+                                  alt={user.name}
+                                  src="fallback"
+                                />
+                              </Tooltip>
+                            ),
+                        )}
                       </AvatarGroup>
                     </Box>
 

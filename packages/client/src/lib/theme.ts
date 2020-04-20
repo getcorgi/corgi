@@ -1,3 +1,4 @@
+import { Color } from '@material-ui/core';
 import * as colors from '@material-ui/core/colors';
 import { createMuiTheme } from '@material-ui/core/styles';
 
@@ -20,7 +21,8 @@ export default createMuiTheme({
   },
 });
 
-const COLORS = Object.keys(colors);
+// Thanks danphillips <3
+const COLORS = Object.values(colors) as Color[];
 
 const hashString = (string: string): number => {
   let hash = 0;
@@ -33,10 +35,11 @@ const hashString = (string: string): number => {
   return hash;
 };
 
-const hashStringToArrayEntry = (string: string, array: any[]): any => {
+const hashStringToArrayEntry = (string: string, array: Color[]): any => {
   const hash = hashString(string);
   const index = hash % array.length;
-  return array[index];
+
+  return array[index]['500'];
 };
 
 export const getColorFromHash = (hash: string) => {

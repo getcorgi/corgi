@@ -7,6 +7,7 @@ interface MeContextValues {
   name: string;
   avatarUrl: string;
   firebaseAuthId: string;
+  color: string;
   createdAt?: firebase.firestore.Timestamp;
 }
 
@@ -15,6 +16,7 @@ export const MeContext = React.createContext<MeContextValues | undefined>({
   name: '',
   avatarUrl: '',
   firebaseAuthId: '',
+  color: '',
 });
 
 interface Props {

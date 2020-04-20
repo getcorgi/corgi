@@ -37,7 +37,7 @@ const getVideoRatios = (count: number) => {
 export default function BasicView(props: Props) {
   const theme = useTheme();
   const streams = Object.values(props.streams);
-  const streamCount = 5 || streams.length;
+  const streamCount = streams.length;
 
   const videoWidth = getVideoRatios(streamCount).width;
   const videoHeight = getVideoRatios(streamCount).height;

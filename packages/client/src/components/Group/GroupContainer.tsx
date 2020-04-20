@@ -62,7 +62,7 @@ export default function GroupContainer(props: Props) {
   }, [me, userName]);
 
   function onJoinCall() {
-    connect({ name: userName, isMuted, isCameraOff });
+    connect({ name: userName, isMuted, isCameraOff, color: me?.color });
   }
 
   const onHangup = () => {

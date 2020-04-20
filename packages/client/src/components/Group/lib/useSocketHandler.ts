@@ -19,9 +19,10 @@ type Connections = Map<string, { peer: Peer.Instance; userData: User }>;
 
 export interface User {
   avatarUrl?: string;
+  color?: string;
   id?: string;
-  isMuted?: boolean;
   isCameraOff?: boolean;
+  isMuted?: boolean;
   name: string;
 }
 
@@ -237,6 +238,7 @@ export default function useSocketHandler({
     socket.current.emit('userIsDisconnecting', {
       socketId: socket.current.id,
     });
+    socket.current.close();
     connections.current.forEach(({ peer }) => peer.destroy());
     playUserLeftBloop({});
     setIsConnected(false);
