@@ -1,23 +1,26 @@
-import { Color } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 
-import useUser from '../../lib/hooks/useUser';
+import { noop } from '../../constants';
+import useUser, { UserDocumentData } from '../../lib/hooks/useUser';
 
-export interface MeContextValues {
-  avatarUrl: string;
-  color?: Color;
-  createdAt?: firebase.firestore.Timestamp;
-  firebaseAuthId: string;
-  id: string;
-  name: string;
+export interface Me extends UserDocumentData {}
+
+interface MeContextValues {
+  me: Me;
+  updateMe: (values: Partial<Me>) => void;
 }
 
-export const MeContext = React.createContext<MeContextValues | undefined>({
+const DEFAULT_ME_VALUES = {
   id: '',
   name: '',
   avatarUrl: '',
   firebaseAuthId: '',
   color: undefined,
+};
+
+export const MeContext = React.createContext<MeContextValues>({
+  me: DEFAULT_ME_VALUES,
+  updateMe: noop,
 });
 
 interface Props {
@@ -25,13 +28,11 @@ interface Props {
 }
 
 export function MeProvider(props: Props) {
-  const [me, setMe] = useState<MeContextValues | undefined>();
-  const { authedUser, read, create } = useUser();
-
-  console.log(me);
+  const [me, setMe] = useState<Me>(DEFAULT_ME_VALUES);
+  const { authedUser, read, create, update } = useUser();
 
   useEffect(() => {
-    if (me) return;
+    if (me.createdAt) return;
     (async () => {
       let user = await read(authedUser.uid);
 
@@ -40,7 +41,7 @@ export function MeProvider(props: Props) {
 
         if (!newUser) return;
 
-        user = (await newUser?.get())?.data() as MeContextValues;
+        user = (await newUser?.get())?.data() as Me;
         return setMe({ ...user, id: newUser?.id });
       }
 
@@ -48,7 +49,12 @@ export function MeProvider(props: Props) {
     })();
   }, [me, authedUser.uid, read, create]);
 
-  const value = me;
+  const updateMe = (values: Partial<Me>) => {
+    update(values);
+    setMe({ ...me, ...values });
+  };
+
+  const value = { me, updateMe };
 
   return (
     <MeContext.Provider value={value}>{props.children}</MeContext.Provider>

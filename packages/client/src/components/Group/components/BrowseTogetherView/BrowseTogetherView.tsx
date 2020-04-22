@@ -3,7 +3,7 @@ import Box from '@material-ui/core/Box';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useEffect, useState } from 'react';
 
-import { MeContextValues } from '../../../MeProvider/MeProvider';
+import { Me } from '../../../MeProvider/MeProvider';
 import { User } from '../../lib/useSocketHandler';
 import DraggableSplitWrapper from '../DraggableSplitWrapper';
 import Video from '../Video';
@@ -15,7 +15,7 @@ interface Props {
   localStream: MediaStream | null;
   activityUrl: string;
   updateActivityUrl: (value: string) => void;
-  me?: MeContextValues;
+  me?: Me;
 }
 
 const defaultProps = {

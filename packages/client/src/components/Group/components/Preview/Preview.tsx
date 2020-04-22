@@ -15,7 +15,7 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
 
-import { MeContextValues } from '../../../MeProvider/MeProvider';
+import { Me } from '../../../MeProvider/MeProvider';
 import { User } from '../../lib/useSocketHandler';
 import MediaSettingsPopover from '../MediaSettingsPopover';
 import Video from '../Video';
@@ -31,7 +31,7 @@ interface Props {
   toggleIsMuted: () => void;
   stream?: MediaStream | null;
   users: User[];
-  me?: MeContextValues;
+  me?: Me;
   userName: string;
 }
 

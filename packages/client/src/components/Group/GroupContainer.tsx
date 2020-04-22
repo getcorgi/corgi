@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 
 import useGroup from '../../lib/hooks/useGroup';
 import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
-import useUser from '../../lib/hooks/useUser';
 import { MeContext } from '../MeProvider';
 import ActivityView from './components/ActivityView';
 import BasicView from './components/BasicView';
@@ -29,8 +28,7 @@ export default function GroupContainer(props: Props) {
   const group = useGroup(groupId);
   const updateGroup = useUpdateGroup();
   const history = useHistory();
-  const me = useContext(MeContext);
-  const { update: updateUser } = useUser();
+  const { me, updateMe } = useContext(MeContext);
 
   const isAdmin = Boolean(
     group.data?.roles.editors.some(editor => editor === me?.firebaseAuthId),
@@ -73,7 +71,7 @@ export default function GroupContainer(props: Props) {
   const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value;
     setUserName(name);
-    updateUser({ name, id: me?.id });
+    updateMe({ name, id: me?.id });
   };
 
   const renderMeta = () => (

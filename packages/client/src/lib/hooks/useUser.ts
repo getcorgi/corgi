@@ -6,12 +6,12 @@ import { getColorFromHash } from '../theme';
 import { DocumentQueryResult } from '../types';
 
 export interface UserDocumentData {
-  avatarUrl: string;
+  avatarUrl?: string;
   color?: Color;
   createdAt?: firebase.firestore.Timestamp;
   firebaseAuthId: string;
   id: string;
-  name: string;
+  name?: string;
 }
 
 export type UseReadUserResult = DocumentQueryResult<UserDocumentData>;

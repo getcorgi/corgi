@@ -2,7 +2,7 @@ import { Typography, useTheme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import React, { useState } from 'react';
 
-import { MeContextValues } from '../../../MeProvider/MeProvider';
+import { Me } from '../../../MeProvider/MeProvider';
 import { User } from '../../lib/useSocketHandler';
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
@@ -11,7 +11,7 @@ import * as S from './BasicView.styles';
 interface Props {
   localStream: MediaStream | null;
   streams: StreamsDict;
-  me?: MeContextValues;
+  me?: Me;
 }
 
 // TODO: this sucks, make better
