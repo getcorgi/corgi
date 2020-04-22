@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import DraggableSplitWrapper from '../DraggableSplitWrapper';
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
+import * as S from './BrowseTogetherView.styles';
 
 interface Props {
   streams: StreamsDict;
@@ -74,7 +75,7 @@ function BrowseTogetherView(props: Props) {
     </Box>
   );
   const right = (
-    <>
+    <S.Streams>
       {props.localStream && (
         <Box width="100%" position="relative" pb="75%">
           <Video
@@ -102,9 +103,16 @@ function BrowseTogetherView(props: Props) {
           </Box>
         );
       })}
-    </>
+    </S.Streams>
   );
-  return <DraggableSplitWrapper left={left} right={right} />;
+  return (
+    <DraggableSplitWrapper
+      minAsideWidth="5%"
+      maxAsideWidth="75%"
+      left={left}
+      right={right}
+    />
+  );
 }
 
 BrowseTogetherView.defaultProps = defaultProps;

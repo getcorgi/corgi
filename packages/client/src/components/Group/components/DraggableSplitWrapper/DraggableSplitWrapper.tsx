@@ -7,8 +7,8 @@ interface Props {
   right: React.ReactNode;
   left: React.ReactNode;
   draggerSize: number;
-  minAsideWidth: number;
-  maxAsideWidth: number;
+  minAsideWidth: string;
+  maxAsideWidth: string;
   draggerColor: string;
 }
 
@@ -16,7 +16,7 @@ const defaultProps = {
   draggerSize: 5,
   minAsideWidth: '15%',
   maxAsideWidth: '35%',
-  draggerColor: 'rgba(255,255,255, 0.1)',
+  draggerColor: 'rgba(0, 0, 0, 0.4)',
 };
 
 function DraggableSplitWrapper(props: Props) {
