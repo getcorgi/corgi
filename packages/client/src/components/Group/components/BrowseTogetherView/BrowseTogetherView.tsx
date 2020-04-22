@@ -3,6 +3,8 @@ import Box from '@material-ui/core/Box';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useEffect, useState } from 'react';
 
+import { MeContextValues } from '../../../MeProvider/MeProvider';
+import { User } from '../../lib/useSocketHandler';
 import DraggableSplitWrapper from '../DraggableSplitWrapper';
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
@@ -11,9 +13,9 @@ import * as S from './BrowseTogetherView.styles';
 interface Props {
   streams: StreamsDict;
   localStream: MediaStream | null;
-  userName: string;
   activityUrl: string;
   updateActivityUrl: (value: string) => void;
+  me?: MeContextValues;
 }
 
 const defaultProps = {
@@ -83,7 +85,7 @@ function BrowseTogetherView(props: Props) {
             srcObject={props.localStream}
             isMuted={true}
             isMirrored={true}
-            userName={props.userName}
+            user={props.me as User}
             label="(You)"
           />
         </Box>
@@ -98,7 +100,7 @@ function BrowseTogetherView(props: Props) {
               srcObject={stream}
               isMuted={false}
               label={user.name}
-              userName={user.name}
+              user={user}
             />
           </Box>
         );

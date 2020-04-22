@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useRef } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
+import { User } from '../../lib/useSocketHandler';
 import AudioVisualizer from '../AudioVisualizer';
 import * as S from './Video.styles';
 
@@ -38,7 +39,7 @@ interface Props {
   isMuted?: boolean;
   label?: string;
   srcObject: MediaStream;
-  userName?: string;
+  user?: User;
 }
 
 interface ExperimentalHTMLVideoElement extends HTMLVideoElement {
@@ -86,7 +87,12 @@ export default function(props: Props) {
           alignItems="center"
           justifyContent="center"
         >
-          <S.UserAvatar alt={props.userName} src="fallback" size={avatarSize} />
+          <S.UserAvatar
+            alt={props.user?.name}
+            src="fallback"
+            size={avatarSize}
+            userColor={props.user?.color}
+          />
         </S.EmptyVideo>
       )}
       <video

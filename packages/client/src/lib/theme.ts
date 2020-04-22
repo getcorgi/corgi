@@ -39,7 +39,7 @@ const hashStringToArrayEntry = (string: string, array: Color[]): any => {
   const hash = hashString(string);
   const index = hash % array.length;
 
-  return array[index]['500'];
+  return array[index];
 };
 
 export const getColorFromHash = (hash: string) => {

@@ -2,6 +2,8 @@ import { Typography, useTheme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import React, { useState } from 'react';
 
+import { MeContextValues } from '../../../MeProvider/MeProvider';
+import { User } from '../../lib/useSocketHandler';
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
 import * as S from './BasicView.styles';
@@ -9,7 +11,7 @@ import * as S from './BasicView.styles';
 interface Props {
   localStream: MediaStream | null;
   streams: StreamsDict;
-  userName: string;
+  me?: MeContextValues;
 }
 
 // TODO: this sucks, make better
@@ -109,7 +111,7 @@ export default function BasicView(props: Props) {
               srcObject={stream}
               isMuted={false}
               label={user.name}
-              userName={user.name}
+              user={user}
             />
           </Box>
         );
@@ -122,7 +124,7 @@ export default function BasicView(props: Props) {
               srcObject={props.localStream}
               isMuted={true}
               isMirrored={true}
-              userName={props.userName}
+              user={props.me as User}
               label="(You)"
             />
           </Box>

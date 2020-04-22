@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Grid,
   IconButton,
@@ -16,6 +15,7 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
 
+import { MeContextValues } from '../../../MeProvider/MeProvider';
 import { User } from '../../lib/useSocketHandler';
 import MediaSettingsPopover from '../MediaSettingsPopover';
 import Video from '../Video';
@@ -31,12 +31,12 @@ interface Props {
   toggleIsMuted: () => void;
   stream?: MediaStream | null;
   users: User[];
+  me?: MeContextValues;
   userName: string;
 }
 
 export default function Preview(props: Props) {
   const theme = useTheme();
-  const classes = S.useStyles();
 
   return (
     <>
@@ -64,7 +64,7 @@ export default function Preview(props: Props) {
                     isMuted={true}
                     isMirrored={true}
                     label="(You)"
-                    userName={props.userName}
+                    user={props.me as User}
                   />
                 )}
               </Box>
@@ -121,8 +121,8 @@ export default function Preview(props: Props) {
                           (user, idx) =>
                             user.id && (
                               <Tooltip title={user.name} key={idx}>
-                                <Avatar
-                                  className={classes.Avatar}
+                                <S.Avatar
+                                  userColor={user?.color}
                                   alt={user.name}
                                   src="fallback"
                                 />

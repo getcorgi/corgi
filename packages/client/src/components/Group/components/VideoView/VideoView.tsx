@@ -2,12 +2,13 @@ import { Box } from '@material-ui/core';
 import React from 'react';
 
 import useIdleTimer from '../../../../lib/hooks/useIdleTImer';
+import { User } from '../../lib/useSocketHandler';
 import Activities from '../Activities';
 import VideoControls from '../VideoControls';
 import * as S from './VideoView.styles';
 
 export interface StreamsDict {
-  [key: string]: { user: { name: string; id: string }; stream?: MediaStream };
+  [key: string]: { user: User; stream?: MediaStream };
 }
 
 interface Props {

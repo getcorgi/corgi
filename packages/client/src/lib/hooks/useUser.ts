@@ -1,3 +1,4 @@
+import { Color } from '@material-ui/core';
 import { useContext } from 'react';
 
 import { FirebaseContext } from '../../components/Firebase';
@@ -6,8 +7,8 @@ import { DocumentQueryResult } from '../types';
 
 export interface UserDocumentData {
   avatarUrl: string;
-  color: string;
-  createdAt: string;
+  color?: Color;
+  createdAt?: firebase.firestore.Timestamp;
   firebaseAuthId: string;
   id: string;
   name: string;
@@ -29,7 +30,6 @@ export default function useUser() {
       const ref = db.collection('users');
       return ref.add({
         firebaseAuthId: id,
-        color: getColorFromHash(id),
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
     } catch (err) {
@@ -44,7 +44,15 @@ export default function useUser() {
         .where('firebaseAuthId', '==', id)
         .get();
 
-      return ref.docs[0];
+      if (ref.docs[0].exists) {
+        const user = await ref.docs[0].ref.get();
+        return {
+          ...user.data(),
+          id: ref.docs[0].id,
+          color: getColorFromHash(id),
+        } as UserDocumentData;
+      }
+      return null;
     } catch (err) {
       console.error(err);
     }

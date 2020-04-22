@@ -7,7 +7,6 @@ export default function VideoWrapper(props: {
   id: string;
   localStream: MediaStream | null;
   streams: StreamsDict;
-  userName: string;
   streamIndex: number;
   userId: string;
 }) {
@@ -19,5 +18,7 @@ export default function VideoWrapper(props: {
 
   if (!stream || !user) return null;
 
-  return <Video srcObject={stream} isMuted={false} label={user.name} />;
+  return (
+    <Video srcObject={stream} isMuted={false} user={user} label={user.name} />
+  );
 }

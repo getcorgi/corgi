@@ -1,14 +1,15 @@
+import { Color } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 
 import useUser from '../../lib/hooks/useUser';
 
-interface MeContextValues {
-  id?: string;
-  name: string;
+export interface MeContextValues {
   avatarUrl: string;
-  firebaseAuthId: string;
-  color: string;
+  color?: Color;
   createdAt?: firebase.firestore.Timestamp;
+  firebaseAuthId: string;
+  id: string;
+  name: string;
 }
 
 export const MeContext = React.createContext<MeContextValues | undefined>({
@@ -16,7 +17,7 @@ export const MeContext = React.createContext<MeContextValues | undefined>({
   name: '',
   avatarUrl: '',
   firebaseAuthId: '',
-  color: '',
+  color: undefined,
 });
 
 interface Props {
@@ -27,20 +28,23 @@ export function MeProvider(props: Props) {
   const [me, setMe] = useState<MeContextValues | undefined>();
   const { authedUser, read, create } = useUser();
 
+  console.log(me);
+
   useEffect(() => {
     if (me) return;
     (async () => {
-      const userDoc = await read(authedUser.uid);
+      let user = await read(authedUser.uid);
 
-      if (!userDoc?.exists) {
+      if (!user) {
         const newUser = await create(authedUser.uid);
 
-        const me = (await newUser?.get())?.data() as MeContextValues;
-        return setMe({ ...me, id: newUser?.id });
+        if (!newUser) return;
+
+        user = (await newUser?.get())?.data() as MeContextValues;
+        return setMe({ ...user, id: newUser?.id });
       }
 
-      const me = (await userDoc?.ref.get())?.data() as MeContextValues;
-      setMe({ ...me, id: userDoc.id });
+      setMe({ ...user, id: user.id });
     })();
   }, [me, authedUser.uid, read, create]);
 

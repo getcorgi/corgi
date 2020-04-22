@@ -1,4 +1,4 @@
-import { Box, Card, createStyles, makeStyles, Theme } from '@material-ui/core';
+import { Avatar as MuiAvatar, Box, Card, Color } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
 
 export const Controls = styled(Box)({
@@ -22,8 +22,6 @@ export const Gradient = styled('div')({
   bottom: 0,
 });
 
-export const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    Avatar: {},
-  }),
-);
+export const Avatar = styled(MuiAvatar)({
+  backgroundColor: ({ userColor }: { userColor?: Color }) => userColor?.[300],
+});

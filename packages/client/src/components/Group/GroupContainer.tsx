@@ -93,6 +93,7 @@ export default function GroupContainer(props: Props) {
           groupName={group.data?.name || ''}
           isCameraOff={isCameraOff}
           isMuted={isMuted}
+          me={me}
           onJoin={onJoinCall}
           onUserNameChange={onUserNameChange}
           stream={localStream}
@@ -135,7 +136,7 @@ export default function GroupContainer(props: Props) {
                 return (
                   <BrowseTogether
                     localStream={localStream}
-                    userName={userName}
+                    me={me}
                     streams={streams}
                     activityUrl={group.data?.activityUrl}
                     updateActivityUrl={value =>
@@ -148,7 +149,7 @@ export default function GroupContainer(props: Props) {
                 return (
                   <BasicView
                     localStream={localStream}
-                    userName={userName}
+                    me={me}
                     streams={streams}
                   />
                 );
@@ -158,7 +159,6 @@ export default function GroupContainer(props: Props) {
                   <ActivityView
                     id={group.data?.activityId || '0'}
                     localStream={localStream}
-                    userName={userName}
                     streams={streams}
                   />
                 );

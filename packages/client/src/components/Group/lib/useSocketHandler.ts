@@ -1,3 +1,4 @@
+import { Color } from '@material-ui/core';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Peer from 'simple-peer';
 import io from 'socket.io-client';
@@ -19,7 +20,7 @@ type Connections = Map<string, { peer: Peer.Instance; userData: User }>;
 
 export interface User {
   avatarUrl?: string;
-  color?: string;
+  color?: Color;
   id?: string;
   isCameraOff?: boolean;
   isMuted?: boolean;

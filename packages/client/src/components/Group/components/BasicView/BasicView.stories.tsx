@@ -29,7 +29,7 @@ const createStreams = (count: number) => {
 const defaultProps = {
   streams: {},
   localStream: new MediaStream(),
-  userName: 'user 1',
+  me: { name: 'user 1', avatarUrl: '', firebaseAuthId: '', id: '' },
 };
 
 const Container = (props: { children: React.ReactNode }) => (

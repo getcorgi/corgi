@@ -8,7 +8,6 @@ export default function(props: {
   id: string;
   localStream: MediaStream | null;
   streams: StreamsDict;
-  userName: string;
 }) {
   const activity = useActivity(props.id);
   if (activity.data) {
