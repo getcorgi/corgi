@@ -36,7 +36,9 @@ const getVideoRatios = (count: number) => {
 
 export default function BasicView(props: Props) {
   const theme = useTheme();
+
   const streams = Object.values(props.streams);
+
   const streamCount = streams.length;
 
   const videoWidth = getVideoRatios(streamCount).width;
@@ -49,7 +51,6 @@ export default function BasicView(props: Props) {
   const onClickLink = () => {
     navigator.clipboard.writeText(window.location.href).then(function() {
       /* clipboard successfully set */
-      console.log('success');
       setIsCopiedTooltipOpen(isOpen => true);
 
       setTimeout(() => {
@@ -92,7 +93,6 @@ export default function BasicView(props: Props) {
           </S.EmptyMessage>
         </Box>
       )}
-
       {streams.map(({ stream, user }) => {
         if (!stream) return null;
         return (
@@ -101,6 +101,9 @@ export default function BasicView(props: Props) {
             key={stream?.id}
             height={videoHeight}
             position="relative"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
           >
             <Video
               srcObject={stream}
@@ -113,14 +116,16 @@ export default function BasicView(props: Props) {
       })}
       {props.localStream && (
         <S.LocalVideo elevation={10}>
-          <Video
-            key={props.localStream.id}
-            srcObject={props.localStream}
-            isMuted={true}
-            isMirrored={true}
-            userName={props.userName}
-            label="(You)"
-          />
+          <Box width="100%" position="relative" pb="56.25%">
+            <Video
+              key={props.localStream.id}
+              srcObject={props.localStream}
+              isMuted={true}
+              isMirrored={true}
+              userName={props.userName}
+              label="(You)"
+            />
+          </Box>
         </S.LocalVideo>
       )}
     </S.BasicView>

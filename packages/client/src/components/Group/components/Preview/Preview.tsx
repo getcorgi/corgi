@@ -56,7 +56,7 @@ export default function Preview(props: Props) {
         <Grid container={true} spacing={10}>
           <Grid item={true} xs={12} md={7}>
             <S.VideoCard elevation={5}>
-              <Box width="100%" height="440px">
+              <Box width="100%" position="relative" pb="56.25%">
                 {props.stream && (
                   <Video
                     key={props.stream.id}

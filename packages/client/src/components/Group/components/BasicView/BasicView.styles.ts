@@ -12,7 +12,6 @@ export const LocalVideo = styled(Card)({
   top: '16px',
   right: '16px',
   width: '150px',
-  height: '100px',
 });
 
 export const EmptyMessage = styled('div')({

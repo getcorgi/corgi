@@ -77,7 +77,7 @@ function BrowseTogetherView(props: Props) {
   const right = (
     <S.Streams>
       {props.localStream && (
-        <Box width="100%" position="relative" pb="75%">
+        <Box width="100%" position="relative" pb="56.25%">
           <Video
             key={props.localStream.id}
             srcObject={props.localStream}
@@ -93,7 +93,7 @@ function BrowseTogetherView(props: Props) {
         if (!stream) return null;
 
         return (
-          <Box key={stream?.id} width="100%" position="relative" pb="75%">
+          <Box key={stream?.id} width="100%" position="relative" pb="56.25%">
             <Video
               srcObject={stream}
               isMuted={false}
