@@ -15,6 +15,24 @@ export default function useMediaStream() {
 
   useEffect(() => {
     (async () => {
+      const { state: microphoneState } = await navigator.permissions.query({
+        name: 'microphone',
+      });
+      const { state: cameraState } = await navigator.permissions.query({
+        name: 'camera',
+      });
+      const isMissingPermissions =
+        microphoneState === 'denied' && cameraState === 'denied';
+      console.log(isMissingPermissions);
+
+      // TODO: @orrybaram - add a modal here
+      if (isMissingPermissions) {
+        alert('Camera and microphone are blocked, please update permissions.');
+      }
+    })();
+  }, []);
+  useEffect(() => {
+    (async () => {
       // No input devices available
       if (
         (!mediaConstraints.audio && !mediaConstraints.video) ||
@@ -30,6 +48,7 @@ export default function useMediaStream() {
         );
         setLocalStream(stream);
       } catch (e) {
+        console.log(e);
         // Handle Error
       }
     })();
