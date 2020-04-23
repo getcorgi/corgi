@@ -15,15 +15,16 @@ export default function useMediaStream() {
 
   useEffect(() => {
     (async () => {
-      const { state: microphoneState } = await navigator.permissions.query({
+      const micPermissions = await navigator.permissions.query({
         name: 'microphone',
       });
-      const { state: cameraState } = await navigator.permissions.query({
+      const cameraPermissions = await navigator.permissions.query({
         name: 'camera',
       });
       const isMissingPermissions =
-        microphoneState === 'denied' && cameraState === 'denied';
-      console.log(isMissingPermissions);
+        (!micPermissions && !cameraPermissions) ||
+        (micPermissions?.state === 'denied' &&
+          cameraPermissions?.state === 'denied');
 
       // TODO: @orrybaram - add a modal here
       if (isMissingPermissions) {
