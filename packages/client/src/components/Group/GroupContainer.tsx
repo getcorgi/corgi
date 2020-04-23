@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useHistory } from 'react-router-dom';
 
 import useGroup from '../../lib/hooks/useGroup';
 import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
@@ -27,7 +26,6 @@ export default function GroupContainer(props: Props) {
   const groupId = props.match.params.groupId;
   const group = useGroup(groupId);
   const updateGroup = useUpdateGroup();
-  const history = useHistory();
   const { me, updateMe } = useContext(MeContext);
 
   const isAdmin = Boolean(
@@ -39,15 +37,23 @@ export default function GroupContainer(props: Props) {
   const { localStream, setLocalStream } = useMediaStream();
   const { toggleIsMuted, isMuted } = useMute(localStream);
   const { toggleCamera, isCameraOff } = useToggleCamera(localStream);
-
-  const { connect, disconnect, isConnected, streams, users } = useSocketHandler(
-    {
-      groupId,
-      localStream,
+  const userData = useMemo(
+    () => ({
+      name: userName,
       isMuted,
       isCameraOff,
-    },
+      color: me?.color,
+    }),
+    [userName, isMuted, isCameraOff, me],
   );
+
+  const { joinRoom, leaveRoom, isInRoom, streams, users } = useSocketHandler({
+    groupId,
+    localStream,
+    isMuted,
+    isCameraOff,
+    userData,
+  });
   const { isSharingScreen, toggleIsSharingScreen } = useScreenShare({
     localStream,
     setLocalStream,
@@ -60,12 +66,11 @@ export default function GroupContainer(props: Props) {
   }, [me, userName]);
 
   function onJoinCall() {
-    connect({ name: userName, isMuted, isCameraOff, color: me?.color });
+    joinRoom();
   }
 
   const onHangup = () => {
-    disconnect();
-    history.push('/');
+    leaveRoom();
   };
 
   const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +88,7 @@ export default function GroupContainer(props: Props) {
     </Helmet>
   );
 
-  if (!isConnected || localStream === undefined) {
+  if (!isInRoom || localStream === undefined) {
     return (
       <>
         {renderMeta()}
@@ -104,7 +109,7 @@ export default function GroupContainer(props: Props) {
     );
   }
 
-  if (isConnected && localStream !== undefined) {
+  if (isInRoom && localStream !== undefined) {
     const setActiveView = (id: string) => {
       updateGroup({
         groupId,

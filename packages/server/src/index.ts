@@ -3,9 +3,10 @@ import socketIo from 'socket.io';
 
 interface User {
   avatarUrl?: string;
-  id: string;
+  id?: string;
   isMuted: boolean;
-  name: string;
+  isCameraOff: boolean;
+  name?: string;
 }
 
 interface ExtendedSocket extends SocketIO.Socket {
@@ -27,7 +28,7 @@ console.log(`🚀 Server started, listening on :${PORT}`);
 io.on('connection', (socket: ExtendedSocket) => {
   let room: string;
 
-  socket.on('userIsStaging', (data: { roomId: string }) => {
+  socket.on('userIsInPreview', (data: { roomId: string }) => {
     socket.join(data.roomId);
   });
 
@@ -93,23 +94,22 @@ io.on('connection', (socket: ExtendedSocket) => {
     },
   );
 
-  socket.on('userIsDisconnecting', (data: { socketId: string }) => {
+  socket.on('userIsLeavingRoom', (data: { socketId: string }) => {
     const socketId = data.socketId;
-    socket.to(room).emit('userDisconnected', {
+    socket.to(room).emit('userLeftRoom', {
       socketId,
     });
 
-    socket.leave(room, () => {
-      io.of('/')
-        .in(room)
-        .clients((err: string, clients: string[]) => {
-          const users = clients.map((socketId: string) => {
-            const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
-            return clientSocket.userData;
-          });
+    const { isMuted, isCameraOff } = socket.userData || {};
+    socket.userData = { isMuted, isCameraOff };
 
-          io.in(room).emit('gotUsers', { users });
-        });
+    io.in(room).clients((err: string, clients: string[]) => {
+      const users = clients.map((socketId: string) => {
+        const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
+        return clientSocket.userData;
+      });
+
+      io.in(room).emit('gotUsers', { users });
     });
   });
 });
