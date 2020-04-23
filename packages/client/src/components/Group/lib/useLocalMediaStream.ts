@@ -10,6 +10,7 @@ const stopStream = (localStream?: MediaStream) => {
 
 export default function useMediaStream() {
   const [localStream, setLocalStream] = useState<MediaStream>();
+  const [isPermissonAlertOpen, setIsPermissonAlertOpen] = useState(false);
   const { mediaConstraints } = useContext(MediaSettingsContext);
   const mediaConstraintsRef = useRef(mediaConstraints);
 
@@ -26,9 +27,8 @@ export default function useMediaStream() {
         (micPermissions?.state === 'denied' &&
           cameraPermissions?.state === 'denied');
 
-      // TODO: @orrybaram - add a modal here
       if (isMissingPermissions) {
-        alert('Camera and microphone are blocked, please update permissions.');
+        setIsPermissonAlertOpen(true);
       }
     })();
   }, []);
@@ -61,8 +61,14 @@ export default function useMediaStream() {
     };
   }, [mediaConstraints, localStream]);
 
+  const handleClosePermissionAlert = () => {
+    setIsPermissonAlertOpen(false);
+  };
+
   return {
     localStream,
     setLocalStream,
+    isPermissonAlertOpen,
+    handleClosePermissionAlert,
   };
 }

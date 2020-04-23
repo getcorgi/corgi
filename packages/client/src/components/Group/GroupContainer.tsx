@@ -7,6 +7,7 @@ import { MeContext } from '../MeProvider';
 import ActivityView from './components/ActivityView';
 import BasicView from './components/BasicView';
 import BrowseTogether from './components/BrowseTogetherView';
+import PermissionsAlert from './components/PermissionsAlert';
 import Preview from './components/Preview';
 import VideoView from './components/VideoView';
 import useMediaStream from './lib/useLocalMediaStream';
@@ -34,7 +35,12 @@ export default function GroupContainer(props: Props) {
 
   const [userName, setUserName] = useState(me?.name || '');
 
-  const { localStream, setLocalStream } = useMediaStream();
+  const {
+    localStream,
+    setLocalStream,
+    isPermissonAlertOpen,
+    handleClosePermissionAlert,
+  } = useMediaStream();
   const { toggleIsMuted, isMuted } = useMute(localStream);
   const { toggleCamera, isCameraOff } = useToggleCamera(localStream);
   const userData = useMemo(
@@ -80,12 +86,22 @@ export default function GroupContainer(props: Props) {
   };
 
   const renderMeta = () => (
-    <Helmet>
-      <title>{`Corgi${
-        group.data?.name ? ` - ${group.data?.name}` : ''
-      }`}</title>
-      <meta name="description" content={`Join my room - ${group.data?.name}`} />
-    </Helmet>
+    <>
+      <Helmet>
+        <title>{`Corgi${
+          group.data?.name ? ` - ${group.data?.name}` : ''
+        }`}</title>
+        <meta
+          name="description"
+          content={`Join my room - ${group.data?.name}`}
+        />
+      </Helmet>
+
+      <PermissionsAlert
+        isOpen={isPermissonAlertOpen}
+        handleClose={handleClosePermissionAlert}
+      />
+    </>
   );
 
   if (!isInRoom || localStream === undefined) {
