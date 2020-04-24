@@ -1,8 +1,9 @@
 import { Box } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 
 import useIdleTimer from '../../../../lib/hooks/useIdleTImer';
 import { User } from '../../lib/useSocketHandler';
+import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import Activities from '../Activities';
 import VideoControls from '../VideoControls';
 import * as S from './VideoView.styles';
@@ -24,10 +25,24 @@ interface Props {
   toggleCamera: () => void;
   toggleIsMuted: () => void;
   toggleIsSharingScreen: () => void;
+  messages: Message[];
+  sendMessage: (msg: string) => void;
 }
 
 export default function VideoView(props: Props) {
   const { isIdle } = useIdleTimer({ wait: 3500 });
+  const [newChatMessage, setNewChatMessage] = useState('');
+
+  const submitChatMessage = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    console.log(e);
+    props.sendMessage(newChatMessage);
+    setNewChatMessage('');
+  };
+
+  const onChatMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewChatMessage(e.target.value);
+  };
 
   return (
     <S.VideoView
@@ -51,6 +66,18 @@ export default function VideoView(props: Props) {
         </Box>
       )}
       <Box height="100%">{props.children({ streams: props.streams })}</Box>
+      <div>
+        {props.messages.map(({ message }) => {
+          return <div>{message}</div>;
+        })}
+
+        <div>
+          <form onSubmit={submitChatMessage}>
+            <input value={newChatMessage} onChange={onChatMessageChange} />
+          </form>
+        </div>
+      </div>
+
       <S.Controls isIdle={isIdle}>
         <VideoControls
           isCameraOff={props.isCameraOff}
