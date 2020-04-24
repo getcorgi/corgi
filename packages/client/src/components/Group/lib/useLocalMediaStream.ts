@@ -16,19 +16,23 @@ export default function useMediaStream() {
 
   useEffect(() => {
     (async () => {
-      const micPermissions = await navigator.permissions.query({
-        name: 'microphone',
-      });
-      const cameraPermissions = await navigator.permissions.query({
-        name: 'camera',
-      });
-      const isMissingPermissions =
-        (!micPermissions && !cameraPermissions) ||
-        (micPermissions?.state === 'denied' &&
-          cameraPermissions?.state === 'denied');
+      try {
+        const micPermissions = await navigator.permissions.query({
+          name: 'microphone',
+        });
+        const cameraPermissions = await navigator.permissions.query({
+          name: 'camera',
+        });
+        const isMissingPermissions =
+          (!micPermissions && !cameraPermissions) ||
+          (micPermissions?.state === 'denied' &&
+            cameraPermissions?.state === 'denied');
 
-      if (isMissingPermissions) {
-        setIsPermissonAlertOpen(true);
+        if (isMissingPermissions) {
+          setIsPermissonAlertOpen(true);
+        }
+      } catch (err) {
+        console.log(err);
       }
     })();
   }, []);
