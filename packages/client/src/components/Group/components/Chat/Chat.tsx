@@ -11,8 +11,6 @@ interface Props {
 }
 
 const ChatMessage = (props: { message: Message }) => {
-  console.log(props);
-
   return (
     <div>
       <div>
@@ -29,6 +27,8 @@ export default function Chat(props: Props) {
 
   const submitChatMessage = (e: React.SyntheticEvent) => {
     e.preventDefault();
+    if (!newChatMessage) return;
+
     props.sendMessage(newChatMessage);
     setNewChatMessage('');
   };
@@ -46,9 +46,6 @@ export default function Chat(props: Props) {
       <div>
         <form onSubmit={submitChatMessage}>
           <input value={newChatMessage} onChange={onChatMessageChange} />
-          <IconButton aria-label="send-message" onClick={submitChatMessage}>
-            <SendIcon />
-          </IconButton>
         </form>
       </div>
     </div>

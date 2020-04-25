@@ -5,7 +5,7 @@ import useIdleTimer from '../../../../lib/hooks/useIdleTImer';
 import { User } from '../../lib/useSocketHandler';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import Activities from '../Activities';
-import Chat from '../Chat';
+import Sidebar from '../Sidebar';
 import VideoControls from '../VideoControls';
 import * as S from './VideoView.styles';
 
@@ -34,40 +34,42 @@ export default function VideoView(props: Props) {
   const { isIdle } = useIdleTimer({ wait: 3500 });
 
   return (
-    <S.VideoView
-      position="relative"
-      display="flex"
-      flexDirection="column"
-      justifyContent="space-between"
-      height="100%"
-    >
-      {props.isAdmin && (
-        <Box
-          display="flex"
-          justifyContent="center"
-          position="absolute"
-          width="100%"
-        >
-          <Activities
-            setActiveViewId={props.setActiveViewId}
-            activeViewId={props.activeViewId}
-          />
-        </Box>
-      )}
-      <Chat messages={props.messages} sendMessage={props.sendMessage} />
-      <Box height="100%">{props.children({ streams: props.streams })}</Box>
+    <Sidebar messages={props.messages} sendMessage={props.sendMessage}>
+      <S.VideoView
+        position="relative"
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        height="100%"
+      >
+        {props.isAdmin && (
+          <Box
+            display="flex"
+            justifyContent="center"
+            position="absolute"
+            width="100%"
+          >
+            <Activities
+              setActiveViewId={props.setActiveViewId}
+              activeViewId={props.activeViewId}
+            />
+          </Box>
+        )}
 
-      <S.Controls isIdle={isIdle}>
-        <VideoControls
-          isCameraOff={props.isCameraOff}
-          isMuted={props.isMuted}
-          isSharingScreen={props.isSharingScreen}
-          onHangup={props.onHangup}
-          toggleCamera={props.toggleCamera}
-          toggleIsMuted={props.toggleIsMuted}
-          toggleIsSharingScreen={props.toggleIsSharingScreen}
-        />
-      </S.Controls>
-    </S.VideoView>
+        <Box height="100%">{props.children({ streams: props.streams })}</Box>
+
+        <S.Controls isIdle={isIdle}>
+          <VideoControls
+            isCameraOff={props.isCameraOff}
+            isMuted={props.isMuted}
+            isSharingScreen={props.isSharingScreen}
+            onHangup={props.onHangup}
+            toggleCamera={props.toggleCamera}
+            toggleIsMuted={props.toggleIsMuted}
+            toggleIsSharingScreen={props.toggleIsSharingScreen}
+          />
+        </S.Controls>
+      </S.VideoView>
+    </Sidebar>
   );
 }
