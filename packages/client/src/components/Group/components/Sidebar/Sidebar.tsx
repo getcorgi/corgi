@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
       whiteSpace: 'nowrap',
     },
     drawerPaper: {
-      background: backgroundColor[800],
+      background: '#17181b',
       borderLeft: 'none',
     },
     drawerOpen: {

@@ -16,7 +16,7 @@ const defaultProps = {
   draggerSize: 5,
   minAsideWidth: '5%',
   maxAsideWidth: '95%',
-  draggerColor: 'rgba(0, 0, 0, 0.4)',
+  draggerColor: 'rgba(0, 0, 0, 0.3)',
 };
 
 function DraggableSplitWrapper(props: Props) {
