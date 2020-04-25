@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import useSound from 'use-sound';
 
 import { appConfig } from '../../../../constants';
+import useChatMessages from './lib/useChatMessages';
 import useSocketEvents from './lib/useSocketEvents';
 import { Connections, User } from './types';
 
@@ -121,6 +122,10 @@ export default function useSocketHandler({
     });
   }, [groupId, socket.current.id]);
 
+  const { messages, sendMessage } = useChatMessages({
+    socket: socket.current,
+  });
+
   useEffect(() => {
     return function onUnmount() {
       disconnect();
@@ -149,5 +154,7 @@ export default function useSocketHandler({
     isInRoom,
     users,
     streams: enhancedStreams,
+    messages,
+    sendMessage,
   };
 }

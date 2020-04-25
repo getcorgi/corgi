@@ -41,5 +41,5 @@ export const Video = styled('div')({
 
 export const EmptyVideo = styled(Box)({
   position: 'absolute',
-  backgroundColor: '#16161d8a',
+  backgroundColor: '#00000070',
 });

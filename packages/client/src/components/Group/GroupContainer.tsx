@@ -53,13 +53,22 @@ export default function GroupContainer(props: Props) {
     [userName, isMuted, isCameraOff, me],
   );
 
-  const { joinRoom, leaveRoom, isInRoom, streams, users } = useSocketHandler({
+  const {
+    joinRoom,
+    leaveRoom,
+    isInRoom,
+    streams,
+    users,
+    messages,
+    sendMessage,
+  } = useSocketHandler({
     groupId,
     localStream,
     isMuted,
     isCameraOff,
     userData,
   });
+
   const { isSharingScreen, toggleIsSharingScreen } = useScreenShare({
     localStream,
     setLocalStream,
@@ -85,7 +94,7 @@ export default function GroupContainer(props: Props) {
     updateMe({ name, id: me?.id });
   };
 
-  const renderMeta = () => (
+  const renderCommon = () => (
     <>
       <Helmet>
         <title>{`Corgi${
@@ -107,7 +116,7 @@ export default function GroupContainer(props: Props) {
   if (!isInRoom || localStream === undefined) {
     return (
       <>
-        {renderMeta()}
+        {renderCommon()}
         <Preview
           groupName={group.data?.name || ''}
           isCameraOff={isCameraOff}
@@ -135,7 +144,7 @@ export default function GroupContainer(props: Props) {
 
     return (
       <>
-        {renderMeta()}
+        {renderCommon()}
         <VideoView
           activeViewId={group.data?.activityId || '0'}
           isAdmin={isAdmin}
@@ -148,6 +157,8 @@ export default function GroupContainer(props: Props) {
           toggleCamera={toggleCamera}
           toggleIsMuted={toggleIsMuted}
           toggleIsSharingScreen={toggleIsSharingScreen}
+          messages={messages}
+          sendMessage={sendMessage}
         >
           {({ streams }) => {
             switch (group.data?.activityId) {

@@ -112,4 +112,12 @@ io.on('connection', (socket: ExtendedSocket) => {
       io.in(room).emit('gotUsers', { users });
     });
   });
+
+  socket.on('sendChatMessage', ({ msg }: { msg: string }) => {
+    io.in(room).emit('receivedChatMessage', {
+      message: msg,
+      user: socket.userData,
+      createdAt: new Date().getTime(),
+    });
+  });
 });
