@@ -5,8 +5,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
 import React from 'react';
 
-import theme, { backgroundColor } from '../../../../lib/theme';
+import theme from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
+import ActivityTabs from '../ActivityTabs';
 import Chat from '../Chat';
 import MediaSettingsPopover from '../MediaSettingsPopover';
 import * as S from './Sidebar.styles';
@@ -41,9 +42,12 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
+  activeViewId: string;
   children: React.ReactNode;
+  isAdmin: boolean;
   messages: Message[];
   sendMessage: (msg: string) => void;
+  setActiveViewId: (id: string) => void;
 }
 
 export default function SideBar(props: Props) {
@@ -96,9 +100,16 @@ export default function SideBar(props: Props) {
           <Box
             display="flex"
             flexDirection="column"
-            justifyContent="flex-end"
+            justifyContent="space-between"
             height="100%"
           >
+            {props.isAdmin && (
+              <ActivityTabs
+                setActiveViewId={props.setActiveViewId}
+                activeViewId={props.activeViewId}
+              />
+            )}
+
             <Box display="flex" flexDirection="column" alignItems="center">
               <Box mb={theme.spacing(0.2)}>
                 <Tooltip title="Chat" placement="left">

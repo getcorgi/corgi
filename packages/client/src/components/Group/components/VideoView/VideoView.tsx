@@ -4,7 +4,6 @@ import React from 'react';
 import useIdleTimer from '../../../../lib/hooks/useIdleTImer';
 import { User } from '../../lib/useSocketHandler';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
-import Activities from '../Activities';
 import Sidebar from '../Sidebar';
 import VideoControls from '../VideoControls';
 import * as S from './VideoView.styles';
@@ -34,7 +33,13 @@ export default function VideoView(props: Props) {
   const { isIdle } = useIdleTimer({ wait: 3500 });
 
   return (
-    <Sidebar messages={props.messages} sendMessage={props.sendMessage}>
+    <Sidebar
+      messages={props.messages}
+      sendMessage={props.sendMessage}
+      setActiveViewId={props.setActiveViewId}
+      activeViewId={props.activeViewId}
+      isAdmin={props.isAdmin}
+    >
       <S.VideoView
         position="relative"
         display="flex"
@@ -42,20 +47,6 @@ export default function VideoView(props: Props) {
         justifyContent="space-between"
         height="100%"
       >
-        {props.isAdmin && (
-          <Box
-            display="flex"
-            justifyContent="center"
-            position="absolute"
-            width="100%"
-          >
-            <Activities
-              setActiveViewId={props.setActiveViewId}
-              activeViewId={props.activeViewId}
-            />
-          </Box>
-        )}
-
         <Box height="100%">{props.children({ streams: props.streams })}</Box>
 
         <S.Controls isIdle={isIdle}>
