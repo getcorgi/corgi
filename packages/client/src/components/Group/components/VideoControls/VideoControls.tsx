@@ -8,7 +8,6 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import React from 'react';
 
-import MediaSettingsPopover from '../MediaSettingsPopover';
 import * as S from './VideoControls.styles';
 
 interface Props {
@@ -55,9 +54,7 @@ export default function VideoControls(props: Props) {
           {props.isCameraOff ? <VideocamOffIcon /> : <VideocamIcon />}
         </IconButton>
       </S.ActionWrapper>
-      <S.ActionWrapper>
-        <MediaSettingsPopover />
-      </S.ActionWrapper>
+      <div />
     </>
   );
 }

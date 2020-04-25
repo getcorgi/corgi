@@ -19,6 +19,12 @@ export default createMuiTheme({
       paper: backgroundColor[700],
     },
   },
+  transitions: {
+    duration: {
+      enteringScreen: 150,
+      leavingScreen: 150,
+    },
+  },
 });
 
 // Thanks danphillips <3

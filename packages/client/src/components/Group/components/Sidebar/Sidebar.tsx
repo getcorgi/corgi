@@ -1,38 +1,29 @@
-import {
-  Box,
-  Divider,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from '@material-ui/core';
+import { Box, Divider, Drawer, IconButton, Tooltip } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/Chat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
 import React from 'react';
 
-import { backgroundColor } from '../../../../lib/theme';
+import theme, { backgroundColor } from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import Chat from '../Chat';
-
-const DRAWER_WIDTH = 240;
-const CLOSED_DRAWER_WIDTH = 60;
+import MediaSettingsPopover from '../MediaSettingsPopover';
+import * as S from './Sidebar.styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     drawer: {
-      width: DRAWER_WIDTH,
+      width: S.DRAWER_WIDTH,
       flexShrink: 0,
       whiteSpace: 'nowrap',
     },
     drawerPaper: {
       background: backgroundColor[800],
+      borderLeft: 'none',
     },
     drawerOpen: {
-      width: DRAWER_WIDTH,
+      width: S.DRAWER_WIDTH,
       transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
@@ -44,12 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.leavingScreen,
       }),
       overflowX: 'hidden',
-      width: CLOSED_DRAWER_WIDTH,
-    },
-    content: {
-      flexGrow: 1,
-      height: '100%',
-      marginRight: CLOSED_DRAWER_WIDTH,
+      width: S.CLOSED_DRAWER_WIDTH,
     },
   }),
 );
@@ -86,37 +72,53 @@ export default function SideBar(props: Props) {
       >
         {isOpen && (
           <Box height="100%" display="flex" flexDirection="column">
-            <Box display="flex" justifyContent="flex-start">
-              <IconButton onClick={toggleDrawerOpen}>
-                <ChevronRightIcon />
-              </IconButton>
+            <S.Header>
+              <Box p={theme.spacing(0.1)}>
+                <Tooltip title="Close" placement="left">
+                  <IconButton size="small" onClick={toggleDrawerOpen}>
+                    <ChevronRightIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
               <Divider />
-            </Box>
-            <Box p="8px">
-              <Chat messages={props.messages} sendMessage={props.sendMessage} />
-            </Box>
+            </S.Header>
+            <S.ChatWrapper>
+              <Chat
+                shouldFocusInput={true}
+                messages={props.messages}
+                sendMessage={props.sendMessage}
+              />
+            </S.ChatWrapper>
           </Box>
         )}
 
         {!isOpen && (
           <Box
             display="flex"
-            alignItems="flex-end"
+            flexDirection="column"
+            justifyContent="flex-end"
             height="100%"
-            justifyContent="space-between"
           >
-            <List>
-              <ListItem button onClick={toggleDrawerOpen}>
-                <ListItemIcon>
-                  <ChatIcon />
-                </ListItemIcon>
-                <ListItemText primary="test" />
-              </ListItem>
-            </List>
+            <Box display="flex" flexDirection="column" alignItems="center">
+              <Box mb={theme.spacing(0.2)}>
+                <Tooltip title="Chat" placement="left">
+                  <IconButton onClick={toggleDrawerOpen}>
+                    <ChatIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Box mb={theme.spacing(0.2)}>
+                <Tooltip title="Settings" placement="left">
+                  <Box>
+                    <MediaSettingsPopover />
+                  </Box>
+                </Tooltip>
+              </Box>
+            </Box>
           </Box>
         )}
       </Drawer>
-      <main className={classes.content}>{props.children}</main>
+      <S.Main isDrawerOpen={isOpen}>{props.children}</S.Main>
     </>
   );
 }
