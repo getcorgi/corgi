@@ -12,20 +12,40 @@ interface Props {
 
 const SCROLLED_TO_BOTTOM_THRESHOLD = 100;
 
-const ChatMessage = (props: { message: Message }) => {
+const ChatMessage = (props: {
+  message: Message;
+  shouldGroupMessages: boolean;
+}) => {
   return (
     <S.ChatMessage>
-      <div>
-        <S.ChatMessageUser userColor={props.message.user.color}>
-          {props.message.user.name}
-        </S.ChatMessageUser>
-        <S.ChatMessageTime>
-          {moment(props.message.createdAt).fromNow()}
-        </S.ChatMessageTime>
-      </div>
+      {!props.shouldGroupMessages && (
+        <div>
+          <S.ChatMessageUser userColor={props.message.user.color}>
+            {props.message.user.name}
+          </S.ChatMessageUser>
+          <S.ChatMessageTime>
+            {moment(props.message.createdAt).fromNow()}
+          </S.ChatMessageTime>
+        </div>
+      )}
       <S.ChatMessageMessage>{props.message.message}</S.ChatMessageMessage>
     </S.ChatMessage>
   );
+};
+
+const getShouldGroupMessages = (
+  currentMessage: Message,
+  previousMessage?: Message,
+) => {
+  if (previousMessage) {
+    const isFromSameUser = previousMessage.user.id === currentMessage.user.id;
+
+    const hasJustBeenSubmitted =
+      currentMessage.createdAt - previousMessage.createdAt < 5000;
+
+    return isFromSameUser && hasJustBeenSubmitted;
+  }
+  return false;
 };
 
 export default function Chat(props: Props) {
@@ -77,8 +97,19 @@ export default function Chat(props: Props) {
   return (
     <S.Chat>
       <S.ChatMessages ref={messagesRef}>
-        {props.messages.map(message => {
-          return <ChatMessage message={message} key={message.createdAt} />;
+        {props.messages.map((message, idx) => {
+          const shouldGroupMessages = getShouldGroupMessages(
+            message,
+            props.messages[idx - 1],
+          );
+
+          return (
+            <ChatMessage
+              shouldGroupMessages={shouldGroupMessages}
+              message={message}
+              key={message.createdAt}
+            />
+          );
         })}
       </S.ChatMessages>
       <S.ChatInputForm>
