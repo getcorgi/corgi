@@ -1,6 +1,8 @@
 import http from 'http';
 import socketIo from 'socket.io';
 
+import { handleUserIsInPreview } from './socketEventHandlers';
+
 interface User {
   avatarUrl?: string;
   id?: string;
@@ -9,7 +11,7 @@ interface User {
   name?: string;
 }
 
-interface ExtendedSocket extends SocketIO.Socket {
+export interface ExtendedSocket extends SocketIO.Socket {
   userData: User;
 }
 
@@ -28,9 +30,7 @@ console.log(`🚀 Server started, listening on :${PORT}`);
 io.on('connection', (socket: ExtendedSocket) => {
   let room: string;
 
-  socket.on('userIsInPreview', (data: { roomId: string }) => {
-    socket.join(data.roomId);
-  });
+  socket.on('userIsInPreview', handleUserIsInPreview(socket));
 
   socket.on(
     'userJoinedCall',

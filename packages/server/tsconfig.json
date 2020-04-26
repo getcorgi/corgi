@@ -13,8 +13,8 @@
     "strict": true,
     "strictFunctionTypes": false,
     "target": "es6",
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
   "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules", "dist", ".git"]
+  "exclude": ["node_modules", "dist", ".git", "**/*.test.ts"]
 }
