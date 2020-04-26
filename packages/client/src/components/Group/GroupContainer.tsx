@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 
 import useGroup from '../../lib/hooks/useGroup';
 import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
+import { MediaSettingsContext } from '../MediaSettingsProvider';
 import { MeContext } from '../MeProvider';
 import ActivityView from './components/ActivityView';
 import BasicView from './components/BasicView';
@@ -28,6 +29,9 @@ export default function GroupContainer(props: Props) {
   const group = useGroup(groupId);
   const updateGroup = useUpdateGroup();
   const { me, updateMe } = useContext(MeContext);
+  const { isPermissonAlertOpen, handleClosePermissionAlert } = useContext(
+    MediaSettingsContext,
+  );
 
   const isAdmin = Boolean(
     group.data?.roles.editors.some(editor => editor === me?.firebaseAuthId),
@@ -35,12 +39,7 @@ export default function GroupContainer(props: Props) {
 
   const [userName, setUserName] = useState(me?.name || '');
 
-  const {
-    localStream,
-    setLocalStream,
-    isPermissonAlertOpen,
-    handleClosePermissionAlert,
-  } = useMediaStream();
+  const { localStream, setLocalStream, localStreamStatus } = useMediaStream();
   const { toggleIsMuted, isMuted } = useMute(localStream);
   const { toggleCamera, isCameraOff } = useToggleCamera(localStream);
   const userData = useMemo(
@@ -125,6 +124,7 @@ export default function GroupContainer(props: Props) {
           onJoin={onJoinCall}
           onUserNameChange={onUserNameChange}
           stream={localStream}
+          streamStatus={localStreamStatus}
           toggleCamera={toggleCamera}
           toggleIsMuted={toggleIsMuted}
           userName={userName}

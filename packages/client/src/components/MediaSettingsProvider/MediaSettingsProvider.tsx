@@ -17,9 +17,15 @@ interface AvailableDevices {
   videoInput: MediaDeviceInfo[];
 }
 
+interface Props {
+  children: React.ReactNode;
+}
+
 interface MediaSettingsContextValues {
   activeDevices: ActiveDevices;
   availableDevices: AvailableDevices;
+  handleClosePermissionAlert: () => void;
+  isPermissonAlertOpen: boolean;
   mediaConstraints: MediaStreamConstraints;
   setActiveDevices: React.Dispatch<React.SetStateAction<ActiveDevices>>;
 }
@@ -41,13 +47,11 @@ export const MediaSettingsContext = React.createContext<
 >({
   activeDevices: DEFAULT_ACTIVE_DEVICES,
   availableDevices: DEFAULT_AVAILABLE_DEVICES,
+  handleClosePermissionAlert: noop,
+  isPermissonAlertOpen: false,
   mediaConstraints: DEFAULT_MEDIA_CONSTRAINTS,
   setActiveDevices: noop,
 });
-
-interface Props {
-  children: React.ReactNode;
-}
 
 export function MediaSettingsProvider(props: Props) {
   const [availableDevices, setAvailableDevices] = useState<AvailableDevices>(
@@ -63,6 +67,31 @@ export function MediaSettingsProvider(props: Props) {
   const [mediaConstraints, setMediaConstraints] = useState<
     MediaStreamConstraints
   >(DEFAULT_MEDIA_CONSTRAINTS);
+
+  const [isPermissonAlertOpen, setIsPermissonAlertOpen] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const micPermissions = await navigator.permissions.query({
+          name: 'microphone',
+        });
+        const cameraPermissions = await navigator.permissions.query({
+          name: 'camera',
+        });
+        const isMissingPermissions =
+          (!micPermissions && !cameraPermissions) ||
+          (micPermissions?.state === 'denied' &&
+            cameraPermissions?.state === 'denied');
+
+        if (isMissingPermissions) {
+          setIsPermissonAlertOpen(true);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -86,11 +115,49 @@ export function MediaSettingsProvider(props: Props) {
           }
         });
 
+        devices.videoInput = devices.videoInput.filter(
+          device => device.deviceId,
+        );
+
+        devices.audioInput = devices.audioInput.filter(
+          device => device.deviceId,
+        );
+
+        devices.audioOutput = devices.audioOutput.filter(
+          device => device.deviceId,
+        );
+
+        if (
+          devices.videoInput.length === 0 &&
+          devices.audioInput.length === 0 &&
+          !isPermissonAlertOpen
+        ) {
+          setIsPermissonAlertOpen(true);
+        }
+
+        if (devices.videoInput.length === 0) {
+          devices.videoInput.push({
+            label: 'No video devices available',
+          } as MediaDeviceInfo);
+        }
+
+        if (devices.audioInput.length === 0) {
+          devices.audioInput.push({
+            label: 'No audio input devices available',
+          } as MediaDeviceInfo);
+        }
+
+        if (devices.audioOutput.length === 0) {
+          devices.audioOutput.push({
+            label: 'No audio output devices available',
+          } as MediaDeviceInfo);
+        }
+
         setAvailableDevices(devices);
         setAreAvailableDevicesLoaded(true);
       }
     })();
-  }, [availableDevices, areAvailableDevicesLoaded]);
+  }, [availableDevices, areAvailableDevicesLoaded, isPermissonAlertOpen]);
 
   useEffect(() => {
     if (!areActiveDevicesSet && areAvailableDevicesLoaded) {
@@ -142,11 +209,17 @@ export function MediaSettingsProvider(props: Props) {
     }
   }, [activeDevices]);
 
+  const handleClosePermissionAlert = () => {
+    setIsPermissonAlertOpen(false);
+  };
+
   const value = {
     activeDevices,
     availableDevices,
     setActiveDevices,
     mediaConstraints,
+    isPermissonAlertOpen,
+    handleClosePermissionAlert,
   };
 
   return (

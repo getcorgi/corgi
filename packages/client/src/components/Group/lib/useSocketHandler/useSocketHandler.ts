@@ -97,7 +97,7 @@ export default function useSocketHandler({
   useEffect(() => {
     if (isInRoom && localStream !== localStreamRef.current) {
       connections.current.forEach(({ peer }) => {
-        if (localStreamRef.current && localStream) {
+        if (peer && localStreamRef.current && localStream) {
           peer.removeStream(localStreamRef.current);
           peer.addStream(localStream);
         }

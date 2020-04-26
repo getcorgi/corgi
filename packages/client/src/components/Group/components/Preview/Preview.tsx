@@ -16,6 +16,7 @@ import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
 
 import { Me } from '../../../MeProvider/MeProvider';
+import { LocalStreamStatus } from '../../lib/useLocalMediaStream';
 import { User } from '../../lib/useSocketHandler';
 import MediaSettingsPopover from '../MediaSettingsPopover';
 import Video from '../Video';
@@ -30,6 +31,7 @@ interface Props {
   toggleCamera: () => void;
   toggleIsMuted: () => void;
   stream?: MediaStream | null;
+  streamStatus: LocalStreamStatus;
   users: User[];
   me?: Me;
   userName: string;
@@ -134,7 +136,7 @@ export default function Preview(props: Props) {
 
                     <Button
                       color="primary"
-                      disabled={!props.userName}
+                      disabled={!props.userName || !props.stream}
                       fullWidth={true}
                       id="callButton"
                       onClick={props.onJoin}
