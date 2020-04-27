@@ -3,10 +3,17 @@
   "version": "0.0.1",
   "license": "MIT",
   "private": true,
-  "workspaces": [
-    "./packages/client",
-    "./packages/server"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/react-scripts",
+      "**/react-scripts/**",
+      "**/jest",
+      "**/jest/**"
+    ]
+  },
   "scripts": {
     "start-client": "yarn workspace client start",
     "start-server": "yarn workspace server start-dev",
