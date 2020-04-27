@@ -1,1 +1,1 @@
-web: cd packages/server && yarn && yarn start
+web: yarn workspace server install && yarn workspace server start
