@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/Chat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useState } from 'react';
 
 import theme from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
@@ -11,6 +11,7 @@ import ActivityTabs from '../ActivityTabs';
 import Chat from '../Chat';
 import MediaSettingsPopover from '../MediaSettingsPopover';
 import * as S from './Sidebar.styles';
+import ChatSnackbar from '../ChatSnackbar/ChatSnackbar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,10 +53,10 @@ interface Props {
 
 export default function SideBar(props: Props) {
   const classes = useStyles();
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawerOpen = () => {
-    setIsOpen(!isOpen);
+    setIsDrawerOpen(!isDrawerOpen);
   };
 
   return (
@@ -64,17 +65,17 @@ export default function SideBar(props: Props) {
         variant="permanent"
         anchor="right"
         className={clsx(classes.drawer, {
-          [classes.drawerOpen]: isOpen,
-          [classes.drawerClose]: !isOpen,
+          [classes.drawerOpen]: isDrawerOpen,
+          [classes.drawerClose]: !isDrawerOpen,
         })}
         classes={{
           paper: clsx(classes.drawerPaper, {
-            [classes.drawerOpen]: isOpen,
-            [classes.drawerClose]: !isOpen,
+            [classes.drawerOpen]: isDrawerOpen,
+            [classes.drawerClose]: !isDrawerOpen,
           }),
         }}
       >
-        {isOpen && (
+        {isDrawerOpen && (
           <Box height="100%" display="flex" flexDirection="column">
             <S.Header>
               <Box p={theme.spacing(0.1)}>
@@ -96,7 +97,7 @@ export default function SideBar(props: Props) {
           </Box>
         )}
 
-        {!isOpen && (
+        {!isDrawerOpen && (
           <Box
             display="flex"
             flexDirection="column"
@@ -129,7 +130,11 @@ export default function SideBar(props: Props) {
           </Box>
         )}
       </Drawer>
-      <S.Main isDrawerOpen={isOpen}>{props.children}</S.Main>
+      <S.Main isDrawerOpen={isDrawerOpen}>{props.children}</S.Main>
+      <ChatSnackbar
+        sholdShowSnackbar={!isDrawerOpen}
+        messages={props.messages}
+      />
     </>
   );
 }
