@@ -100,7 +100,7 @@ export default function SideBar(props: Props) {
           <Box
             display="flex"
             flexDirection="column"
-            justifyContent="space-between"
+            justifyContent={props.isAdmin ? 'space-between' : 'flex-end'}
             height="100%"
           >
             {props.isAdmin && (

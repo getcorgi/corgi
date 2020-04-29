@@ -52,4 +52,6 @@ export const ChatMessageMessage = styled('p')({
   color: 'white',
   margin: 0,
   fontSize: '16px',
+  whiteSpace: 'normal',
+  wordBreak: 'break-word',
 });
