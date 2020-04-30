@@ -20,10 +20,6 @@ export default function useSocketHandler({
     false,
   );
 
-  const disconnectScreenShare = () => {
-    stopScreenShare();
-  };
-
   const connectScreenShare = () => {
     startScreenShare();
   };
@@ -42,11 +38,14 @@ export default function useSocketHandler({
   };
 
   const {
-    isSharingScreen,
     screenShareStream,
     startScreenShare,
     stopScreenShare,
   } = useScreenShare({ onStreamEnded, onStreamStarted });
+
+  const disconnectScreenShare = useCallback(() => {
+    stopScreenShare();
+  }, [stopScreenShare]);
 
   const localScreenShareStreamRef = useRef(screenShareStream);
 
@@ -62,7 +61,7 @@ export default function useSocketHandler({
   const destroySocket = useCallback(() => {
     disconnectScreenShare();
     socket.current.close();
-  }, [socket]);
+  }, [socket, disconnectScreenShare]);
 
   useEffect(() => {
     window.addEventListener('beforeunload', destroySocket);

@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 
 interface ExperimentalMediaDevices extends MediaDevices {
   getDisplayMedia: (options: any) => Promise<MediaStream>;
@@ -75,7 +75,7 @@ export default function useScreenShare({
     setIsSharingScreen(false);
     setScreenShareStream(undefined);
     onStreamEnded();
-  }, [screenShareStream]);
+  }, [screenShareStream, onStreamEnded]);
 
   return {
     startScreenShare,

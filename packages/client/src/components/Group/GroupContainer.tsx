@@ -13,7 +13,6 @@ import Preview from './components/Preview';
 import VideoView from './components/VideoView';
 import useMediaStream from './lib/useLocalMediaStream';
 import useMute from './lib/useMute';
-import useScreenShare from './lib/useScreenShare';
 import useScreenShareSocketHandler from './lib/useScreenShareSocketHandler';
 import useSocketHandler from './lib/useSocketHandler';
 import useToggleCamera from './lib/useToggleCamera';
@@ -40,7 +39,7 @@ export default function GroupContainer(props: Props) {
 
   const [userName, setUserName] = useState(me?.name || '');
 
-  const { localStream, setLocalStream, localStreamStatus } = useMediaStream();
+  const { localStream, localStreamStatus } = useMediaStream();
   const { toggleIsMuted, isMuted } = useMute(localStream);
   const { toggleCamera, isCameraOff } = useToggleCamera(localStream);
   const userData = useMemo(

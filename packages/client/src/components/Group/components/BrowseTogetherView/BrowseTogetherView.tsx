@@ -4,7 +4,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import React, { useEffect, useState } from 'react';
 
 import { Me } from '../../../MeProvider/MeProvider';
-import { User } from '../../lib/useSocketHandler';
 import DraggableSplitWrapper from '../DraggableSplitWrapper';
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';

@@ -3,7 +3,6 @@ import Box from '@material-ui/core/Box';
 import React, { useState } from 'react';
 
 import { Me } from '../../../MeProvider/MeProvider';
-import { User } from '../../lib/useSocketHandler';
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
 import * as S from './BasicView.styles';
