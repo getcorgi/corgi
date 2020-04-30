@@ -7,6 +7,7 @@ import { MediaSettingsContext } from '../../../MediaSettingsProvider';
 import { User } from '../../lib/useSocketHandler';
 import AudioVisualizer from '../AudioVisualizer';
 import * as S from './Video.styles';
+import { Me } from '../../../MeProvider/MeProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,7 +40,7 @@ interface Props {
   isMuted?: boolean;
   label?: string;
   srcObject: MediaStream;
-  user?: User;
+  user?: User | Me;
 }
 
 interface ExperimentalHTMLVideoElement extends HTMLVideoElement {

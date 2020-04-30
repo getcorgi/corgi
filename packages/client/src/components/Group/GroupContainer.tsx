@@ -14,6 +14,7 @@ import VideoView from './components/VideoView';
 import useMediaStream from './lib/useLocalMediaStream';
 import useMute from './lib/useMute';
 import useScreenShare from './lib/useScreenShare';
+import useScreenShareSocketHandler from './lib/useScreenShareSocketHandler';
 import useSocketHandler from './lib/useSocketHandler';
 import useToggleCamera from './lib/useToggleCamera';
 
@@ -68,10 +69,20 @@ export default function GroupContainer(props: Props) {
     userData,
   });
 
-  const { isSharingScreen, toggleIsSharingScreen } = useScreenShare({
-    localStream,
-    setLocalStream,
+  const {
+    disconnectScreenShare,
+    connectScreenShare,
+    isScreenSharePeerConnected,
+  } = useScreenShareSocketHandler({
+    groupId,
+    localScreenShareStream: localStream,
+    userData,
   });
+
+  // const { isSharingScreen, toggleIsSharingScreen } = useScreenShare({
+  //   localStream,
+  //   setLocalStream,
+  // });
 
   useEffect(() => {
     if (me?.name && !userName) {
@@ -112,6 +123,8 @@ export default function GroupContainer(props: Props) {
     </>
   );
 
+  console.log('STREAMS', streams);
+
   if (!isInRoom || localStream === undefined) {
     return (
       <>
@@ -134,6 +147,13 @@ export default function GroupContainer(props: Props) {
     );
   }
 
+  const toggleIsSharingScreen = () => {
+    if (isScreenSharePeerConnected) {
+      return disconnectScreenShare();
+    }
+    connectScreenShare();
+  };
+
   if (isInRoom && localStream !== undefined) {
     const setActiveView = (id: string) => {
       updateGroup({
@@ -150,7 +170,7 @@ export default function GroupContainer(props: Props) {
           isAdmin={isAdmin}
           isCameraOff={isCameraOff}
           isMuted={isMuted}
-          isSharingScreen={isSharingScreen}
+          isSharingScreen={isScreenSharePeerConnected}
           onHangup={onHangup}
           setActiveViewId={setActiveView}
           streams={streams}
