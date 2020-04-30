@@ -72,7 +72,7 @@ export default function GroupContainer(props: Props) {
   const {
     disconnectScreenShare,
     connectScreenShare,
-    isSharingScreen,
+    isScreenSharePeerConnected: isSharingScreen,
   } = useScreenShareSocketHandler({
     groupId,
     userData,

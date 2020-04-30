@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 
 interface ExperimentalMediaDevices extends MediaDevices {
   getDisplayMedia: (options: any) => Promise<MediaStream>;
@@ -28,48 +28,55 @@ async function startCapture(options?: any) {
   return captureStream;
 }
 
+const stopCapture = (stream?: MediaStream) => {
+  stream?.getTracks().forEach(track => {
+    track.stop();
+  });
+};
+
 export default function useScreenShare() {
   const [isSharingScreen, setIsSharingScreen] = useState(false);
   const [hasSetScreenShare, setHasSetScreenShare] = useState(false);
   const [screenShareStream, setScreenShareStream] = useState<MediaStream>();
 
-  const toggleIsSharingScreen = async () => {
-    // Toogle On
-    if (!isSharingScreen && !hasSetScreenShare) {
-      setIsSharingScreen(true);
-      const stream = await startCapture();
+  const startScreenShare = async () => {
+    setIsSharingScreen(true);
+    const stream = await startCapture();
 
-      // User hit cancel, or screen share errored
-      if (!stream) {
-        setHasSetScreenShare(false);
-        setIsSharingScreen(false);
-        return;
-      }
-
-      if (stream) {
-        setScreenShareStream(stream);
-        setHasSetScreenShare(true);
-      }
-
-      const videoTrack = stream?.getVideoTracks()[0];
-
-      // Handle ending screen share natively
-      videoTrack?.addEventListener('ended', () => {
-        setIsSharingScreen(false);
-        setHasSetScreenShare(false);
-        setScreenShareStream(undefined);
-      });
+    // User hit cancel, or screen share errored
+    if (!stream) {
+      setHasSetScreenShare(false);
+      setIsSharingScreen(false);
       return;
     }
 
-    // Toogle Off
+    if (stream) {
+      setScreenShareStream(stream);
+      setHasSetScreenShare(true);
+    }
+
+    const videoTrack = stream?.getVideoTracks()[0];
+
+    // Handle ending screen share natively
+    videoTrack?.addEventListener('ended', () => {
+      setIsSharingScreen(false);
+      setHasSetScreenShare(false);
+      setScreenShareStream(undefined);
+    });
+  };
+
+  const stopScreenShare = useCallback(() => {
+    stopCapture(screenShareStream);
+
     setIsSharingScreen(false);
     setHasSetScreenShare(false);
     setScreenShareStream(undefined);
-  };
+  }, [screenShareStream]);
 
   return {
-    toggleIsSharingScreen,
+    startScreenShare,
+    stopScreenShare,
     screenShareStream,
+    isSharingScreen,
   };
 }

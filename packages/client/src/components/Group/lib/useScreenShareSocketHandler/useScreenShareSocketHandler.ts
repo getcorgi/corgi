@@ -20,7 +20,12 @@ export default function useSocketHandler({
     false,
   );
 
-  const { screenShareStream, toggleIsSharingScreen } = useScreenShare();
+  const {
+    isSharingScreen,
+    screenShareStream,
+    startScreenShare,
+    stopScreenShare,
+  } = useScreenShare();
 
   const localScreenShareStreamRef = useRef(screenShareStream);
 
@@ -34,11 +39,12 @@ export default function useSocketHandler({
   });
 
   const connectScreenShare = async () => {
-    await toggleIsSharingScreen();
+    await startScreenShare();
     setIsScreenSharePeerConnected(true);
   };
 
   const disconnectScreenShare = useCallback(() => {
+    stopScreenShare();
     socket.current.emit('userIsLeavingRoom', {
       socketId: socket.current.id,
     });
@@ -46,12 +52,18 @@ export default function useSocketHandler({
     connections.current = new Map([]);
 
     setIsScreenSharePeerConnected(false);
-  }, []);
+  }, [screenShareStream]);
 
   const disconnect = useCallback(() => {
     disconnectScreenShare();
     socket.current.close();
-  }, [disconnectScreenShare]);
+  }, [disconnectScreenShare, screenShareStream]);
+
+  useEffect(() => {
+    if (!isSharingScreen && isScreenSharePeerConnected) {
+      disconnect();
+    }
+  }, [isSharingScreen]);
 
   useEffect(() => {
     window.addEventListener('beforeunload', disconnect);
