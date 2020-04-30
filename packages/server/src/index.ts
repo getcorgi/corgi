@@ -40,8 +40,6 @@ io.on('connection', (socket: ExtendedSocket) => {
 
       socket.userData = { ...data.userData, id: socketId };
 
-      console.log('userJOINED', socket.userData);
-
       socket.to(room).emit('userJoined', {
         socketId,
         userData: data.userData,
@@ -52,8 +50,6 @@ io.on('connection', (socket: ExtendedSocket) => {
           const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
           return clientSocket.userData;
         });
-
-        console.log({ users });
 
         io.in(room).emit('gotUsers', { users });
       });

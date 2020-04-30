@@ -20,8 +20,6 @@ export default function useSocketHandler({
     false,
   );
 
-  console.log(isScreenSharePeerConnected);
-
   const disconnectScreenShare = () => {
     stopScreenShare();
   };
@@ -38,7 +36,6 @@ export default function useSocketHandler({
     });
 
     connections.current = new Map([]);
-    // socket.current.close();
   };
   const onStreamStarted = () => {
     setIsScreenSharePeerConnected(true);

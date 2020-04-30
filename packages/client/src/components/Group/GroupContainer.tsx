@@ -117,8 +117,6 @@ export default function GroupContainer(props: Props) {
     </>
   );
 
-  console.log('STREAMS', streams);
-
   if (!isInRoom || localStream === undefined) {
     return (
       <>
