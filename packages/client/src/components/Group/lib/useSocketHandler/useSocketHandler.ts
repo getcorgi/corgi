@@ -24,7 +24,10 @@ export default function useSocketHandler({
   const connections = useRef<Connections>(new Map([]));
   const [users, setUsers] = useState<User[]>([]);
   const [streams, setStreams] = useState<{
-    [key: string]: { userId: string; stream: MediaStream };
+    [key: string]: {
+      stream: MediaStream;
+      userId: string;
+    };
   }>({});
 
   const [
@@ -132,21 +135,20 @@ export default function useSocketHandler({
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const enhancedStreams = users.reduce((acc, user) => {
-    if (!user.id) return acc;
+  const enhancedStreams = Object.entries(streams).reduce(
+    (acc, [key, streamObj]) => {
+      const user = connections.current.get(key)?.userData;
 
-    const stream = streams?.[user?.id]?.stream;
-
-    if (!stream) return acc;
-
-    return {
-      ...acc,
-      [user?.id]: {
-        stream,
-        user,
-      },
-    };
-  }, {});
+      return {
+        ...acc,
+        [key]: {
+          user,
+          stream: streamObj.stream,
+        },
+      };
+    },
+    {},
+  );
 
   return {
     leaveRoom,

@@ -85,7 +85,7 @@ function BrowseTogetherView(props: Props) {
             srcObject={props.localStream}
             isMuted={true}
             isMirrored={true}
-            user={props.me as User}
+            user={props.me}
             label="(You)"
           />
         </Box>

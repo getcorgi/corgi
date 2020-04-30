@@ -43,7 +43,6 @@ export default function onPeerCreated({
   });
 
   peer.on('close', function() {
-    console.log('close peer', peerId);
     setStreams(prevStreams => {
       const newStreams = { ...prevStreams };
       delete newStreams[peerId];

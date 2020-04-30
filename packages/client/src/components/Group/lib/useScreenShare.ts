@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 
 interface ExperimentalMediaDevices extends MediaDevices {
   getDisplayMedia: (options: any) => Promise<MediaStream>;
@@ -28,55 +28,61 @@ async function startCapture(options?: any) {
   return captureStream;
 }
 
+const stopCapture = (stream?: MediaStream) => {
+  stream?.getTracks().forEach(track => {
+    track.stop();
+  });
+};
+
+interface Props {
+  onStreamStarted: () => void;
+  onStreamEnded: () => void;
+}
+
 export default function useScreenShare({
-  localStream,
-  setLocalStream,
-}: {
-  localStream?: MediaStream;
-  setLocalStream: React.Dispatch<React.SetStateAction<MediaStream | undefined>>;
-}) {
+  onStreamStarted,
+  onStreamEnded,
+}: Props) {
   const [isSharingScreen, setIsSharingScreen] = useState(false);
-  const [hasSetScreenShare, setHasSetScreenShare] = useState(false);
+  const [screenShareStream, setScreenShareStream] = useState<MediaStream>();
 
-  const clonedStream = useRef<MediaStream | undefined>();
+  const startScreenShare = async () => {
+    setIsSharingScreen(true);
+    const stream = await startCapture();
 
-  const toggleIsSharingScreen = async () => {
-    if (!isSharingScreen && !hasSetScreenShare) {
-      setIsSharingScreen(true);
-      const stream = await startCapture();
-      clonedStream.current = localStream?.clone();
-
-      // User hit cancel, or screen share errored
-      if (!stream) {
-        setHasSetScreenShare(false);
-        setIsSharingScreen(false);
-        return;
-      }
-
-      if (stream) {
-        setLocalStream(stream);
-        setHasSetScreenShare(true);
-      }
-
-      const videoTrack = stream?.getVideoTracks()[0];
-
-      // Handle ending screen share natively
-      videoTrack?.addEventListener('ended', () => {
-        setIsSharingScreen(false);
-        setHasSetScreenShare(false);
-        setLocalStream(clonedStream.current);
-      });
+    // User hit cancel, or screen share errored
+    if (!stream) {
+      setIsSharingScreen(false);
+      onStreamEnded();
       return;
     }
 
-    setIsSharingScreen(false);
-    setHasSetScreenShare(false);
-    setLocalStream(clonedStream.current);
-    clonedStream.current = undefined;
+    if (stream) {
+      setScreenShareStream(stream);
+      onStreamStarted();
+    }
+
+    const videoTrack = stream?.getVideoTracks()[0];
+
+    // Handle ending screen share natively
+    videoTrack?.addEventListener('ended', () => {
+      setIsSharingScreen(false);
+      setScreenShareStream(undefined);
+      onStreamEnded();
+    });
   };
 
+  const stopScreenShare = useCallback(() => {
+    stopCapture(screenShareStream);
+    setIsSharingScreen(false);
+    setScreenShareStream(undefined);
+    onStreamEnded();
+  }, [screenShareStream]);
+
   return {
+    startScreenShare,
+    stopScreenShare,
+    screenShareStream,
     isSharingScreen,
-    toggleIsSharingScreen,
   };
 }
