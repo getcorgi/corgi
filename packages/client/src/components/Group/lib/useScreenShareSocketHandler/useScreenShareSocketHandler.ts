@@ -4,14 +4,13 @@ import io from 'socket.io-client';
 import { appConfig } from '../../../../constants';
 import useScreenShareSocketEvents from './lib/useScreenShareSocketEvents';
 import { Connections, User } from './types';
+import useScreenShare from '../useScreenShare';
 
 export default function useSocketHandler({
-  localScreenShareStream,
   groupId,
   userData,
 }: {
   groupId: string;
-  localScreenShareStream?: MediaStream;
   userData: User;
 }) {
   const socket = useRef(io(appConfig.socketServer));
@@ -20,18 +19,22 @@ export default function useSocketHandler({
   const [isScreenSharePeerConnected, setIsScreenSharePeerConnected] = useState(
     false,
   );
-  const localScreenShareStreamRef = useRef(localScreenShareStream);
+
+  const { screenShareStream, toggleIsSharingScreen } = useScreenShare();
+
+  const localScreenShareStreamRef = useRef(screenShareStream);
 
   useScreenShareSocketEvents({
     groupId,
-    localStream: localScreenShareStream,
+    localStream: screenShareStream,
     myUserData: userData,
     connections: connections.current,
     socket: socket.current,
     isScreenSharePeerConnected,
   });
 
-  const connectScreenShare = () => {
+  const connectScreenShare = async () => {
+    await toggleIsSharingScreen();
     setIsScreenSharePeerConnected(true);
   };
 
@@ -61,22 +64,18 @@ export default function useSocketHandler({
   useEffect(() => {
     if (
       isScreenSharePeerConnected &&
-      localScreenShareStream !== localScreenShareStreamRef.current
+      screenShareStream !== localScreenShareStreamRef.current
     ) {
       connections.current.forEach(({ peer }) => {
-        if (
-          peer &&
-          localScreenShareStreamRef.current &&
-          localScreenShareStream
-        ) {
+        if (peer && localScreenShareStreamRef.current && screenShareStream) {
           peer.removeStream(localScreenShareStreamRef.current);
-          peer.addStream(localScreenShareStream);
+          peer.addStream(screenShareStream);
         }
       });
 
-      localScreenShareStreamRef.current = localScreenShareStream;
+      localScreenShareStreamRef.current = screenShareStream;
     }
-  }, [localScreenShareStream, isScreenSharePeerConnected]);
+  }, [screenShareStream, isScreenSharePeerConnected]);
 
   useEffect(() => {
     return function onUnmount() {

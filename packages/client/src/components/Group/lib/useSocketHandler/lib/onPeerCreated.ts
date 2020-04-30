@@ -26,6 +26,8 @@ export default function onPeerCreated({
     const isMuted = connections.get(peerId)?.userData?.isMuted;
     const isCameraOff = connections.get(peerId)?.userData?.isCameraOff;
 
+    console.log(connections.get(peerId)?.userData);
+
     setStreams(prevStreams => {
       stream.getAudioTracks().forEach(track => {
         track.enabled = !isMuted;

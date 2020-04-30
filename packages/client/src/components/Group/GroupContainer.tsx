@@ -72,17 +72,11 @@ export default function GroupContainer(props: Props) {
   const {
     disconnectScreenShare,
     connectScreenShare,
-    isScreenSharePeerConnected,
+    isSharingScreen,
   } = useScreenShareSocketHandler({
     groupId,
-    localScreenShareStream: localStream,
     userData,
   });
-
-  // const { isSharingScreen, toggleIsSharingScreen } = useScreenShare({
-  //   localStream,
-  //   setLocalStream,
-  // });
 
   useEffect(() => {
     if (me?.name && !userName) {
@@ -148,7 +142,7 @@ export default function GroupContainer(props: Props) {
   }
 
   const toggleIsSharingScreen = () => {
-    if (isScreenSharePeerConnected) {
+    if (isSharingScreen) {
       return disconnectScreenShare();
     }
     connectScreenShare();
@@ -170,7 +164,7 @@ export default function GroupContainer(props: Props) {
           isAdmin={isAdmin}
           isCameraOff={isCameraOff}
           isMuted={isMuted}
-          isSharingScreen={isScreenSharePeerConnected}
+          isSharingScreen={isSharingScreen}
           onHangup={onHangup}
           setActiveViewId={setActiveView}
           streams={streams}

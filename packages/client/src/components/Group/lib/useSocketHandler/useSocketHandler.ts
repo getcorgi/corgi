@@ -137,9 +137,7 @@ export default function useSocketHandler({
 
   const enhancedStreams = Object.entries(streams).reduce(
     (acc, [key, streamObj]) => {
-      const user = users.find(user => user.id === key) || {
-        isScreenShare: true,
-      };
+      const user = connections.current.get(key)?.userData;
 
       return {
         ...acc,

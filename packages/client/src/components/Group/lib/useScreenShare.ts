@@ -28,23 +28,16 @@ async function startCapture(options?: any) {
   return captureStream;
 }
 
-export default function useScreenShare({
-  localStream,
-  setLocalStream,
-}: {
-  localStream?: MediaStream;
-  setLocalStream: React.Dispatch<React.SetStateAction<MediaStream | undefined>>;
-}) {
+export default function useScreenShare() {
   const [isSharingScreen, setIsSharingScreen] = useState(false);
   const [hasSetScreenShare, setHasSetScreenShare] = useState(false);
-
-  const clonedStream = useRef<MediaStream | undefined>();
+  const [screenShareStream, setScreenShareStream] = useState<MediaStream>();
 
   const toggleIsSharingScreen = async () => {
+    // Toogle On
     if (!isSharingScreen && !hasSetScreenShare) {
       setIsSharingScreen(true);
       const stream = await startCapture();
-      clonedStream.current = localStream?.clone();
 
       // User hit cancel, or screen share errored
       if (!stream) {
@@ -54,7 +47,7 @@ export default function useScreenShare({
       }
 
       if (stream) {
-        setLocalStream(stream);
+        setScreenShareStream(stream);
         setHasSetScreenShare(true);
       }
 
@@ -64,19 +57,19 @@ export default function useScreenShare({
       videoTrack?.addEventListener('ended', () => {
         setIsSharingScreen(false);
         setHasSetScreenShare(false);
-        setLocalStream(clonedStream.current);
+        setScreenShareStream(undefined);
       });
       return;
     }
 
+    // Toogle Off
     setIsSharingScreen(false);
     setHasSetScreenShare(false);
-    setLocalStream(clonedStream.current);
-    clonedStream.current = undefined;
+    setScreenShareStream(undefined);
   };
 
   return {
-    isSharingScreen,
     toggleIsSharingScreen,
+    screenShareStream,
   };
 }

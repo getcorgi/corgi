@@ -18,6 +18,8 @@ export default function useScreenShareSocketEvents({
       groupId,
       userData: {
         ...myUserData,
+        isCameraOff: false,
+        isMuted: false,
         name: `${myUserData.name}'s Screen Share`,
       },
       socketId: socket.id,
