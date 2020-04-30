@@ -9,8 +9,6 @@ const DISPLAY_OPTIONS = {
     cursor: 'always',
   },
   audio: {
-    echoCancellation: true,
-    noiseSuppression: true,
     sampleRate: 44100,
   },
 };
