@@ -34,9 +34,16 @@ const stopCapture = (stream?: MediaStream) => {
   });
 };
 
-export default function useScreenShare() {
+interface Props {
+  onStreamStarted: () => void;
+  onStreamEnded: () => void;
+}
+
+export default function useScreenShare({
+  onStreamStarted,
+  onStreamEnded,
+}: Props) {
   const [isSharingScreen, setIsSharingScreen] = useState(false);
-  const [hasSetScreenShare, setHasSetScreenShare] = useState(false);
   const [screenShareStream, setScreenShareStream] = useState<MediaStream>();
 
   const startScreenShare = async () => {
@@ -45,14 +52,14 @@ export default function useScreenShare() {
 
     // User hit cancel, or screen share errored
     if (!stream) {
-      setHasSetScreenShare(false);
       setIsSharingScreen(false);
+      onStreamEnded();
       return;
     }
 
     if (stream) {
       setScreenShareStream(stream);
-      setHasSetScreenShare(true);
+      onStreamStarted();
     }
 
     const videoTrack = stream?.getVideoTracks()[0];
@@ -60,17 +67,16 @@ export default function useScreenShare() {
     // Handle ending screen share natively
     videoTrack?.addEventListener('ended', () => {
       setIsSharingScreen(false);
-      setHasSetScreenShare(false);
       setScreenShareStream(undefined);
+      onStreamEnded();
     });
   };
 
   const stopScreenShare = useCallback(() => {
     stopCapture(screenShareStream);
-
     setIsSharingScreen(false);
-    setHasSetScreenShare(false);
     setScreenShareStream(undefined);
+    onStreamEnded();
   }, [screenShareStream]);
 
   return {

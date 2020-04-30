@@ -20,12 +20,36 @@ export default function useSocketHandler({
     false,
   );
 
+  console.log(isScreenSharePeerConnected);
+
+  const disconnectScreenShare = () => {
+    stopScreenShare();
+  };
+
+  const connectScreenShare = () => {
+    startScreenShare();
+  };
+
+  const onStreamEnded = () => {
+    setIsScreenSharePeerConnected(false);
+
+    socket.current.emit('userIsLeavingRoom', {
+      socketId: socket.current.id,
+    });
+
+    connections.current = new Map([]);
+    // socket.current.close();
+  };
+  const onStreamStarted = () => {
+    setIsScreenSharePeerConnected(true);
+  };
+
   const {
     isSharingScreen,
     screenShareStream,
     startScreenShare,
     stopScreenShare,
-  } = useScreenShare();
+  } = useScreenShare({ onStreamEnded, onStreamStarted });
 
   const localScreenShareStreamRef = useRef(screenShareStream);
 
@@ -38,40 +62,18 @@ export default function useSocketHandler({
     isScreenSharePeerConnected,
   });
 
-  const connectScreenShare = async () => {
-    await startScreenShare();
-    setIsScreenSharePeerConnected(true);
-  };
-
-  const disconnectScreenShare = useCallback(() => {
-    stopScreenShare();
-    socket.current.emit('userIsLeavingRoom', {
-      socketId: socket.current.id,
-    });
-
-    connections.current = new Map([]);
-
-    setIsScreenSharePeerConnected(false);
-  }, [screenShareStream]);
-
-  const disconnect = useCallback(() => {
+  const destroySocket = useCallback(() => {
     disconnectScreenShare();
     socket.current.close();
-  }, [disconnectScreenShare, screenShareStream]);
+  }, [socket]);
 
   useEffect(() => {
-    if (!isSharingScreen && isScreenSharePeerConnected) {
-      disconnect();
-    }
-  }, [isSharingScreen]);
-
-  useEffect(() => {
-    window.addEventListener('beforeunload', disconnect);
+    window.addEventListener('beforeunload', destroySocket);
 
     return () => {
-      window.removeEventListener('beforeunload', disconnect);
+      window.removeEventListener('beforeunload', destroySocket);
     };
-  }, [disconnect]);
+  }, [destroySocket]);
 
   useEffect(() => {
     if (
@@ -91,7 +93,7 @@ export default function useSocketHandler({
 
   useEffect(() => {
     return function onUnmount() {
-      disconnect();
+      destroySocket();
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
