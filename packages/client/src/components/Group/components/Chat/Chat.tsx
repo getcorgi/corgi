@@ -4,6 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import * as S from './Chat.styles';
 
+import Linkify from 'react-linkify';
+import { Link } from '@material-ui/core';
+
 interface Props {
   messages: Message[];
   sendMessage: (msg: string) => void;
@@ -16,6 +19,18 @@ const ChatMessage = (props: {
   message: Message;
   shouldGroupMessages: boolean;
 }) => {
+  const LinkComponent = (href: string, text: string) => {
+    const isImage = href.match(
+      /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|webp)/,
+    );
+
+    return (
+      <Link target="_blank" href={href}>
+        {isImage ? <S.ChatMessageImage src={href} /> : text}
+      </Link>
+    );
+  };
+
   return (
     <S.ChatMessage>
       {!props.shouldGroupMessages && (
@@ -28,7 +43,9 @@ const ChatMessage = (props: {
           </S.ChatMessageTime>
         </div>
       )}
-      <S.ChatMessageMessage>{props.message.message}</S.ChatMessageMessage>
+      <Linkify componentDecorator={LinkComponent}>
+        <S.ChatMessageMessage>{props.message.message}</S.ChatMessageMessage>
+      </Linkify>
     </S.ChatMessage>
   );
 };

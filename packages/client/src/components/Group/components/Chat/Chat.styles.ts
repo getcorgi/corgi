@@ -1,6 +1,6 @@
 import { styled } from '@material-ui/core';
 
-import { backgroundColor } from '../../../../lib/theme';
+import theme, { backgroundColor } from '../../../../lib/theme';
 import { User } from '../../lib/useSocketHandler';
 
 export const ChatMessages = styled('div')({
@@ -13,15 +13,16 @@ export const ChatInputForm = styled('div')({
 
 export const ChatInput = styled('input')({
   width: '100%',
-  border: 0,
   fontSize: '16px',
   padding: '12px',
   borderRadius: '4px',
   background: backgroundColor[700],
   color: 'white',
+  border: '1px solid transparent',
   '&:focus': {
     outline: 'none',
-    boxShadow: '0 0 0 2px #ffffff14',
+    boxShadow: '0 0 0 4px #6a6abf1f',
+    border: `1px solid ${theme.palette.primary.main}`,
   },
 });
 
@@ -54,4 +55,8 @@ export const ChatMessageMessage = styled('p')({
   fontSize: '16px',
   whiteSpace: 'normal',
   wordBreak: 'break-word',
+});
+
+export const ChatMessageImage = styled('img')({
+  maxWidth: '100%',
 });
