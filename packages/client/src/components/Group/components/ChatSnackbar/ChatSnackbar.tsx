@@ -11,6 +11,7 @@ export interface SnackbarMessage {
 interface Props {
   sholdShowSnackbar: boolean;
   messages: Message[];
+  handleOpenChatWindow: () => void;
 }
 
 export default function ChatSnackbar(props: Props) {
@@ -24,6 +25,11 @@ export default function ChatSnackbar(props: Props) {
       return;
     }
     setIsOpen(false);
+  };
+
+  const onClickSnackbar = () => {
+    setIsOpen(false);
+    props.handleOpenChatWindow();
   };
 
   useEffect(() => {
@@ -50,12 +56,15 @@ export default function ChatSnackbar(props: Props) {
       open={isOpen}
       autoHideDuration={3500}
       onClose={handleClose}
+      onClick={onClickSnackbar}
       message={
         <>
           <S.ChatMessageUser userColor={latestMessage.user.color}>
             {latestMessage.user.name}
           </S.ChatMessageUser>
-          <S.ChatMessageMessage>{latestMessage.message}</S.ChatMessageMessage>
+          <S.ChatMessageMessage noWrap={true}>
+            {latestMessage.message}
+          </S.ChatMessageMessage>
         </>
       }
     />

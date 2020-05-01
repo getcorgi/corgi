@@ -134,6 +134,7 @@ export default function SideBar(props: Props) {
       <ChatSnackbar
         sholdShowSnackbar={!isDrawerOpen}
         messages={props.messages}
+        handleOpenChatWindow={toggleDrawerOpen}
       />
     </>
   );

@@ -81,6 +81,10 @@ export default function Chat(props: Props) {
     }
   }, [props.shouldFocusInput]);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, []);
+
   const submitChatMessage = (e: React.SyntheticEvent) => {
     e.preventDefault();
     if (!newChatMessage) return;

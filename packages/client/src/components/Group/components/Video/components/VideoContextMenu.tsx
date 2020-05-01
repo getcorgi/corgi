@@ -1,7 +1,7 @@
 import React from 'react';
 import Menu from '@material-ui/core/Menu';
 import Typography from '@material-ui/core/Typography';
-import { Grid, Slider, styled, Box } from '@material-ui/core';
+import { Grid, Slider, Box } from '@material-ui/core';
 import { VolumeDown, VolumeUp } from '@material-ui/icons';
 import theme from '../../../../../lib/theme';
 
