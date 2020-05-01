@@ -14,6 +14,8 @@ export default function useScreenShareSocketEvents({
   useEffect(() => {
     if (!isScreenSharePeerConnected) return;
 
+    socket.emit('userIsInPreview', { roomId: groupId });
+
     socket.emit('userJoinedCall', {
       groupId,
       userData: {
@@ -26,12 +28,15 @@ export default function useScreenShareSocketEvents({
     });
 
     const onGotSignal = (data: { from: string; signal: string }) => {
+      console.log('onGotsignal', data.from);
       const connection = connections.get(data.from);
 
       connection?.peer.signal(data.signal);
     };
 
     const onAck = (data: { ack: boolean; userData: User; from: string }) => {
+      console.log('ACKKK', data.userData);
+
       if (data.ack && localStream !== undefined) {
         const peer = new Peer({
           initiator: true,
@@ -50,6 +55,8 @@ export default function useScreenShareSocketEvents({
     };
 
     const onUserLeftRoom = ({ socketId }: { socketId: string }) => {
+      console.log('USER LEFT', socketId);
+
       const connection = connections.get(socketId);
       if (connection?.peer) {
         connection?.peer?.destroy();
@@ -60,6 +67,8 @@ export default function useScreenShareSocketEvents({
 
     const onUserJoined = (data: { socketId: string; userData: User }) => {
       const clientId = data.socketId;
+
+      console.log('USER JOINED', clientId);
 
       if (connections.has(clientId) || clientId === socket.id) {
         return;

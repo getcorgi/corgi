@@ -20,7 +20,9 @@ export default function useSocketHandler({
   isCameraOff: boolean;
   userData: User;
 }) {
-  const socket = useRef(io(appConfig.socketServer));
+  const socket = useRef(
+    io(appConfig.socketServer, { forceNew: true, multiplex: false }),
+  );
   const connections = useRef<Connections>(new Map([]));
   const [users, setUsers] = useState<User[]>([]);
   const [streams, setStreams] = useState<{

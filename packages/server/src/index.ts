@@ -27,6 +27,19 @@ const io = socketIo(app);
 app.listen(PORT);
 console.log(`🚀 Server started, listening on :${PORT}`);
 
+function emitAllUsersToRoom(roomId: string) {
+  io.in(roomId).clients((err: string, clients: string[]) => {
+    const users = clients.map((socketId: string) => {
+      const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
+      return clientSocket.userData;
+    });
+
+    console.log(clients);
+
+    io.in(roomId).emit('gotUsers', { users });
+  });
+}
+
 io.on('connection', (socket: ExtendedSocket) => {
   let room: string;
 
@@ -45,28 +58,12 @@ io.on('connection', (socket: ExtendedSocket) => {
         userData: data.userData,
       });
 
-      io.in(room).clients((err: string, clients: string[]) => {
-        const users = clients.map((socketId: string) => {
-          const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
-          return clientSocket.userData;
-        });
-
-        io.in(room).emit('gotUsers', { users });
-      });
+      emitAllUsersToRoom(room);
     },
   );
 
   socket.on('getUsers', ({ roomId }: { from: string; roomId: string }) => {
-    io.of('/')
-      .in(roomId)
-      .clients((err: string, clients: string[]) => {
-        const users = clients.map((socketId: string) => {
-          const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
-          return clientSocket.userData;
-        });
-
-        io.in(roomId).emit('gotUsers', { users });
-      });
+    emitAllUsersToRoom(roomId);
   });
 
   socket.on('userUpdated', (userData: User) => {
@@ -103,14 +100,7 @@ io.on('connection', (socket: ExtendedSocket) => {
     const { isMuted, isCameraOff } = socket.userData || {};
     socket.userData = { isMuted, isCameraOff };
 
-    io.in(room).clients((err: string, clients: string[]) => {
-      const users = clients.map((socketId: string) => {
-        const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
-        return clientSocket.userData;
-      });
-
-      io.in(room).emit('gotUsers', { users });
-    });
+    emitAllUsersToRoom(room);
   });
 
   socket.on('sendChatMessage', ({ msg }: { msg: string }) => {

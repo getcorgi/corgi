@@ -62,6 +62,8 @@ export default function useSocketEvents({
     const onUserJoined = (data: { socketId: string; userData: User }) => {
       const clientId = data.socketId;
 
+      console.log('USER JOINED -----------------------', clientId);
+
       if (connections.has(clientId) || clientId === socket.id) {
         return;
       }
