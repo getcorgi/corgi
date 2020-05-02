@@ -1,11 +1,10 @@
+import { Link } from '@material-ui/core';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
+import Linkify from 'react-linkify';
 
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import * as S from './Chat.styles';
-
-import Linkify from 'react-linkify';
-import { Link } from '@material-ui/core';
 
 interface Props {
   messages: Message[];

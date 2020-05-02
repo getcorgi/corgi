@@ -96,7 +96,7 @@ export function MediaSettingsProvider(props: Props) {
   useEffect(() => {
     (async () => {
       if (!areAvailableDevicesLoaded) {
-        let devices: {
+        const devices: {
           audioInput: MediaDeviceInfo[];
           audioOutput: MediaDeviceInfo[];
           videoInput: MediaDeviceInfo[];

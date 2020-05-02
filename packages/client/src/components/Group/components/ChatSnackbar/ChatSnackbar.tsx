@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 
+import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import * as S from './ChatSnackbar.styles';
 
 export interface SnackbarMessage {

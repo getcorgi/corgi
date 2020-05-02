@@ -5,9 +5,9 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "test": "jest",
+    "test": "jest --watchAll",
     "build": "tsc --build",
-    "lint": "eslint './src/**/*.{ts,tsx}'",
+    "lint": "yarn eslint './src/**/*.{ts,tsx}'",
     "lint-fix": "yarn lint --fix",
     "start-dev": "nodemon --exec ts-node src/index.ts",
     "start": "node ./dist/index.js",
@@ -20,13 +20,10 @@
     "@types/jest": "^25.2.1",
     "@types/socket.io": "^2.1.4",
     "socket.io": "^2.3.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "eslint-config-corgi": "^0.0.1"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-simple-import-sort": "^5.0.2",
     "jest": "^25.4.0",
     "nodemon": "^2.0.2",
     "ts-jest": "^25.4.0",

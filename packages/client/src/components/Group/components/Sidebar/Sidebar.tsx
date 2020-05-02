@@ -9,9 +9,9 @@ import theme from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import ActivityTabs from '../ActivityTabs';
 import Chat from '../Chat';
+import ChatSnackbar from '../ChatSnackbar/ChatSnackbar';
 import MediaSettingsPopover from '../MediaSettingsPopover';
 import * as S from './Sidebar.styles';
-import ChatSnackbar from '../ChatSnackbar/ChatSnackbar';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

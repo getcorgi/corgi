@@ -8,7 +8,7 @@ import Home from './Home';
 export default function GroupsContainer() {
   const updateGroup = useUpdateGroups();
   const [roomName, setRoomName] = useState('');
-  let history = useHistory();
+  const history = useHistory();
 
   async function onAddGroup(event: React.SyntheticEvent) {
     event.preventDefault();

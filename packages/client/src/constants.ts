@@ -11,4 +11,5 @@ export const appConfig = {
   sentryDsn: process.env.REACT_APP_SENTRY_DSN,
 };
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = (...args: any[]): any => {};

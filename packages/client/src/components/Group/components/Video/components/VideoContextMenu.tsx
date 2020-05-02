@@ -1,8 +1,9 @@
-import React from 'react';
+import { Box, Grid, Slider } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import Typography from '@material-ui/core/Typography';
-import { Grid, Slider, Box } from '@material-ui/core';
 import { VolumeDown, VolumeUp } from '@material-ui/icons';
+import React from 'react';
+
 import theme from '../../../../../lib/theme';
 
 interface Props {

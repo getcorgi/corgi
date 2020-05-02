@@ -4,11 +4,11 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
+import { Me } from '../../../MeProvider/MeProvider';
 import { User } from '../../lib/useSocketHandler';
 import AudioVisualizer from '../AudioVisualizer';
-import * as S from './Video.styles';
-import { Me } from '../../../MeProvider/MeProvider';
 import VideoContextMenu from './components/VideoContextMenu';
+import * as S from './Video.styles';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

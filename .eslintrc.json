@@ -1,9 +1,0 @@
-{
-  "extends": ["eslint:recommended", "react-app"],
-  "plugins": ["eslint-plugin-simple-import-sort", "prettier"],
-  "rules": {
-    "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
-    "prettier/prettier": "error",
-    "simple-import-sort/sort": "error"
-  }
-}

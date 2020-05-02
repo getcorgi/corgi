@@ -12,7 +12,7 @@ jest.mock('firebase/app', () => {
   return {
     initializeApp: jest.fn(),
     auth: jest.fn().mockReturnValue({
-      signInAnonymously: jest.fn().mockReturnValue(new Promise(() => {})),
+      signInAnonymously: jest.fn().mockReturnValue(new Promise(jest.fn())),
       onAuthStateChanged: jest.fn(),
       currentUser: true,
       signOut: () => true,

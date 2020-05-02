@@ -1,7 +1,8 @@
 import { styled, Typography } from '@material-ui/core';
-import { User } from '../../lib/useSocketHandler';
-import { grey } from '@material-ui/core/colors';
 import { Snackbar } from '@material-ui/core';
+import { grey } from '@material-ui/core/colors';
+
+import { User } from '../../lib/useSocketHandler';
 import { CLOSED_DRAWER_WIDTH } from '../Sidebar/Sidebar.styles';
 
 export const ChatMessageUser = styled('strong')({

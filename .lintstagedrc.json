@@ -1,5 +1,9 @@
 {
-  "*.{ts,tsx}": ["yarn workspaces run lint", "git add"],
+  "*.{ts,tsx}": [
+    "yarn workspace client lint --fix",
+    "yarn workspace server lint --fix",
+    "git add"
+  ],
   "*.{html,json,md,yml}": ["prettier --write", "git add"],
   "*.*rc": ["prettier --write --parser json", "git add"]
 }

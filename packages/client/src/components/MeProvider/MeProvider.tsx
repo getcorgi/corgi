@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { noop } from '../../constants';
 import useUser, { UserDocumentData } from '../../lib/hooks/useUser';
 
-export interface Me extends UserDocumentData {}
+export type Me = UserDocumentData;
 
 interface MeContextValues {
   me: Me;
