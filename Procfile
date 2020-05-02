@@ -1,1 +1,1 @@
-web: yarn workspace server install && yarn workspace server start
+web: yarn && yarn workspace server start
