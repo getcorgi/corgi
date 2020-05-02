@@ -1,624 +1,817 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots ErrorPage Default 1`] = `
-<div
-  className="MuiTypography-root MuiTypography-body1"
->
-  <div
-    className="MuiBox-root MuiBox-root-32"
-  >
-    Oops... The link you are trying to reach cannot be found
-  </div>
-  <div
-    className="MuiBox-root MuiBox-root-33"
-  >
-    <a
-      href="/"
-      onClick={[Function]}
-    >
-      Go Home
-    </a>
-  </div>
-</div>
+exports[`Storyshots BasicView Default 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <div
+          style="height: 100vh; width: 100%; background: gray;"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-163 Styled(MuiBox)-root-161"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-164"
+            >
+              <div
+                class="div-root-165"
+              >
+                <h5
+                  class="MuiTypography-root MuiTypography-h5 MuiTypography-colorInherit MuiTypography-alignCenter"
+                >
+                  <strong>
+                    Looks like you're the only one here,
+                  </strong>
+                </h5>
+                <h5
+                  class="MuiTypography-root MuiTypography-h5 MuiTypography-colorInherit MuiTypography-alignCenter"
+                >
+                  <strong>
+                    send out this link to invite someone!
+                  </strong>
+                </h5>
+                <h6
+                  class="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-alignCenter"
+                >
+                  <div
+                    class="MuiBox-root MuiBox-root-209 Styled(MuiBox)-root-208"
+                    title="Copied!"
+                  >
+                    http://localhost/
+                  </div>
+                </h6>
+              </div>
+            </div>
+            <div
+              class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-210 MuiPaper-elevation10 MuiPaper-rounded"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-240"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-246"
+                >
+                  <div
+                    class="div-root-247"
+                  >
+                    <video
+                      autoplay=""
+                      class="makeStyles-mirroredVideo-242 makeStyles-video-241 "
+                      playsinline=""
+                    />
+                    <div
+                      class="div-root-248"
+                    >
+                      <div
+                        class="div-root-249"
+                      >
+                        <div
+                          class="div-root-250"
+                        >
+                          <svg
+                            viewBox="0 0 100 100"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <circle
+                              cx="50"
+                              cy="50"
+                              fill="#67e4a6"
+                              r="NaN"
+                            />
+                            <circle
+                              cx="50"
+                              cy="50"
+                              fill-opacity="0"
+                              r="NaN"
+                              stroke="white"
+                              stroke-opacity="0.5"
+                              stroke-width="4"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <span>
+                        (You)
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  aria-hidden="true"
+                  class="MuiPopover-root"
+                  role="presentation"
+                  style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px; visibility: hidden;"
+                >
+                  <div
+                    data-test="sentinelStart"
+                    tabindex="0"
+                  />
+                  <div
+                    class="MuiPaper-root MuiMenu-paper MuiPopover-paper MuiPaper-elevation8 MuiPaper-rounded"
+                    style="opacity: 0; transform: scale(0.75, 0.5625); visibility: hidden;"
+                    tabindex="-1"
+                  >
+                    <ul
+                      class="MuiList-root MuiMenu-list MuiList-padding"
+                      role="menu"
+                      tabindex="-1"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-259"
+                        tabindex="0"
+                      >
+                        <p
+                          class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
+                          id="volume-slider"
+                        >
+                          Volume
+                        </p>
+                        <div
+                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                        >
+                          <div
+                            class="MuiGrid-root MuiGrid-item"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"
+                              />
+                            </svg>
+                          </div>
+                          <div
+                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                          >
+                            <span
+                              class="MuiSlider-root MuiSlider-colorPrimary"
+                            >
+                              <span
+                                class="MuiSlider-rail"
+                              />
+                              <span
+                                class="MuiSlider-track"
+                                style="left: 0%; width: 100%;"
+                              />
+                              <input
+                                type="hidden"
+                                value="100"
+                              />
+                              <span
+                                aria-labelledby="volume-slider"
+                                aria-orientation="horizontal"
+                                aria-valuemax="100"
+                                aria-valuemin="0"
+                                aria-valuenow="100"
+                                class="MuiSlider-thumb MuiSlider-thumbColorPrimary"
+                                data-index="0"
+                                role="slider"
+                                style="left: 100%;"
+                                tabindex="0"
+                              />
+                            </span>
+                          </div>
+                          <div
+                            class="MuiGrid-root MuiGrid-item"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              class="MuiSvgIcon-root"
+                              focusable="false"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
+                              />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </ul>
+                  </div>
+                  <div
+                    data-test="sentinelEnd"
+                    tabindex="0"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <div
+        style="height: 100vh; width: 100%; background: gray;"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-163 Styled(MuiBox)-root-161"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-164"
+          >
+            <div
+              class="div-root-165"
+            >
+              <h5
+                class="MuiTypography-root MuiTypography-h5 MuiTypography-colorInherit MuiTypography-alignCenter"
+              >
+                <strong>
+                  Looks like you're the only one here,
+                </strong>
+              </h5>
+              <h5
+                class="MuiTypography-root MuiTypography-h5 MuiTypography-colorInherit MuiTypography-alignCenter"
+              >
+                <strong>
+                  send out this link to invite someone!
+                </strong>
+              </h5>
+              <h6
+                class="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-alignCenter"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-209 Styled(MuiBox)-root-208"
+                  title="Copied!"
+                >
+                  http://localhost/
+                </div>
+              </h6>
+            </div>
+          </div>
+          <div
+            class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-210 MuiPaper-elevation10 MuiPaper-rounded"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-240"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-246"
+              >
+                <div
+                  class="div-root-247"
+                >
+                  <video
+                    autoplay=""
+                    class="makeStyles-mirroredVideo-242 makeStyles-video-241 "
+                    playsinline=""
+                  />
+                  <div
+                    class="div-root-248"
+                  >
+                    <div
+                      class="div-root-249"
+                    >
+                      <div
+                        class="div-root-250"
+                      >
+                        <svg
+                          viewBox="0 0 100 100"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="50"
+                            cy="50"
+                            fill="#67e4a6"
+                            r="NaN"
+                          />
+                          <circle
+                            cx="50"
+                            cy="50"
+                            fill-opacity="0"
+                            r="NaN"
+                            stroke="white"
+                            stroke-opacity="0.5"
+                            stroke-width="4"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <span>
+                      (You)
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div
+                aria-hidden="true"
+                class="MuiPopover-root"
+                role="presentation"
+                style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px; visibility: hidden;"
+              >
+                <div
+                  data-test="sentinelStart"
+                  tabindex="0"
+                />
+                <div
+                  class="MuiPaper-root MuiMenu-paper MuiPopover-paper MuiPaper-elevation8 MuiPaper-rounded"
+                  style="opacity: 0; transform: scale(0.75, 0.5625); visibility: hidden;"
+                  tabindex="-1"
+                >
+                  <ul
+                    class="MuiList-root MuiMenu-list MuiList-padding"
+                    role="menu"
+                    tabindex="-1"
+                  >
+                    <div
+                      class="MuiBox-root MuiBox-root-259"
+                      tabindex="0"
+                    >
+                      <p
+                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
+                        id="volume-slider"
+                      >
+                        Volume
+                      </p>
+                      <div
+                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
+                      >
+                        <div
+                          class="MuiGrid-root MuiGrid-item"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"
+                            />
+                          </svg>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
+                        >
+                          <span
+                            class="MuiSlider-root MuiSlider-colorPrimary"
+                          >
+                            <span
+                              class="MuiSlider-rail"
+                            />
+                            <span
+                              class="MuiSlider-track"
+                              style="left: 0%; width: 100%;"
+                            />
+                            <input
+                              type="hidden"
+                              value="100"
+                            />
+                            <span
+                              aria-labelledby="volume-slider"
+                              aria-orientation="horizontal"
+                              aria-valuemax="100"
+                              aria-valuemin="0"
+                              aria-valuenow="100"
+                              class="MuiSlider-thumb MuiSlider-thumbColorPrimary"
+                              data-index="0"
+                              role="slider"
+                              style="left: 100%;"
+                              tabindex="0"
+                            />
+                          </span>
+                        </div>
+                        <div
+                          class="MuiGrid-root MuiGrid-item"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </ul>
+                </div>
+                <div
+                  data-test="sentinelEnd"
+                  tabindex="0"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
 `;
 
-exports[`Storyshots Groups Default 1`] = `
-Array [
-  <header
-    className="makeStyles-root-34"
-  >
-    <header
-      className="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary MuiPaper-elevation4"
-    >
+exports[`Storyshots Chat Default 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <div
+          style="height: 100vh; width: 100%; background: rgb(30, 31, 35);"
+        >
+          <div
+            class="div-root-401"
+          >
+            <div
+              class="div-root-402"
+            />
+            <div
+              class="div-root-403"
+            >
+              <form>
+                <input
+                  class="input-root-404"
+                  value=""
+                />
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
       <div
-        className="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+        style="height: 100vh; width: 100%; background: rgb(30, 31, 35);"
       >
-        <h6
-          className="MuiTypography-root makeStyles-title-36 MuiTypography-h6"
+        <div
+          class="div-root-401"
+        >
+          <div
+            class="div-root-402"
+          />
+          <div
+            class="div-root-403"
+          >
+            <form>
+              <input
+                class="input-root-404"
+                value=""
+              />
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`Storyshots DraggableSplitWrapper Default 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <div
+          class="MuiBox-root MuiBox-root-420"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-421"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-422"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-425 Styled(MuiBox)-root-423 Styled(MuiBox)-root-424"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-426"
+                >
+                  hi
+                </div>
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-427"
+              >
+                <div
+                  class="div-root-428 div-root-429"
+                  width="5"
+                />
+              </div>
+              <div
+                class="MuiBox-root MuiBox-root-431 Styled(MuiBox)-root-423 Styled(MuiBox)-root-430"
+              >
+                <div
+                  class="MuiBox-root MuiBox-root-432"
+                >
+                  hi
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <div
+        class="MuiBox-root MuiBox-root-420"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-421"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-422"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-425 Styled(MuiBox)-root-423 Styled(MuiBox)-root-424"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-426"
+              >
+                hi
+              </div>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-427"
+            >
+              <div
+                class="div-root-428 div-root-429"
+                width="5"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-431 Styled(MuiBox)-root-423 Styled(MuiBox)-root-430"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-432"
+              >
+                hi
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`Storyshots ErrorPage Default 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div>
+        <div
+          class="MuiTypography-root MuiTypography-body1"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-65"
+          >
+            Oops... The link you are trying to reach cannot be found
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-66"
+          >
+            <a
+              href="/"
+            >
+              Go Home
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <div
+        class="MuiTypography-root MuiTypography-body1"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-65"
+        >
+          Oops... The link you are trying to reach cannot be found
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-66"
         >
           <a
-            className="MuiTypography-root MuiLink-root MuiLink-underlineHover makeStyles-logo-37 MuiTypography-colorPrimary"
             href="/"
-            onBlur={[Function]}
-            onFocus={[Function]}
           >
-            corgi
+            Go Home
           </a>
-        </h6>
-      </div>
-    </header>
-  </header>,
-  <div
-    className="MuiBox-root MuiBox-root-118"
-  >
-    <h1
-      className="MuiTypography-root MuiTypography-h4"
-    >
-      Rooms
-    </h1>
-  </div>,
-  <hr
-    className="MuiDivider-root"
-  />,
-  <div
-    className="MuiBox-root MuiBox-root-126"
-  >
-    <div
-      className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4"
-    >
-      <div
-        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-3"
-      >
-        <div
-          className="MuiPaper-root MuiCard-root MuiPaper-elevation1 MuiPaper-rounded"
-        >
-          <button
-            className="MuiButtonBase-root MuiCardActionArea-root"
-            disabled={false}
-            onBlur={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            <a
-              className="Link-root-237"
-              href="/groups/1"
-              onClick={[Function]}
-            >
-              <div
-                className="MuiCardHeader-root"
-              >
-                <div
-                  className="MuiCardHeader-avatar"
-                >
-                  <div
-                    className="MuiAvatar-root MuiAvatar-circle MuiAvatar-colorDefault"
-                  >
-                    G
-                  </div>
-                </div>
-                <div
-                  className="MuiCardHeader-content"
-                >
-                  <span
-                    className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock"
-                  >
-                    Group A
-                  </span>
-                </div>
-              </div>
-            </a>
-            <span
-              className="MuiCardActionArea-focusHighlight"
-            />
-          </button>
-          <div
-            className="MuiCardActions-root MuiCardActions-spacing"
-          >
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"
-              disabled={false}
-              onBlur={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              <span
-                className="MuiButton-label"
-              >
-                Edit
-              </span>
-            </button>
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-textSizeSmall MuiButton-sizeSmall"
-              disabled={false}
-              onBlur={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              <span
-                className="MuiButton-label"
-              >
-                Delete
-              </span>
-            </button>
-          </div>
         </div>
       </div>
-      <div
-        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-3"
-      >
-        <div
-          className="MuiPaper-root MuiCard-root MuiPaper-elevation1 MuiPaper-rounded"
-        >
-          <button
-            className="MuiButtonBase-root MuiCardActionArea-root"
-            disabled={false}
-            onBlur={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            <a
-              className="Link-root-237"
-              href="/groups/2"
-              onClick={[Function]}
-            >
-              <div
-                className="MuiCardHeader-root"
-              >
-                <div
-                  className="MuiCardHeader-avatar"
-                >
-                  <div
-                    className="MuiAvatar-root MuiAvatar-circle MuiAvatar-colorDefault"
-                  >
-                    G
-                  </div>
-                </div>
-                <div
-                  className="MuiCardHeader-content"
-                >
-                  <span
-                    className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock"
-                  >
-                    Group B
-                  </span>
-                </div>
-              </div>
-            </a>
-            <span
-              className="MuiCardActionArea-focusHighlight"
-            />
-          </button>
-          <div
-            className="MuiCardActions-root MuiCardActions-spacing"
-          >
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"
-              disabled={false}
-              onBlur={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              <span
-                className="MuiButton-label"
-              >
-                Edit
-              </span>
-            </button>
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-textSizeSmall MuiButton-sizeSmall"
-              disabled={false}
-              onBlur={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              <span
-                className="MuiButton-label"
-              >
-                Delete
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-3"
-      >
-        <div
-          className="MuiPaper-root MuiCard-root MuiPaper-elevation1 MuiPaper-rounded"
-        >
-          <button
-            className="MuiButtonBase-root MuiCardActionArea-root"
-            disabled={false}
-            onBlur={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            <a
-              className="Link-root-237"
-              href="/groups/3"
-              onClick={[Function]}
-            >
-              <div
-                className="MuiCardHeader-root"
-              >
-                <div
-                  className="MuiCardHeader-avatar"
-                >
-                  <div
-                    className="MuiAvatar-root MuiAvatar-circle MuiAvatar-colorDefault"
-                  >
-                    G
-                  </div>
-                </div>
-                <div
-                  className="MuiCardHeader-content"
-                >
-                  <span
-                    className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock"
-                  >
-                    Group C
-                  </span>
-                </div>
-              </div>
-            </a>
-            <span
-              className="MuiCardActionArea-focusHighlight"
-            />
-          </button>
-          <div
-            className="MuiCardActions-root MuiCardActions-spacing"
-          >
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"
-              disabled={false}
-              onBlur={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              <span
-                className="MuiButton-label"
-              >
-                Edit
-              </span>
-            </button>
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-textSizeSmall MuiButton-sizeSmall"
-              disabled={false}
-              onBlur={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              <span
-                className="MuiButton-label"
-              >
-                Delete
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-3"
-      >
-        <div
-          className="MuiPaper-root MuiCard-root MuiPaper-elevation1 MuiPaper-rounded"
-        >
-          <button
-            className="MuiButtonBase-root MuiCardActionArea-root"
-            disabled={false}
-            onBlur={[Function]}
-            onDragLeave={[Function]}
-            onFocus={[Function]}
-            onKeyDown={[Function]}
-            onKeyUp={[Function]}
-            onMouseDown={[Function]}
-            onMouseLeave={[Function]}
-            onMouseUp={[Function]}
-            onTouchEnd={[Function]}
-            onTouchMove={[Function]}
-            onTouchStart={[Function]}
-            tabIndex={0}
-            type="button"
-          >
-            <a
-              className="Link-root-237"
-              href="/groups/4"
-              onClick={[Function]}
-            >
-              <div
-                className="MuiCardHeader-root"
-              >
-                <div
-                  className="MuiCardHeader-avatar"
-                >
-                  <div
-                    className="MuiAvatar-root MuiAvatar-circle MuiAvatar-colorDefault"
-                  >
-                    G
-                  </div>
-                </div>
-                <div
-                  className="MuiCardHeader-content"
-                >
-                  <span
-                    className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock"
-                  >
-                    Group D
-                  </span>
-                </div>
-              </div>
-            </a>
-            <span
-              className="MuiCardActionArea-focusHighlight"
-            />
-          </button>
-          <div
-            className="MuiCardActions-root MuiCardActions-spacing"
-          >
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"
-              disabled={false}
-              onBlur={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              <span
-                className="MuiButton-label"
-              >
-                Edit
-              </span>
-            </button>
-            <button
-              className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-textSizeSmall MuiButton-sizeSmall"
-              disabled={false}
-              onBlur={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              <span
-                className="MuiButton-label"
-              >
-                Delete
-              </span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="MuiBox-root MuiBox-root-282"
-    >
-      <button
-        aria-label="add"
-        className="MuiButtonBase-root MuiFab-root WithStyles(ForwardRef(Fab))-root-283 WithStyles(ForwardRef(Fab))-root-284 MuiFab-extended MuiFab-primary"
-        disabled={false}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onDragLeave={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onMouseDown={[Function]}
-        onMouseLeave={[Function]}
-        onMouseUp={[Function]}
-        onTouchEnd={[Function]}
-        onTouchMove={[Function]}
-        onTouchStart={[Function]}
-        spacing={16}
-        tabIndex={0}
-        type="button"
-      >
-        <span
-          className="MuiFab-label"
-        >
-          <svg
-            aria-hidden="true"
-            className="MuiSvgIcon-root AddIcon-root-295 AddIcon-root-296"
-            focusable="false"
-            spacing={8}
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-            />
-          </svg>
-          Create New Room
-        </span>
-      </button>
     </div>
   </div>,
-]
-`;
-
-exports[`Storyshots Tile Default 1`] = `
-<div
-  className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 MuiGrid-grid-sm-3"
->
-  <div
-    className="MuiPaper-root MuiCard-root MuiPaper-elevation1 MuiPaper-rounded"
-  >
-    <div
-      className="MuiCardHeader-root"
-    >
-      <div
-        className="MuiCardHeader-avatar"
-      >
-        <div
-          className="MuiAvatar-root MuiAvatar-circle MuiAvatar-colorDefault"
-        >
-          G
-        </div>
-      </div>
-      <div
-        className="MuiCardHeader-content"
-      >
-        <span
-          className="MuiTypography-root MuiCardHeader-title MuiTypography-body2 MuiTypography-displayBlock"
-        >
-          Group A
-        </span>
-      </div>
-    </div>
-    <div
-      className="MuiCardActions-root MuiCardActions-spacing"
-    >
-      <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSizeSmall MuiButton-sizeSmall"
-        disabled={false}
-        onBlur={[Function]}
-        onDragLeave={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onMouseDown={[Function]}
-        onMouseLeave={[Function]}
-        onMouseUp={[Function]}
-        onTouchEnd={[Function]}
-        onTouchMove={[Function]}
-        onTouchStart={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <span
-          className="MuiButton-label"
-        >
-          Edit
-        </span>
-      </button>
-      <button
-        className="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textSecondary MuiButton-textSizeSmall MuiButton-sizeSmall"
-        disabled={false}
-        onBlur={[Function]}
-        onDragLeave={[Function]}
-        onFocus={[Function]}
-        onKeyDown={[Function]}
-        onKeyUp={[Function]}
-        onMouseDown={[Function]}
-        onMouseLeave={[Function]}
-        onMouseUp={[Function]}
-        onTouchEnd={[Function]}
-        onTouchMove={[Function]}
-        onTouchStart={[Function]}
-        tabIndex={0}
-        type="button"
-      >
-        <span
-          className="MuiButton-label"
-        >
-          Delete
-        </span>
-      </button>
-    </div>
-  </div>
-</div>
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
 `;
