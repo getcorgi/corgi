@@ -5,7 +5,7 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "./packages/*"
+      "packages/*"
     ],
     "nohoist": [
       "**/jest",
@@ -19,7 +19,8 @@
     "build": "concurrently --kill-others-on-fail -p \"[{name}]\" -n \"build-client,build-server\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn workspace client build\" \"yarn workspace server build\"",
     "lint": "concurrently --kill-others-on-fail -p \"[{name}]\" -n \"lint-client,lint-server\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn workspace client lint\" \"yarn workspace server lint\"",
     "lint": "concurrently --kill-others-on-fail -p \"[{name}]\" -n \"lint-client,lint-server\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn workspace client lint\" \"yarn workspace server lint\"",
-    "test": "concurrently --kill-others-on-fail -p \"[{name}]\" -n \"test-client,test-server\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn workspace client test\" \"yarn workspace server test\""
+    "test": "concurrently --kill-others-on-fail -p \"[{name}]\" -n \"test-client,test-server\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn workspace client test\" \"yarn workspace server test\"",
+    "heroku-postbuild": "yarn workspace server build"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.4",
