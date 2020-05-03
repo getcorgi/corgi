@@ -16,6 +16,8 @@
     "start-client": "yarn workspace client start",
     "start-server": "yarn workspace server start-dev",
     "start": "concurrently --kill-others-on-fail -p \"[{name}]\" -n \"CLIENT,SERVER\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn:start-client\" \"yarn:start-server\"",
+    "build": "concurrently --kill-others-on-fail -p \"[{name}]\" -n \"build-client,build-server\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn workspace client build\" \"yarn workspace server build\"",
+    "lint": "concurrently --kill-others-on-fail -p \"[{name}]\" -n \"lint-client,lint-server\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn workspace client lint\" \"yarn workspace server lint\"",
     "lint": "concurrently --kill-others-on-fail -p \"[{name}]\" -n \"lint-client,lint-server\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn workspace client lint\" \"yarn workspace server lint\"",
     "test": "concurrently --kill-others-on-fail -p \"[{name}]\" -n \"test-client,test-server\" -c \"bgBlue.bold,bgMagenta.bold\" \"yarn workspace client test\" \"yarn workspace server test\""
   },

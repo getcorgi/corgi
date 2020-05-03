@@ -5,9 +5,12 @@ install:
   - yarn
 script:
   - yarn commitlint --from=HEAD~1
-  - yarn lint
-  - CI=true yarn test --coverage
-  - yarn build
+  - yarn workspace client lint
+  - yarn workspace server lint
+  - CI=true yarn workspace client test --coverage --watch=false
+  - CI=true yarn workspace server test --coverage --watch=false
+  - yarn workspace client build
+  - yarn workspace server build
 after_success:
   - cat coverage/lcov.info | yarn coveralls
 cache:
