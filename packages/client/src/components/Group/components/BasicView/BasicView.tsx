@@ -109,7 +109,7 @@ export default function BasicView(props: Props) {
             <Video
               srcObject={stream}
               isMuted={false}
-              label={user.name}
+              label={user?.name}
               user={user}
             />
           </Box>

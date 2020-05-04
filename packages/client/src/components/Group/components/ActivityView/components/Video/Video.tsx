@@ -19,6 +19,6 @@ export default function VideoWrapper(props: {
   if (!stream || !user) return null;
 
   return (
-    <Video srcObject={stream} isMuted={false} user={user} label={user.name} />
+    <Video srcObject={stream} isMuted={false} user={user} label={user?.name} />
   );
 }
