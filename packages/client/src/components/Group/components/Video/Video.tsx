@@ -7,7 +7,7 @@ import { MediaSettingsContext } from '../../../MediaSettingsProvider';
 import { Me } from '../../../MeProvider/MeProvider';
 import { User } from '../../lib/useSocketHandler';
 import AudioVisualizer from '../AudioVisualizer';
-import VideoContextMenu from './components/VideoContextMenu';
+import VideoContextMenu from '../VideoContextMenu/VideoContextMenu';
 import * as S from './Video.styles';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,6 +42,7 @@ interface Props {
   label?: string;
   srcObject: MediaStream;
   user?: User | Me;
+  hasContextMenu?: boolean;
 }
 
 interface ExperimentalHTMLVideoElement extends HTMLVideoElement {
@@ -86,48 +87,60 @@ export default function(props: Props) {
     }
   }, [volume]);
 
-  return (
-    <VideoContextMenu setVolume={setVolume} volume={volume}>
-      <S.Video ref={containerRef}>
-        {isRemoteCameraOff && (
-          <S.EmptyVideo
-            height="100%"
-            width="100%"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <S.UserAvatar
-              alt={props.user?.name}
-              src="fallback"
-              size={avatarSize}
-              userColor={props.user?.color}
-            />
-          </S.EmptyVideo>
-        )}
-        <video
-          ref={videoRef}
-          playsInline={true}
-          autoPlay={true}
-          muted={props.isMuted}
-          className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
-            classes.video
-          } ${isRemoteCameraOff ? classes.cameraOff : ''}`}
-        />
+  const renderVideo = () => (
+    <S.Video ref={containerRef}>
+      {isRemoteCameraOff && (
+        <S.EmptyVideo
+          height="100%"
+          width="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <S.UserAvatar
+            alt={props.user?.name}
+            src="fallback"
+            size={avatarSize}
+            userColor={props.user?.color}
+          />
+        </S.EmptyVideo>
+      )}
+      <video
+        ref={videoRef}
+        playsInline={true}
+        autoPlay={true}
+        muted={props.isMuted}
+        className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
+          classes.video
+        } ${isRemoteCameraOff ? classes.cameraOff : ''}`}
+      />
 
-        <S.Information>
-          <S.AudioIndicator>
-            {isRemoteMuted ? (
-              <Avatar className={classes.muteAvatar}>
-                <MicOffIcon className={classes.muteIcon} />
-              </Avatar>
-            ) : (
-              <AudioVisualizer mediaStream={props.srcObject} />
-            )}
-          </S.AudioIndicator>
-          {props.label && <span>{props.label}</span>}
-        </S.Information>
-      </S.Video>
-    </VideoContextMenu>
+      <S.Information>
+        <S.AudioIndicator>
+          {isRemoteMuted ? (
+            <Avatar className={classes.muteAvatar}>
+              <MicOffIcon className={classes.muteIcon} />
+            </Avatar>
+          ) : (
+            <AudioVisualizer mediaStream={props.srcObject} />
+          )}
+        </S.AudioIndicator>
+        {props.label && <span>{props.label}</span>}
+      </S.Information>
+    </S.Video>
   );
+
+  if (props.hasContextMenu) {
+    return (
+      <VideoContextMenu
+        setVolume={setVolume}
+        volume={volume}
+        streamId={props.srcObject.id}
+      >
+        {renderVideo()}
+      </VideoContextMenu>
+    );
+  }
+
+  return renderVideo();
 }

@@ -11,6 +11,7 @@ import BrowseTogether from './components/BrowseTogetherView';
 import PermissionsAlert from './components/PermissionsAlert';
 import Preview from './components/Preview';
 import VideoView from './components/VideoView';
+import { GroupProvider } from './lib/GroupContext';
 import useMediaStream from './lib/useLocalMediaStream';
 import useMute from './lib/useMute';
 import useScreenShareSocketHandler from './lib/useScreenShareSocketHandler';
@@ -156,57 +157,59 @@ export default function GroupContainer(props: Props) {
     return (
       <>
         {renderCommon()}
-        <VideoView
-          activeViewId={group.data?.activityId || '0'}
-          isAdmin={isAdmin}
-          isCameraOff={isCameraOff}
-          isMuted={isMuted}
-          isSharingScreen={isSharingScreen}
-          onHangup={onHangup}
-          setActiveViewId={setActiveView}
-          streams={streams}
-          toggleCamera={toggleCamera}
-          toggleIsMuted={toggleIsMuted}
-          toggleIsSharingScreen={toggleIsSharingScreen}
-          messages={messages}
-          sendMessage={sendMessage}
-        >
-          {({ streams }) => {
-            switch (group.data?.activityId) {
-              case '1': {
-                return (
-                  <BrowseTogether
-                    localStream={localStream}
-                    me={me}
-                    streams={streams}
-                    activityUrl={group.data?.activityUrl}
-                    updateActivityUrl={value =>
-                      updateGroup({ groupId, activityUrl: value })
-                    }
-                  />
-                );
+        <GroupProvider>
+          <VideoView
+            activeViewId={group.data?.activityId || '0'}
+            isAdmin={isAdmin}
+            isCameraOff={isCameraOff}
+            isMuted={isMuted}
+            isSharingScreen={isSharingScreen}
+            onHangup={onHangup}
+            setActiveViewId={setActiveView}
+            streams={streams}
+            toggleCamera={toggleCamera}
+            toggleIsMuted={toggleIsMuted}
+            toggleIsSharingScreen={toggleIsSharingScreen}
+            messages={messages}
+            sendMessage={sendMessage}
+          >
+            {({ streams }) => {
+              switch (group.data?.activityId) {
+                case '1': {
+                  return (
+                    <BrowseTogether
+                      localStream={localStream}
+                      me={me}
+                      streams={streams}
+                      activityUrl={group.data?.activityUrl}
+                      updateActivityUrl={value =>
+                        updateGroup({ groupId, activityUrl: value })
+                      }
+                    />
+                  );
+                }
+                case '0': {
+                  return (
+                    <BasicView
+                      localStream={localStream}
+                      me={me}
+                      streams={streams}
+                    />
+                  );
+                }
+                default: {
+                  return (
+                    <ActivityView
+                      id={group.data?.activityId || '0'}
+                      localStream={localStream}
+                      streams={streams}
+                    />
+                  );
+                }
               }
-              case '0': {
-                return (
-                  <BasicView
-                    localStream={localStream}
-                    me={me}
-                    streams={streams}
-                  />
-                );
-              }
-              default: {
-                return (
-                  <ActivityView
-                    id={group.data?.activityId || '0'}
-                    localStream={localStream}
-                    streams={streams}
-                  />
-                );
-              }
-            }
-          }}
-        </VideoView>
+            }}
+          </VideoView>
+        </GroupProvider>
       </>
     );
   }
