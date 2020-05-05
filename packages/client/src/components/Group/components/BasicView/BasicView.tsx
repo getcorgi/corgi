@@ -1,49 +1,25 @@
 import { Typography, useTheme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Me } from '../../../MeProvider/MeProvider';
-import Video from '../Video';
+import { GroupContext } from '../../lib/GroupContext';
 import { StreamsDict } from '../VideoView/VideoView';
 import * as S from './BasicView.styles';
+import PinnedVideoLayout from './components/PinnedVideoLayout/PinnedVideoLayout';
+import TiledVideoLayout from './components/TiledVideoLayout/TiledVideoLayout';
 
 interface Props {
-  localStream: MediaStream | null;
+  localStream: MediaStream;
   streams: StreamsDict;
-  me?: Me;
+  me: Me;
 }
-
-// TODO: this sucks, make better
-const getVideoRatios = (count: number) => {
-  // max out at 5 x 5 for now
-  if (count >= 10) {
-    return { width: '20%', height: '20%' };
-  }
-  if (count >= 5 && count <= 9) {
-    const width = '33.33%';
-    let height = '50%';
-    if (count > 6) {
-      height = '33%';
-    }
-
-    return { width, height };
-  }
-  if (count >= 2 && count <= 4) {
-    return { width: '50%', height: '50%' };
-  }
-
-  return { width: '100%', height: '100%' };
-};
 
 export default function BasicView(props: Props) {
   const theme = useTheme();
+  const { pinnedStreamId } = useContext(GroupContext);
 
   const streams = Object.values(props.streams);
-
-  const streamCount = streams.length;
-
-  const videoWidth = getVideoRatios(streamCount).width;
-  const videoHeight = getVideoRatios(streamCount).height;
 
   const [isCopiedTooltipOpen, setIsCopiedTooltipOpen] = useState(false);
 
@@ -94,41 +70,22 @@ export default function BasicView(props: Props) {
           </S.EmptyMessage>
         </Box>
       )}
-      {streams.map(({ stream, user }) => {
-        if (!stream) return null;
-        return (
-          <Box
-            width={videoWidth}
-            key={stream?.id}
-            height={videoHeight}
-            position="relative"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Video
-              srcObject={stream}
-              isMuted={false}
-              label={user?.name}
-              user={user}
-            />
-          </Box>
-        );
-      })}
-      {props.localStream && (
-        <S.LocalVideo elevation={10}>
-          <Box width="100%" position="relative" pb="56.25%">
-            <Video
-              key={props.localStream.id}
-              srcObject={props.localStream}
-              isMuted={true}
-              isMirrored={true}
-              user={props.me}
-              label="(You)"
-            />
-          </Box>
-        </S.LocalVideo>
-      )}
+      <>
+        {pinnedStreamId && streams.length > 1 ? (
+          <PinnedVideoLayout
+            streams={streams}
+            pinnedStreamId={pinnedStreamId}
+            localStream={props.localStream}
+            me={props.me}
+          />
+        ) : (
+          <TiledVideoLayout
+            streams={streams}
+            localStream={props.localStream}
+            me={props.me}
+          />
+        )}
+      </>
     </S.BasicView>
   );
 }

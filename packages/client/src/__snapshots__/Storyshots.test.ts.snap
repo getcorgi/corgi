@@ -10,13 +10,13 @@ Object {
           style="height: 100vh; width: 100%; background: gray;"
         >
           <div
-            class="MuiBox-root MuiBox-root-163 Styled(MuiBox)-root-161"
+            class="MuiBox-root MuiBox-root-158 Styled(MuiBox)-root-156"
           >
             <div
-              class="MuiBox-root MuiBox-root-164"
+              class="MuiBox-root MuiBox-root-159"
             >
               <div
-                class="div-root-165"
+                class="div-root-160"
               >
                 <h5
                   class="MuiTypography-root MuiTypography-h5 MuiTypography-colorInherit MuiTypography-alignCenter"
@@ -36,7 +36,7 @@ Object {
                   class="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-alignCenter"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-209 Styled(MuiBox)-root-208"
+                    class="MuiBox-root MuiBox-root-204 Styled(MuiBox)-root-203"
                     title="Copied!"
                   >
                     http://localhost/
@@ -45,232 +45,27 @@ Object {
               </div>
             </div>
             <div
-              class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-210 MuiPaper-elevation10 MuiPaper-rounded"
+              class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-205 MuiPaper-elevation10 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-240"
+                class="MuiBox-root MuiBox-root-235"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-246"
-                >
-                  <div
-                    class="div-root-247"
-                  >
-                    <video
-                      autoplay=""
-                      class="makeStyles-mirroredVideo-242 makeStyles-video-241 "
-                      playsinline=""
-                    />
-                    <div
-                      class="div-root-248"
-                    >
-                      <div
-                        class="div-root-249"
-                      >
-                        <div
-                          class="div-root-250"
-                        >
-                          <svg
-                            viewBox="0 0 100 100"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <circle
-                              cx="50"
-                              cy="50"
-                              fill="#67e4a6"
-                              r="NaN"
-                            />
-                            <circle
-                              cx="50"
-                              cy="50"
-                              fill-opacity="0"
-                              r="NaN"
-                              stroke="white"
-                              stroke-opacity="0.5"
-                              stroke-width="4"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      <span>
-                        (You)
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  aria-hidden="true"
-                  class="MuiPopover-root"
-                  role="presentation"
-                  style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px; visibility: hidden;"
-                >
-                  <div
-                    data-test="sentinelStart"
-                    tabindex="0"
-                  />
-                  <div
-                    class="MuiPaper-root MuiMenu-paper MuiPopover-paper MuiPaper-elevation8 MuiPaper-rounded"
-                    style="opacity: 0; transform: scale(0.75, 0.5625); visibility: hidden;"
-                    tabindex="-1"
-                  >
-                    <ul
-                      class="MuiList-root MuiMenu-list MuiList-padding"
-                      role="menu"
-                      tabindex="-1"
-                    >
-                      <div
-                        class="MuiBox-root MuiBox-root-259"
-                        tabindex="0"
-                      >
-                        <p
-                          class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
-                          id="volume-slider"
-                        >
-                          Volume
-                        </p>
-                        <div
-                          class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
-                        >
-                          <div
-                            class="MuiGrid-root MuiGrid-item"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"
-                              />
-                            </svg>
-                          </div>
-                          <div
-                            class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                          >
-                            <span
-                              class="MuiSlider-root MuiSlider-colorPrimary"
-                            >
-                              <span
-                                class="MuiSlider-rail"
-                              />
-                              <span
-                                class="MuiSlider-track"
-                                style="left: 0%; width: 100%;"
-                              />
-                              <input
-                                type="hidden"
-                                value="100"
-                              />
-                              <span
-                                aria-labelledby="volume-slider"
-                                aria-orientation="horizontal"
-                                aria-valuemax="100"
-                                aria-valuemin="0"
-                                aria-valuenow="100"
-                                class="MuiSlider-thumb MuiSlider-thumbColorPrimary"
-                                data-index="0"
-                                role="slider"
-                                style="left: 100%;"
-                                tabindex="0"
-                              />
-                            </span>
-                          </div>
-                          <div
-                            class="MuiGrid-root MuiGrid-item"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
-                              />
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                    </ul>
-                  </div>
-                  <div
-                    data-test="sentinelEnd"
-                    tabindex="0"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div>
-      <div
-        style="height: 100vh; width: 100%; background: gray;"
-      >
-        <div
-          class="MuiBox-root MuiBox-root-163 Styled(MuiBox)-root-161"
-        >
-          <div
-            class="MuiBox-root MuiBox-root-164"
-          >
-            <div
-              class="div-root-165"
-            >
-              <h5
-                class="MuiTypography-root MuiTypography-h5 MuiTypography-colorInherit MuiTypography-alignCenter"
-              >
-                <strong>
-                  Looks like you're the only one here,
-                </strong>
-              </h5>
-              <h5
-                class="MuiTypography-root MuiTypography-h5 MuiTypography-colorInherit MuiTypography-alignCenter"
-              >
-                <strong>
-                  send out this link to invite someone!
-                </strong>
-              </h5>
-              <h6
-                class="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-alignCenter"
-              >
-                <div
-                  class="MuiBox-root MuiBox-root-209 Styled(MuiBox)-root-208"
-                  title="Copied!"
-                >
-                  http://localhost/
-                </div>
-              </h6>
-            </div>
-          </div>
-          <div
-            class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-210 MuiPaper-elevation10 MuiPaper-rounded"
-          >
-            <div
-              class="MuiBox-root MuiBox-root-240"
-            >
-              <div
-                class="MuiBox-root MuiBox-root-246"
-              >
-                <div
-                  class="div-root-247"
+                  class="div-root-241"
                 >
                   <video
                     autoplay=""
-                    class="makeStyles-mirroredVideo-242 makeStyles-video-241 "
+                    class="makeStyles-mirroredVideo-237 makeStyles-video-236 "
                     playsinline=""
                   />
                   <div
-                    class="div-root-248"
+                    class="div-root-242"
                   >
                     <div
-                      class="div-root-249"
+                      class="div-root-243"
                     >
                       <div
-                        class="div-root-250"
+                        class="div-root-244"
                       >
                         <svg
                           viewBox="0 0 100 100"
@@ -300,106 +95,101 @@ Object {
                   </div>
                 </div>
               </div>
-              <div
-                aria-hidden="true"
-                class="MuiPopover-root"
-                role="presentation"
-                style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px; visibility: hidden;"
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div>
+      <div
+        style="height: 100vh; width: 100%; background: gray;"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-158 Styled(MuiBox)-root-156"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-159"
+          >
+            <div
+              class="div-root-160"
+            >
+              <h5
+                class="MuiTypography-root MuiTypography-h5 MuiTypography-colorInherit MuiTypography-alignCenter"
+              >
+                <strong>
+                  Looks like you're the only one here,
+                </strong>
+              </h5>
+              <h5
+                class="MuiTypography-root MuiTypography-h5 MuiTypography-colorInherit MuiTypography-alignCenter"
+              >
+                <strong>
+                  send out this link to invite someone!
+                </strong>
+              </h5>
+              <h6
+                class="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-alignCenter"
               >
                 <div
-                  data-test="sentinelStart"
-                  tabindex="0"
+                  class="MuiBox-root MuiBox-root-204 Styled(MuiBox)-root-203"
+                  title="Copied!"
+                >
+                  http://localhost/
+                </div>
+              </h6>
+            </div>
+          </div>
+          <div
+            class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-205 MuiPaper-elevation10 MuiPaper-rounded"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-235"
+            >
+              <div
+                class="div-root-241"
+              >
+                <video
+                  autoplay=""
+                  class="makeStyles-mirroredVideo-237 makeStyles-video-236 "
+                  playsinline=""
                 />
                 <div
-                  class="MuiPaper-root MuiMenu-paper MuiPopover-paper MuiPaper-elevation8 MuiPaper-rounded"
-                  style="opacity: 0; transform: scale(0.75, 0.5625); visibility: hidden;"
-                  tabindex="-1"
+                  class="div-root-242"
                 >
-                  <ul
-                    class="MuiList-root MuiMenu-list MuiList-padding"
-                    role="menu"
-                    tabindex="-1"
+                  <div
+                    class="div-root-243"
                   >
                     <div
-                      class="MuiBox-root MuiBox-root-259"
-                      tabindex="0"
+                      class="div-root-244"
                     >
-                      <p
-                        class="MuiTypography-root MuiTypography-body1 MuiTypography-gutterBottom"
-                        id="volume-slider"
+                      <svg
+                        viewBox="0 0 100 100"
+                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        Volume
-                      </p>
-                      <div
-                        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-2"
-                      >
-                        <div
-                          class="MuiGrid-root MuiGrid-item"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z"
-                            />
-                          </svg>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-true"
-                        >
-                          <span
-                            class="MuiSlider-root MuiSlider-colorPrimary"
-                          >
-                            <span
-                              class="MuiSlider-rail"
-                            />
-                            <span
-                              class="MuiSlider-track"
-                              style="left: 0%; width: 100%;"
-                            />
-                            <input
-                              type="hidden"
-                              value="100"
-                            />
-                            <span
-                              aria-labelledby="volume-slider"
-                              aria-orientation="horizontal"
-                              aria-valuemax="100"
-                              aria-valuemin="0"
-                              aria-valuenow="100"
-                              class="MuiSlider-thumb MuiSlider-thumbColorPrimary"
-                              data-index="0"
-                              role="slider"
-                              style="left: 100%;"
-                              tabindex="0"
-                            />
-                          </span>
-                        </div>
-                        <div
-                          class="MuiGrid-root MuiGrid-item"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
-                            />
-                          </svg>
-                        </div>
-                      </div>
+                        <circle
+                          cx="50"
+                          cy="50"
+                          fill="#67e4a6"
+                          r="NaN"
+                        />
+                        <circle
+                          cx="50"
+                          cy="50"
+                          fill-opacity="0"
+                          r="NaN"
+                          stroke="white"
+                          stroke-opacity="0.5"
+                          stroke-width="4"
+                        />
+                      </svg>
                     </div>
-                  </ul>
+                  </div>
+                  <span>
+                    (You)
+                  </span>
                 </div>
-                <div
-                  data-test="sentinelEnd"
-                  tabindex="0"
-                />
               </div>
             </div>
           </div>
@@ -471,17 +261,17 @@ Object {
           style="height: 100vh; width: 100%; background: rgb(30, 31, 35);"
         >
           <div
-            class="div-root-401"
+            class="div-root-249"
           >
             <div
-              class="div-root-402"
+              class="div-root-250"
             />
             <div
-              class="div-root-403"
+              class="div-root-251"
             >
               <form>
                 <input
-                  class="input-root-404"
+                  class="input-root-252"
                   value=""
                 />
               </form>
@@ -497,17 +287,17 @@ Object {
         style="height: 100vh; width: 100%; background: rgb(30, 31, 35);"
       >
         <div
-          class="div-root-401"
+          class="div-root-249"
         >
           <div
-            class="div-root-402"
+            class="div-root-250"
           />
           <div
-            class="div-root-403"
+            class="div-root-251"
           >
             <form>
               <input
-                class="input-root-404"
+                class="input-root-252"
                 value=""
               />
             </form>
@@ -577,36 +367,36 @@ Object {
     <div>
       <div>
         <div
-          class="MuiBox-root MuiBox-root-420"
+          class="MuiBox-root MuiBox-root-268"
         >
           <div
-            class="MuiBox-root MuiBox-root-421"
+            class="MuiBox-root MuiBox-root-269"
           >
             <div
-              class="MuiBox-root MuiBox-root-422"
+              class="MuiBox-root MuiBox-root-270"
             >
               <div
-                class="MuiBox-root MuiBox-root-425 Styled(MuiBox)-root-423 Styled(MuiBox)-root-424"
+                class="MuiBox-root MuiBox-root-273 Styled(MuiBox)-root-271 Styled(MuiBox)-root-272"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-426"
+                  class="MuiBox-root MuiBox-root-274"
                 >
                   hi
                 </div>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-427"
+                class="MuiBox-root MuiBox-root-275"
               >
                 <div
-                  class="div-root-428 div-root-429"
+                  class="div-root-276 div-root-277"
                   width="5"
                 />
               </div>
               <div
-                class="MuiBox-root MuiBox-root-431 Styled(MuiBox)-root-423 Styled(MuiBox)-root-430"
+                class="MuiBox-root MuiBox-root-279 Styled(MuiBox)-root-271 Styled(MuiBox)-root-278"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-432"
+                  class="MuiBox-root MuiBox-root-280"
                 >
                   hi
                 </div>
@@ -620,36 +410,36 @@ Object {
   "container": <div>
     <div>
       <div
-        class="MuiBox-root MuiBox-root-420"
+        class="MuiBox-root MuiBox-root-268"
       >
         <div
-          class="MuiBox-root MuiBox-root-421"
+          class="MuiBox-root MuiBox-root-269"
         >
           <div
-            class="MuiBox-root MuiBox-root-422"
+            class="MuiBox-root MuiBox-root-270"
           >
             <div
-              class="MuiBox-root MuiBox-root-425 Styled(MuiBox)-root-423 Styled(MuiBox)-root-424"
+              class="MuiBox-root MuiBox-root-273 Styled(MuiBox)-root-271 Styled(MuiBox)-root-272"
             >
               <div
-                class="MuiBox-root MuiBox-root-426"
+                class="MuiBox-root MuiBox-root-274"
               >
                 hi
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-427"
+              class="MuiBox-root MuiBox-root-275"
             >
               <div
-                class="div-root-428 div-root-429"
+                class="div-root-276 div-root-277"
                 width="5"
               />
             </div>
             <div
-              class="MuiBox-root MuiBox-root-431 Styled(MuiBox)-root-423 Styled(MuiBox)-root-430"
+              class="MuiBox-root MuiBox-root-279 Styled(MuiBox)-root-271 Styled(MuiBox)-root-278"
             >
               <div
-                class="MuiBox-root MuiBox-root-432"
+                class="MuiBox-root MuiBox-root-280"
               >
                 hi
               </div>

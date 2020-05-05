@@ -1,15 +1,23 @@
-import { Box, Grid, Slider } from '@material-ui/core';
-import Menu from '@material-ui/core/Menu';
-import Typography from '@material-ui/core/Typography';
+import {
+  Box,
+  FormControlLabel,
+  Grid,
+  Menu,
+  Slider,
+  Switch,
+  Typography,
+} from '@material-ui/core';
 import { VolumeDown, VolumeUp } from '@material-ui/icons';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 
-import theme from '../../../../../lib/theme';
+import theme from '../../../../lib/theme';
+import { GroupContext } from '../../lib/GroupContext';
 
 interface Props {
   children: React.ReactNode;
   volume: number;
   setVolume: (volume: number) => void;
+  streamId: string;
 }
 
 const initialState = {
@@ -18,10 +26,12 @@ const initialState = {
 };
 
 export default function VideoContextMenu(props: Props) {
-  const [state, setState] = React.useState<{
+  const [state, setState] = useState<{
     mouseX: null | number;
     mouseY: null | number;
   }>(initialState);
+
+  const { pinnedStreamId, setPinnedStreamId } = useContext(GroupContext);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -44,9 +54,24 @@ export default function VideoContextMenu(props: Props) {
     }
   };
 
+  const onPinnedVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPinnedStreamId(event.target.checked ? props.streamId : null);
+  };
+
+  const onDoubleClickVideo = () => {
+    setPinnedStreamId(
+      pinnedStreamId === props.streamId ? null : props.streamId,
+    );
+  };
+
   return (
     <>
-      <Box width="100%" height="100%" onContextMenu={handleOpenMenu}>
+      <Box
+        width="100%"
+        height="100%"
+        onContextMenu={handleOpenMenu}
+        onDoubleClick={onDoubleClickVideo}
+      >
         {props.children}
       </Box>
       <Menu
@@ -61,6 +86,20 @@ export default function VideoContextMenu(props: Props) {
         }
       >
         <Box width="200px" p={theme.spacing(0.3)}>
+          <FormControlLabel
+            style={{ margin: 0, marginBottom: theme.spacing(1) }}
+            control={
+              <Switch
+                color="primary"
+                checked={pinnedStreamId === props.streamId}
+                onChange={onPinnedVideoChange}
+                name="pinnedVideo"
+              />
+            }
+            label="Pin Video"
+            labelPlacement="start"
+          />
+
           <Typography id="volume-slider" gutterBottom>
             Volume
           </Typography>
