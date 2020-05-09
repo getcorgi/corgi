@@ -46,6 +46,13 @@ export default function getVideoDimensions({
   const videoWidth = width / columns;
   const videoHeight = height / rows;
 
+  if (count === 2 && width > height) {
+    return {
+      width: `${videoWidth}px`,
+      height: `${videoWidth * 0.526}px`,
+    };
+  }
+
   return {
     width: `${videoWidth}px`,
     height: `${videoHeight}px`,

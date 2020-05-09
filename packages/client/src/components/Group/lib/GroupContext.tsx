@@ -19,8 +19,6 @@ export const GroupContext = createContext({
 export function GroupProvider(props: Props) {
   const [pinnedStreamId, setPinnedStreamId] = useState<string | null>(null);
 
-  console.log({ pinnedStreamId });
-
   const value = {
     pinnedStreamId,
     setPinnedStreamId,

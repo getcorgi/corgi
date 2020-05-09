@@ -213,6 +213,7 @@ export function MediaSettingsProvider(props: Props) {
                     exact: activeDevices.videoInput,
                   },
                   aspectRatio: 1.777777,
+                  frameRate: 30,
                 },
               }
             : {}),

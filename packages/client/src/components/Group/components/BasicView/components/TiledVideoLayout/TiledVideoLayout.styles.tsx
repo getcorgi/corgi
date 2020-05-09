@@ -2,7 +2,7 @@ import { Card, styled } from '@material-ui/core';
 
 export const LocalVideo = styled(Card)({
   position: 'absolute',
-  top: '16px',
+  bottom: '16px',
   right: '16px',
   width: ({ isPortraitMode }: { isPortraitMode: boolean }) =>
     isPortraitMode ? '80px' : '150px',

@@ -9,7 +9,7 @@ import { styled } from '@material-ui/core/styles';
 
 export const LocalVideo = styled(Card)({
   position: 'absolute',
-  top: '16px',
+  bottom: '16px',
   right: '16px',
   width: '150px',
 });

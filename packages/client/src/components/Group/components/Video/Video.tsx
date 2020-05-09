@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       height: '100%',
       objectFit: 'cover',
+      background: 'black',
     },
     mirroredVideo: {
       transform: 'rotateY(180deg)',
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     cameraOff: {
       opacity: 0,
+    },
+    portraitMode: {
+      objectFit: 'contain',
     },
   }),
 );
@@ -58,6 +62,11 @@ export default function(props: Props) {
   const classes = useStyles(props);
   const audioTrack = props.srcObject?.getAudioTracks()[0];
   const videoTrack = props.srcObject?.getVideoTracks()[0];
+
+  const { aspectRatio } = videoTrack.getSettings();
+
+  const isInPortraitMode = Number(aspectRatio) < 1;
+
   const [volume, setVolume] = useState(100);
 
   const isRemoteMuted = !audioTrack?.enabled;
@@ -112,7 +121,9 @@ export default function(props: Props) {
         muted={props.isMuted}
         className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
           classes.video
-        } ${isRemoteCameraOff ? classes.cameraOff : ''}`}
+        } ${isRemoteCameraOff ? classes.cameraOff : ''} ${
+          isInPortraitMode ? classes.portraitMode : ''
+        }`}
       />
 
       <S.Information>
