@@ -37,14 +37,7 @@ export default function BasicView(props: Props) {
   };
 
   return (
-    <S.BasicView
-      display="flex"
-      flexWrap="wrap"
-      height="100%"
-      width="100%"
-      justifyContent="center"
-      alignItems="center"
-    >
+    <Box height="100%" width="100%">
       {isEmpty && (
         <Box
           display="flex"
@@ -86,6 +79,6 @@ export default function BasicView(props: Props) {
           />
         )}
       </>
-    </S.BasicView>
+    </Box>
   );
 }

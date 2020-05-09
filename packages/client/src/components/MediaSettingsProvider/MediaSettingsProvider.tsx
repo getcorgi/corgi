@@ -101,6 +101,18 @@ export function MediaSettingsProvider(props: Props) {
           audioOutput: MediaDeviceInfo[];
           videoInput: MediaDeviceInfo[];
         } = DEFAULT_AVAILABLE_DEVICES;
+
+        // Force permissions modal to show on load
+        try {
+          await navigator.mediaDevices.getUserMedia({
+            audio: true,
+            video: true,
+          });
+        } catch (err) {
+          setIsPermissonAlertOpen(true);
+          return;
+        }
+
         (await navigator.mediaDevices.enumerateDevices()).forEach(device => {
           if (devices) {
             if (device.kind === 'audioinput') {

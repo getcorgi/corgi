@@ -34,8 +34,6 @@ function emitAllUsersToRoom(roomId: string) {
       return clientSocket.userData;
     });
 
-    console.log(clients);
-
     io.in(roomId).emit('gotUsers', { users });
   });
 }

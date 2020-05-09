@@ -27,10 +27,6 @@ export const LinkWrapper = styled(Box)({
   cursor: 'pointer',
 });
 
-export const BasicView = styled(Box)({
-  flexFlow: 'wrap-reverse',
-});
-
 export const Tooltip = withStyles((theme: Theme) => ({
   tooltip: {
     fontSize: 16,

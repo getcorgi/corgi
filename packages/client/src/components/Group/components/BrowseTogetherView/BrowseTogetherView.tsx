@@ -100,6 +100,7 @@ function BrowseTogetherView(props: Props) {
               isMuted={false}
               label={user.name}
               user={user}
+              hasContextMenu={true}
             />
           </Box>
         );

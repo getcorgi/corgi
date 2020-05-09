@@ -10,7 +10,7 @@ Object {
           style="height: 100vh; width: 100%; background: gray;"
         >
           <div
-            class="MuiBox-root MuiBox-root-158 Styled(MuiBox)-root-156"
+            class="MuiBox-root MuiBox-root-158"
           >
             <div
               class="MuiBox-root MuiBox-root-159"
@@ -45,53 +45,57 @@ Object {
               </div>
             </div>
             <div
-              class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-205 MuiPaper-elevation10 MuiPaper-rounded"
+              class="div-root-205"
             >
               <div
-                class="MuiBox-root MuiBox-root-235"
+                class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-206 WithStyles(ForwardRef(Card))-root-207 MuiPaper-elevation10 MuiPaper-rounded"
               >
                 <div
-                  class="div-root-241"
+                  class="MuiBox-root MuiBox-root-237"
                 >
-                  <video
-                    autoplay=""
-                    class="makeStyles-mirroredVideo-237 makeStyles-video-236 "
-                    playsinline=""
-                  />
                   <div
-                    class="div-root-242"
+                    class="div-root-243"
                   >
+                    <video
+                      autoplay=""
+                      class="makeStyles-mirroredVideo-239 makeStyles-video-238 "
+                      playsinline=""
+                    />
                     <div
-                      class="div-root-243"
+                      class="div-root-244"
                     >
                       <div
-                        class="div-root-244"
+                        class="div-root-245"
                       >
-                        <svg
-                          viewBox="0 0 100 100"
-                          xmlns="http://www.w3.org/2000/svg"
+                        <div
+                          class="div-root-246"
                         >
-                          <circle
-                            cx="50"
-                            cy="50"
-                            fill="#67e4a6"
-                            r="NaN"
-                          />
-                          <circle
-                            cx="50"
-                            cy="50"
-                            fill-opacity="0"
-                            r="NaN"
-                            stroke="white"
-                            stroke-opacity="0.5"
-                            stroke-width="4"
-                          />
-                        </svg>
+                          <svg
+                            viewBox="0 0 100 100"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <circle
+                              cx="50"
+                              cy="50"
+                              fill="#67e4a6"
+                              r="NaN"
+                            />
+                            <circle
+                              cx="50"
+                              cy="50"
+                              fill-opacity="0"
+                              r="NaN"
+                              stroke="white"
+                              stroke-opacity="0.5"
+                              stroke-width="4"
+                            />
+                          </svg>
+                        </div>
                       </div>
+                      <span>
+                        (You)
+                      </span>
                     </div>
-                    <span>
-                      (You)
-                    </span>
                   </div>
                 </div>
               </div>
@@ -107,7 +111,7 @@ Object {
         style="height: 100vh; width: 100%; background: gray;"
       >
         <div
-          class="MuiBox-root MuiBox-root-158 Styled(MuiBox)-root-156"
+          class="MuiBox-root MuiBox-root-158"
         >
           <div
             class="MuiBox-root MuiBox-root-159"
@@ -142,53 +146,57 @@ Object {
             </div>
           </div>
           <div
-            class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-205 MuiPaper-elevation10 MuiPaper-rounded"
+            class="div-root-205"
           >
             <div
-              class="MuiBox-root MuiBox-root-235"
+              class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-206 WithStyles(ForwardRef(Card))-root-207 MuiPaper-elevation10 MuiPaper-rounded"
             >
               <div
-                class="div-root-241"
+                class="MuiBox-root MuiBox-root-237"
               >
-                <video
-                  autoplay=""
-                  class="makeStyles-mirroredVideo-237 makeStyles-video-236 "
-                  playsinline=""
-                />
                 <div
-                  class="div-root-242"
+                  class="div-root-243"
                 >
+                  <video
+                    autoplay=""
+                    class="makeStyles-mirroredVideo-239 makeStyles-video-238 "
+                    playsinline=""
+                  />
                   <div
-                    class="div-root-243"
+                    class="div-root-244"
                   >
                     <div
-                      class="div-root-244"
+                      class="div-root-245"
                     >
-                      <svg
-                        viewBox="0 0 100 100"
-                        xmlns="http://www.w3.org/2000/svg"
+                      <div
+                        class="div-root-246"
                       >
-                        <circle
-                          cx="50"
-                          cy="50"
-                          fill="#67e4a6"
-                          r="NaN"
-                        />
-                        <circle
-                          cx="50"
-                          cy="50"
-                          fill-opacity="0"
-                          r="NaN"
-                          stroke="white"
-                          stroke-opacity="0.5"
-                          stroke-width="4"
-                        />
-                      </svg>
+                        <svg
+                          viewBox="0 0 100 100"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="50"
+                            cy="50"
+                            fill="#67e4a6"
+                            r="NaN"
+                          />
+                          <circle
+                            cx="50"
+                            cy="50"
+                            fill-opacity="0"
+                            r="NaN"
+                            stroke="white"
+                            stroke-opacity="0.5"
+                            stroke-width="4"
+                          />
+                        </svg>
+                      </div>
                     </div>
+                    <span>
+                      (You)
+                    </span>
                   </div>
-                  <span>
-                    (You)
-                  </span>
                 </div>
               </div>
             </div>
@@ -261,17 +269,17 @@ Object {
           style="height: 100vh; width: 100%; background: rgb(30, 31, 35);"
         >
           <div
-            class="div-root-249"
+            class="div-root-251"
           >
             <div
-              class="div-root-250"
+              class="div-root-252"
             />
             <div
-              class="div-root-251"
+              class="div-root-253"
             >
               <form>
                 <input
-                  class="input-root-252"
+                  class="input-root-254"
                   value=""
                 />
               </form>
@@ -287,17 +295,17 @@ Object {
         style="height: 100vh; width: 100%; background: rgb(30, 31, 35);"
       >
         <div
-          class="div-root-249"
+          class="div-root-251"
         >
           <div
-            class="div-root-250"
+            class="div-root-252"
           />
           <div
-            class="div-root-251"
+            class="div-root-253"
           >
             <form>
               <input
-                class="input-root-252"
+                class="input-root-254"
                 value=""
               />
             </form>
@@ -367,36 +375,36 @@ Object {
     <div>
       <div>
         <div
-          class="MuiBox-root MuiBox-root-268"
+          class="MuiBox-root MuiBox-root-270"
         >
           <div
-            class="MuiBox-root MuiBox-root-269"
+            class="MuiBox-root MuiBox-root-271"
           >
             <div
-              class="MuiBox-root MuiBox-root-270"
+              class="MuiBox-root MuiBox-root-272"
             >
               <div
-                class="MuiBox-root MuiBox-root-273 Styled(MuiBox)-root-271 Styled(MuiBox)-root-272"
+                class="MuiBox-root MuiBox-root-275 Styled(MuiBox)-root-273 Styled(MuiBox)-root-274"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-274"
+                  class="MuiBox-root MuiBox-root-276"
                 >
                   hi
                 </div>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-275"
+                class="MuiBox-root MuiBox-root-277"
               >
                 <div
-                  class="div-root-276 div-root-277"
+                  class="div-root-278 div-root-279"
                   width="5"
                 />
               </div>
               <div
-                class="MuiBox-root MuiBox-root-279 Styled(MuiBox)-root-271 Styled(MuiBox)-root-278"
+                class="MuiBox-root MuiBox-root-281 Styled(MuiBox)-root-273 Styled(MuiBox)-root-280"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-280"
+                  class="MuiBox-root MuiBox-root-282"
                 >
                   hi
                 </div>
@@ -410,36 +418,36 @@ Object {
   "container": <div>
     <div>
       <div
-        class="MuiBox-root MuiBox-root-268"
+        class="MuiBox-root MuiBox-root-270"
       >
         <div
-          class="MuiBox-root MuiBox-root-269"
+          class="MuiBox-root MuiBox-root-271"
         >
           <div
-            class="MuiBox-root MuiBox-root-270"
+            class="MuiBox-root MuiBox-root-272"
           >
             <div
-              class="MuiBox-root MuiBox-root-273 Styled(MuiBox)-root-271 Styled(MuiBox)-root-272"
+              class="MuiBox-root MuiBox-root-275 Styled(MuiBox)-root-273 Styled(MuiBox)-root-274"
             >
               <div
-                class="MuiBox-root MuiBox-root-274"
+                class="MuiBox-root MuiBox-root-276"
               >
                 hi
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-275"
+              class="MuiBox-root MuiBox-root-277"
             >
               <div
-                class="div-root-276 div-root-277"
+                class="div-root-278 div-root-279"
                 width="5"
               />
             </div>
             <div
-              class="MuiBox-root MuiBox-root-279 Styled(MuiBox)-root-271 Styled(MuiBox)-root-278"
+              class="MuiBox-root MuiBox-root-281 Styled(MuiBox)-root-273 Styled(MuiBox)-root-280"
             >
               <div
-                class="MuiBox-root MuiBox-root-280"
+                class="MuiBox-root MuiBox-root-282"
               >
                 hi
               </div>
