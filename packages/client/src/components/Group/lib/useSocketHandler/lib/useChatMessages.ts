@@ -14,6 +14,7 @@ export default function useChatMessages({
   socket: SocketIOClient.Socket;
 }) {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
 
   const sendMessage = useCallback(
     (msg: string) => {
@@ -24,6 +25,7 @@ export default function useChatMessages({
 
   useEffect(() => {
     socket.on('receivedChatMessage', (message: Message) => {
+      setHasUnreadMessages(true);
       setMessages(oldMessages => {
         return [...oldMessages, message];
       });
@@ -37,5 +39,7 @@ export default function useChatMessages({
   return {
     messages,
     sendMessage,
+    hasUnreadMessages,
+    setHasUnreadMessages,
   };
 }

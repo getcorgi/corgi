@@ -127,7 +127,12 @@ export default function useSocketHandler({
     });
   }, [groupId, socket.current.id]);
 
-  const { messages, sendMessage } = useChatMessages({
+  const {
+    messages,
+    sendMessage,
+    setHasUnreadMessages,
+    hasUnreadMessages,
+  } = useChatMessages({
     socket: socket.current,
   });
 
@@ -160,5 +165,7 @@ export default function useSocketHandler({
     streams: enhancedStreams,
     messages,
     sendMessage,
+    hasUnreadMessages,
+    setHasUnreadMessages,
   };
 }

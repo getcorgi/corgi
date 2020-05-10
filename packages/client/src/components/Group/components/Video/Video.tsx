@@ -58,6 +58,7 @@ export default function(props: Props) {
   const {
     ref: containerRef,
     height: containerRefHeight = 1,
+    width: containerRefWidth = 1,
   } = useResizeObserver<HTMLDivElement>();
   const classes = useStyles(props);
   const audioTrack = props.srcObject?.getAudioTracks()[0];
@@ -74,7 +75,10 @@ export default function(props: Props) {
 
   const { activeDevices } = useContext(MediaSettingsContext);
 
-  const avatarSize = containerRefHeight / 2;
+  const avatarSize =
+    containerRefHeight < containerRefWidth
+      ? containerRefHeight / 2
+      : containerRefWidth / 2;
 
   useEffect(() => {
     if (videoRef.current) {
