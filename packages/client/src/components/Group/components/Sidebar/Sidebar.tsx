@@ -1,4 +1,11 @@
-import { Box, Divider, Drawer, IconButton, Tooltip } from '@material-ui/core';
+import {
+  Badge,
+  Box,
+  Divider,
+  Drawer,
+  IconButton,
+  Tooltip,
+} from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/Chat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -45,10 +52,12 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
   activeViewId: string;
   children: React.ReactNode;
+  hasUnreadMessages: boolean;
   isAdmin: boolean;
   messages: Message[];
   sendMessage: (msg: string) => void;
   setActiveViewId: (id: string) => void;
+  setHasUnreadMessages: (hasUnread: boolean) => void;
 }
 
 export default function SideBar(props: Props) {
@@ -56,6 +65,7 @@ export default function SideBar(props: Props) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawerOpen = () => {
+    props.setHasUnreadMessages(false);
     setIsDrawerOpen(!isDrawerOpen);
   };
 
@@ -115,7 +125,13 @@ export default function SideBar(props: Props) {
               <Box mb={theme.spacing(0.2)}>
                 <Tooltip title="Chat" placement="left">
                   <IconButton onClick={toggleDrawerOpen}>
-                    <ChatIcon />
+                    <Badge
+                      color="secondary"
+                      variant="dot"
+                      invisible={!props.hasUnreadMessages}
+                    >
+                      <ChatIcon />
+                    </Badge>
                   </IconButton>
                 </Tooltip>
               </Box>

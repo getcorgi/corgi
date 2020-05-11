@@ -45,10 +45,10 @@ export default function GroupContainer(props: Props) {
   const { toggleCamera, isCameraOff } = useToggleCamera(localStream);
   const userData = useMemo(
     () => ({
+      ...me,
       name: userName,
       isMuted,
       isCameraOff,
-      color: me?.color,
     }),
     [userName, isMuted, isCameraOff, me],
   );
@@ -61,6 +61,8 @@ export default function GroupContainer(props: Props) {
     users,
     messages,
     sendMessage,
+    hasUnreadMessages,
+    setHasUnreadMessages,
   } = useSocketHandler({
     groupId,
     localStream,
@@ -172,6 +174,8 @@ export default function GroupContainer(props: Props) {
             toggleIsSharingScreen={toggleIsSharingScreen}
             messages={messages}
             sendMessage={sendMessage}
+            setHasUnreadMessages={setHasUnreadMessages}
+            hasUnreadMessages={hasUnreadMessages}
           >
             {({ streams }) => {
               switch (group.data?.activityId) {
