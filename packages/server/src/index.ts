@@ -27,13 +27,19 @@ const io = socketIo(app);
 app.listen(PORT);
 console.log(`🚀 Server started, listening on :${PORT}`);
 
-function emitAllUsersToRoom(roomId: string) {
+function getAllUsers(roomId: string, callback: (users: User[]) => void) {
   io.in(roomId).clients((err: string, clients: string[]) => {
     const users = clients.map((socketId: string) => {
       const clientSocket = io.sockets.sockets[socketId] as ExtendedSocket;
       return clientSocket.userData;
     });
 
+    callback(users);
+  });
+}
+
+function emitAllUsersToRoom(roomId: string) {
+  getAllUsers(roomId, users => {
     io.in(roomId).emit('gotUsers', { users });
   });
 }
@@ -53,7 +59,7 @@ io.on('connection', (socket: ExtendedSocket) => {
 
       socket.to(room).emit('userJoined', {
         socketId,
-        userData: data.userData,
+        userData: socket.userData,
       });
 
       emitAllUsersToRoom(room);
@@ -63,6 +69,15 @@ io.on('connection', (socket: ExtendedSocket) => {
   socket.on('getUsers', ({ roomId }: { from: string; roomId: string }) => {
     emitAllUsersToRoom(roomId);
   });
+
+  socket.on(
+    'syncUsers',
+    ({ roomId, fromId }: { roomId: string; fromId: string }) => {
+      getAllUsers(roomId, users => {
+        io.to(fromId).emit('syncUsers', { users });
+      });
+    },
+  );
 
   socket.on('userUpdated', (userData: User) => {
     socket.userData = { ...socket.userData, ...userData };
