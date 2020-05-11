@@ -7,16 +7,19 @@ import onPeerCreated from './onPeerCreated';
 export default function useSocketEvents({
   connections,
   groupId,
+  isInRoom,
   localStream,
   myUserData,
   playUserJoinedBloop,
   playUserLeftBloop,
   setStreams,
+  setUsers,
   socket,
-  isInRoom,
 }: Options) {
   useEffect(() => {
     if (!isInRoom) return;
+
+    console.log(socket.id);
 
     socket.emit('userJoinedCall', {
       groupId,
@@ -59,33 +62,50 @@ export default function useSocketEvents({
       }
     };
 
-    const onUserJoined = (data: { socketId: string; userData: User }) => {
-      const clientId = data.socketId;
+    const onSyncUsers = ({ users }: { users: User[] }) => {
+      console.log({ users });
+      if (!users?.length) return;
+      setUsers(users.filter(Boolean));
 
-      if (connections.has(clientId) || clientId === socket.id) {
+      users.forEach(user => addNewUser(user));
+    };
+
+    const addNewUser = (userData: User) => {
+      if (
+        !userData.id ||
+        (userData.id && connections.has(userData.id)) ||
+        userData.id === socket.id
+      ) {
         return;
       }
-
-      playUserJoinedBloop({});
-
       const peer = new Peer({ stream: localStream });
 
       peer.on('signal', (data: any) => {
         socket.emit('sendSignal', {
-          to: clientId,
+          to: userData.id,
           signal: data,
         });
       });
 
-      onPeerCreated({ peerId: clientId, peer, setStreams, connections });
+      onPeerCreated({ peerId: userData.id, peer, setStreams, connections });
 
       socket.emit('ack', {
-        to: clientId,
+        to: userData.id,
         from: socket.id,
         userData: myUserData,
       });
 
-      connections.set(clientId, { peer, userData: data.userData });
+      connections.set(userData.id, { peer, userData: userData });
+
+      return true;
+    };
+
+    const onUserJoined = (data: { socketId: string; userData: User }) => {
+      const userAdded = addNewUser(data.userData);
+
+      if (userAdded) {
+        playUserJoinedBloop({});
+      }
     };
 
     const listeners = {
@@ -93,6 +113,7 @@ export default function useSocketEvents({
       ack: onAck,
       userLeftRoom: onUserLeftRoom,
       userJoined: onUserJoined,
+      syncUsers: onSyncUsers,
     };
 
     Object.entries(listeners).forEach(([event, callback]) => {
@@ -105,14 +126,15 @@ export default function useSocketEvents({
       });
     };
   }, [
-    isInRoom,
     connections,
     groupId,
-    myUserData,
+    isInRoom,
     localStream,
+    myUserData,
     playUserJoinedBloop,
     playUserLeftBloop,
     setStreams,
+    setUsers,
     socket,
   ]);
 }

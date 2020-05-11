@@ -5,6 +5,7 @@ import useSound from 'use-sound';
 import { appConfig } from '../../../../constants';
 import useChatMessages from './lib/useChatMessages';
 import useSocketEvents from './lib/useSocketEvents';
+import useSyncPeers from './lib/useSyncPeers';
 import { Connections, User } from './types';
 
 export default function useSocketHandler({
@@ -44,15 +45,16 @@ export default function useSocketHandler({
   const localStreamRef = useRef(localStream);
 
   useSocketEvents({
+    connections: connections.current,
     groupId,
+    isInRoom,
     localStream,
+    myUserData: userData,
     playUserJoinedBloop,
     playUserLeftBloop,
     setStreams,
-    myUserData: userData,
-    connections: connections.current,
+    setUsers,
     socket: socket.current,
-    isInRoom,
   });
 
   const joinRoom = () => {
@@ -121,8 +123,8 @@ export default function useSocketHandler({
       from: socket.current.id,
       roomId: groupId,
     });
-
     socket.current.on('gotUsers', ({ users }: { users: User[] }) => {
+      if (!users?.length) return;
       setUsers(users.filter(Boolean));
     });
   }, [groupId, socket.current.id]);
@@ -156,6 +158,11 @@ export default function useSocketHandler({
     },
     {},
   );
+
+  useSyncPeers({
+    groupId,
+    socket: socket.current,
+  });
 
   return {
     leaveRoom,

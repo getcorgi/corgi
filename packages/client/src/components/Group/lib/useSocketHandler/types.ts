@@ -1,4 +1,5 @@
 import { Color } from '@material-ui/core';
+import { SetStateAction } from 'react';
 import Peer from 'simple-peer';
 import { PlayFunction } from 'use-sound/dist/types';
 
@@ -23,6 +24,7 @@ export interface Options {
   playUserJoinedBloop: PlayFunction;
   playUserLeftBloop: PlayFunction;
   setStreams: SetStreamsState;
+  setUsers: (value: SetStateAction<User[]>) => void;
   isInRoom: boolean;
 }
 
