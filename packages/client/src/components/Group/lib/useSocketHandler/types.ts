@@ -11,6 +11,7 @@ export interface User {
   isCameraOff?: boolean;
   isMuted?: boolean;
   name: string;
+  firebaseAuthId?: string;
 }
 
 export interface Options {

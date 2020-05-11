@@ -45,10 +45,10 @@ export default function GroupContainer(props: Props) {
   const { toggleCamera, isCameraOff } = useToggleCamera(localStream);
   const userData = useMemo(
     () => ({
+      ...me,
       name: userName,
       isMuted,
       isCameraOff,
-      color: me?.color,
     }),
     [userName, isMuted, isCameraOff, me],
   );
