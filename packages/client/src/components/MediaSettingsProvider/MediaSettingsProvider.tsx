@@ -133,13 +133,25 @@ export function MediaSettingsProvider(props: Props) {
         } = DEFAULT_AVAILABLE_DEVICES;
 
         // Force permissions modal to show on load
+        // Try to get both video and audio
         try {
           await navigator.mediaDevices.getUserMedia({
             audio: true,
             video: true,
           });
-        } catch (err) {
-          setIsPermissonAlertOpen(true);
+        } catch (err1) {
+          // If that fails, try to just get audio
+          try {
+            await navigator.mediaDevices.getUserMedia({
+              audio: true,
+              video: false,
+            });
+          } catch (err2) {
+            // If that fails, show an alert to the user
+            setIsPermissonAlertOpen(true);
+            return;
+          }
+
           return;
         }
 
