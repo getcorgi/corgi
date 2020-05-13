@@ -27,6 +27,7 @@ interface MediaSettingsContextValues {
   handleClosePermissionAlert: () => void;
   isPermissonAlertOpen: boolean;
   mediaConstraints: MediaStreamConstraints;
+  setMediaConstraints: (mediaConstraints: MediaStreamConstraints) => void;
   setActiveDevices: (devices: ActiveDevices) => void;
 }
 
@@ -51,6 +52,7 @@ export const MediaSettingsContext = React.createContext<
   isPermissonAlertOpen: false,
   mediaConstraints: DEFAULT_MEDIA_CONSTRAINTS,
   setActiveDevices: noop,
+  setMediaConstraints: noop,
 });
 
 const getDefaultActiveDevices = () => {
@@ -272,6 +274,7 @@ export function MediaSettingsProvider(props: Props) {
     mediaConstraints,
     isPermissonAlertOpen,
     handleClosePermissionAlert,
+    setMediaConstraints,
   };
 
   return (

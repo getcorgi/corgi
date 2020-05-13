@@ -64,7 +64,7 @@ export default function(props: Props) {
   const audioTrack = props.srcObject?.getAudioTracks()[0];
   const videoTrack = props.srcObject?.getVideoTracks()[0];
 
-  const { aspectRatio } = videoTrack?.getSettings();
+  const { aspectRatio } = videoTrack?.getSettings() || {};
 
   const isInPortraitMode = Number(aspectRatio) < 1;
 
