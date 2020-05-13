@@ -39,26 +39,17 @@ export default function MediaSettingsPopover() {
   const onSelectAudioInputDevice = (
     e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
   ) => {
-    setActiveDevices(prevActiveDevices => ({
-      ...prevActiveDevices,
-      audioInput: e.target.value as string,
-    }));
+    setActiveDevices({ audioInput: e.target.value as string });
   };
   const onSelectVideoDevice = (
     e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
   ) => {
-    setActiveDevices(prevActiveDevices => ({
-      ...prevActiveDevices,
-      videoInput: e.target.value as string,
-    }));
+    setActiveDevices({ videoInput: e.target.value as string });
   };
   const onSelectAudioOutputDevice = (
     e: React.ChangeEvent<{ name?: string | undefined; value: unknown }>,
   ) => {
-    setActiveDevices(prevActiveDevices => ({
-      ...prevActiveDevices,
-      audioOutput: e.target.value as string,
-    }));
+    setActiveDevices({ audioOutput: e.target.value as string });
   };
 
   return (
