@@ -75,6 +75,7 @@ export default function(props: Props) {
   const isInPortraitMode = Number(aspectRatio) < 1;
 
   const [volume, setVolume] = useState(100);
+  const [isVideoLoading, setIsVideoLoading] = useState(false);
 
   const isRemoteMuted = !audioTrack?.enabled;
   const isRemoteCameraOff = !videoTrack?.enabled;
@@ -91,6 +92,19 @@ export default function(props: Props) {
       videoRef.current.srcObject = props.srcObject;
     }
   }, [props.srcObject, isRemoteCameraOff]);
+
+  useEffect(() => {
+    const onLoadStart = () => setIsVideoLoading(true);
+    const onLoadedData = () => setIsVideoLoading(false);
+    if (videoRef.current) {
+      videoRef.current.addEventListener('loadstart', onLoadStart);
+      videoRef.current.addEventListener('loadeddata', onLoadedData);
+    }
+    return function cleanup() {
+      videoRef.current?.removeEventListener('loadstart', onLoadStart);
+      videoRef.current?.removeEventListener('loadeddata', onLoadedData);
+    };
+  });
 
   useEffect(() => {
     const ref = videoRef.current as ExperimentalHTMLVideoElement;
@@ -125,9 +139,11 @@ export default function(props: Props) {
         </S.EmptyVideo>
       ) : (
         <S.VideoWrapper>
-          <S.LoadingIndicator flexDirection="column">
-            <CircularProgress />
-          </S.LoadingIndicator>
+          {isVideoLoading && (
+            <S.LoadingIndicator flexDirection="column">
+              <CircularProgress />
+            </S.LoadingIndicator>
+          )}
           <video
             ref={videoRef}
             playsInline={true}
