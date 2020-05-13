@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import io from 'socket.io-client';
 import useSound from 'use-sound';
 
@@ -21,11 +21,14 @@ export default function useSocketHandler({
   isCameraOff: boolean;
   userData: User;
 }) {
-  const socket = useRef(
-    io(appConfig.socketServer, {
-      transports: ['websocket'],
-    }),
-  );
+  const socket = useMemo(() => {
+    return {
+      current: io(appConfig.socketServer, {
+        transports: ['websocket'],
+      }),
+    };
+  }, []);
+
   const connections = useRef<Connections>(new Map([]));
   const [users, setUsers] = useState<User[]>([]);
   const [streams, setStreams] = useState<{
@@ -73,12 +76,12 @@ export default function useSocketHandler({
 
     playUserLeftBloop({});
     setIsInRoom(false);
-  }, [playUserLeftBloop]);
+  }, [playUserLeftBloop, socket]);
 
   const disconnect = useCallback(() => {
     leaveRoom();
     socket.current.close();
-  }, [leaveRoom]);
+  }, [leaveRoom, socket]);
 
   useEffect(() => {
     window.addEventListener('beforeunload', disconnect);
@@ -101,7 +104,7 @@ export default function useSocketHandler({
     });
 
     socket.current.emit('userUpdated', { isMuted, isCameraOff });
-  }, [isMuted, isCameraOff]);
+  }, [isMuted, isCameraOff, socket]);
 
   useEffect(() => {
     if (isInRoom && localStream !== localStreamRef.current) {
@@ -129,7 +132,7 @@ export default function useSocketHandler({
       if (!users?.length) return;
       setUsers(users.filter(Boolean));
     });
-  }, [groupId, socket.current.id]);
+  }, [groupId, socket, socket.current.id]);
 
   const {
     messages,

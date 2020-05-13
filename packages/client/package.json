@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "concurrently yarn:build-*",
+    "build": "concurrently yarn:build-corgi",
     "build-corgi": "react-scripts build",
     "build-storybook": "build-storybook -o build/storybook",
     "eject": "react-scripts eject",
