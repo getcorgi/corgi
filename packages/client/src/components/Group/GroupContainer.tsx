@@ -54,15 +54,15 @@ export default function GroupContainer(props: Props) {
   );
 
   const {
+    isInRoom,
     joinRoom,
     leaveRoom,
-    isInRoom,
-    streams,
-    users,
     messages,
     sendMessage,
-    hasUnreadMessages,
-    setHasUnreadMessages,
+    setUnreadMessageCount,
+    streams,
+    unreadMessageCount,
+    users,
   } = useSocketHandler({
     groupId,
     localStream,
@@ -174,8 +174,8 @@ export default function GroupContainer(props: Props) {
             toggleIsSharingScreen={toggleIsSharingScreen}
             messages={messages}
             sendMessage={sendMessage}
-            setHasUnreadMessages={setHasUnreadMessages}
-            hasUnreadMessages={hasUnreadMessages}
+            setUnreadMessageCount={setUnreadMessageCount}
+            unreadMessageCount={unreadMessageCount}
           >
             {({ streams }) => {
               switch (group.data?.activityId) {

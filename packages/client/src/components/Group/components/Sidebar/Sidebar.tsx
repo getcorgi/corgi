@@ -10,7 +10,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/Chat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import useSound from 'use-sound';
 
 import theme from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
@@ -52,12 +53,12 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
   activeViewId: string;
   children: React.ReactNode;
-  hasUnreadMessages: boolean;
+  unreadMessageCount: number;
   isAdmin: boolean;
   messages: Message[];
   sendMessage: (msg: string) => void;
   setActiveViewId: (id: string) => void;
-  setHasUnreadMessages: (hasUnread: boolean) => void;
+  setUnreadMessageCount: (count: number) => void;
 }
 
 export default function SideBar(props: Props) {
@@ -65,9 +66,20 @@ export default function SideBar(props: Props) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawerOpen = () => {
-    props.setHasUnreadMessages(false);
+    props.setUnreadMessageCount(0);
     setIsDrawerOpen(!isDrawerOpen);
   };
+
+  const [chatReceivedBoop] = useSound(
+    `${process.env.PUBLIC_URL}/chatSound.mp3`,
+    { volume: 0.25 },
+  );
+
+  useEffect(() => {
+    if (props.unreadMessageCount > 0 && !isDrawerOpen) {
+      chatReceivedBoop({});
+    }
+  }, [chatReceivedBoop, isDrawerOpen, props.unreadMessageCount]);
 
   return (
     <>
@@ -127,8 +139,7 @@ export default function SideBar(props: Props) {
                   <IconButton onClick={toggleDrawerOpen}>
                     <Badge
                       color="secondary"
-                      variant="dot"
-                      invisible={!props.hasUnreadMessages}
+                      badgeContent={props.unreadMessageCount}
                     >
                       <ChatIcon />
                     </Badge>

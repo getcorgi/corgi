@@ -134,8 +134,8 @@ export default function useSocketHandler({
   const {
     messages,
     sendMessage,
-    setHasUnreadMessages,
-    hasUnreadMessages,
+    setUnreadMessageCount,
+    unreadMessageCount,
   } = useChatMessages({
     socket: socket.current,
   });
@@ -167,14 +167,14 @@ export default function useSocketHandler({
   });
 
   return {
-    leaveRoom,
-    joinRoom,
     isInRoom,
-    users,
-    streams: enhancedStreams,
+    joinRoom,
+    leaveRoom,
     messages,
     sendMessage,
-    hasUnreadMessages,
-    setHasUnreadMessages,
+    setUnreadMessageCount,
+    streams: enhancedStreams,
+    unreadMessageCount,
+    users,
   };
 }

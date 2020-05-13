@@ -15,7 +15,7 @@ export interface StreamsDict {
 interface Props {
   activeViewId: string;
   children: ({ streams }: { streams: StreamsDict }) => React.ReactNode;
-  hasUnreadMessages: boolean;
+  unreadMessageCount: number;
   isAdmin: boolean;
   isCameraOff: boolean;
   isMuted: boolean;
@@ -24,7 +24,7 @@ interface Props {
   onHangup: () => void;
   sendMessage: (msg: string) => void;
   setActiveViewId: (id: string) => void;
-  setHasUnreadMessages: (hasUnread: boolean) => void;
+  setUnreadMessageCount: (count: number) => void;
   streams: StreamsDict;
   toggleCamera: () => void;
   toggleIsMuted: () => void;
@@ -37,12 +37,12 @@ export default function VideoView(props: Props) {
   return (
     <Sidebar
       activeViewId={props.activeViewId}
-      hasUnreadMessages={props.hasUnreadMessages}
+      unreadMessageCount={props.unreadMessageCount}
       isAdmin={props.isAdmin}
       messages={props.messages}
       sendMessage={props.sendMessage}
       setActiveViewId={props.setActiveViewId}
-      setHasUnreadMessages={props.setHasUnreadMessages}
+      setUnreadMessageCount={props.setUnreadMessageCount}
     >
       <S.VideoView
         position="relative"
