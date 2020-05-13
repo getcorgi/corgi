@@ -39,7 +39,22 @@ export const Video = styled('div')({
   height: '100%',
 });
 
+export const VideoWrapper = styled('div')({
+  background: '#111',
+  height: '100%',
+});
+
 export const EmptyVideo = styled(Box)({
   position: 'absolute',
   backgroundColor: '#00000030',
+});
+
+export const LoadingIndicator = styled(Box)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  top: 0,
 });

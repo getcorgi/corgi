@@ -1,4 +1,10 @@
-import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
+import {
+  Avatar,
+  CircularProgress,
+  createStyles,
+  makeStyles,
+  Theme,
+} from '@material-ui/core';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import useResizeObserver from 'use-resize-observer';
@@ -16,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       height: '100%',
       objectFit: 'cover',
-      background: 'black',
+      position: 'relative',
     },
     mirroredVideo: {
       transform: 'rotateY(180deg)',
@@ -64,11 +70,12 @@ export default function(props: Props) {
   const audioTrack = props.srcObject?.getAudioTracks()[0];
   const videoTrack = props.srcObject?.getVideoTracks()[0];
 
-  const { aspectRatio } = videoTrack?.getSettings();
+  const { aspectRatio } = videoTrack?.getSettings() || {};
 
   const isInPortraitMode = Number(aspectRatio) < 1;
 
   const [volume, setVolume] = useState(100);
+  const [isVideoLoading, setIsVideoLoading] = useState(false);
 
   const isRemoteMuted = !audioTrack?.enabled;
   const isRemoteCameraOff = !videoTrack?.enabled;
@@ -84,7 +91,20 @@ export default function(props: Props) {
     if (videoRef.current) {
       videoRef.current.srcObject = props.srcObject;
     }
-  }, [props.srcObject, isRemoteMuted, isRemoteCameraOff]);
+  }, [props.srcObject, isRemoteCameraOff]);
+
+  useEffect(() => {
+    const onLoadStart = () => setIsVideoLoading(true);
+    const onLoadedData = () => setIsVideoLoading(false);
+    if (videoRef.current) {
+      videoRef.current.addEventListener('loadstart', onLoadStart);
+      videoRef.current.addEventListener('loadeddata', onLoadedData);
+    }
+    return function cleanup() {
+      videoRef.current?.removeEventListener('loadstart', onLoadStart);
+      videoRef.current?.removeEventListener('loadeddata', onLoadedData);
+    };
+  });
 
   useEffect(() => {
     const ref = videoRef.current as ExperimentalHTMLVideoElement;
@@ -102,7 +122,7 @@ export default function(props: Props) {
 
   const renderVideo = () => (
     <S.Video ref={containerRef}>
-      {isRemoteCameraOff && (
+      {isRemoteCameraOff ? (
         <S.EmptyVideo
           height="100%"
           width="100%"
@@ -117,18 +137,26 @@ export default function(props: Props) {
             userColor={props.user?.color}
           />
         </S.EmptyVideo>
+      ) : (
+        <S.VideoWrapper>
+          {isVideoLoading && (
+            <S.LoadingIndicator flexDirection="column">
+              <CircularProgress />
+            </S.LoadingIndicator>
+          )}
+          <video
+            ref={videoRef}
+            playsInline={true}
+            autoPlay={true}
+            muted={props.isMuted}
+            className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
+              classes.video
+            } ${isRemoteCameraOff ? classes.cameraOff : ''} ${
+              isInPortraitMode ? classes.portraitMode : ''
+            }`}
+          />
+        </S.VideoWrapper>
       )}
-      <video
-        ref={videoRef}
-        playsInline={true}
-        autoPlay={true}
-        muted={props.isMuted}
-        className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
-          classes.video
-        } ${isRemoteCameraOff ? classes.cameraOff : ''} ${
-          isInPortraitMode ? classes.portraitMode : ''
-        }`}
-      />
 
       <S.Information>
         <S.AudioIndicator>

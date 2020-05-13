@@ -19,8 +19,6 @@ export default function useSocketEvents({
   useEffect(() => {
     if (!isInRoom) return;
 
-    console.log(socket.id);
-
     socket.emit('userJoinedCall', {
       groupId,
       userData: myUserData,
@@ -63,7 +61,6 @@ export default function useSocketEvents({
     };
 
     const onSyncUsers = ({ users }: { users: User[] }) => {
-      console.log({ users });
       if (!users?.length) return;
       setUsers(users.filter(Boolean));
 

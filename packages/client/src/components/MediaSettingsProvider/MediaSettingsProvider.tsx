@@ -27,7 +27,8 @@ interface MediaSettingsContextValues {
   handleClosePermissionAlert: () => void;
   isPermissonAlertOpen: boolean;
   mediaConstraints: MediaStreamConstraints;
-  setActiveDevices: React.Dispatch<React.SetStateAction<ActiveDevices>>;
+  setMediaConstraints: (mediaConstraints: MediaStreamConstraints) => void;
+  setActiveDevices: (devices: ActiveDevices) => void;
 }
 
 const DEFAULT_AVAILABLE_DEVICES = {
@@ -51,7 +52,21 @@ export const MediaSettingsContext = React.createContext<
   isPermissonAlertOpen: false,
   mediaConstraints: DEFAULT_MEDIA_CONSTRAINTS,
   setActiveDevices: noop,
+  setMediaConstraints: noop,
 });
+
+const getDefaultActiveDevices = () => {
+  try {
+    const persistedDevices = localStorage.getItem('user:activeDevices');
+    if (persistedDevices) {
+      return JSON.parse(persistedDevices);
+    }
+
+    return DEFAULT_ACTIVE_DEVICES;
+  } catch (err) {
+    return DEFAULT_ACTIVE_DEVICES;
+  }
+};
 
 export function MediaSettingsProvider(props: Props) {
   const [availableDevices, setAvailableDevices] = useState<AvailableDevices>(
@@ -61,14 +76,29 @@ export function MediaSettingsProvider(props: Props) {
     false,
   );
   const [activeDevices, setActiveDevices] = useState<ActiveDevices>(
-    DEFAULT_ACTIVE_DEVICES,
+    getDefaultActiveDevices(),
   );
+
   const [areActiveDevicesSet, setAreActiveDevicesSet] = useState(false);
   const [mediaConstraints, setMediaConstraints] = useState<
     MediaStreamConstraints
   >(DEFAULT_MEDIA_CONSTRAINTS);
 
   const [isPermissonAlertOpen, setIsPermissonAlertOpen] = useState(false);
+
+  const setActiveDevicesWithPersistence = (devices: ActiveDevices) => {
+    setActiveDevices(prevActiveDevices => {
+      localStorage.setItem(
+        'user:activeDevices',
+        JSON.stringify({ ...prevActiveDevices, ...devices }),
+      );
+
+      return {
+        ...prevActiveDevices,
+        ...devices,
+      };
+    });
+  };
 
   useEffect(() => {
     (async () => {
@@ -172,14 +202,25 @@ export function MediaSettingsProvider(props: Props) {
   }, [availableDevices, areAvailableDevicesLoaded, isPermissonAlertOpen]);
 
   useEffect(() => {
+    if (
+      activeDevices.audioInput &&
+      activeDevices.videoInput &&
+      activeDevices.audioOutput &&
+      !areActiveDevicesSet
+    ) {
+      setAreActiveDevicesSet(true);
+    }
+  }, [activeDevices, areActiveDevicesSet]);
+
+  useEffect(() => {
     if (!areActiveDevicesSet && areAvailableDevicesLoaded) {
-      setActiveDevices(
+      setActiveDevicesWithPersistence(
         Object.entries(availableDevices).reduce((acc, [key, value]) => {
           return {
             ...acc,
             [key]: value[0]?.deviceId,
           };
-        }, DEFAULT_ACTIVE_DEVICES),
+        }, activeDevices),
       );
       setAreActiveDevicesSet(true);
     }
@@ -229,10 +270,11 @@ export function MediaSettingsProvider(props: Props) {
   const value = {
     activeDevices,
     availableDevices,
-    setActiveDevices,
+    setActiveDevices: setActiveDevicesWithPersistence,
     mediaConstraints,
     isPermissonAlertOpen,
     handleClosePermissionAlert,
+    setMediaConstraints,
   };
 
   return (

@@ -73,7 +73,7 @@ export default function Preview(props: Props) {
 
               <S.Gradient />
               <S.Controls>
-                <Box />
+                <Box width="48px" />
                 <Box>
                   <IconButton onClick={props.toggleIsMuted} aria-label="mute">
                     {props.isMuted ? <MicOffIcon /> : <MicIcon />}
