@@ -10,13 +10,13 @@ Object {
           style="height: 100vh; width: 100%; background: gray;"
         >
           <div
-            class="MuiBox-root MuiBox-root-159"
+            class="MuiBox-root MuiBox-root-174"
           >
             <div
-              class="MuiBox-root MuiBox-root-160"
+              class="MuiBox-root MuiBox-root-175"
             >
               <div
-                class="div-root-161"
+                class="div-root-176"
               >
                 <h5
                   class="MuiTypography-root MuiTypography-h5 MuiTypography-colorInherit MuiTypography-alignCenter"
@@ -36,7 +36,7 @@ Object {
                   class="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-alignCenter"
                 >
                   <div
-                    class="MuiBox-root MuiBox-root-205 Styled(MuiBox)-root-204"
+                    class="MuiBox-root MuiBox-root-220 Styled(MuiBox)-root-219"
                     title="Copied!"
                   >
                     http://localhost/
@@ -45,30 +45,57 @@ Object {
               </div>
             </div>
             <div
-              class="div-root-206"
+              class="div-root-221"
             >
               <div
-                class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-207 WithStyles(ForwardRef(Card))-root-208 MuiPaper-elevation10 MuiPaper-rounded"
+                class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-222 WithStyles(ForwardRef(Card))-root-223 MuiPaper-elevation10 MuiPaper-rounded"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-238"
+                  class="MuiBox-root MuiBox-root-253"
                 >
                   <div
-                    class="div-root-245"
+                    class="div-root-260"
                   >
-                    <video
-                      autoplay=""
-                      class="makeStyles-mirroredVideo-240 makeStyles-video-239  "
-                      playsinline=""
-                    />
                     <div
-                      class="div-root-246"
+                      class="div-root-261"
                     >
                       <div
-                        class="div-root-247"
+                        class="MuiBox-root MuiBox-root-263 Styled(MuiBox)-root-262"
                       >
                         <div
-                          class="div-root-248"
+                          class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                          role="progressbar"
+                          style="width: 40px; height: 40px;"
+                        >
+                          <svg
+                            class="MuiCircularProgress-svg"
+                            viewBox="22 22 44 44"
+                          >
+                            <circle
+                              class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                              cx="44"
+                              cy="44"
+                              fill="none"
+                              r="20.2"
+                              stroke-width="3.6"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <video
+                        autoplay=""
+                        class="makeStyles-mirroredVideo-255 makeStyles-video-254  "
+                        playsinline=""
+                      />
+                    </div>
+                    <div
+                      class="div-root-276"
+                    >
+                      <div
+                        class="div-root-277"
+                      >
+                        <div
+                          class="div-root-278"
                         >
                           <svg
                             viewBox="0 0 100 100"
@@ -111,13 +138,13 @@ Object {
         style="height: 100vh; width: 100%; background: gray;"
       >
         <div
-          class="MuiBox-root MuiBox-root-159"
+          class="MuiBox-root MuiBox-root-174"
         >
           <div
-            class="MuiBox-root MuiBox-root-160"
+            class="MuiBox-root MuiBox-root-175"
           >
             <div
-              class="div-root-161"
+              class="div-root-176"
             >
               <h5
                 class="MuiTypography-root MuiTypography-h5 MuiTypography-colorInherit MuiTypography-alignCenter"
@@ -137,7 +164,7 @@ Object {
                 class="MuiTypography-root MuiTypography-h6 MuiTypography-colorPrimary MuiTypography-alignCenter"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-205 Styled(MuiBox)-root-204"
+                  class="MuiBox-root MuiBox-root-220 Styled(MuiBox)-root-219"
                   title="Copied!"
                 >
                   http://localhost/
@@ -146,30 +173,57 @@ Object {
             </div>
           </div>
           <div
-            class="div-root-206"
+            class="div-root-221"
           >
             <div
-              class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-207 WithStyles(ForwardRef(Card))-root-208 MuiPaper-elevation10 MuiPaper-rounded"
+              class="MuiPaper-root MuiCard-root WithStyles(ForwardRef(Card))-root-222 WithStyles(ForwardRef(Card))-root-223 MuiPaper-elevation10 MuiPaper-rounded"
             >
               <div
-                class="MuiBox-root MuiBox-root-238"
+                class="MuiBox-root MuiBox-root-253"
               >
                 <div
-                  class="div-root-245"
+                  class="div-root-260"
                 >
-                  <video
-                    autoplay=""
-                    class="makeStyles-mirroredVideo-240 makeStyles-video-239  "
-                    playsinline=""
-                  />
                   <div
-                    class="div-root-246"
+                    class="div-root-261"
                   >
                     <div
-                      class="div-root-247"
+                      class="MuiBox-root MuiBox-root-263 Styled(MuiBox)-root-262"
                     >
                       <div
-                        class="div-root-248"
+                        class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                        role="progressbar"
+                        style="width: 40px; height: 40px;"
+                      >
+                        <svg
+                          class="MuiCircularProgress-svg"
+                          viewBox="22 22 44 44"
+                        >
+                          <circle
+                            class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                            cx="44"
+                            cy="44"
+                            fill="none"
+                            r="20.2"
+                            stroke-width="3.6"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                    <video
+                      autoplay=""
+                      class="makeStyles-mirroredVideo-255 makeStyles-video-254  "
+                      playsinline=""
+                    />
+                  </div>
+                  <div
+                    class="div-root-276"
+                  >
+                    <div
+                      class="div-root-277"
+                    >
+                      <div
+                        class="div-root-278"
                       >
                         <svg
                           viewBox="0 0 100 100"
@@ -269,17 +323,17 @@ Object {
           style="height: 100vh; width: 100%; background: rgb(30, 31, 35);"
         >
           <div
-            class="div-root-253"
+            class="div-root-283"
           >
             <div
-              class="div-root-254"
+              class="div-root-284"
             />
             <div
-              class="div-root-255"
+              class="div-root-285"
             >
               <form>
                 <input
-                  class="input-root-256"
+                  class="input-root-286"
                   value=""
                 />
               </form>
@@ -295,17 +349,17 @@ Object {
         style="height: 100vh; width: 100%; background: rgb(30, 31, 35);"
       >
         <div
-          class="div-root-253"
+          class="div-root-283"
         >
           <div
-            class="div-root-254"
+            class="div-root-284"
           />
           <div
-            class="div-root-255"
+            class="div-root-285"
           >
             <form>
               <input
-                class="input-root-256"
+                class="input-root-286"
                 value=""
               />
             </form>
@@ -375,36 +429,36 @@ Object {
     <div>
       <div>
         <div
-          class="MuiBox-root MuiBox-root-272"
+          class="MuiBox-root MuiBox-root-302"
         >
           <div
-            class="MuiBox-root MuiBox-root-273"
+            class="MuiBox-root MuiBox-root-303"
           >
             <div
-              class="MuiBox-root MuiBox-root-274"
+              class="MuiBox-root MuiBox-root-304"
             >
               <div
-                class="MuiBox-root MuiBox-root-277 Styled(MuiBox)-root-275 Styled(MuiBox)-root-276"
+                class="MuiBox-root MuiBox-root-307 Styled(MuiBox)-root-305 Styled(MuiBox)-root-306"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-278"
+                  class="MuiBox-root MuiBox-root-308"
                 >
                   hi
                 </div>
               </div>
               <div
-                class="MuiBox-root MuiBox-root-279"
+                class="MuiBox-root MuiBox-root-309"
               >
                 <div
-                  class="div-root-280 div-root-281"
+                  class="div-root-310 div-root-311"
                   width="5"
                 />
               </div>
               <div
-                class="MuiBox-root MuiBox-root-283 Styled(MuiBox)-root-275 Styled(MuiBox)-root-282"
+                class="MuiBox-root MuiBox-root-313 Styled(MuiBox)-root-305 Styled(MuiBox)-root-312"
               >
                 <div
-                  class="MuiBox-root MuiBox-root-284"
+                  class="MuiBox-root MuiBox-root-314"
                 >
                   hi
                 </div>
@@ -418,36 +472,36 @@ Object {
   "container": <div>
     <div>
       <div
-        class="MuiBox-root MuiBox-root-272"
+        class="MuiBox-root MuiBox-root-302"
       >
         <div
-          class="MuiBox-root MuiBox-root-273"
+          class="MuiBox-root MuiBox-root-303"
         >
           <div
-            class="MuiBox-root MuiBox-root-274"
+            class="MuiBox-root MuiBox-root-304"
           >
             <div
-              class="MuiBox-root MuiBox-root-277 Styled(MuiBox)-root-275 Styled(MuiBox)-root-276"
+              class="MuiBox-root MuiBox-root-307 Styled(MuiBox)-root-305 Styled(MuiBox)-root-306"
             >
               <div
-                class="MuiBox-root MuiBox-root-278"
+                class="MuiBox-root MuiBox-root-308"
               >
                 hi
               </div>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-279"
+              class="MuiBox-root MuiBox-root-309"
             >
               <div
-                class="div-root-280 div-root-281"
+                class="div-root-310 div-root-311"
                 width="5"
               />
             </div>
             <div
-              class="MuiBox-root MuiBox-root-283 Styled(MuiBox)-root-275 Styled(MuiBox)-root-282"
+              class="MuiBox-root MuiBox-root-313 Styled(MuiBox)-root-305 Styled(MuiBox)-root-312"
             >
               <div
-                class="MuiBox-root MuiBox-root-284"
+                class="MuiBox-root MuiBox-root-314"
               >
                 hi
               </div>

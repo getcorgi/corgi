@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Box,
   CircularProgress,
   createStyles,
   makeStyles,
@@ -10,7 +9,6 @@ import MicOffIcon from '@material-ui/icons/MicOff';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
-import theme from '../../../../lib/theme';
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
 import { Me } from '../../../MeProvider/MeProvider';
 import { User } from '../../lib/useSocketHandler';
@@ -92,7 +90,7 @@ export default function(props: Props) {
     if (videoRef.current) {
       videoRef.current.srcObject = props.srcObject;
     }
-  }, [props.srcObject, isRemoteMuted, isRemoteCameraOff]);
+  }, [props.srcObject, isRemoteCameraOff]);
 
   useEffect(() => {
     const ref = videoRef.current as ExperimentalHTMLVideoElement;
