@@ -1,8 +1,16 @@
-import { Avatar, createStyles, makeStyles, Theme } from '@material-ui/core';
+import {
+  Avatar,
+  Box,
+  CircularProgress,
+  createStyles,
+  makeStyles,
+  Theme,
+} from '@material-ui/core';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
+import theme from '../../../../lib/theme';
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
 import { Me } from '../../../MeProvider/MeProvider';
 import { User } from '../../lib/useSocketHandler';
@@ -16,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: '100%',
       height: '100%',
       objectFit: 'cover',
-      background: 'black',
+      position: 'relative',
     },
     mirroredVideo: {
       transform: 'rotateY(180deg)',
@@ -102,7 +110,7 @@ export default function(props: Props) {
 
   const renderVideo = () => (
     <S.Video ref={containerRef}>
-      {isRemoteCameraOff && (
+      {isRemoteCameraOff ? (
         <S.EmptyVideo
           height="100%"
           width="100%"
@@ -117,18 +125,24 @@ export default function(props: Props) {
             userColor={props.user?.color}
           />
         </S.EmptyVideo>
+      ) : (
+        <S.VideoWrapper>
+          <S.LoadingIndicator flexDirection="column">
+            <CircularProgress />
+          </S.LoadingIndicator>
+          <video
+            ref={videoRef}
+            playsInline={true}
+            autoPlay={true}
+            muted={props.isMuted}
+            className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
+              classes.video
+            } ${isRemoteCameraOff ? classes.cameraOff : ''} ${
+              isInPortraitMode ? classes.portraitMode : ''
+            }`}
+          />
+        </S.VideoWrapper>
       )}
-      <video
-        ref={videoRef}
-        playsInline={true}
-        autoPlay={true}
-        muted={props.isMuted}
-        className={`${props.isMirrored ? classes.mirroredVideo : ''} ${
-          classes.video
-        } ${isRemoteCameraOff ? classes.cameraOff : ''} ${
-          isInPortraitMode ? classes.portraitMode : ''
-        }`}
-      />
 
       <S.Information>
         <S.AudioIndicator>
