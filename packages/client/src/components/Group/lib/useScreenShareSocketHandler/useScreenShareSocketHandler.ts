@@ -13,7 +13,9 @@ export default function useSocketHandler({
   groupId: string;
   userData: User;
 }) {
-  const socket = useRef(io(appConfig.socketServer));
+  const socket = useRef(
+    io(appConfig.socketServer, { transports: ['websocket'] }),
+  );
   const connections = useRef<Connections>(new Map([]));
 
   const [isScreenSharePeerConnected, setIsScreenSharePeerConnected] = useState(

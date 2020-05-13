@@ -22,7 +22,9 @@ export default function useSocketHandler({
   userData: User;
 }) {
   const socket = useRef(
-    io(appConfig.socketServer, { forceNew: true, multiplex: false }),
+    io(appConfig.socketServer, {
+      transports: ['websocket'],
+    }),
   );
   const connections = useRef<Connections>(new Map([]));
   const [users, setUsers] = useState<User[]>([]);
