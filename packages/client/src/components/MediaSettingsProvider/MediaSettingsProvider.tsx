@@ -151,8 +151,6 @@ export function MediaSettingsProvider(props: Props) {
             setIsPermissonAlertOpen(true);
             return;
           }
-
-          return;
         }
 
         (await navigator.mediaDevices.enumerateDevices()).forEach(device => {
