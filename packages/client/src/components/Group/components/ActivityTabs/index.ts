@@ -1,1 +1,1 @@
-export { default } from './ActivityTabs';
+export { default } from './ActivityTabsContainer';

@@ -9,8 +9,6 @@ import {
 } from '@material-ui/core';
 import React from 'react';
 
-import useActivities from '../../../../lib/hooks/useActivities';
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     tabsIndicator: {
@@ -28,60 +26,42 @@ function a11yProps(index: number | string) {
 }
 
 interface Props {
+  activeActivityIndex: number;
   activeViewId: string;
+  activities: {
+    icon: string;
+    id: string;
+    name: string;
+  }[];
   setActiveViewId: (id: string) => void;
 }
 
 export default function ActivityTabs(props: Props) {
-  const { data, loading } = useActivities();
   const classes = useStyles();
-
-  if (loading) {
-    return null;
-  }
-  const builtInActivities = [
-    {
-      id: '0',
-      name: 'Basic Video',
-      icon: 'video_call',
-    },
-    {
-      id: '1',
-      name: 'Browse Together',
-      icon: 'web',
-    },
-  ];
-
-  const activities = [...builtInActivities, ...data];
-  const activeActivityIndex = activities.findIndex(
-    activity => activity.id === props.activeViewId,
-  );
 
   return (
     <Tabs
-      value={activeActivityIndex}
+      classes={{ indicator: classes.tabsIndicator }}
+      indicatorColor="primary"
       onChange={(event, value) => {
         props.setActiveViewId(`${value}`);
       }}
       orientation="vertical"
-      indicatorColor="primary"
       textColor="primary"
-      classes={{
-        indicator: classes.tabsIndicator,
-      }}
+      value={props.activeActivityIndex}
     >
-      {activities.map(activity => {
+      {props.activities.map(activity => {
         return (
           <Tooltip
-            key={activity.id}
-            title={activity.name}
             aria-label={activity.name}
+            key={activity.id}
             placement="left"
+            title={activity.name}
           >
             <Tab
-              style={{ minWidth: 50, width: '100%', padding: 16 }}
               aria-label={activity.name}
               icon={<Icon>{activity.icon}</Icon>}
+              style={{ minWidth: 50, width: '100%', padding: 16 }}
               value={activity.id}
               {...a11yProps(activity.id)}
             />
