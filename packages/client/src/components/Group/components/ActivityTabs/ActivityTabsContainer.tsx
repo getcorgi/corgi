@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { builtInActivities } from '../../../../constants';
 import useActivities from '../../../../lib/hooks/useActivities';
 import ActivityTabs from './ActivityTabs';
 
@@ -10,22 +11,7 @@ interface Props {
 
 export default function ActivityTabsContainer(props: Props) {
   const { data, loading } = useActivities();
-
-  if (loading) {
-    return null;
-  }
-  const builtInActivities = [
-    {
-      id: '0',
-      name: 'Basic Video',
-      icon: 'video_call',
-    },
-    {
-      id: '1',
-      name: 'Browse Together',
-      icon: 'web',
-    },
-  ];
+  if (loading) return null;
 
   const activities = [...builtInActivities, ...data];
   const activeActivityIndex = activities.findIndex(
