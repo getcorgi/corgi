@@ -69,7 +69,7 @@ export default function useSocketEvents({
 
     const addNewUser = (userData: User) => {
       if (
-        !userData.id ||
+        !userData?.id ||
         (userData.id && connections.has(userData.id)) ||
         userData.id === socket.id
       ) {
