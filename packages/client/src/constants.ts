@@ -11,18 +11,5 @@ export const appConfig = {
   sentryDsn: process.env.REACT_APP_SENTRY_DSN,
 };
 
-export const builtInActivities = [
-  {
-    id: '0',
-    name: 'Basic Video',
-    icon: 'video_call',
-  },
-  {
-    id: '1',
-    name: 'Browse Together',
-    icon: 'web',
-  },
-];
-
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = (...args: any[]): any => {};
