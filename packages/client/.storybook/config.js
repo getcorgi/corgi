@@ -16,13 +16,13 @@ const theme = {
 
 addDecorator(withKnobs());
 addDecorator(StoryRouter());
-addDecorator(muiTheme([theme]));
 addDecorator(storyFn => (
   <>
     <CssBaseline />
     {storyFn()}
   </>
 ));
+addDecorator(muiTheme([theme]));
 addDecorator(Story => <Story />);
 
 // automatically import all files ending in *.stories.{ts,tsx}
