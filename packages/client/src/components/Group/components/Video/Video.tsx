@@ -96,13 +96,14 @@ export default function(props: Props) {
   useEffect(() => {
     const onLoadStart = () => setIsVideoLoading(true);
     const onLoadedData = () => setIsVideoLoading(false);
-    if (videoRef.current) {
-      videoRef.current.addEventListener('loadstart', onLoadStart);
-      videoRef.current.addEventListener('loadeddata', onLoadedData);
+    const video = videoRef.current;
+    if (video) {
+      video.addEventListener('loadstart', onLoadStart);
+      video.addEventListener('loadeddata', onLoadedData);
     }
     return function cleanup() {
-      videoRef.current?.removeEventListener('loadstart', onLoadStart);
-      videoRef.current?.removeEventListener('loadeddata', onLoadedData);
+      video?.removeEventListener('loadstart', onLoadStart);
+      video?.removeEventListener('loadeddata', onLoadedData);
     };
   });
 
