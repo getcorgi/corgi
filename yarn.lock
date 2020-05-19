@@ -2254,7 +2254,7 @@
     qs "^6.6.0"
     ts-dedent "^1.1.0"
 
-"@storybook/addon-storyshots@*", "@storybook/addon-storyshots@^5.3.0":
+"@storybook/addon-storyshots@*":
   version "5.3.18"
   resolved "https://registry.yarnpkg.com/@storybook/addon-storyshots/-/addon-storyshots-5.3.18.tgz#616bc93a6cc1db450baa441a52f26af24864ddfe"
   integrity sha512-/7D/GASV0P2QY6d/gJQSP6+l77WeJs5uyFuhb7tViLCBgAUKOZG/sLtxyBFRzlGPsx33L5I88H7+ID0zvXF3Cg==
