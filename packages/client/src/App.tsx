@@ -8,7 +8,6 @@ import ErrorPage from './components/ErrorPage';
 import { FirebaseProvider } from './components/Firebase';
 import Group from './components/Group';
 import Home from './components/Home';
-import { MediaSettingsProvider } from './components/MediaSettingsProvider';
 import { MeProvider } from './components/MeProvider';
 import { appConfig } from './constants';
 import theme from './lib/theme';
@@ -25,13 +24,11 @@ const App: React.FC = () => {
         <CssBaseline />
         <FirebaseProvider config={appConfig}>
           <MeProvider>
-            <MediaSettingsProvider>
-              <Router>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/groups/:groupId" component={Group} />
-                <Route exact path="/error" component={ErrorPage} />
-              </Router>
-            </MediaSettingsProvider>
+            <Router>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/groups/:groupId" component={Group} />
+              <Route exact path="/error" component={ErrorPage} />
+            </Router>
           </MeProvider>
         </FirebaseProvider>
       </ThemeProvider>

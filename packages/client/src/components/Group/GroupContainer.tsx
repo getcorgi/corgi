@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
+import { RouteComponentProps } from 'react-router-dom';
 
 import useGroup from '../../lib/hooks/useGroup';
 import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
@@ -18,14 +19,9 @@ import useScreenShareSocketHandler from './lib/useScreenShareSocketHandler';
 import useSocketHandler from './lib/useSocketHandler';
 import useToggleCamera from './lib/useToggleCamera';
 
-interface Props {
-  match: {
-    params: {
-      groupId: string;
-    };
-  };
-}
-export default function GroupContainer(props: Props) {
+export default function GroupContainer(
+  props: RouteComponentProps<{ groupId: string }>,
+) {
   const groupId = props.match.params.groupId;
   const group = useGroup(groupId);
   const updateGroup = useUpdateGroup();

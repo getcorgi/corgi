@@ -271,6 +271,10 @@ export function MediaSettingsProvider(props: Props) {
         });
       })();
     }
+
+    return function cleanup() {
+      setMediaConstraints(DEFAULT_MEDIA_CONSTRAINTS);
+    };
   }, [activeDevices]);
 
   const handleClosePermissionAlert = () => {
