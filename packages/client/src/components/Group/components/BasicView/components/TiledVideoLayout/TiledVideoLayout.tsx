@@ -1,6 +1,6 @@
 import { Box } from '@material-ui/core';
 import React from 'react';
-import useResizeObserver from 'use-resize-observer';
+import useResizeObserver from 'use-resize-observer/polyfilled';
 
 import { Me } from '../../../../../MeProvider/MeProvider';
 import { User } from '../../../../lib/useSocketHandler';

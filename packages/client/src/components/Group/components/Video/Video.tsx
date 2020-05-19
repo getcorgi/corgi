@@ -7,7 +7,7 @@ import {
 } from '@material-ui/core';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import useResizeObserver from 'use-resize-observer';
+import useResizeObserver from 'use-resize-observer/polyfilled';
 
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
 import { Me } from '../../../MeProvider/MeProvider';
