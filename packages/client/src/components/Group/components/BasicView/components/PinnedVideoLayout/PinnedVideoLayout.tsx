@@ -52,7 +52,7 @@ export default function PinnedVideoLayout(props: Props) {
       )}
 
       {otherStreams.map(({ stream, user }) => {
-        if (!stream) return null;
+        if (!stream || !user) return null;
 
         return (
           <Box key={stream?.id} width="100%" position="relative" pb="56.25%">

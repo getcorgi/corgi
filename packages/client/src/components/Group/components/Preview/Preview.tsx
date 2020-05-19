@@ -121,11 +121,11 @@ export default function Preview(props: Props) {
                       <AvatarGroup max={5}>
                         {props.users.map(
                           (user, idx) =>
-                            user.id && (
-                              <Tooltip title={user.name} key={idx}>
+                            user?.id && (
+                              <Tooltip title={user?.name} key={idx}>
                                 <S.Avatar
                                   userColor={user?.color}
-                                  alt={user.name}
+                                  alt={user?.name}
                                   src="fallback"
                                 />
                               </Tooltip>
