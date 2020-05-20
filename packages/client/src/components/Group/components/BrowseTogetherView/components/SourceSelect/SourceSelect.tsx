@@ -1,6 +1,6 @@
 import { Box, Divider, IconButton, Paper } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 
 import * as S from './SourceSelect.styles';
 
@@ -9,6 +9,11 @@ interface Props {
   setActivityUrl: (url: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   updateActivityUrl: (value: string) => void;
+}
+
+enum PresetKind {
+  Item = 'Item',
+  GroupLabel = 'GroupLabel',
 }
 
 const generateId = (length: number) =>
@@ -20,6 +25,52 @@ const generateId = (length: number) =>
         .charAt(2),
     )
     .join('');
+
+const getExalidrawUrl = () => {
+  const roomId = generateId(20);
+  const secret = generateId(22);
+
+  return `https://excalidraw.com/#room=${roomId},${secret}`;
+};
+
+const srcPresets = [
+  {
+    label: 'Video',
+    kind: PresetKind.GroupLabel,
+  },
+  {
+    label: 'Twitch',
+    value: 'twitch',
+    url: 'https://player.twitch.tv/?channel=',
+    kind: PresetKind.Item,
+  },
+  // {
+  //   label: 'Youtube',
+  //   value: 'youtube',
+  //   url: 'https://www.youtube.com/embed/',
+  //   kind: PresetKind.Item,
+  // },
+  {
+    label: 'Games',
+    kind: PresetKind.GroupLabel,
+  },
+  {
+    label: 'Dominion',
+    value: 'dominion',
+    url: 'https://dominion.games',
+    kind: PresetKind.Item,
+  },
+  {
+    label: 'Tools',
+    kind: PresetKind.GroupLabel,
+  },
+  {
+    label: 'Excalidraw',
+    value: 'excalidraw',
+    url: getExalidrawUrl(),
+    kind: PresetKind.Item,
+  },
+];
 
 export function SourceSelect(props: Props) {
   const [srcPreset, setSrcPreset] = useState('https://');
@@ -36,29 +87,17 @@ export function SourceSelect(props: Props) {
     props.setActivityUrl(event.target.value);
   };
 
-  const getExalidrawUrl = useCallback(() => {
-    const roomId = generateId(20);
-    const secret = generateId(22);
-
-    return `https://excalidraw.com/#room=${roomId},${secret}`;
-  }, []);
-
   return (
     <Paper component="form" square onSubmit={props.onSubmit}>
       <Box px={2} display="flex" justifyContent="space-between">
         <S.Select value={srcPreset} onChange={onSelectChange}>
           <S.MenuItem value="https://">Url</S.MenuItem>
-          <S.ListSubheader>Video</S.ListSubheader>
-          <S.MenuItem value="https://player.twitch.tv/?channel=">
-            Twitch
-          </S.MenuItem>
-          <S.MenuItem value="https://www.youtube.com/embed/">
-            Youtube
-          </S.MenuItem>
-          <S.ListSubheader>Games</S.ListSubheader>
-          <S.MenuItem value="https://dominion.games">Dominion</S.MenuItem>
-          <S.ListSubheader>Tools</S.ListSubheader>
-          <S.MenuItem value={getExalidrawUrl()}>Excalidraw</S.MenuItem>
+          {srcPresets.map(node => {
+            if (node.kind === PresetKind.Item) {
+              return <S.MenuItem value={node.url}>{node.label}</S.MenuItem>;
+            }
+            return <S.ListSubheader>{node.label}</S.ListSubheader>;
+          })}
         </S.Select>
         <Divider orientation="vertical" flexItem={true} />
         <S.Input
