@@ -1,6 +1,4 @@
-import { IconButton, InputBase, Paper } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import SearchIcon from '@material-ui/icons/Search';
 import React, { useEffect, useState } from 'react';
 
 import { Me } from '../../../MeProvider/MeProvider';
@@ -8,6 +6,7 @@ import DraggableSplitWrapper from '../DraggableSplitWrapper';
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
 import * as S from './BrowseTogetherView.styles';
+import { SourceSelect } from './components/SourceSelect/SourceSelect';
 
 interface Props {
   streams: StreamsDict;
@@ -38,30 +37,19 @@ function BrowseTogetherView(props: Props) {
     setActivityUrl(addProtocol(props.activityUrl));
   }, [props.activityUrl]);
 
+  const onSubmitSource = (e: React.FormEvent) => {
+    e.preventDefault();
+    props.updateActivityUrl(addProtocol(activityUrl));
+  };
+
   const left = (
     <Box display="flex" flexDirection="column" height="100%">
-      <Paper
-        component="form"
-        square
-        onSubmit={(e: React.FormEvent) => {
-          e.preventDefault();
-          props.updateActivityUrl(activityUrl);
-        }}
-      >
-        <Box px={2} display="flex" justifyContent="space-between">
-          <InputBase
-            style={{ width: '100%' }}
-            value={activityUrl}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setActivityUrl(addProtocol(event.target.value))
-            }
-            inputProps={{ 'aria-label': 'go to url' }}
-          />
-          <IconButton type="submit" aria-label="search">
-            <SearchIcon />
-          </IconButton>
-        </Box>
-      </Paper>
+      <SourceSelect
+        activityUrl={activityUrl}
+        onSubmit={onSubmitSource}
+        setActivityUrl={setActivityUrl}
+        updateActivityUrl={props.updateActivityUrl}
+      />
       <iframe
         title="shared-browser"
         style={{
