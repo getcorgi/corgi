@@ -1,13 +1,6 @@
-import {
-  Box,
-  Divider,
-  IconButton,
-  ListSubheader,
-  MenuItem,
-  Paper,
-} from '@material-ui/core';
+import { Box, Divider, IconButton, Paper } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import * as S from './SourceSelect.styles';
 
@@ -18,8 +11,18 @@ interface Props {
   updateActivityUrl: (value: string) => void;
 }
 
+const generateId = (length: number) =>
+  Array(length)
+    .fill(0)
+    .map(x =>
+      Math.random()
+        .toString(36)
+        .charAt(2),
+    )
+    .join('');
+
 export function SourceSelect(props: Props) {
-  const [srcPreset, setSrcPreset] = useState('http://');
+  const [srcPreset, setSrcPreset] = useState('https://');
 
   const onSelectChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     if (!event.target.value) return;
@@ -33,11 +36,18 @@ export function SourceSelect(props: Props) {
     props.setActivityUrl(event.target.value);
   };
 
+  const getExalidrawUrl = useCallback(() => {
+    const roomId = generateId(20);
+    const secret = generateId(22);
+
+    return `https://excalidraw.com/#room=${roomId},${secret}`;
+  }, []);
+
   return (
     <Paper component="form" square onSubmit={props.onSubmit}>
       <Box px={2} display="flex" justifyContent="space-between">
         <S.Select value={srcPreset} onChange={onSelectChange}>
-          <S.MenuItem value="http://">Url</S.MenuItem>
+          <S.MenuItem value="https://">Url</S.MenuItem>
           <S.ListSubheader>Video</S.ListSubheader>
           <S.MenuItem value="https://player.twitch.tv/?channel=">
             Twitch
@@ -47,6 +57,8 @@ export function SourceSelect(props: Props) {
           </S.MenuItem>
           <S.ListSubheader>Games</S.ListSubheader>
           <S.MenuItem value="https://dominion.games">Dominion</S.MenuItem>
+          <S.ListSubheader>Tools</S.ListSubheader>
+          <S.MenuItem value={getExalidrawUrl()}>Excalidraw</S.MenuItem>
         </S.Select>
         <Divider orientation="vertical" flexItem={true} />
         <S.Input
