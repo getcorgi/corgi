@@ -67,7 +67,7 @@ const getShouldGroupMessages = (
 export default function Chat(props: Props) {
   const [newChatMessage, setNewChatMessage] = useState('');
   const messagesRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const scrollToBottom = () => {
     const messages = messagesRef?.current;
@@ -110,8 +110,16 @@ export default function Chat(props: Props) {
     scrollToBottom();
   };
 
-  const onChatMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChatMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewChatMessage(e.target.value);
+  };
+
+  const handleChatInputKeydown = (
+    e: React.KeyboardEvent<HTMLTextAreaElement>,
+  ) => {
+    if (e.key === 'Enter') {
+      submitChatMessage(e);
+    }
   };
 
   return (
@@ -135,9 +143,11 @@ export default function Chat(props: Props) {
       <S.ChatInputForm>
         <form onSubmit={submitChatMessage}>
           <S.ChatInput
+            rows={1}
             ref={inputRef}
             value={newChatMessage}
             onChange={onChatMessageChange}
+            onKeyDown={handleChatInputKeydown}
           />
         </form>
       </S.ChatInputForm>

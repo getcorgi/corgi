@@ -11,7 +11,7 @@ export const ChatInputForm = styled('div')({
   // position: 'sticky',
 });
 
-export const ChatInput = styled('input')({
+export const ChatInput = styled('textarea')({
   width: '100%',
   fontSize: '16px',
   padding: '12px',
