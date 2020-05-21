@@ -6,6 +6,7 @@ import Linkify from 'react-linkify';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import * as S from './Chat.styles';
 import EmojiPicker from './components/EmojiPicker/EmojiPicker';
+import EmojiQuickSelect from './components/EmojiQuckSelect/EmojiQuickSelect';
 
 interface Props {
   messages: Message[];
@@ -174,6 +175,13 @@ export default function Chat(props: Props) {
       </S.ChatMessages>
       <S.ChatInputForm>
         <form onSubmit={submitChatMessage}>
+          {inputRef.current && (
+            <EmojiQuickSelect
+              message={newChatMessage}
+              anchorElement={inputRef.current}
+              setMessage={setNewChatMessage}
+            />
+          )}
           <S.ChatInput
             rows={1}
             ref={inputRef}
