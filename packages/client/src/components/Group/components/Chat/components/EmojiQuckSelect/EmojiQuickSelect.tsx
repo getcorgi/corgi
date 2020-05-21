@@ -8,12 +8,15 @@ interface Props {
   anchorElement: Element;
   message: string;
   setMessage: React.Dispatch<React.SetStateAction<string>>;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function EmojiQuickSelect(props: Props) {
-  const [isOpen, setIsOpen] = useState(false);
   const [emojiList, setEmojiList] = useState<BaseEmoji[] | null>(null);
   const [currentMatch, setCurrentMatch] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
   const menuRef = useRef<HTMLDivElement>(null);
 
   const onEmojiSelect = useCallback(
@@ -37,10 +40,32 @@ export default function EmojiQuickSelect(props: Props) {
   };
 
   useEffect(() => {
-    if (isOpen) {
+    const keydownHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const emoji = emojiList?.[selectedIndex];
+
+        if (emoji) {
+          console.log(emoji);
+          onEmojiSelect(emoji)();
+        }
+      }
+      return false;
+    };
+
+    if (props.isOpen) {
       scrollToBottom();
+
+      window.addEventListener('keydown', keydownHandler);
+    } else {
+      window.removeEventListener('keydown', keydownHandler);
     }
-  }, [emojiList, isOpen]);
+    setSelectedIndex(Number(emojiList?.length) - 1);
+
+    return function cleanup() {
+      window.removeEventListener('keydown', keydownHandler);
+    };
+  }, [emojiList, onEmojiSelect, props.isOpen, selectedIndex]);
 
   useEffect(() => {
     const colonEmojiKeywordRegex = /:[^:\s]*(?:::[^:\s]*)*:/;
@@ -52,11 +77,15 @@ export default function EmojiQuickSelect(props: Props) {
     if (match) {
       const searchResults = emojiIndex.search(match[1]) as BaseEmoji[];
       if (searchResults.length) {
-        if (fullMatch && searchResults.length === 1) {
-          const emoji = searchResults[0];
+        if (fullMatch) {
+          const exactEmoji = searchResults.find(emoji => {
+            return emoji.colons === fullMatch[0];
+          });
+
+          if (!exactEmoji) return;
 
           props.setMessage(oldMessage => {
-            return oldMessage.replace(fullMatch[0], emoji.native);
+            return oldMessage.replace(fullMatch[0], exactEmoji.native);
           });
           setEmojiList(null);
           setCurrentMatch('');
@@ -74,22 +103,25 @@ export default function EmojiQuickSelect(props: Props) {
   }, [currentMatch, onEmojiSelect, props, props.message]);
 
   useEffect(() => {
-    if (emojiList && !isOpen) {
-      setIsOpen(true);
+    if (emojiList && !props.isOpen) {
+      props.setIsOpen(true);
       setTimeout(() => {
         scrollToBottom();
       }, 10);
     }
-    if (!emojiList && isOpen) {
-      setIsOpen(false);
+    if (!emojiList && props.isOpen) {
+      props.setIsOpen(false);
     }
-  }, [emojiList, isOpen]);
+  }, [emojiList, props]);
 
   return (
-    <S.EmojiQuickSelect isOpen={isOpen} ref={menuRef}>
+    <S.EmojiQuickSelect isOpen={props.isOpen} ref={menuRef}>
       {emojiList &&
-        emojiList.map((emoji: BaseEmoji) => (
-          <MenuItem onClick={onEmojiSelect(emoji)}>
+        emojiList.map((emoji: BaseEmoji, idx: number) => (
+          <MenuItem
+            onClick={onEmojiSelect(emoji)}
+            selected={idx === selectedIndex}
+          >
             <S.MenuItemIcon>{emoji.native}</S.MenuItemIcon>{' '}
             <S.MenuItemLabel>{emoji.colons}</S.MenuItemLabel>
           </MenuItem>

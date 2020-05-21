@@ -69,6 +69,7 @@ const getShouldGroupMessages = (
 export default function Chat(props: Props) {
   const [newChatMessage, setNewChatMessage] = useState('');
   const [cursorPosition, setCursorPosition] = useState(-1);
+  const [isEmojiQuickSelectOpen, setIsEmojiQuickSelectOpen] = useState(false);
 
   const messagesRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -122,7 +123,7 @@ export default function Chat(props: Props) {
   const handleChatInputKeydown = (
     e: React.KeyboardEvent<HTMLTextAreaElement>,
   ) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !isEmojiQuickSelectOpen) {
       submitChatMessage(e);
     }
   };
@@ -178,6 +179,8 @@ export default function Chat(props: Props) {
           {inputRef.current && (
             <EmojiQuickSelect
               message={newChatMessage}
+              isOpen={isEmojiQuickSelectOpen}
+              setIsOpen={setIsEmojiQuickSelectOpen}
               anchorElement={inputRef.current}
               setMessage={setNewChatMessage}
             />
