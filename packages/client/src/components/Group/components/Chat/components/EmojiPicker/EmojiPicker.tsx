@@ -1,6 +1,6 @@
 import 'emoji-mart/css/emoji-mart.css';
 
-import { Box, Popover } from '@material-ui/core';
+import { Popover } from '@material-ui/core';
 import EmojiEmotionsTwoToneIcon from '@material-ui/icons/EmojiEmotionsTwoTone';
 import { BaseEmoji, Picker } from 'emoji-mart';
 import React, { useRef, useState } from 'react';
@@ -10,6 +10,7 @@ import * as S from './EmojiPicker.styles';
 
 interface Props {
   onSelect: (emoji: string) => void;
+  onExited: () => void;
 }
 
 export default function EmojiPicker(props: Props) {
@@ -19,6 +20,13 @@ export default function EmojiPicker(props: Props) {
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setIsEmojiPickerOpen(!isEmojiPickerOpen);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    if (event.key === 'Enter' || event.key === ' ') {
+      setIsEmojiPickerOpen(!isEmojiPickerOpen);
+    }
   };
 
   const handleClose = () => {
@@ -32,13 +40,19 @@ export default function EmojiPicker(props: Props) {
 
   return (
     <>
-      <S.EmojiIcon onClick={handleClick} ref={anchorElementRef}>
+      <S.EmojiIcon
+        tabIndex={0}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+        ref={anchorElementRef}
+      >
         <EmojiEmotionsTwoToneIcon />
       </S.EmojiIcon>
       <Popover
         open={isEmojiPickerOpen}
         anchorEl={anchorElementRef.current}
         onClose={handleClose}
+        onExited={props.onExited}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',
@@ -49,13 +63,14 @@ export default function EmojiPicker(props: Props) {
         }}
       >
         <Picker
-          emoji=""
-          title=""
+          autoFocus={true}
           color={theme.palette.primary.main}
+          emoji=""
+          onSelect={onEmojiSelect}
           showPreview={false}
           showSkinTones={false}
           theme="dark"
-          onSelect={onEmojiSelect}
+          title=""
         />
       </Popover>
     </>

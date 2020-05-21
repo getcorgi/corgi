@@ -126,8 +126,18 @@ export default function Chat(props: Props) {
     }
   };
 
+  const onEmojiPickerExited = () => {
+    // HACK: doesn't focus right without it ¯\_(ツ)_/¯
+    // setTimeout(() => {
+    inputRef.current?.focus();
+    inputRef.current?.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+    // }, 1);
+  };
+
   const onEmojiSelect = (emoji: string) => {
-    const cursorPosition = inputRef.current?.selectionEnd || 0;
+    const cursorPos = inputRef.current?.selectionEnd || 0;
+
+    setCursorPosition(cursorPos);
 
     setNewChatMessage(message => {
       // NOTE: we need to do this because emojis count as 2 chars
@@ -135,22 +145,13 @@ export default function Chat(props: Props) {
       const iterableMessage = [...message];
 
       const newMessage = [
-        ...iterableMessage.slice(0, cursorPosition),
+        ...iterableMessage.slice(0, cursorPos),
         emoji,
-        ...iterableMessage.slice(cursorPosition),
+        ...iterableMessage.slice(cursorPos),
       ];
 
       return newMessage.join('');
     });
-
-    // HACK: doesn't work right without it ¯\_(ツ)_/¯
-    setTimeout(() => {
-      inputRef.current?.focus();
-      inputRef.current?.setSelectionRange(
-        cursorPosition + 1,
-        cursorPosition + 1,
-      );
-    }, 50);
   };
 
   return (
@@ -182,7 +183,10 @@ export default function Chat(props: Props) {
           />
         </form>
         <S.EmojiPicker>
-          <EmojiPicker onSelect={onEmojiSelect} />
+          <EmojiPicker
+            onSelect={onEmojiSelect}
+            onExited={onEmojiPickerExited}
+          />
         </S.EmojiPicker>
       </S.ChatInputForm>
     </S.Chat>
