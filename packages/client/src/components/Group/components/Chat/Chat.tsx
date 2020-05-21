@@ -5,6 +5,8 @@ import Linkify from 'react-linkify';
 
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import * as S from './Chat.styles';
+import EmojiPicker from './components/EmojiPicker/EmojiPicker';
+import EmojiQuickSelect from './components/EmojiQuckSelect/EmojiQuickSelect';
 
 interface Props {
   messages: Message[];
@@ -66,6 +68,8 @@ const getShouldGroupMessages = (
 
 export default function Chat(props: Props) {
   const [newChatMessage, setNewChatMessage] = useState('');
+  const [cursorPosition, setCursorPosition] = useState(-1);
+
   const messagesRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -112,6 +116,7 @@ export default function Chat(props: Props) {
 
   const onChatMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewChatMessage(e.target.value);
+    setCursorPosition(e.target.selectionEnd);
   };
 
   const handleChatInputKeydown = (
@@ -120,6 +125,34 @@ export default function Chat(props: Props) {
     if (e.key === 'Enter') {
       submitChatMessage(e);
     }
+  };
+
+  const onEmojiPickerExited = () => {
+    // HACK: doesn't focus right without it ¯\_(ツ)_/¯
+    // setTimeout(() => {
+    inputRef.current?.focus();
+    inputRef.current?.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+    // }, 1);
+  };
+
+  const onEmojiSelect = (emoji: string) => {
+    const cursorPos = inputRef.current?.selectionEnd || 0;
+
+    setCursorPosition(cursorPos);
+
+    setNewChatMessage(message => {
+      // NOTE: we need to do this because emojis count as 2 chars
+      // and it gets weird trying to insert into the string directly
+      const iterableMessage = [...message];
+
+      const newMessage = [
+        ...iterableMessage.slice(0, cursorPos),
+        emoji,
+        ...iterableMessage.slice(cursorPos),
+      ];
+
+      return newMessage.join('');
+    });
   };
 
   return (
@@ -142,6 +175,13 @@ export default function Chat(props: Props) {
       </S.ChatMessages>
       <S.ChatInputForm>
         <form onSubmit={submitChatMessage}>
+          {inputRef.current && (
+            <EmojiQuickSelect
+              message={newChatMessage}
+              anchorElement={inputRef.current}
+              setMessage={setNewChatMessage}
+            />
+          )}
           <S.ChatInput
             rows={1}
             ref={inputRef}
@@ -150,6 +190,12 @@ export default function Chat(props: Props) {
             onKeyDown={handleChatInputKeydown}
           />
         </form>
+        <S.EmojiPicker>
+          <EmojiPicker
+            onSelect={onEmojiSelect}
+            onExited={onEmojiPickerExited}
+          />
+        </S.EmojiPicker>
       </S.ChatInputForm>
     </S.Chat>
   );

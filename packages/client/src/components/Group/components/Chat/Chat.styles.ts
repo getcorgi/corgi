@@ -8,13 +8,14 @@ export const ChatMessages = styled('div')({
 });
 
 export const ChatInputForm = styled('div')({
-  // position: 'sticky',
+  position: 'relative',
 });
 
 export const ChatInput = styled('textarea')({
   width: '100%',
   fontSize: '16px',
   padding: '12px',
+  lineHeight: 1,
   borderRadius: '4px',
   background: backgroundColor[700],
   color: 'white',
@@ -59,4 +60,11 @@ export const ChatMessageMessage = styled('p')({
 
 export const ChatMessageImage = styled('img')({
   maxWidth: '100%',
+});
+
+export const EmojiPicker = styled('div')({
+  position: 'absolute',
+  right: '10px',
+  transform: 'translateY(-50%)',
+  top: '50%',
 });
