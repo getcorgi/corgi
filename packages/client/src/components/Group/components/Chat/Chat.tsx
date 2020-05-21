@@ -5,6 +5,7 @@ import Linkify from 'react-linkify';
 
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import * as S from './Chat.styles';
+import EmojiPicker from './components/EmojiPicker/EmojiPicker';
 
 interface Props {
   messages: Message[];
@@ -66,6 +67,8 @@ const getShouldGroupMessages = (
 
 export default function Chat(props: Props) {
   const [newChatMessage, setNewChatMessage] = useState('');
+  const [cursorPosition, setCursorPosition] = useState(-1);
+
   const messagesRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -112,6 +115,7 @@ export default function Chat(props: Props) {
 
   const onChatMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewChatMessage(e.target.value);
+    setCursorPosition(e.target.selectionEnd);
   };
 
   const handleChatInputKeydown = (
@@ -120,6 +124,33 @@ export default function Chat(props: Props) {
     if (e.key === 'Enter') {
       submitChatMessage(e);
     }
+  };
+
+  const onEmojiSelect = (emoji: string) => {
+    const cursorPosition = inputRef.current?.selectionEnd || 0;
+
+    setNewChatMessage(message => {
+      // NOTE: we need to do this because emojis count as 2 chars
+      // and it gets weird trying to insert into the string directly
+      const iterableMessage = [...message];
+
+      const newMessage = [
+        ...iterableMessage.slice(0, cursorPosition),
+        emoji,
+        ...iterableMessage.slice(cursorPosition),
+      ];
+
+      return newMessage.join('');
+    });
+
+    // HACK: doesn't work right without it ¯\_(ツ)_/¯
+    setTimeout(() => {
+      inputRef.current?.focus();
+      inputRef.current?.setSelectionRange(
+        cursorPosition + 1,
+        cursorPosition + 1,
+      );
+    }, 50);
   };
 
   return (
@@ -150,6 +181,9 @@ export default function Chat(props: Props) {
             onKeyDown={handleChatInputKeydown}
           />
         </form>
+        <S.EmojiPicker>
+          <EmojiPicker onSelect={onEmojiSelect} />
+        </S.EmojiPicker>
       </S.ChatInputForm>
     </S.Chat>
   );
