@@ -11,7 +11,7 @@ export const EmojiIcon = styled('div')({
 export const EmojiQuickSelect = styled('div')({
   width: '100%',
   position: 'absolute',
-  maxHeight: '300px',
+  maxHeight: '450px',
   overflowY: 'auto',
   top: '-8px',
   transform: 'translateY(-100%)',

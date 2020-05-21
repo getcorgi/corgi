@@ -41,6 +41,7 @@ export default function EmojiQuickSelect(props: Props) {
 
   useEffect(() => {
     const keydownHandler = (e: KeyboardEvent) => {
+      console.log(e.key);
       if (e.key === 'Enter') {
         e.preventDefault();
         const emoji = emojiList?.[selectedIndex];
@@ -50,17 +51,30 @@ export default function EmojiQuickSelect(props: Props) {
           onEmojiSelect(emoji)();
         }
       }
-      return false;
+
+      if (e.key === 'ArrowUp') {
+        setSelectedIndex(idx => {
+          if (idx > 0) {
+            return idx - 1;
+          }
+          return idx;
+        });
+      }
+      if (e.key === 'ArrowDown') {
+        setSelectedIndex(idx => {
+          if (idx < Number(emojiList?.length) - 1) {
+            return idx + 1;
+          }
+          return idx;
+        });
+      }
     };
 
     if (props.isOpen) {
-      scrollToBottom();
-
       window.addEventListener('keydown', keydownHandler);
     } else {
       window.removeEventListener('keydown', keydownHandler);
     }
-    setSelectedIndex(Number(emojiList?.length) - 1);
 
     return function cleanup() {
       window.removeEventListener('keydown', keydownHandler);
@@ -94,7 +108,7 @@ export default function EmojiQuickSelect(props: Props) {
         }
 
         setCurrentMatch(match[0]);
-        setEmojiList(searchResults.slice(0, 20).reverse());
+        setEmojiList(searchResults.slice(0, 10).reverse());
         return;
       }
     }
@@ -113,6 +127,16 @@ export default function EmojiQuickSelect(props: Props) {
       props.setIsOpen(false);
     }
   }, [emojiList, props]);
+
+  useEffect(() => {
+    if (props.isOpen) {
+      setSelectedIndex(Number(emojiList?.length) - 1);
+    } else {
+      setSelectedIndex(Number(-1));
+    }
+  }, [emojiList, props.isOpen]);
+
+  console.log(selectedIndex);
 
   return (
     <S.EmojiQuickSelect isOpen={props.isOpen} ref={menuRef}>
