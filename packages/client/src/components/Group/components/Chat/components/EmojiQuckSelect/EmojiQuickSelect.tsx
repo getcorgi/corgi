@@ -41,13 +41,11 @@ export default function EmojiQuickSelect(props: Props) {
 
   useEffect(() => {
     const keydownHandler = (e: KeyboardEvent) => {
-      console.log(e.key);
       if (e.key === 'Enter') {
         e.preventDefault();
         const emoji = emojiList?.[selectedIndex];
 
         if (emoji) {
-          console.log(emoji);
           onEmojiSelect(emoji)();
         }
       }
@@ -135,8 +133,6 @@ export default function EmojiQuickSelect(props: Props) {
       setSelectedIndex(Number(-1));
     }
   }, [emojiList, props.isOpen]);
-
-  console.log(selectedIndex);
 
   return (
     <S.EmojiQuickSelect isOpen={props.isOpen} ref={menuRef}>
