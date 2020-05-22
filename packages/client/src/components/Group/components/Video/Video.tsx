@@ -24,6 +24,11 @@ const useStyles = makeStyles((theme: Theme) =>
       objectFit: 'cover',
       position: 'relative',
     },
+    audioOnlyVideo: {
+      opacity: 0,
+      height: 0,
+      width: 0,
+    },
     mirroredVideo: {
       transform: 'rotateY(180deg)',
     },
@@ -136,6 +141,13 @@ export default function(props: Props) {
             src="fallback"
             size={avatarSize}
             userColor={props.user?.color}
+          />
+          <video
+            ref={videoRef}
+            playsInline={true}
+            autoPlay={true}
+            muted={props.isMuted}
+            className={classes.audioOnlyVideo}
           />
         </S.EmptyVideo>
       ) : (
