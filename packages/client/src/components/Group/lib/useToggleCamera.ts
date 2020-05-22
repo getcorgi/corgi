@@ -32,7 +32,5 @@ export default function useToggleCamera(localStream?: MediaStream | null) {
     setIsCameraOff(newIsCameraOff);
   };
 
-  console.log(mediaConstraints);
-
   return { isCameraOff, toggleCamera };
 }
