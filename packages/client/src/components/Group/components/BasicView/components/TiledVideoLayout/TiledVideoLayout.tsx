@@ -5,7 +5,7 @@ import useResizeObserver from 'use-resize-observer';
 import { Me } from '../../../../../MeProvider/MeProvider';
 import { User } from '../../../../lib/useSocketHandler';
 import Video from '../../../Video';
-import { Reaction } from '../../lib/useReactions';
+import { Reaction, ReactionMap } from '../../lib/useReactions';
 import getVideoDimensions from './lib/getVideoDimensions';
 import * as S from './TiledVideoLayout.styles';
 
@@ -13,6 +13,7 @@ interface Props {
   streams: { user: User; stream?: MediaStream; reactions?: Reaction[] }[];
   localStream: MediaStream;
   me: Me;
+  reactions: ReactionMap;
 }
 
 export default function TiledVideoLayout(props: Props) {
@@ -33,8 +34,11 @@ export default function TiledVideoLayout(props: Props) {
 
   return (
     <S.TiledVideo ref={containerRef}>
-      {props.streams.map(({ stream, user, reactions }) => {
-        const reaction = reactions && reactions[0];
+      {props.streams.map(({ stream, user }) => {
+        let reaction = '';
+        if (props.reactions && user.id) {
+          reaction = props.reactions[user?.id]?.text || '';
+        }
 
         if (!stream) return null;
         return (
@@ -53,7 +57,7 @@ export default function TiledVideoLayout(props: Props) {
               label={user?.name}
               srcObject={stream}
               user={user}
-              overlayText={reaction?.text}
+              overlayText={reaction}
             />
           </Box>
         );

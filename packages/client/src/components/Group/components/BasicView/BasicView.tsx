@@ -21,12 +21,11 @@ interface Props {
 export default function BasicView(props: Props) {
   const theme = useTheme();
   const { pinnedStreamId } = useContext(GroupContext);
-  const { enhancedStreams } = useReactions({
-    streams: props.streams,
+  const { reactions } = useReactions({
     messages: props.messages,
   });
 
-  const streams = Object.values(enhancedStreams);
+  const streams = Object.values(props.streams);
 
   console.log(props.streams);
 
@@ -76,6 +75,7 @@ export default function BasicView(props: Props) {
         {pinnedStreamId && streams.length > 1 ? (
           <PinnedVideoLayout
             streams={streams}
+            reactions={reactions}
             pinnedStreamId={pinnedStreamId}
             localStream={props.localStream}
             me={props.me}
@@ -83,6 +83,7 @@ export default function BasicView(props: Props) {
         ) : (
           <TiledVideoLayout
             streams={streams}
+            reactions={reactions}
             localStream={props.localStream}
             me={props.me}
           />

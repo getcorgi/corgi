@@ -15,7 +15,7 @@ interface Props {
   shouldFocusInput: boolean;
 }
 
-const SCROLLED_TO_BOTTOM_THRESHOLD = 100;
+const SCROLLED_TO_BOTTOM_THRESHOLD = 200;
 
 const ChatMessage = (props: {
   message: Message;

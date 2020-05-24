@@ -2,11 +2,13 @@ import emojiRegex from 'emoji-regex';
 import { useEffect, useState } from 'react';
 
 import { Message } from '../../../lib/useSocketHandler/lib/useChatMessages';
-import { StreamsDict } from '../../VideoView/VideoView';
 
 interface Props {
-  streams: StreamsDict;
   messages: Message[];
+}
+
+export interface ReactionMap {
+  [userId: string]: Reaction;
 }
 
 export interface Reaction {
@@ -14,7 +16,7 @@ export interface Reaction {
 }
 
 export default function useReactions(props: Props) {
-  const [enhancedStreams, setEnhancedStreams] = useState(props.streams);
+  const [reactions, setReactions] = useState<{ [key: string]: Reaction }>({});
 
   useEffect(() => {
     if (props.messages.length) {
@@ -31,50 +33,33 @@ export default function useReactions(props: Props) {
         latestMessage.createdAt > new Date().getTime() - 1000 &&
         isEmojisOnly
       ) {
-        setEnhancedStreams(prevStreams => {
-          if (!latestMessage.user.id) return prevStreams;
-          const stream = prevStreams[latestMessage?.user?.id];
-
-          if (!stream) return prevStreams;
-
+        setReactions(prevReactions => {
+          if (!latestMessage.user.id) return prevReactions;
           const reaction = {
             text: latestMessage.message,
+            userId: latestMessage.user.id,
           };
-
-          stream.reactions = [...(stream.reactions || []), reaction];
-
           return {
-            ...prevStreams,
-            [latestMessage?.user?.id]: stream,
+            ...prevReactions,
+            [latestMessage?.user?.id]: reaction,
           };
         });
 
         const removeReaction = () => {
-          if (!latestMessage.user.id) return;
-          const stream = props.streams[latestMessage?.user?.id];
-          if (!stream) return;
-          stream.reactions?.shift();
-          setEnhancedStreams(prevStreams => {
-            if (!latestMessage?.user?.id) return prevStreams;
-            return {
-              ...prevStreams,
-              [latestMessage?.user?.id]: stream,
-            };
+          setReactions(prevReactions => {
+            if (!latestMessage.user.id) return prevReactions;
+
+            const newReactions = { ...prevReactions };
+            delete newReactions[latestMessage?.user?.id];
+
+            return newReactions;
           });
         };
 
         window.setTimeout(removeReaction, 5000);
       }
-      return;
     }
+  }, [props.messages]);
 
-    setEnhancedStreams(prevStreams => {
-      return {
-        ...prevStreams,
-        ...props.streams,
-      };
-    });
-  }, [props.messages, props.streams]);
-
-  return { enhancedStreams };
+  return { reactions };
 }

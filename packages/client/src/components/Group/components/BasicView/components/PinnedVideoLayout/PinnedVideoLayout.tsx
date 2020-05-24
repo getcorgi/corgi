@@ -5,6 +5,7 @@ import { Me } from '../../../../../MeProvider/MeProvider';
 import { User } from '../../../../lib/useSocketHandler';
 import DraggableSplitWrapper from '../../../DraggableSplitWrapper';
 import Video from '../../../Video';
+import { ReactionMap } from '../../lib/useReactions';
 import * as S from './PinnedVideoLayout.styles';
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
   localStream: MediaStream;
   pinnedStreamId: string | null;
   me: Me;
+  reactions: ReactionMap;
 }
 
 export default function PinnedVideoLayout(props: Props) {
@@ -54,6 +56,11 @@ export default function PinnedVideoLayout(props: Props) {
       {otherStreams.map(({ stream, user }) => {
         if (!stream || !user) return null;
 
+        let reaction = '';
+        if (props.reactions && user.id) {
+          reaction = props.reactions[user?.id]?.text || '';
+        }
+
         return (
           <Box key={stream?.id} width="100%" position="relative" pb="56.25%">
             <Video
@@ -62,6 +69,7 @@ export default function PinnedVideoLayout(props: Props) {
               label={user.name}
               user={user}
               hasContextMenu={true}
+              overlayText={reaction}
             />
           </Box>
         );
