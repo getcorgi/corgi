@@ -1,5 +1,5 @@
-import { styled } from '@material-ui/core';
-import React from 'react';
+import { Fade, styled, Zoom } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 
 const S = {
   VideoOverlay: styled('div')({
@@ -24,5 +24,21 @@ interface Props {
 }
 
 export default function VideoOverlay(props: Props) {
-  return <S.VideoOverlay size={props.size}>{props.text}</S.VideoOverlay>;
+  const [isIn, setIsIn] = useState(true);
+
+  useEffect(() => {
+    window.setTimeout(() => {
+      setIsIn(false);
+    }, 4500);
+  }, []);
+
+  return (
+    <Fade in={isIn}>
+      <S.VideoOverlay size={props.size}>
+        <Zoom in={isIn}>
+          <div>{props.text}</div>
+        </Zoom>
+      </S.VideoOverlay>
+    </Fade>
+  );
 }
