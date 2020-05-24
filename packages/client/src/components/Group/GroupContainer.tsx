@@ -173,7 +173,7 @@ export default function GroupContainer(
             setUnreadMessageCount={setUnreadMessageCount}
             unreadMessageCount={unreadMessageCount}
           >
-            {({ streams }) => {
+            {({ streams, messages }) => {
               switch (group.data?.activityId) {
                 case '1': {
                   return (
@@ -194,6 +194,7 @@ export default function GroupContainer(
                       localStream={localStream}
                       me={me}
                       streams={streams}
+                      messages={messages}
                     />
                   );
                 }

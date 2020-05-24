@@ -4,22 +4,31 @@ import React, { useContext, useState } from 'react';
 
 import { Me } from '../../../MeProvider/MeProvider';
 import { GroupContext } from '../../lib/GroupContext';
+import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import { StreamsDict } from '../VideoView/VideoView';
 import * as S from './BasicView.styles';
 import PinnedVideoLayout from './components/PinnedVideoLayout/PinnedVideoLayout';
 import TiledVideoLayout from './components/TiledVideoLayout/TiledVideoLayout';
+import useReactions from './lib/useReactions';
 
 interface Props {
   localStream: MediaStream;
   streams: StreamsDict;
   me: Me;
+  messages: Message[];
 }
 
 export default function BasicView(props: Props) {
   const theme = useTheme();
   const { pinnedStreamId } = useContext(GroupContext);
+  const { enhancedStreams } = useReactions({
+    streams: props.streams,
+    messages: props.messages,
+  });
 
-  const streams = Object.values(props.streams);
+  const streams = Object.values(enhancedStreams);
+
+  console.log(props.streams);
 
   const [isCopiedTooltipOpen, setIsCopiedTooltipOpen] = useState(false);
 

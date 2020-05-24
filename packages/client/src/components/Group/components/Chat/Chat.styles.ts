@@ -53,7 +53,7 @@ export const ChatMessageTime = styled('span')({
 export const ChatMessageMessage = styled('p')({
   color: 'white',
   margin: 0,
-  fontSize: '16px',
+  fontSize: ({ isLarge }: { isLarge: boolean }) => (isLarge ? '40px' : '16px'),
   whiteSpace: 'normal',
   wordBreak: 'break-word',
 });

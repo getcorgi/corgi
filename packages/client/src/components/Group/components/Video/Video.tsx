@@ -14,6 +14,7 @@ import { Me } from '../../../MeProvider/MeProvider';
 import { User } from '../../lib/useSocketHandler';
 import AudioVisualizer from '../AudioVisualizer';
 import VideoContextMenu from '../VideoContextMenu/VideoContextMenu';
+import VideoOverlay from './components/VideoOverlay/VideoOverlay';
 import * as S from './Video.styles';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -58,6 +59,7 @@ interface Props {
   srcObject: MediaStream;
   user?: User | Me;
   hasContextMenu?: boolean;
+  overlayText?: string;
 }
 
 const getIsScreenShare = (name?: string) => {
@@ -191,6 +193,9 @@ export default function(props: Props) {
         </S.AudioIndicator>
         {props.label && <span>{props.label}</span>}
       </S.Information>
+      {props.overlayText && (
+        <VideoOverlay text={props.overlayText} size={avatarSize} />
+      )}
     </S.Video>
   );
 
