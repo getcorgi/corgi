@@ -36,7 +36,7 @@ export default function TiledVideoLayout(props: Props) {
     <S.TiledVideo ref={containerRef}>
       {props.streams.map(({ stream, user }) => {
         let reaction = '';
-        if (props.reactions && user.id) {
+        if (props.reactions && user?.id) {
           reaction = props.reactions[user?.id]?.text || '';
         }
 

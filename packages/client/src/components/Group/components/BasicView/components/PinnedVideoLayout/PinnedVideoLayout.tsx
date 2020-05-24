@@ -57,7 +57,7 @@ export default function PinnedVideoLayout(props: Props) {
         if (!stream || !user) return null;
 
         let reaction = '';
-        if (props.reactions && user.id) {
+        if (props.reactions && user?.id) {
           reaction = props.reactions[user?.id]?.text || '';
         }
 
