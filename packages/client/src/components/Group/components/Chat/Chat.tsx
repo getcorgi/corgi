@@ -1,4 +1,5 @@
 import { Link } from '@material-ui/core';
+import emojiRegex from 'emoji-regex';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 import Linkify from 'react-linkify';
@@ -26,11 +27,16 @@ const ChatMessage = (props: {
     );
 
     return (
-      <Link target="_blank" href={href}>
-        {isImage ? <S.ChatMessageImage src={href} /> : text}
+      <Link target="_blank" href={href} title={text}>
+        {isImage ? <S.ChatMessageImage src={href} /> : text.substring(0, 200)}
       </Link>
     );
   };
+
+  const emojiMatches = emojiRegex().exec(props.message.message);
+  const isEmojisOnly = Boolean(
+    emojiMatches && !/[a-z0-9]+/i.test(emojiMatches.input),
+  );
 
   return (
     <S.ChatMessage>
@@ -45,7 +51,9 @@ const ChatMessage = (props: {
         </div>
       )}
       <Linkify componentDecorator={LinkComponent}>
-        <S.ChatMessageMessage>{props.message.message}</S.ChatMessageMessage>
+        <S.ChatMessageMessage isLarge={isEmojisOnly}>
+          {props.message.message}
+        </S.ChatMessageMessage>
       </Linkify>
     </S.ChatMessage>
   );
