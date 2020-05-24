@@ -23,7 +23,7 @@ const ChatMessage = (props: {
 }) => {
   const LinkComponent = (href: string, text: string) => {
     const isImage = href.match(
-      /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png|webp)/,
+      /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png|webp)/,
     );
 
     return (
