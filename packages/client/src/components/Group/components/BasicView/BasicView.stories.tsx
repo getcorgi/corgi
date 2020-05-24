@@ -45,7 +45,7 @@ export const Default = () => {
 
   return (
     <Container>
-      <BasicView {...defaultProps} streams={streams} />
+      <BasicView {...defaultProps} streams={streams} messages={[]} />
     </Container>
   );
 };
