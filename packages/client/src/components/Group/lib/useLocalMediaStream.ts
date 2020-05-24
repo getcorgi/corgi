@@ -1,6 +1,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 
 import { MediaSettingsContext } from '../../MediaSettingsProvider';
+import { muteTrack } from './useMute';
 
 const stopStream = (localStream?: MediaStream) => {
   localStream?.getTracks().forEach(track => {
@@ -40,6 +41,12 @@ export default function useMediaStream() {
         const stream = await navigator.mediaDevices.getUserMedia(
           mediaConstraints,
         );
+
+        const persistedIsMuted = localStorage.getItem('user:isMuted');
+        const isMuted = persistedIsMuted === 'true';
+
+        muteTrack(stream, isMuted);
+
         setLocalStream(stream);
         setLocalStreamStatus(LocalStreamStatus.Set);
       } catch (e) {

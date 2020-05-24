@@ -4,7 +4,7 @@ import { MediaSettingsContext } from '../../MediaSettingsProvider';
 
 export default function useToggleCamera(localStream?: MediaStream | null) {
   const [isCameraOff, setIsCameraOff] = useState(false);
-  const { mediaConstraints, setMediaConstraints } = useContext(
+  const { activeDevices, mediaConstraints, setMediaConstraints } = useContext(
     MediaSettingsContext,
   );
   const prevMediaConstraints = useRef<MediaStreamConstraints>();
@@ -25,7 +25,14 @@ export default function useToggleCamera(localStream?: MediaStream | null) {
       });
     } else {
       setMediaConstraints({
-        ...prevMediaConstraints.current,
+        ...mediaConstraints,
+        video: {
+          deviceId: {
+            exact: activeDevices.videoInput,
+          },
+          aspectRatio: 1.777777,
+          frameRate: 30,
+        },
       });
     }
 

@@ -60,6 +60,12 @@ interface Props {
   hasContextMenu?: boolean;
 }
 
+const getIsScreenShare = (name?: string) => {
+  if (!name) return false;
+
+  return Boolean(name.match('Screen Share'));
+};
+
 interface ExperimentalHTMLVideoElement extends HTMLVideoElement {
   setSinkId: (id: string) => Promise<void>;
 }
@@ -75,9 +81,11 @@ export default function(props: Props) {
   const audioTrack = props.srcObject?.getAudioTracks()[0];
   const videoTrack = props.srcObject?.getVideoTracks()[0];
 
+  const isScreenShare = getIsScreenShare(props.user?.name);
+
   const { aspectRatio } = videoTrack?.getSettings() || {};
 
-  const isInPortraitMode = Number(aspectRatio) < 1;
+  const isInPortraitMode = Number(aspectRatio) < 1 || isScreenShare;
 
   const [volume, setVolume] = useState(100);
   const [isVideoLoading, setIsVideoLoading] = useState(false);
