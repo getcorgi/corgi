@@ -19,6 +19,15 @@ export default createMuiTheme({
       paper: backgroundColor[700],
     },
   },
+  typography: {
+    fontFamily: 'Open Sans, sans-serif',
+    h4: {
+      fontWeight: 700,
+    },
+    h6: {
+      fontWeight: 700,
+    },
+  },
   transitions: {
     duration: {
       enteringScreen: 150,

@@ -1,5 +1,4 @@
 import {
-  Button,
   Grid,
   IconButton,
   TextField,
@@ -15,6 +14,7 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
 
+import Button from '../../../Button/Button';
 import { Me } from '../../../MeProvider/MeProvider';
 import { LocalStreamStatus } from '../../lib/useLocalMediaStream';
 import { User } from '../../lib/useSocketHandler';
