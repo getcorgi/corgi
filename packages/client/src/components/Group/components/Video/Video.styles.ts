@@ -1,7 +1,6 @@
 import { Avatar, Box, Color, styled } from '@material-ui/core';
 
 import theme from '../../../../lib/theme';
-import Crown from '../../../Icons/Crown';
 
 export const AudioIndicator = styled('div')({
   width: '28px',

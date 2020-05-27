@@ -186,6 +186,7 @@ export default function GroupContainer(
                       me={me}
                       streams={streams}
                       activityUrl={group.data?.activityUrl}
+                      messages={messages}
                       updateActivityUrl={value =>
                         updateGroup({ groupId, activityUrl: value })
                       }

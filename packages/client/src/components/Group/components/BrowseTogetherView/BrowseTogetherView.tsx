@@ -2,6 +2,8 @@ import Box from '@material-ui/core/Box';
 import React, { useEffect, useState } from 'react';
 
 import { Me } from '../../../MeProvider/MeProvider';
+import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
+import useReactions from '../BasicView/lib/useReactions';
 import DraggableSplitWrapper from '../DraggableSplitWrapper';
 import Video from '../Video';
 import { StreamsDict } from '../VideoView/VideoView';
@@ -14,6 +16,7 @@ interface Props {
   activityUrl: string;
   updateActivityUrl: (value: string) => void;
   me?: Me;
+  messages: Message[];
 }
 
 const defaultProps = {
@@ -32,6 +35,12 @@ function BrowseTogetherView(props: Props) {
   const [activityUrl, setActivityUrl] = useState(
     addProtocol(props.activityUrl),
   );
+
+  const { reactions } = useReactions({
+    messages: props.messages,
+  });
+
+  const myReaction = reactions[props.me?.firebaseAuthId || '']?.text || '';
 
   useEffect(() => {
     setActivityUrl(addProtocol(props.activityUrl));
@@ -73,6 +82,7 @@ function BrowseTogetherView(props: Props) {
             isMuted={true}
             isMirrored={true}
             user={props.me}
+            overlayText={myReaction}
             label="(You)"
           />
         </Box>
@@ -80,6 +90,11 @@ function BrowseTogetherView(props: Props) {
 
       {streams.map(({ stream, user }) => {
         if (!stream || !user) return null;
+
+        let reaction = '';
+        if (reactions && user?.id) {
+          reaction = reactions[user?.id]?.text || '';
+        }
 
         return (
           <Box key={stream?.id} width="100%" position="relative" pb="56.25%">
@@ -89,6 +104,7 @@ function BrowseTogetherView(props: Props) {
               label={user.name}
               user={user}
               hasContextMenu={true}
+              overlayText={reaction}
             />
           </Box>
         );
