@@ -7,7 +7,9 @@ const Header = () => {
   return (
     <S.Header>
       <Typography variant="h6">
-        <S.Link href="/">corgi</S.Link>
+        <S.Tooltip title="Alpha!" placement="right" arrow={true}>
+          <S.Link href="/">corgi</S.Link>
+        </S.Tooltip>
       </Typography>
     </S.Header>
   );
