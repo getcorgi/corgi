@@ -31,6 +31,7 @@ export default function TiledVideoLayout(props: Props) {
   });
 
   const isPortraitMode = Number(containerRefWidth) < Number(containerRefHeight);
+  const myReaction = props.reactions[props.me?.firebaseAuthId]?.text || '';
 
   return (
     <S.TiledVideo ref={containerRef}>
@@ -76,6 +77,7 @@ export default function TiledVideoLayout(props: Props) {
               isMirrored={true}
               user={props.me}
               label="(You)"
+              overlayText={myReaction}
             />
           </Box>
         </S.LocalVideo>

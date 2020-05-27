@@ -1,6 +1,7 @@
 import emojiRegex from 'emoji-regex';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
+import { MeContext } from '../../../../MeProvider';
 import { Message } from '../../../lib/useSocketHandler/lib/useChatMessages';
 
 interface Props {
@@ -17,6 +18,7 @@ export interface Reaction {
 
 export default function useReactions(props: Props) {
   const [reactions, setReactions] = useState<{ [key: string]: Reaction }>({});
+  const { me } = useContext(MeContext);
 
   useEffect(() => {
     if (props.messages.length) {
@@ -29,19 +31,29 @@ export default function useReactions(props: Props) {
         emojiMatches && !/[a-z0-9]+/i.test(emojiMatches.input),
       );
 
+      const isFiveOrLessEmojis = [...(emojiMatches?.input || [])].length <= 5;
+
       if (
         latestMessage.createdAt > new Date().getTime() - 1000 &&
-        isEmojisOnly
+        isEmojisOnly &&
+        isFiveOrLessEmojis
       ) {
         setReactions(prevReactions => {
           if (!latestMessage.user.id) return prevReactions;
+
+          let userId = latestMessage.user.id;
+          if (latestMessage.user.firebaseAuthId === me.firebaseAuthId) {
+            userId = me.firebaseAuthId;
+          }
+
           const reaction = {
             text: latestMessage.message,
-            userId: latestMessage.user.id,
+            userId,
           };
+
           return {
             ...prevReactions,
-            [latestMessage?.user?.id]: reaction,
+            [userId]: reaction,
           };
         });
 
@@ -49,8 +61,13 @@ export default function useReactions(props: Props) {
           setReactions(prevReactions => {
             if (!latestMessage.user.id) return prevReactions;
 
+            let userId = latestMessage.user.id;
+            if (latestMessage.user.firebaseAuthId === me.firebaseAuthId) {
+              userId = me.firebaseAuthId;
+            }
+
             const newReactions = { ...prevReactions };
-            delete newReactions[latestMessage?.user?.id];
+            delete newReactions[userId];
 
             return newReactions;
           });
@@ -59,7 +76,7 @@ export default function useReactions(props: Props) {
         window.setTimeout(removeReaction, 5000);
       }
     }
-  }, [props.messages]);
+  }, [me.firebaseAuthId, props.messages]);
 
   return { reactions };
 }

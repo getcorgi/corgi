@@ -25,6 +25,8 @@ export default function PinnedVideoLayout(props: Props) {
     return stream.stream?.id !== props.pinnedStreamId;
   });
 
+  const myReaction = props.reactions[props.me?.firebaseAuthId]?.text || '';
+
   const left = (
     <Box height="100%" width="100%">
       {pinnedStream && pinnedStream.stream && (
@@ -49,6 +51,7 @@ export default function PinnedVideoLayout(props: Props) {
             isMirrored={true}
             user={props.me}
             label="(You)"
+            overlayText={myReaction}
           />
         </Box>
       )}

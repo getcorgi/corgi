@@ -141,6 +141,7 @@ export default function EmojiQuickSelect(props: Props) {
           <MenuItem
             onClick={onEmojiSelect(emoji)}
             selected={idx === selectedIndex}
+            key={idx}
           >
             <S.MenuItemIcon>{emoji.native}</S.MenuItemIcon>{' '}
             <S.MenuItemLabel>{emoji.colons}</S.MenuItemLabel>
