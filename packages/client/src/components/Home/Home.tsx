@@ -25,7 +25,9 @@ export default function Home(props: Props) {
   return (
     <S.Home>
       <S.Hero path={backgroundArt?.path || ''}>
-        <Header />
+        <S.Header>
+          <Header />
+        </S.Header>
         <Box
           width={[1, 1, 1, '1240px']}
           margin="0 auto"

@@ -18,6 +18,14 @@ export const Form = styled('form')({
   width: '100%',
 });
 
+export const Header = styled('div')({
+  backgroundImage:
+    '-webkit-linear-gradient(top, rgba(0,0,0, 0.9) 0,rgba(0,0,0,0.4) 50%,rgba(0,0,0,0) 100%)',
+  height: '140px',
+  position: 'absolute',
+  width: '100%',
+});
+
 export const Hero = styled('div')({
   position: 'relative',
   height: '98vh',

@@ -11,8 +11,6 @@ export const Header = styled('header')({
   padding: '20px',
   top: 0,
   width: '100%',
-  backgroundImage:
-    '-webkit-linear-gradient(top, rgba(0,0,0, 0.9) 0,rgba(0,0,0,0.4) 50%,rgba(0,0,0,0) 100%)',
 });
 
 export const Link = styled(MuiLink)({
