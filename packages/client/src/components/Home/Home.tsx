@@ -24,7 +24,10 @@ export default function Home(props: Props) {
 
   return (
     <S.Home>
-      <S.Hero path={backgroundArt?.path || ''}>
+      <S.Hero
+        path={backgroundArt?.path || ''}
+        height={['auto', 'auto', '98vh', '98vh']}
+      >
         <S.Header>
           <Header />
         </S.Header>
@@ -43,7 +46,10 @@ export default function Home(props: Props) {
           >
             <S.Title>Free and secure video hangouts for everyone.</S.Title>
           </Box>
-          <Box width={[1, 1, 1 / 2, 3 / 8]} p={['20px', '20px', '20px', 0]}>
+          <Box
+            width={[1, 1, 1 / 2, 3 / 8]}
+            p={['20px 20px 80px', '20px 20px 80px', '20px', 0]}
+          >
             <S.FormWrapper
               display="flex"
               justifyContent="center"

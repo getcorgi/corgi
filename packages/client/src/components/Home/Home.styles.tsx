@@ -26,9 +26,8 @@ export const Header = styled('div')({
   width: '100%',
 });
 
-export const Hero = styled('div')({
+export const Hero = styled(Box)({
   position: 'relative',
-  height: '98vh',
   width: '100%',
   backgroundImage: ({ path }: { path: string }) => `url("${path}")`,
   backgroundSize: 'cover',
