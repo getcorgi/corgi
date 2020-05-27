@@ -27,8 +27,6 @@ export default function BasicView(props: Props) {
 
   const streams = Object.values(props.streams);
 
-  console.log(props.streams);
-
   const [isCopiedTooltipOpen, setIsCopiedTooltipOpen] = useState(false);
 
   const isEmpty = streams.length < 1;

@@ -31,6 +31,7 @@ export const Tooltip = withStyles((theme: Theme) => ({
   tooltip: {
     fontSize: 16,
     backgroundColor: '#67e4a6',
+    fontWeight: 700,
     color: '#1d4632',
   },
 }))(MuiTooltip);

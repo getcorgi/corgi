@@ -25,3 +25,18 @@ export const Gradient = styled('div')({
 export const Avatar = styled(MuiAvatar)({
   backgroundColor: ({ userColor }: { userColor?: Color }) => userColor?.[300],
 });
+
+export const Preview = styled(Box)({
+  '&::before': {
+    content: '""',
+    backgroundImage: `url("${process.env.PUBLIC_URL}/inspiration-geometry.png")`,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    width: '100%',
+    opacity: 0.2,
+    backgroundSize: '500px',
+    pointerEvents: 'none',
+  },
+});
