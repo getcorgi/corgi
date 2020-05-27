@@ -4,13 +4,16 @@ import {
   createStyles,
   makeStyles,
   Theme,
+  Tooltip,
 } from '@material-ui/core';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import useResizeObserver from 'use-resize-observer';
 
+import CrownIcon from '../../../Icons/Crown';
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
 import { Me } from '../../../MeProvider/MeProvider';
+import { GroupContext } from '../../lib/GroupContext';
 import { User } from '../../lib/useSocketHandler';
 import AudioVisualizer from '../AudioVisualizer';
 import VideoContextMenu from '../VideoContextMenu/VideoContextMenu';
@@ -53,13 +56,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
   audioOutputDevice?: string;
+  hasContextMenu?: boolean;
+  isAdmin?: boolean;
   isMirrored?: boolean;
   isMuted?: boolean;
   label?: string;
+  overlayText?: string;
   srcObject: MediaStream;
   user?: User | Me;
-  hasContextMenu?: boolean;
-  overlayText?: string;
 }
 
 const getIsScreenShare = (name?: string) => {
@@ -96,6 +100,9 @@ export default function(props: Props) {
   const isRemoteCameraOff = !videoTrack?.enabled;
 
   const { activeDevices } = useContext(MediaSettingsContext);
+  const { adminId } = useContext(GroupContext);
+
+  const isAdmin = Boolean(adminId && props.user?.firebaseAuthId === adminId);
 
   const avatarSize =
     containerRefHeight < containerRefWidth
@@ -191,7 +198,18 @@ export default function(props: Props) {
             <AudioVisualizer mediaStream={props.srcObject} />
           )}
         </S.AudioIndicator>
-        {props.label && <span>{props.label}</span>}
+        {props.label && (
+          <S.VideoLabel>
+            {props.label}{' '}
+            {isAdmin && (
+              <Tooltip title="Room Owner">
+                <S.CrownIcon>
+                  <CrownIcon />
+                </S.CrownIcon>
+              </Tooltip>
+            )}
+          </S.VideoLabel>
+        )}
       </S.Information>
       {props.overlayText && (
         <VideoOverlay text={props.overlayText} size={avatarSize} />

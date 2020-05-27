@@ -34,6 +34,10 @@ export default function GroupContainer(
     group.data?.roles.editors.some(editor => editor === me?.firebaseAuthId),
   );
 
+  const creatorId = Object.keys(group?.data?.roles.byId || {})[0];
+
+  console.log({ creatorId });
+
   const [userName, setUserName] = useState(me?.name || '');
 
   const { localStream, localStreamStatus } = useMediaStream();
@@ -155,7 +159,7 @@ export default function GroupContainer(
     return (
       <>
         {renderCommon()}
-        <GroupProvider>
+        <GroupProvider adminId={creatorId}>
           <VideoView
             activeViewId={group.data?.activityId || '0'}
             isAdmin={isAdmin}

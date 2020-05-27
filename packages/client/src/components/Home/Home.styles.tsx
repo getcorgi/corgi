@@ -20,10 +20,10 @@ export const Form = styled('form')({
 
 export const Header = styled('div')({
   backgroundImage:
-    '-webkit-linear-gradient(top, rgba(0,0,0, 0.9) 0,rgba(0,0,0,0.4) 50%,rgba(0,0,0,0) 100%)',
-  height: '140px',
+    'radial-gradient(at 0% 0%, rgba(0, 0, 0, 0.75) 0%, rgba(0,0,0,0) 50%);',
+  height: '200px',
   position: 'absolute',
-  width: '100%',
+  width: '260px',
 });
 
 export const Hero = styled(Box)({

@@ -1,5 +1,8 @@
 import { Avatar, Box, Color, styled } from '@material-ui/core';
 
+import theme from '../../../../lib/theme';
+import Crown from '../../../Icons/Crown';
+
 export const AudioIndicator = styled('div')({
   width: '28px',
   marginRight: '4px',
@@ -57,4 +60,18 @@ export const LoadingIndicator = styled(Box)({
   width: '100%',
   height: '100%',
   top: 0,
+});
+
+export const CrownIcon = styled('div')({
+  height: '12px',
+  width: '12px',
+  marginLeft: '6px',
+  color: theme.palette.warning.light,
+  position: 'relative',
+  top: '-2px',
+});
+
+export const VideoLabel = styled('div')({
+  display: 'inline-flex',
+  alignItems: 'center',
 });
