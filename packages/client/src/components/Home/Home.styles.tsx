@@ -1,6 +1,5 @@
-import Box from '@material-ui/core/Box';
+import { Box, Link as MuiLink } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
-import { url } from 'inspector';
 
 import { backgroundColor } from '../../lib/theme';
 
@@ -19,4 +18,14 @@ export const Hero = styled('div')({
   width: '100%',
   backgroundImage: ({ path }: { path: string }) => `url("${path}")`,
   backgroundSize: 'cover',
+});
+
+export const Citation = styled(MuiLink)({
+  color: 'white',
+  padding: '0 4px',
+  borderRadius: '10px',
+  backgroundColor: 'black',
+  position: 'absolute',
+  left: '8px',
+  bottom: '8px',
 });

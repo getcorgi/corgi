@@ -38,11 +38,6 @@ const artMap: BackgroundArt[] = [
     artistUrl: 'https://unsplash.com/@jipy32',
   },
   {
-    path: 'martin-courreges-_nrUXnPNNeg-unsplash.jpg',
-    artistName: 'Martin Courreges',
-    artistUrl: 'https://unsplash.com/@martincourreges',
-  },
-  {
     path: 'mec-rawlings-yDs3UCbhTX4-unsplash.jpg',
     artistName: 'Mec Rawlings',
     artistUrl: 'https://unsplash.com/@mec',

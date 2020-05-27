@@ -57,6 +57,9 @@ export default function Home(props: Props) {
             </Button>
           </S.Form>
         </S.FormWrapper>
+        <S.Citation target="_blank" href={backgroundArt?.artistUrl}>
+          {backgroundArt?.artistName}
+        </S.Citation>
       </S.Hero>
     </>
   );
