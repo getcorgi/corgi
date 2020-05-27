@@ -204,7 +204,7 @@ export default function(props: Props) {
       <VideoContextMenu
         setVolume={setVolume}
         volume={volume}
-        streamId={props.srcObject.id}
+        srcObject={props.srcObject}
       >
         {renderVideo()}
       </VideoContextMenu>

@@ -4,6 +4,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import { ChromeCastProvider } from './components/ChromeCastProvider/ChromeCastProvider';
 import ErrorPage from './components/ErrorPage';
 import { FirebaseProvider } from './components/Firebase';
 import Group from './components/Group';
@@ -24,11 +25,13 @@ const App: React.FC = () => {
         <CssBaseline />
         <FirebaseProvider config={appConfig}>
           <MeProvider>
-            <Router>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/groups/:groupId" component={Group} />
-              <Route exact path="/error" component={ErrorPage} />
-            </Router>
+            <ChromeCastProvider>
+              <Router>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/groups/:groupId" component={Group} />
+                <Route exact path="/error" component={ErrorPage} />
+              </Router>
+            </ChromeCastProvider>
           </MeProvider>
         </FirebaseProvider>
       </ThemeProvider>

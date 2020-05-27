@@ -8,16 +8,20 @@ import {
   Typography,
 } from '@material-ui/core';
 import { VolumeDown, VolumeUp } from '@material-ui/icons';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import theme from '../../../../lib/theme';
+import {
+  ChromeCastButton,
+  ChromeCastContext,
+} from '../../../ChromeCastProvider/ChromeCastProvider';
 import { GroupContext } from '../../lib/GroupContext';
 
 interface Props {
   children: React.ReactNode;
   volume: number;
   setVolume: (volume: number) => void;
-  streamId: string;
+  srcObject: MediaStream;
 }
 
 const initialState = {
@@ -26,12 +30,49 @@ const initialState = {
 };
 
 export default function VideoContextMenu(props: Props) {
+  const { getCastContext } = useContext(ChromeCastContext);
+
   const [state, setState] = useState<{
     mouseX: null | number;
     mouseY: null | number;
   }>(initialState);
 
   const { pinnedStreamId, setPinnedStreamId } = useContext(GroupContext);
+
+  useEffect(() => {
+    const castContext = getCastContext();
+    if (!castContext) return;
+    castContext?.addEventListener(
+      cast.framework.CastContextEventType.CAST_STATE_CHANGED,
+      e => {
+        console.log(e, 'hello');
+        if (e.castState === 'CONNECTED') {
+          const castSession = castContext.getCurrentSession();
+
+          if (!castSession) return;
+
+          const objectURL = URL.createObjectURL(props.srcObject);
+
+          console.log({ objectURL });
+
+          const mediaInfo = new chrome.cast.media.MediaInfo(
+            objectURL,
+            'MediaStream',
+          );
+
+          const request = new chrome.cast.media.LoadRequest(mediaInfo);
+          castSession.loadMedia(request).then(
+            function() {
+              console.log('Load succeed');
+            },
+            function(errorCode) {
+              console.log('Error code: ' + errorCode);
+            },
+          );
+        }
+      },
+    );
+  }, [getCastContext, props.srcObject]);
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -55,12 +96,12 @@ export default function VideoContextMenu(props: Props) {
   };
 
   const onPinnedVideoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPinnedStreamId(event.target.checked ? props.streamId : null);
+    setPinnedStreamId(event.target.checked ? props.srcObject.id : null);
   };
 
   const onDoubleClickVideo = () => {
     setPinnedStreamId(
-      pinnedStreamId === props.streamId ? null : props.streamId,
+      pinnedStreamId === props.srcObject.id ? null : props.srcObject.id,
     );
   };
 
@@ -91,7 +132,7 @@ export default function VideoContextMenu(props: Props) {
             control={
               <Switch
                 color="primary"
-                checked={pinnedStreamId === props.streamId}
+                checked={pinnedStreamId === props.srcObject.id}
                 onChange={onPinnedVideoChange}
                 name="pinnedVideo"
               />
@@ -99,6 +140,8 @@ export default function VideoContextMenu(props: Props) {
             label="Pin Video"
             labelPlacement="start"
           />
+
+          <ChromeCastButton />
 
           <Typography id="volume-slider" gutterBottom>
             Volume
