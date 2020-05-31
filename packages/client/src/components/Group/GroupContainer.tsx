@@ -4,6 +4,7 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import useGroup from '../../lib/hooks/useGroup';
 import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
+import Hotkeys from '../Hotkeys/Hotkeys';
 import { MediaSettingsContext } from '../MediaSettingsProvider';
 import { MeContext } from '../MeProvider';
 import ActivityView from './components/ActivityView';
@@ -35,8 +36,6 @@ export default function GroupContainer(
   );
 
   const creatorId = Object.keys(group?.data?.roles.byId || {})[0];
-
-  console.log({ creatorId });
 
   const [userName, setUserName] = useState(me?.name || '');
 
@@ -121,7 +120,7 @@ export default function GroupContainer(
 
   if (!isInRoom || localStream === undefined) {
     return (
-      <>
+      <Hotkeys toggleCamera={toggleCamera} toggleIsMuted={toggleIsMuted}>
         {renderCommon()}
         <Preview
           groupName={group.data?.name || ''}
@@ -137,7 +136,7 @@ export default function GroupContainer(
           userName={userName}
           users={users}
         />
-      </>
+      </Hotkeys>
     );
   }
 
@@ -157,7 +156,7 @@ export default function GroupContainer(
     };
 
     return (
-      <>
+      <Hotkeys toggleCamera={toggleCamera} toggleIsMuted={toggleIsMuted}>
         {renderCommon()}
         <GroupProvider adminId={creatorId}>
           <VideoView
@@ -216,7 +215,7 @@ export default function GroupContainer(
             }}
           </VideoView>
         </GroupProvider>
-      </>
+      </Hotkeys>
     );
   }
 

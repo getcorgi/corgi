@@ -19,9 +19,9 @@
   "dependencies": {
     "@types/jest": "^25.2.1",
     "@types/socket.io": "^2.1.4",
+    "eslint-config-corgi": "^0.0.1",
     "socket.io": "^2.3.0",
-    "typescript": "^3.8.3",
-    "eslint-config-corgi": "^0.0.1"
+    "typescript": "^3.8.3"
   },
   "devDependencies": {
     "jest": "^25.4.0",
