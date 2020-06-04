@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: corgi.chat
+Token: 32b514063fc981c6f5a9830008415d99c613405f0870c2236026e012eec9f897
