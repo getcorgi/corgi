@@ -16,6 +16,7 @@ import React from 'react';
 
 import Button from '../../../Button/Button';
 import Header from '../../../Header';
+import { keyLabelMap } from '../../../Hotkeys/Hotkeys';
 import { Me } from '../../../MeProvider/MeProvider';
 import { LocalStreamStatus } from '../../lib/useLocalMediaStream';
 import { User } from '../../lib/useSocketHandler';
@@ -78,16 +79,23 @@ export default function Preview(props: Props) {
               <S.Controls>
                 <Box width="48px" />
                 <Box>
-                  <IconButton onClick={props.toggleIsMuted} aria-label="mute">
-                    {props.isMuted ? <MicOffIcon /> : <MicIcon />}
-                  </IconButton>
-
-                  <IconButton
-                    onClick={props.toggleCamera}
-                    aria-label="toggle-camera"
-                  >
-                    {props.isCameraOff ? <VideocamOffIcon /> : <VideocamIcon />}
-                  </IconButton>
+                  <Tooltip title={keyLabelMap['MUTE']}>
+                    <IconButton onClick={props.toggleIsMuted} aria-label="mute">
+                      {props.isMuted ? <MicOffIcon /> : <MicIcon />}
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title={keyLabelMap['DISABLE_VIDEO']}>
+                    <IconButton
+                      onClick={props.toggleCamera}
+                      aria-label="toggle-camera"
+                    >
+                      {props.isCameraOff ? (
+                        <VideocamOffIcon />
+                      ) : (
+                        <VideocamIcon />
+                      )}
+                    </IconButton>
+                  </Tooltip>
                 </Box>
                 <Box>
                   <MediaSettingsPopover />

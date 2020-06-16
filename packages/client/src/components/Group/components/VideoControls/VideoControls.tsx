@@ -8,6 +8,7 @@ import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import React from 'react';
 
+import { keyLabelMap } from '../../../Hotkeys/Hotkeys';
 import * as S from './VideoControls.styles';
 
 interface Props {
@@ -40,9 +41,11 @@ export default function VideoControls(props: Props) {
         </Tooltip>
       </S.ActionWrapper>
       <S.ActionWrapper>
-        <IconButton onClick={props.toggleIsMuted} aria-label="mute">
-          {props.isMuted ? <MicOffIcon /> : <MicIcon />}
-        </IconButton>
+        <Tooltip title={keyLabelMap['MUTE']}>
+          <IconButton onClick={props.toggleIsMuted} aria-label="mute">
+            {props.isMuted ? <MicOffIcon /> : <MicIcon />}
+          </IconButton>
+        </Tooltip>
 
         <Box display="inline-block" mx={theme.spacing(0.2)}>
           <Fab onClick={props.onHangup} aria-label="hang-up" color="secondary">
@@ -50,9 +53,11 @@ export default function VideoControls(props: Props) {
           </Fab>
         </Box>
 
-        <IconButton onClick={props.toggleCamera} aria-label="toggle-camera">
-          {props.isCameraOff ? <VideocamOffIcon /> : <VideocamIcon />}
-        </IconButton>
+        <Tooltip title={keyLabelMap['DISABLE_VIDEO']}>
+          <IconButton onClick={props.toggleCamera} aria-label="toggle-camera">
+            {props.isCameraOff ? <VideocamOffIcon /> : <VideocamIcon />}
+          </IconButton>
+        </Tooltip>
       </S.ActionWrapper>
       <div />
     </>
