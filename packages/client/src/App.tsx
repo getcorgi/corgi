@@ -3,6 +3,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 
 import ErrorPage from './components/ErrorPage';
 import { FirebaseProvider } from './components/Firebase';
@@ -14,7 +15,7 @@ import theme from './lib/theme';
 
 const App: React.FC = () => {
   return (
-    <>
+    <RecoilRoot>
       <Helmet>
         <meta charSet="utf-8" />
         <title>Corgi</title>
@@ -32,7 +33,7 @@ const App: React.FC = () => {
           </MeProvider>
         </FirebaseProvider>
       </ThemeProvider>
-    </>
+    </RecoilRoot>
   );
 };
 
