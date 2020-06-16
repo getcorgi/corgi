@@ -14,10 +14,10 @@ import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
 
+import { UserDocumentData } from '../../../../lib/hooks/useUser';
 import Button from '../../../Button/Button';
 import Header from '../../../Header';
 import { keyLabelMap } from '../../../Hotkeys/Hotkeys';
-import { Me } from '../../../MeProvider/MeProvider';
 import { LocalStreamStatus } from '../../lib/useLocalMediaStream';
 import { User } from '../../lib/useSocketHandler';
 import MediaSettingsPopover from '../MediaSettingsPopover';
@@ -35,7 +35,7 @@ interface Props {
   stream?: MediaStream | null;
   streamStatus: LocalStreamStatus;
   users: User[];
-  me?: Me;
+  me?: UserDocumentData;
   userName: string;
 }
 

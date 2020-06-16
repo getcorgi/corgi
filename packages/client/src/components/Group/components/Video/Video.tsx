@@ -11,9 +11,9 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import useResizeObserver from 'use-resize-observer';
 
+import { UserDocumentData } from '../../../../lib/hooks/useUser';
 import CrownIcon from '../../../Icons/Crown';
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
-import { Me } from '../../../MeProvider/MeProvider';
 import { groupAdminId } from '../../lib/GroupState';
 import { User } from '../../lib/useSocketHandler';
 import AudioVisualizer from '../AudioVisualizer';
@@ -64,7 +64,7 @@ interface Props {
   label?: string;
   overlayText?: string;
   srcObject: MediaStream;
-  user?: User | Me;
+  user?: User | UserDocumentData;
 }
 
 const getIsScreenShare = (name?: string) => {

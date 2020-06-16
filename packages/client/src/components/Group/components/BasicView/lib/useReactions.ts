@@ -1,7 +1,8 @@
 import emojiRegex from 'emoji-regex';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import { MeContext } from '../../../../MeProvider';
+import { currentUserState } from '../../../../../lib/hooks/useUser';
 import { Message } from '../../../lib/useSocketHandler/lib/useChatMessages';
 
 interface Props {
@@ -18,7 +19,7 @@ export interface Reaction {
 
 export default function useReactions(props: Props) {
   const [reactions, setReactions] = useState<{ [key: string]: Reaction }>({});
-  const { me } = useContext(MeContext);
+  const me = useRecoilValue(currentUserState);
 
   useEffect(() => {
     if (props.messages.length) {
@@ -42,8 +43,8 @@ export default function useReactions(props: Props) {
           if (!latestMessage.user.id) return prevReactions;
 
           let userId = latestMessage.user.id;
-          if (latestMessage.user.firebaseAuthId === me.firebaseAuthId) {
-            userId = me.firebaseAuthId;
+          if (latestMessage.user.firebaseAuthId === me?.firebaseAuthId) {
+            userId = me?.firebaseAuthId || '';
           }
 
           const reaction = {
@@ -63,7 +64,7 @@ export default function useReactions(props: Props) {
 
             let userId = latestMessage.user.id;
             if (latestMessage.user.firebaseAuthId === me.firebaseAuthId) {
-              userId = me.firebaseAuthId;
+              userId = me.firebaseAuthId || '';
             }
 
             const newReactions = { ...prevReactions };
@@ -76,7 +77,7 @@ export default function useReactions(props: Props) {
         window.setTimeout(removeReaction, 5000);
       }
     }
-  }, [me.firebaseAuthId, props.messages]);
+  }, [me, me.firebaseAuthId, props.messages]);
 
   return { reactions };
 }

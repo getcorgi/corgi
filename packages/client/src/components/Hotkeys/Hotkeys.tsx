@@ -5,7 +5,7 @@ import useBindKeys from 'react-use-bind-keys';
 const isMacOS = window.navigator.platform.includes('Mac');
 
 const metaKey = isMacOS ? 'meta' : 'ctrl';
-const metaLabel = isMacOS ? 'cmd' : 'ctrl';
+const metaLabel = isMacOS ? '⌘' : 'ctrl';
 
 const keyMap = {
   MUTE: [`${metaKey}+d`, `d+${metaKey}`],
@@ -13,8 +13,8 @@ const keyMap = {
 };
 
 export const keyLabelMap = {
-  MUTE: `${metaLabel} + d`,
-  DISABLE_VIDEO: `${metaLabel} + e`,
+  MUTE: `Mute (${metaLabel} + d)`,
+  DISABLE_VIDEO: `Toggle Camera (${metaLabel} + e)`,
 };
 
 const createKeyHandlers = (params: {

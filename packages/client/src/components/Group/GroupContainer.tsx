@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { RouteComponentProps } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import useGroup from '../../lib/hooks/useGroup';
 import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
+import { currentUserState } from '../../lib/hooks/useUser';
 import Hotkeys from '../Hotkeys/Hotkeys';
 import { MediaSettingsContext } from '../MediaSettingsProvider';
-import { MeContext } from '../MeProvider';
 import ActivityView from './components/ActivityView';
 import BasicView from './components/BasicView';
 import BrowseTogether from './components/BrowseTogetherView';
@@ -28,7 +28,9 @@ export default function GroupContainer(
   const group = useGroup(groupId);
   const setGroupAdminId = useSetRecoilState(groupAdminId);
   const updateGroup = useUpdateGroup();
-  const { me, updateMe } = useContext(MeContext);
+
+  const [me, updateMe] = useRecoilState(currentUserState);
+
   const { isPermissonAlertOpen, handleClosePermissionAlert } = useContext(
     MediaSettingsContext,
   );
@@ -102,7 +104,7 @@ export default function GroupContainer(
   const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value;
     setUserName(name);
-    updateMe({ name, id: me?.id });
+    updateMe(me => ({ ...me, name }));
   };
 
   const renderCommon = () => (
@@ -123,6 +125,10 @@ export default function GroupContainer(
       />
     </>
   );
+
+  if (!me) {
+    return null;
+  }
 
   if (!isInRoom || localStream === undefined) {
     return (
