@@ -4,7 +4,6 @@ node_js:
 install:
   - yarn
 script:
-  - yarn commitlint --from=HEAD~1
   - yarn workspace client lint
   - yarn workspace server lint
   - CI=true yarn workspace client test --coverage --watch=false
