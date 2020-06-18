@@ -8,12 +8,13 @@ import {
 } from '@material-ui/core';
 import MicOffIcon from '@material-ui/icons/MicOff';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import useResizeObserver from 'use-resize-observer';
 
+import { UserDocumentData } from '../../../../lib/hooks/useUser';
 import CrownIcon from '../../../Icons/Crown';
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
-import { Me } from '../../../MeProvider/MeProvider';
-import { GroupContext } from '../../lib/GroupContext';
+import { groupAdminId } from '../../lib/GroupState';
 import { User } from '../../lib/useSocketHandler';
 import AudioVisualizer from '../AudioVisualizer';
 import VideoContextMenu from '../VideoContextMenu/VideoContextMenu';
@@ -63,7 +64,7 @@ interface Props {
   label?: string;
   overlayText?: string;
   srcObject: MediaStream;
-  user?: User | Me;
+  user?: User | UserDocumentData;
 }
 
 const getIsScreenShare = (name?: string) => {
@@ -100,7 +101,7 @@ export default function(props: Props) {
   const isRemoteCameraOff = !videoTrack?.enabled;
 
   const { activeDevices } = useContext(MediaSettingsContext);
-  const { adminId } = useContext(GroupContext);
+  const adminId = useRecoilValue(groupAdminId);
 
   const isAdmin = Boolean(adminId && props.user?.firebaseAuthId === adminId);
 

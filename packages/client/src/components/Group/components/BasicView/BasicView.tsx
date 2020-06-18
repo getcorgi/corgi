@@ -1,9 +1,10 @@
 import { Typography, useTheme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import { Me } from '../../../MeProvider/MeProvider';
-import { GroupContext } from '../../lib/GroupContext';
+import { UserDocumentData } from '../../../../lib/hooks/useUser';
+import { pinnedStreamIdState } from '../../lib/GroupState';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import { StreamsDict } from '../VideoView/VideoView';
 import * as S from './BasicView.styles';
@@ -14,13 +15,13 @@ import useReactions from './lib/useReactions';
 interface Props {
   localStream: MediaStream;
   streams: StreamsDict;
-  me: Me;
+  me: UserDocumentData;
   messages: Message[];
 }
 
 export default function BasicView(props: Props) {
   const theme = useTheme();
-  const { pinnedStreamId } = useContext(GroupContext);
+  const pinnedStreamId = useRecoilValue(pinnedStreamIdState);
   const { reactions } = useReactions({
     messages: props.messages,
   });

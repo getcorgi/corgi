@@ -1,5 +1,7 @@
 import { Color } from '@material-ui/core';
-import { useContext } from 'react';
+import firebase from 'firebase/app';
+import { useContext, useEffect, useRef } from 'react';
+import { atom, useRecoilState } from 'recoil';
 
 import { FirebaseContext } from '../../components/Firebase';
 import { getColorFromHash } from '../theme';
@@ -16,66 +18,114 @@ export interface UserDocumentData {
 
 export type UseReadUserResult = DocumentQueryResult<UserDocumentData>;
 
-export default function useUser() {
-  const { firebase } = useContext(FirebaseContext);
+const DEFAULT_ME_VALUES = {
+  id: '',
+  name: '',
+  avatarUrl: '',
+  firebaseAuthId: '',
+  color: undefined,
+};
+
+const getUser = async (firebaseAuthId: string) => {
   const db = firebase.firestore();
 
+  if (!firebaseAuthId) {
+    return DEFAULT_ME_VALUES;
+  }
+
+  try {
+    const userRef = await db
+      .collection('users')
+      .where('firebaseAuthId', '==', firebaseAuthId)
+      .get();
+
+    if (userRef.docs[0]?.exists) {
+      const user = await userRef.docs[0].ref.get();
+      return {
+        ...user.data(),
+        id: userRef.docs[0].id,
+        color: getColorFromHash(firebaseAuthId),
+      } as UserDocumentData;
+    }
+
+    return DEFAULT_ME_VALUES;
+  } catch (err) {
+    console.error(err);
+    return DEFAULT_ME_VALUES;
+  }
+};
+
+const createUser = async (firebaseAuthId: string) => {
+  const db = firebase.firestore();
+  const collectionRef = db.collection('users');
+
+  await collectionRef.add({
+    firebaseAuthId,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+  });
+
+  return getUser(firebaseAuthId);
+};
+
+export const authedUserIdState = atom<string | null>({
+  key: 'authedUserId',
+  default: null,
+});
+
+const getOrCreateUser = async (firebaseAuthId: string) => {
+  if (!firebaseAuthId) {
+    return DEFAULT_ME_VALUES;
+  }
+
+  const user = await getUser(firebaseAuthId);
+
+  if (!user.id) {
+    const newUser = await createUser(firebaseAuthId);
+    return newUser;
+  }
+
+  return user;
+};
+
+const updateUser = async (user: UserDocumentData) => {
+  if (!user.id) return;
+
+  const db = firebase.firestore();
+  const ref = db.collection('users').doc(user.id);
+  return await ref.update({
+    ...user,
+  });
+};
+
+export const currentUserState = atom<UserDocumentData>({
+  key: 'currentUser',
+  default: DEFAULT_ME_VALUES,
+});
+
+export default function useUser() {
+  const { firebase } = useContext(FirebaseContext);
   const authedUser = firebase.auth().currentUser;
   if (!authedUser) {
     throw new Error('Not Logged In');
   }
 
-  const create = async (id: string) => {
-    try {
-      const ref = db.collection('users');
-      return ref.add({
-        firebaseAuthId: id,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const lastKnownServerValue = useRef<UserDocumentData>();
 
-  const read = async (id: string) => {
-    try {
-      const ref = await db
-        .collection('users')
-        .where('firebaseAuthId', '==', id)
-        .get();
+  const [currentUser, setCurrentUser] = useRecoilState(currentUserState);
 
-      if (ref.docs[0].exists) {
-        const user = await ref.docs[0].ref.get();
-        return {
-          ...user.data(),
-          id: ref.docs[0].id,
-          color: getColorFromHash(id),
-        } as UserDocumentData;
+  useEffect(() => {
+    (async () => {
+      if (!currentUser.id) {
+        const user = await getOrCreateUser(authedUser.uid);
+        setCurrentUser(user);
+        lastKnownServerValue.current = user;
       }
-      return null;
-    } catch (err) {
-      console.error(err);
+    })();
+  }, [authedUser.uid, currentUser, currentUser.id, setCurrentUser]);
+
+  useEffect(() => {
+    if (lastKnownServerValue.current !== currentUser && currentUser.id) {
+      updateUser(currentUser);
     }
-  };
-
-  const update = async (variables: {
-    avatarUrl?: string;
-    name?: string;
-    id?: string;
-  }) => {
-    if (!variables.id) return;
-
-    const ref = db.collection('users').doc(variables.id);
-
-    return await ref.update({
-      ...variables,
-    });
-  };
-
-  return {
-    authedUser,
-    create,
-    read,
-    update,
-  };
+  }, [currentUser, currentUser.name]);
 }

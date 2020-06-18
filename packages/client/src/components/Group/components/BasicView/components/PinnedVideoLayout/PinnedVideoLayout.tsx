@@ -1,7 +1,7 @@
 import { Box } from '@material-ui/core';
 import React from 'react';
 
-import { Me } from '../../../../../MeProvider/MeProvider';
+import { UserDocumentData } from '../../../../../../lib/hooks/useUser';
 import { User } from '../../../../lib/useSocketHandler';
 import DraggableSplitWrapper from '../../../DraggableSplitWrapper';
 import Video from '../../../Video';
@@ -12,7 +12,7 @@ interface Props {
   streams: { user: User; stream?: MediaStream }[];
   localStream: MediaStream;
   pinnedStreamId: string | null;
-  me: Me;
+  me: UserDocumentData;
   reactions: ReactionMap;
 }
 

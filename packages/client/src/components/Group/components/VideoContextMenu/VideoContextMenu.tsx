@@ -8,10 +8,11 @@ import {
   Typography,
 } from '@material-ui/core';
 import { VolumeDown, VolumeUp } from '@material-ui/icons';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
 
 import theme from '../../../../lib/theme';
-import { GroupContext } from '../../lib/GroupContext';
+import { pinnedStreamIdState } from '../../lib/GroupState';
 
 interface Props {
   children: React.ReactNode;
@@ -31,7 +32,9 @@ export default function VideoContextMenu(props: Props) {
     mouseY: null | number;
   }>(initialState);
 
-  const { pinnedStreamId, setPinnedStreamId } = useContext(GroupContext);
+  const [pinnedStreamId, setPinnedStreamId] = useRecoilState(
+    pinnedStreamIdState,
+  );
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();

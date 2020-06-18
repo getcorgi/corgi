@@ -1,18 +1,21 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 
 import ErrorPage from './components/ErrorPage';
 import { FirebaseProvider } from './components/Firebase';
 import Group from './components/Group';
 import Home from './components/Home';
-import { MeProvider } from './components/MeProvider';
 import { appConfig } from './constants';
+import useUser from './lib/hooks/useUser';
 import theme from './lib/theme';
 
 const App: React.FC = () => {
+  useUser();
+
   return (
     <>
       <Helmet>
@@ -20,20 +23,27 @@ const App: React.FC = () => {
         <title>Corgi</title>
         <meta name="description" content="Get a conversation started" />
       </Helmet>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <FirebaseProvider config={appConfig}>
-          <MeProvider>
-            <Router>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/groups/:groupId" component={Group} />
-              <Route exact path="/error" component={ErrorPage} />
-            </Router>
-          </MeProvider>
-        </FirebaseProvider>
-      </ThemeProvider>
+
+      <Router>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/groups/:groupId" component={Group} />
+        <Route exact path="/error" component={ErrorPage} />
+      </Router>
     </>
   );
 };
 
-export default App;
+const Root = () => (
+  <RecoilRoot>
+    <ThemeProvider theme={theme}>
+      <FirebaseProvider config={appConfig}>
+        <Suspense fallback="loading...">
+          <CssBaseline />
+          <App />
+        </Suspense>
+      </FirebaseProvider>
+    </ThemeProvider>
+  </RecoilRoot>
+);
+
+export default Root;

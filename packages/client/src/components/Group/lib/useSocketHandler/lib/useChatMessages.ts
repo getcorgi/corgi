@@ -1,6 +1,7 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 
-import { MeContext } from '../../../../MeProvider';
+import { currentUserState } from '../../../../../lib/hooks/useUser';
 import { User } from '../types';
 
 export interface Message {
@@ -14,7 +15,7 @@ export default function useChatMessages({
 }: {
   socket: SocketIOClient.Socket;
 }) {
-  const { me } = useContext(MeContext);
+  const me = useRecoilValue(currentUserState);
   const [messages, setMessages] = useState<Message[]>([]);
   const [unreadMessageCount, setUnreadMessageCount] = useState(0);
 

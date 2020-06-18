@@ -1,19 +1,20 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { RouteComponentProps } from 'react-router-dom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import useGroup from '../../lib/hooks/useGroup';
 import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
+import { currentUserState } from '../../lib/hooks/useUser';
 import Hotkeys from '../Hotkeys/Hotkeys';
 import { MediaSettingsContext } from '../MediaSettingsProvider';
-import { MeContext } from '../MeProvider';
 import ActivityView from './components/ActivityView';
 import BasicView from './components/BasicView';
 import BrowseTogether from './components/BrowseTogetherView';
 import PermissionsAlert from './components/PermissionsAlert';
 import Preview from './components/Preview';
 import VideoView from './components/VideoView';
-import { GroupProvider } from './lib/GroupContext';
+import { groupAdminId } from './lib/GroupState';
 import useMediaStream from './lib/useLocalMediaStream';
 import useMute from './lib/useMute';
 import useScreenShareSocketHandler from './lib/useScreenShareSocketHandler';
@@ -25,8 +26,11 @@ export default function GroupContainer(
 ) {
   const groupId = props.match.params.groupId;
   const group = useGroup(groupId);
+  const setGroupAdminId = useSetRecoilState(groupAdminId);
   const updateGroup = useUpdateGroup();
-  const { me, updateMe } = useContext(MeContext);
+
+  const [me, updateMe] = useRecoilState(currentUserState);
+
   const { isPermissonAlertOpen, handleClosePermissionAlert } = useContext(
     MediaSettingsContext,
   );
@@ -36,6 +40,10 @@ export default function GroupContainer(
   );
 
   const creatorId = Object.keys(group?.data?.roles.byId || {})[0];
+
+  useEffect(() => {
+    setGroupAdminId(creatorId);
+  }, [creatorId, setGroupAdminId]);
 
   const [userName, setUserName] = useState(me?.name || '');
 
@@ -96,7 +104,7 @@ export default function GroupContainer(
   const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const name = event.target.value;
     setUserName(name);
-    updateMe({ name, id: me?.id });
+    updateMe(me => ({ ...me, name }));
   };
 
   const renderCommon = () => (
@@ -117,6 +125,10 @@ export default function GroupContainer(
       />
     </>
   );
+
+  if (!me) {
+    return null;
+  }
 
   if (!isInRoom || localStream === undefined) {
     return (
@@ -158,63 +170,61 @@ export default function GroupContainer(
     return (
       <Hotkeys toggleCamera={toggleCamera} toggleIsMuted={toggleIsMuted}>
         {renderCommon()}
-        <GroupProvider adminId={creatorId}>
-          <VideoView
-            activeViewId={group.data?.activityId || '0'}
-            isAdmin={isAdmin}
-            isCameraOff={isCameraOff}
-            isMuted={isMuted}
-            isSharingScreen={isSharingScreen}
-            onHangup={onHangup}
-            setActiveViewId={setActiveView}
-            streams={streams}
-            toggleCamera={toggleCamera}
-            toggleIsMuted={toggleIsMuted}
-            toggleIsSharingScreen={toggleIsSharingScreen}
-            messages={messages}
-            sendMessage={sendMessage}
-            setUnreadMessageCount={setUnreadMessageCount}
-            unreadMessageCount={unreadMessageCount}
-          >
-            {({ streams, messages }) => {
-              switch (group.data?.activityId) {
-                case '1': {
-                  return (
-                    <BrowseTogether
-                      localStream={localStream}
-                      me={me}
-                      streams={streams}
-                      activityUrl={group.data?.activityUrl}
-                      messages={messages}
-                      updateActivityUrl={value =>
-                        updateGroup({ groupId, activityUrl: value })
-                      }
-                    />
-                  );
-                }
-                case '0': {
-                  return (
-                    <BasicView
-                      localStream={localStream}
-                      me={me}
-                      streams={streams}
-                      messages={messages}
-                    />
-                  );
-                }
-                default: {
-                  return (
-                    <ActivityView
-                      id={group.data?.activityId || '0'}
-                      localStream={localStream}
-                      streams={streams}
-                    />
-                  );
-                }
+        <VideoView
+          activeViewId={group.data?.activityId || '0'}
+          isAdmin={isAdmin}
+          isCameraOff={isCameraOff}
+          isMuted={isMuted}
+          isSharingScreen={isSharingScreen}
+          onHangup={onHangup}
+          setActiveViewId={setActiveView}
+          streams={streams}
+          toggleCamera={toggleCamera}
+          toggleIsMuted={toggleIsMuted}
+          toggleIsSharingScreen={toggleIsSharingScreen}
+          messages={messages}
+          sendMessage={sendMessage}
+          setUnreadMessageCount={setUnreadMessageCount}
+          unreadMessageCount={unreadMessageCount}
+        >
+          {({ streams, messages }) => {
+            switch (group.data?.activityId) {
+              case '1': {
+                return (
+                  <BrowseTogether
+                    localStream={localStream}
+                    me={me}
+                    streams={streams}
+                    activityUrl={group.data?.activityUrl}
+                    messages={messages}
+                    updateActivityUrl={value =>
+                      updateGroup({ groupId, activityUrl: value })
+                    }
+                  />
+                );
               }
-            }}
-          </VideoView>
-        </GroupProvider>
+              case '0': {
+                return (
+                  <BasicView
+                    localStream={localStream}
+                    me={me}
+                    streams={streams}
+                    messages={messages}
+                  />
+                );
+              }
+              default: {
+                return (
+                  <ActivityView
+                    id={group.data?.activityId || '0'}
+                    localStream={localStream}
+                    streams={streams}
+                  />
+                );
+              }
+            }
+          }}
+        </VideoView>
       </Hotkeys>
     );
   }

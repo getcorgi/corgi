@@ -2,7 +2,7 @@ import { Box } from '@material-ui/core';
 import React from 'react';
 import useResizeObserver from 'use-resize-observer';
 
-import { Me } from '../../../../../MeProvider/MeProvider';
+import { UserDocumentData } from '../../../../../../lib/hooks/useUser';
 import { User } from '../../../../lib/useSocketHandler';
 import Video from '../../../Video';
 import { Reaction, ReactionMap } from '../../lib/useReactions';
@@ -12,7 +12,7 @@ import * as S from './TiledVideoLayout.styles';
 interface Props {
   streams: { user: User; stream?: MediaStream; reactions?: Reaction[] }[];
   localStream: MediaStream;
-  me: Me;
+  me: UserDocumentData;
   reactions: ReactionMap;
 }
 

@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box';
 import React, { useEffect, useState } from 'react';
 
-import { Me } from '../../../MeProvider/MeProvider';
+import { UserDocumentData } from '../../../../lib/hooks/useUser';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import useReactions from '../BasicView/lib/useReactions';
 import DraggableSplitWrapper from '../DraggableSplitWrapper';
@@ -15,7 +15,7 @@ interface Props {
   localStream: MediaStream | null;
   activityUrl: string;
   updateActivityUrl: (value: string) => void;
-  me?: Me;
+  me?: UserDocumentData;
   messages: Message[];
 }
 

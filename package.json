@@ -22,8 +22,6 @@
     "heroku-postbuild": "yarn workspace server build"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.3.4",
-    "@commitlint/config-conventional": "^8.3.4",
     "concurrently": "^5.1.0",
     "husky": "^4.0.6",
     "lint-staged": "^9.5.0"
