@@ -9,8 +9,6 @@ import {
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/Chat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ScreenShareIcon from '@material-ui/icons/ScreenShare';
-import StopScreenShareIcon from '@material-ui/icons/StopScreenShare';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import useSound from 'use-sound';
@@ -20,7 +18,6 @@ import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import ActivityTabs from '../ActivityTabs';
 import Chat from '../Chat';
 import ChatSnackbar from '../ChatSnackbar/ChatSnackbar';
-import MediaSettingsModal from '../MediaSettingsModal';
 import OverflowMenu from './components/OverflowMenu';
 import * as S from './Sidebar.styles';
 
