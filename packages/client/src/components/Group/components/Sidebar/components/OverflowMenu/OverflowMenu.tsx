@@ -1,4 +1,5 @@
-import { IconButton, Menu, Typography } from '@material-ui/core';
+import { Divider, IconButton, Menu, Typography } from '@material-ui/core';
+import FeedbackIcon from '@material-ui/icons/Feedback';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ScreenShareIcon from '@material-ui/icons/ScreenShare';
 import SettingsIcon from '@material-ui/icons/Settings';
@@ -38,6 +39,10 @@ export default function OverflowMenu(props: Props) {
     props.toggleIsSharingScreen();
   };
 
+  const onFeedBackClick = () => {
+    window.open('https://forms.gle/HYwvYR679uojdGpNA');
+  };
+
   return (
     <div>
       <IconButton onClick={handleClick} aria-label="overflow-menu-button">
@@ -50,12 +55,6 @@ export default function OverflowMenu(props: Props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <S.MenuItem onClick={onSettingsClick}>
-          <S.ListItemIcon>
-            <SettingsIcon fontSize="small" />
-          </S.ListItemIcon>
-          <Typography variant="inherit">Settings</Typography>
-        </S.MenuItem>
         <S.MenuItem onClick={onScreenShareClick}>
           <S.ListItemIcon>
             {props.isSharingScreen ? (
@@ -67,6 +66,19 @@ export default function OverflowMenu(props: Props) {
           <Typography variant="inherit">
             {props.isSharingScreen ? 'Stop Sharing' : 'Share Screen'}
           </Typography>
+        </S.MenuItem>
+        <Divider />
+        <S.MenuItem onClick={onSettingsClick}>
+          <S.ListItemIcon>
+            <SettingsIcon fontSize="small" />
+          </S.ListItemIcon>
+          <Typography variant="inherit">Settings</Typography>
+        </S.MenuItem>
+        <S.MenuItem onClick={onFeedBackClick}>
+          <S.ListItemIcon>
+            <FeedbackIcon fontSize="small" />
+          </S.ListItemIcon>
+          <Typography variant="inherit">Feedback</Typography>
         </S.MenuItem>
       </Menu>
     </div>
