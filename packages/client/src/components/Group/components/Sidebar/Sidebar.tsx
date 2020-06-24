@@ -9,6 +9,8 @@ import {
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/Chat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ScreenShareIcon from '@material-ui/icons/ScreenShare';
+import StopScreenShareIcon from '@material-ui/icons/StopScreenShare';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import useSound from 'use-sound';
@@ -53,12 +55,14 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
   activeViewId: string;
   children: React.ReactNode;
-  unreadMessageCount: number;
   isAdmin: boolean;
+  isSharingScreen: boolean;
   messages: Message[];
   sendMessage: (msg: string) => void;
   setActiveViewId: (id: string) => void;
   setUnreadMessageCount: (count: number) => void;
+  toggleIsSharingScreen: () => void;
+  unreadMessageCount: number;
 }
 
 export default function SideBar(props: Props) {
@@ -134,6 +138,20 @@ export default function SideBar(props: Props) {
             )}
 
             <Box display="flex" flexDirection="column" alignItems="center">
+              <Box mb={theme.spacing(0.2)}>
+                <Tooltip title="Share screen">
+                  <IconButton
+                    onClick={props.toggleIsSharingScreen}
+                    aria-label="share-screen"
+                  >
+                    {props.isSharingScreen ? (
+                      <StopScreenShareIcon />
+                    ) : (
+                      <ScreenShareIcon />
+                    )}
+                  </IconButton>
+                </Tooltip>
+              </Box>
               <Box mb={theme.spacing(0.2)}>
                 <Tooltip title="Chat" placement="left">
                   <IconButton onClick={toggleDrawerOpen}>

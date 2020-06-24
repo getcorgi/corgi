@@ -3,7 +3,7 @@ import { styled } from '@material-ui/core';
 import theme from '../../../../lib/theme';
 
 const HEADER_HEIGHT = 44;
-export const DRAWER_WIDTH = 320;
+export const DRAWER_WIDTH = 360;
 export const CLOSED_DRAWER_WIDTH = 60;
 
 export const ChatWrapper = styled('div')({

@@ -69,7 +69,7 @@ export default function Preview(props: Props) {
                     srcObject={props.stream}
                     isMuted={true}
                     isMirrored={true}
-                    label="(You)"
+                    label=""
                     user={props.me as User}
                   />
                 )}

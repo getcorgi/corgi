@@ -50,6 +50,8 @@ export default function VideoView(props: Props) {
       sendMessage={props.sendMessage}
       setActiveViewId={props.setActiveViewId}
       setUnreadMessageCount={props.setUnreadMessageCount}
+      isSharingScreen={props.isSharingScreen}
+      toggleIsSharingScreen={props.toggleIsSharingScreen}
     >
       <S.VideoView
         position="relative"
@@ -66,11 +68,9 @@ export default function VideoView(props: Props) {
           <VideoControls
             isCameraOff={props.isCameraOff}
             isMuted={props.isMuted}
-            isSharingScreen={props.isSharingScreen}
             onHangup={props.onHangup}
             toggleCamera={props.toggleCamera}
             toggleIsMuted={props.toggleIsMuted}
-            toggleIsSharingScreen={props.toggleIsSharingScreen}
           />
         </S.Controls>
       </S.VideoView>

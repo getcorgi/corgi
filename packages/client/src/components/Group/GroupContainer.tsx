@@ -110,8 +110,8 @@ export default function GroupContainer(
   const renderCommon = () => (
     <>
       <Helmet>
-        <title>{`Corgi${
-          group.data?.name ? ` - ${group.data?.name}` : ''
+        <title>{`${unreadMessageCount ? `(${unreadMessageCount})` : ''}${
+          group.data?.name ? `${group.data?.name} - ` : 'Corgi'
         }`}</title>
         <meta
           name="description"
