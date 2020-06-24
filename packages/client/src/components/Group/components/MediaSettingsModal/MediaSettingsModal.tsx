@@ -1,35 +1,30 @@
 import {
   Box,
-  IconButton,
+  Dialog,
   InputLabel,
   MenuItem,
-  Popover,
   Select,
   Typography,
   useTheme,
 } from '@material-ui/core';
-import SettingsIcon from '@material-ui/icons/Settings';
 import React, { useContext } from 'react';
+import { atom, useRecoilState } from 'recoil';
 
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
-import * as S from './MediaSettingsPopover.styles';
+import * as S from './MediaSettingsModal.styles';
 
-export default function MediaSettingsPopover() {
+export const mediaSettingsModalIsOpenState = atom({
+  key: 'MediaSettingsModal__isOpen',
+  default: false,
+});
+
+export default function MediaSettingsModal() {
   const theme = useTheme();
 
-  const [
-    settingsMenuAnchorEl,
-    setSettingsMenuAnchorEl,
-  ] = React.useState<HTMLButtonElement | null>(null);
-
-  const handleOpenSettingsMenu = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    setSettingsMenuAnchorEl(event.currentTarget);
-  };
+  const [isOpen, setIsOpen] = useRecoilState(mediaSettingsModalIsOpenState);
 
   const handleCloseSettingsMenu = () => {
-    setSettingsMenuAnchorEl(null);
+    setIsOpen(false);
   };
 
   const { availableDevices, activeDevices, setActiveDevices } = useContext(
@@ -54,27 +49,8 @@ export default function MediaSettingsPopover() {
 
   return (
     <>
-      <IconButton
-        onClick={handleOpenSettingsMenu}
-        aria-label="open-settings-modal"
-      >
-        <SettingsIcon />
-      </IconButton>
-
-      <Popover
-        open={!!settingsMenuAnchorEl}
-        anchorEl={settingsMenuAnchorEl}
-        onClose={handleCloseSettingsMenu}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-      >
-        <S.SettingsPopover p={theme.spacing(0.5)}>
+      <Dialog open={isOpen} onClose={handleCloseSettingsMenu}>
+        <S.MediaSettingsModal p={theme.spacing(0.5)}>
           <Box mb={theme.spacing(0.2)}>
             <Typography variant="h6">Settings</Typography>
           </Box>
@@ -127,8 +103,8 @@ export default function MediaSettingsPopover() {
               </Select>
             </S.FormControl>
           </Box>
-        </S.SettingsPopover>
-      </Popover>
+        </S.MediaSettingsModal>
+      </Dialog>
     </>
   );
 }

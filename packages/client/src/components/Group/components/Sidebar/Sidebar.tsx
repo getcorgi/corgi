@@ -20,7 +20,8 @@ import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import ActivityTabs from '../ActivityTabs';
 import Chat from '../Chat';
 import ChatSnackbar from '../ChatSnackbar/ChatSnackbar';
-import MediaSettingsPopover from '../MediaSettingsPopover';
+import MediaSettingsModal from '../MediaSettingsModal';
+import OverflowMenu from './components/OverflowMenu';
 import * as S from './Sidebar.styles';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -139,20 +140,6 @@ export default function SideBar(props: Props) {
 
             <Box display="flex" flexDirection="column" alignItems="center">
               <Box mb={theme.spacing(0.2)}>
-                <Tooltip title="Share screen">
-                  <IconButton
-                    onClick={props.toggleIsSharingScreen}
-                    aria-label="share-screen"
-                  >
-                    {props.isSharingScreen ? (
-                      <StopScreenShareIcon />
-                    ) : (
-                      <ScreenShareIcon />
-                    )}
-                  </IconButton>
-                </Tooltip>
-              </Box>
-              <Box mb={theme.spacing(0.2)}>
                 <Tooltip title="Chat" placement="left">
                   <IconButton onClick={toggleDrawerOpen}>
                     <Badge
@@ -165,11 +152,12 @@ export default function SideBar(props: Props) {
                 </Tooltip>
               </Box>
               <Box mb={theme.spacing(0.2)}>
-                <Tooltip title="Settings" placement="left">
-                  <Box>
-                    <MediaSettingsPopover />
-                  </Box>
-                </Tooltip>
+                <Box>
+                  <OverflowMenu
+                    toggleIsSharingScreen={props.toggleIsSharingScreen}
+                    isSharingScreen={props.isSharingScreen}
+                  />
+                </Box>
               </Box>
             </Box>
           </Box>
