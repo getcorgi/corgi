@@ -170,24 +170,15 @@ export default function GroupContainer(
   };
 
   if (isInRoom && localStream !== undefined) {
-    const setActiveView = (id: string) => {
-      updateGroup({
-        groupId,
-        activityId: id,
-      });
-    };
-
     return (
       <Hotkeys toggleCamera={toggleCamera} toggleIsMuted={toggleIsMuted}>
         {renderCommon()}
         <VideoView
-          activeViewId={group.data?.activityId || '0'}
           isAdmin={isAdmin}
           isCameraOff={isCameraOff}
           isMuted={isMuted}
           isSharingScreen={isSharingScreen}
           onHangup={onHangup}
-          setActiveViewId={setActiveView}
           streams={streams}
           toggleCamera={toggleCamera}
           toggleIsMuted={toggleIsMuted}
@@ -198,41 +189,14 @@ export default function GroupContainer(
           unreadMessageCount={unreadMessageCount}
         >
           {({ streams, messages }) => {
-            switch (group.data?.activityId) {
-              case '1': {
-                return (
-                  <BrowseTogether
-                    localStream={localStream}
-                    me={me}
-                    streams={streams}
-                    activityUrl={group.data?.activityUrl}
-                    messages={messages}
-                    updateActivityUrl={value =>
-                      updateGroup({ groupId, activityUrl: value })
-                    }
-                  />
-                );
-              }
-              case '0': {
-                return (
-                  <BasicView
-                    localStream={localStream}
-                    me={me}
-                    streams={streams}
-                    messages={messages}
-                  />
-                );
-              }
-              default: {
-                return (
-                  <ActivityView
-                    id={group.data?.activityId || '0'}
-                    localStream={localStream}
-                    streams={streams}
-                  />
-                );
-              }
-            }
+            return (
+              <BasicView
+                localStream={localStream}
+                me={me}
+                streams={streams}
+                messages={messages}
+              />
+            );
           }}
         </VideoView>
       </Hotkeys>

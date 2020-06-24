@@ -2,6 +2,7 @@ import Box from '@material-ui/core/Box';
 import React, { useEffect, useState } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
+import useGroup from '../../../../../lib/hooks/useGroup';
 import useUpdateGroup from '../../../../../lib/hooks/useUpdateGroup';
 import { groupIdState } from '../../../lib/GroupState';
 import { SourceSelect } from '../../BrowseTogetherView/components/SourceSelect/SourceSelect';
@@ -22,9 +23,23 @@ export default function SharedIframe() {
   const [sharedIframeUrl, setSharedIframeUrl] = useRecoilState(
     sharedIframeUrlState,
   );
-
-  const updateGroup = useUpdateGroup();
   const groupId = useRecoilValue(groupIdState);
+  const group = useGroup(groupId);
+  const updateGroup = useUpdateGroup();
+
+  const [sharedIframeUrlInput, setSharedIframeUrlInput] = useState(
+    addProtocol(group.data?.activityUrl || 'https://'),
+  );
+
+  useEffect(() => {
+    if (
+      group.data?.activityUrl &&
+      group.data?.activityUrl !== sharedIframeUrl
+    ) {
+      setSharedIframeUrl(addProtocol(group.data?.activityUrl));
+      setSharedIframeUrlInput(addProtocol(group.data?.activityUrl));
+    }
+  }, [group, setSharedIframeUrl, sharedIframeUrl]);
 
   const updateActivityUrl = (value: string) => {
     updateGroup({ groupId, activityUrl: value });
@@ -32,7 +47,8 @@ export default function SharedIframe() {
 
   const onSubmitSource = (e: React.FormEvent) => {
     e.preventDefault();
-    updateActivityUrl(addProtocol(sharedIframeUrl));
+    updateActivityUrl(addProtocol(sharedIframeUrlInput));
+    setSharedIframeUrl(sharedIframeUrlInput);
   };
 
   console.log(sharedIframeUrl);
@@ -40,9 +56,9 @@ export default function SharedIframe() {
   return (
     <Box display="flex" flexDirection="column" height="100%">
       <SourceSelect
-        activityUrl={sharedIframeUrl}
+        activityUrl={sharedIframeUrlInput}
         onSubmit={onSubmitSource}
-        setActivityUrl={setSharedIframeUrl}
+        setActivityUrl={setSharedIframeUrlInput}
         updateActivityUrl={updateActivityUrl}
       />
       <iframe

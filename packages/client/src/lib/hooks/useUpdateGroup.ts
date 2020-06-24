@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 
 import { FirebaseContext } from '../../components/Firebase';
+import { ActivityId } from '../../components/Group/components/Activities/lib/useActivities';
 
 export default function(options?: { client?: typeof firebase }) {
   const { firebase } = useContext(FirebaseContext);
@@ -9,7 +10,7 @@ export default function(options?: { client?: typeof firebase }) {
 
   return async (variables: {
     groupId?: string;
-    activityId?: string;
+    activityIds?: ActivityId[];
     activityUrl?: string; // TEMPORARY. This will live elsewhere.
   }) => {
     const currentUser = firebase.auth().currentUser;

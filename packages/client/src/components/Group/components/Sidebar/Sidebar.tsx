@@ -13,12 +13,12 @@ import ScreenShareIcon from '@material-ui/icons/ScreenShare';
 import StopScreenShareIcon from '@material-ui/icons/StopScreenShare';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import useSound from 'use-sound';
 
 import theme from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
-import {
+import useActivities, {
   activeActivityIdsState,
   ActivityId,
 } from '../Activities/lib/useActivities';
@@ -59,13 +59,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  activeViewId: string;
   children: React.ReactNode;
   isAdmin: boolean;
   isSharingScreen: boolean;
   messages: Message[];
   sendMessage: (msg: string) => void;
-  setActiveViewId: (id: string) => void;
   setUnreadMessageCount: (count: number) => void;
   toggleIsSharingScreen: () => void;
   unreadMessageCount: number;
@@ -74,9 +72,7 @@ interface Props {
 export default function SideBar(props: Props) {
   const classes = useStyles();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [activeActivityIds, setActiveActivityIds] = useRecoilState(
-    activeActivityIdsState,
-  );
+  const { toggleActivity } = useActivities();
 
   const toggleDrawerOpen = () => {
     props.setUnreadMessageCount(0);
@@ -93,17 +89,6 @@ export default function SideBar(props: Props) {
       chatReceivedBoop({});
     }
   }, [chatReceivedBoop, isDrawerOpen, props.unreadMessageCount]);
-
-  const toggleActivity = (activityId: ActivityId) => () => {
-    if (activeActivityIds.includes(activityId)) {
-      const newIds = activeActivityIds.filter(id => id !== activityId);
-      setActiveActivityIds(newIds);
-      return;
-    }
-    setActiveActivityIds([...activeActivityIds, activityId]);
-  };
-
-  console.log(activeActivityIds);
 
   return (
     <>
