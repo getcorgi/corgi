@@ -4,6 +4,8 @@ import useResizeObserver from 'use-resize-observer';
 
 import { UserDocumentData } from '../../../../../../lib/hooks/useUser';
 import { User } from '../../../../lib/useSocketHandler';
+import { ActivityId } from '../../../Activities/lib/useActivities';
+import SharedIframe from '../../../Activities/SharedIframe';
 import Video from '../../../Video';
 import { Reaction, ReactionMap } from '../../lib/useReactions';
 import getVideoDimensions from './lib/getVideoDimensions';
@@ -14,10 +16,11 @@ interface Props {
   localStream: MediaStream;
   me: UserDocumentData;
   reactions: ReactionMap;
+  activeActivityIds: ActivityId[];
 }
 
 export default function TiledVideoLayout(props: Props) {
-  const streamCount = props.streams.length;
+  const streamCount = props.streams.length + props.activeActivityIds.length;
   const {
     ref: containerRef,
     height: containerRefHeight,
@@ -32,6 +35,18 @@ export default function TiledVideoLayout(props: Props) {
 
   const isPortraitMode = Number(containerRefWidth) < Number(containerRefHeight);
   const myReaction = props.reactions[props.me?.firebaseAuthId]?.text || '';
+
+  const renderActivites = () => {
+    return props.activeActivityIds.map(id => {
+      if (id === ActivityId.SharedIframe) {
+        return (
+          <Box width={videoWidth} key={id} height={videoHeight}>
+            <SharedIframe />
+          </Box>
+        );
+      }
+    });
+  };
 
   return (
     <S.TiledVideo ref={containerRef}>
@@ -82,6 +97,7 @@ export default function TiledVideoLayout(props: Props) {
           </Box>
         </S.LocalVideo>
       )}
+      {renderActivites()}
     </S.TiledVideo>
   );
 }

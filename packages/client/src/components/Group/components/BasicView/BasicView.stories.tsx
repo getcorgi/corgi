@@ -29,6 +29,7 @@ const createStreams = (count: number) => {
 const defaultProps = {
   streams: {},
   localStream: new MediaStream(),
+  activeActivityIds: [],
   me: { name: 'user 1', avatarUrl: '', firebaseAuthId: '', id: '' },
 };
 

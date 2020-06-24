@@ -3,12 +3,14 @@ import React from 'react';
 
 import { UserDocumentData } from '../../../../../../lib/hooks/useUser';
 import { User } from '../../../../lib/useSocketHandler';
+import { ActivityId } from '../../../Activities/lib/useActivities';
 import DraggableSplitWrapper from '../../../DraggableSplitWrapper';
 import Video from '../../../Video';
 import { ReactionMap } from '../../lib/useReactions';
 import * as S from './PinnedVideoLayout.styles';
 
 interface Props {
+  activeActivityIds: ActivityId[];
   streams: { user: User; stream?: MediaStream }[];
   localStream: MediaStream;
   pinnedStreamId: string | null;

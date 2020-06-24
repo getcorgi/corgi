@@ -15,7 +15,7 @@ import MediaSettingsModal from './components/MediaSettingsModal';
 import PermissionsAlert from './components/PermissionsAlert';
 import Preview from './components/Preview';
 import VideoView from './components/VideoView';
-import { groupAdminId } from './lib/GroupState';
+import { groupAdminIdState, groupIdState } from './lib/GroupState';
 import useMediaStream from './lib/useLocalMediaStream';
 import useMute from './lib/useMute';
 import useScreenShareSocketHandler from './lib/useScreenShareSocketHandler';
@@ -27,7 +27,8 @@ export default function GroupContainer(
 ) {
   const groupId = props.match.params.groupId;
   const group = useGroup(groupId);
-  const setGroupAdminId = useSetRecoilState(groupAdminId);
+  const setGroupAdminId = useSetRecoilState(groupAdminIdState);
+  const setGroupId = useSetRecoilState(groupIdState);
   const updateGroup = useUpdateGroup();
 
   const [me, updateMe] = useRecoilState(currentUserState);
@@ -45,6 +46,10 @@ export default function GroupContainer(
   useEffect(() => {
     setGroupAdminId(creatorId);
   }, [creatorId, setGroupAdminId]);
+
+  useEffect(() => {
+    setGroupId(groupId);
+  }, [groupId, setGroupId]);
 
   const [userName, setUserName] = useState(me?.name || '');
 

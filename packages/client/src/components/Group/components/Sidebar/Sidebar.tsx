@@ -13,10 +13,15 @@ import ScreenShareIcon from '@material-ui/icons/ScreenShare';
 import StopScreenShareIcon from '@material-ui/icons/StopScreenShare';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import useSound from 'use-sound';
 
 import theme from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
+import {
+  activeActivityIdsState,
+  ActivityId,
+} from '../Activities/lib/useActivities';
 import ActivityTabs from '../ActivityTabs';
 import Chat from '../Chat';
 import ChatSnackbar from '../ChatSnackbar/ChatSnackbar';
@@ -69,6 +74,9 @@ interface Props {
 export default function SideBar(props: Props) {
   const classes = useStyles();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [activeActivityIds, setActiveActivityIds] = useRecoilState(
+    activeActivityIdsState,
+  );
 
   const toggleDrawerOpen = () => {
     props.setUnreadMessageCount(0);
@@ -85,6 +93,17 @@ export default function SideBar(props: Props) {
       chatReceivedBoop({});
     }
   }, [chatReceivedBoop, isDrawerOpen, props.unreadMessageCount]);
+
+  const toggleActivity = (activityId: ActivityId) => () => {
+    if (activeActivityIds.includes(activityId)) {
+      const newIds = activeActivityIds.filter(id => id !== activityId);
+      setActiveActivityIds(newIds);
+      return;
+    }
+    setActiveActivityIds([...activeActivityIds, activityId]);
+  };
+
+  console.log(activeActivityIds);
 
   return (
     <>
@@ -132,10 +151,13 @@ export default function SideBar(props: Props) {
             height="100%"
           >
             {props.isAdmin && (
-              <ActivityTabs
-                setActiveViewId={props.setActiveViewId}
-                activeViewId={props.activeViewId}
-              />
+              // <ActivityTabs
+              //   setActiveViewId={props.setActiveViewId}
+              //   activeViewId={props.activeViewId}
+              // />
+              <button onClick={toggleActivity(ActivityId.SharedIframe)}>
+                iframe
+              </button>
             )}
 
             <Box display="flex" flexDirection="column" alignItems="center">
