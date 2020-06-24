@@ -1,4 +1,5 @@
 import { Avatar, Box, Color, styled } from '@material-ui/core';
+import { darken, desaturate } from 'polished';
 
 import theme from '../../../../lib/theme';
 
@@ -31,6 +32,7 @@ export const UserAvatar = styled(Avatar)({
   width: ({ size }: AvatarProps) => `${size}px`,
   height: ({ size }: AvatarProps) => `${size}px`,
   fontSize: ({ size }: AvatarProps) => `${size / 2}px`,
+  fontWeight: 600,
   backgroundColor: ({ userColor }: AvatarProps) => userColor?.[300],
 });
 
@@ -48,7 +50,8 @@ export const VideoWrapper = styled('div')({
 
 export const EmptyVideo = styled(Box)({
   position: 'absolute',
-  backgroundColor: '#00000030',
+  backgroundColor: ({ userColor }: { userColor?: Color }) =>
+    desaturate(0.58, darken(0.22, userColor?.[900] || '#222')),
 });
 
 export const LoadingIndicator = styled(Box)({
@@ -73,4 +76,5 @@ export const CrownIcon = styled('div')({
 export const VideoLabel = styled('div')({
   display: 'inline-flex',
   alignItems: 'center',
+  fontWeight: 600,
 });

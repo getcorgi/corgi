@@ -1,6 +1,6 @@
 import { Box, FormControl as MUIFormControl, styled } from '@material-ui/core';
 
-export const SettingsPopover = styled(Box)({
+export const MediaSettingsModal = styled(Box)({
   width: '500px',
 });
 

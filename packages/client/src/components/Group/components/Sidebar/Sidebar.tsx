@@ -18,7 +18,7 @@ import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import ActivityTabs from '../ActivityTabs';
 import Chat from '../Chat';
 import ChatSnackbar from '../ChatSnackbar/ChatSnackbar';
-import MediaSettingsPopover from '../MediaSettingsPopover';
+import OverflowMenu from './components/OverflowMenu';
 import * as S from './Sidebar.styles';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -53,12 +53,14 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
   activeViewId: string;
   children: React.ReactNode;
-  unreadMessageCount: number;
   isAdmin: boolean;
+  isSharingScreen: boolean;
   messages: Message[];
   sendMessage: (msg: string) => void;
   setActiveViewId: (id: string) => void;
   setUnreadMessageCount: (count: number) => void;
+  toggleIsSharingScreen: () => void;
+  unreadMessageCount: number;
 }
 
 export default function SideBar(props: Props) {
@@ -147,11 +149,12 @@ export default function SideBar(props: Props) {
                 </Tooltip>
               </Box>
               <Box mb={theme.spacing(0.2)}>
-                <Tooltip title="Settings" placement="left">
-                  <Box>
-                    <MediaSettingsPopover />
-                  </Box>
-                </Tooltip>
+                <Box>
+                  <OverflowMenu
+                    toggleIsSharingScreen={props.toggleIsSharingScreen}
+                    isSharingScreen={props.isSharingScreen}
+                  />
+                </Box>
               </Box>
             </Box>
           </Box>

@@ -50,7 +50,7 @@ export default function PinnedVideoLayout(props: Props) {
             isMuted={true}
             isMirrored={true}
             user={props.me}
-            label="(You)"
+            label=""
             overlayText={myReaction}
           />
         </Box>

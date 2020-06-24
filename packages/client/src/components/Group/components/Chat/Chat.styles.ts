@@ -14,6 +14,7 @@ export const ChatInputForm = styled('div')({
 export const ChatInput = styled('textarea')({
   width: '100%',
   fontSize: '16px',
+  fontFamily: `${theme.typography.fontFamily}`,
   padding: '12px',
   lineHeight: 1,
   borderRadius: '4px',

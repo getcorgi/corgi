@@ -153,6 +153,7 @@ export default function(props: Props) {
           display="flex"
           alignItems="center"
           justifyContent="center"
+          userColor={props.user?.color}
         >
           <S.UserAvatar
             alt={props.user?.name}

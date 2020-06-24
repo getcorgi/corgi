@@ -9,10 +9,12 @@ import Box from '@material-ui/core/Box';
 import { useTheme } from '@material-ui/core/styles';
 import MicIcon from '@material-ui/icons/Mic';
 import MicOffIcon from '@material-ui/icons/MicOff';
+import SettingsIcon from '@material-ui/icons/Settings';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 
 import { UserDocumentData } from '../../../../lib/hooks/useUser';
 import Button from '../../../Button/Button';
@@ -20,7 +22,7 @@ import Header from '../../../Header';
 import { keyLabelMap } from '../../../Hotkeys/Hotkeys';
 import { LocalStreamStatus } from '../../lib/useLocalMediaStream';
 import { User } from '../../lib/useSocketHandler';
-import MediaSettingsPopover from '../MediaSettingsPopover';
+import { mediaSettingsModalIsOpenState } from '../MediaSettingsModal/MediaSettingsModal';
 import Video from '../Video';
 import * as S from './Preview.styles';
 
@@ -41,6 +43,13 @@ interface Props {
 
 export default function Preview(props: Props) {
   const theme = useTheme();
+  const setIsSettingsModalOpen = useSetRecoilState(
+    mediaSettingsModalIsOpenState,
+  );
+
+  const handleOpenSettingsMenu = () => {
+    setIsSettingsModalOpen(true);
+  };
 
   return (
     <>
@@ -69,7 +78,7 @@ export default function Preview(props: Props) {
                     srcObject={props.stream}
                     isMuted={true}
                     isMirrored={true}
-                    label="(You)"
+                    label=""
                     user={props.me as User}
                   />
                 )}
@@ -98,7 +107,12 @@ export default function Preview(props: Props) {
                   </Tooltip>
                 </Box>
                 <Box>
-                  <MediaSettingsPopover />
+                  <IconButton
+                    onClick={handleOpenSettingsMenu}
+                    aria-label="open-settings-modal"
+                  >
+                    <SettingsIcon />
+                  </IconButton>
                 </Box>
               </S.Controls>
             </S.VideoCard>

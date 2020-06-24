@@ -11,6 +11,7 @@ import { MediaSettingsContext } from '../MediaSettingsProvider';
 import ActivityView from './components/ActivityView';
 import BasicView from './components/BasicView';
 import BrowseTogether from './components/BrowseTogetherView';
+import MediaSettingsModal from './components/MediaSettingsModal';
 import PermissionsAlert from './components/PermissionsAlert';
 import Preview from './components/Preview';
 import VideoView from './components/VideoView';
@@ -110,9 +111,12 @@ export default function GroupContainer(
   const renderCommon = () => (
     <>
       <Helmet>
-        <title>{`Corgi${
-          group.data?.name ? ` - ${group.data?.name}` : ''
-        }`}</title>
+        <title>
+          {`${unreadMessageCount ? `(${unreadMessageCount}) ` : ''}${
+            group.data?.name ? `${group.data?.name} - ` : ''
+          }`}
+          Corgi
+        </title>
         <meta
           name="description"
           content={`Join my room - ${group.data?.name}`}
@@ -123,6 +127,7 @@ export default function GroupContainer(
         isOpen={isPermissonAlertOpen}
         handleClose={handleClosePermissionAlert}
       />
+      <MediaSettingsModal />
     </>
   );
 
