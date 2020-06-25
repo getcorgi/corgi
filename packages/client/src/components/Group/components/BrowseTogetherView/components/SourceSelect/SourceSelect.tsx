@@ -1,8 +1,7 @@
-import { Box, Divider, IconButton, Paper } from '@material-ui/core';
+import { Box, Divider, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react';
 
-import theme from '../../../../../../lib/theme';
 import * as S from './SourceSelect.styles';
 
 interface Props {

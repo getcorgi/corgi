@@ -45,6 +45,7 @@ export default function TiledVideoLayout(props: Props) {
           </Box>
         );
       }
+      return null;
     });
   };
 

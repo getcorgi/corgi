@@ -58,9 +58,6 @@ const useSyncActivities = (groupId: string) => {
 
 export default function useActivities() {
   const groupId = useRecoilValue(groupIdState);
-  const [pinnedStreamId, setPinnedStreamId] = useRecoilState(
-    pinnedStreamIdState,
-  );
   const [activeActivityIds, setActiveActivityIds] = useRecoilState(
     activeActivityIdsState,
   );

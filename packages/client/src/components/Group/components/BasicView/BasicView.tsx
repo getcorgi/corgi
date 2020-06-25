@@ -6,10 +6,7 @@ import { useRecoilValue } from 'recoil';
 import { UserDocumentData } from '../../../../lib/hooks/useUser';
 import { pinnedStreamIdState } from '../../lib/GroupState';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
-import {
-  activeActivityIdsState,
-  ActivityId,
-} from '../Activities/lib/useActivities';
+import { activeActivityIdsState } from '../Activities/lib/useActivities';
 import { StreamsDict } from '../VideoView/VideoView';
 import * as S from './BasicView.styles';
 import PinnedVideoLayout from './components/PinnedVideoLayout/PinnedVideoLayout';

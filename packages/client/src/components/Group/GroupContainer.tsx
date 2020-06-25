@@ -4,13 +4,10 @@ import { RouteComponentProps } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import useGroup from '../../lib/hooks/useGroup';
-import useUpdateGroup from '../../lib/hooks/useUpdateGroup';
 import { currentUserState } from '../../lib/hooks/useUser';
 import Hotkeys from '../Hotkeys/Hotkeys';
 import { MediaSettingsContext } from '../MediaSettingsProvider';
-import ActivityView from './components/ActivityView';
 import BasicView from './components/BasicView';
-import BrowseTogether from './components/BrowseTogetherView';
 import MediaSettingsModal from './components/MediaSettingsModal';
 import PermissionsAlert from './components/PermissionsAlert';
 import Preview from './components/Preview';
@@ -29,7 +26,6 @@ export default function GroupContainer(
   const group = useGroup(groupId);
   const setGroupAdminId = useSetRecoilState(groupAdminIdState);
   const setGroupId = useSetRecoilState(groupIdState);
-  const updateGroup = useUpdateGroup();
 
   const [me, updateMe] = useRecoilState(currentUserState);
 

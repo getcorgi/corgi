@@ -108,6 +108,7 @@ export default function PinnedVideoLayout(props: Props) {
             </Box>
           );
         }
+        return null;
       })}
     </S.Streams>
   );

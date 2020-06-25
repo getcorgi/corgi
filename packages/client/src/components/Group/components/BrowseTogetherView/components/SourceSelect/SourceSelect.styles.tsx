@@ -1,5 +1,4 @@
 import {
-  Box,
   InputBase,
   ListSubheader as MuiListSubheader,
   MenuItem as MuiMenuItem,
@@ -7,7 +6,7 @@ import {
   styled,
 } from '@material-ui/core';
 
-import theme, { backgroundColor } from '../../../../../../lib/theme';
+import { backgroundColor } from '../../../../../../lib/theme';
 
 export const Select = styled(MuiSelect)({
   fontSize: '14px',
