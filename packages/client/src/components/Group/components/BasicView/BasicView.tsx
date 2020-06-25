@@ -46,8 +46,6 @@ export default function BasicView(props: Props) {
     });
   };
 
-  console.log(pinnedStreamId);
-
   return (
     <Box height="100%" width="100%">
       {isEmpty && (

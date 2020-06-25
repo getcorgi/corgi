@@ -5,7 +5,7 @@ import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import useGroup from '../../../../../lib/hooks/useGroup';
 import useUpdateGroup from '../../../../../lib/hooks/useUpdateGroup';
 import { groupIdState } from '../../../lib/GroupState';
-import { SourceSelect } from '../../BrowseTogetherView/components/SourceSelect/SourceSelect';
+import { SourceSelect } from './components/SourceSelect/SourceSelect';
 
 function addProtocol(url: string) {
   if (!/^(?:f|ht)tps?:\/\//.test(url)) {

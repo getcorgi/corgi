@@ -9,6 +9,7 @@ import {
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/Chat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import useSound from 'use-sound';
@@ -125,16 +126,17 @@ export default function SideBar(props: Props) {
             display="flex"
             flexDirection="column"
             justifyContent={props.isAdmin ? 'space-between' : 'flex-end'}
+            alignItems="center"
             height="100%"
           >
             {props.isAdmin && (
-              // <ActivityTabs
-              //   setActiveViewId={props.setActiveViewId}
-              //   activeViewId={props.activeViewId}
-              // />
-              <button onClick={toggleActivity(ActivityId.SharedIframe)}>
-                iframe
-              </button>
+              <Box mt={theme.spacing(0.2)}>
+                <Tooltip title="Add Activity" placement="left">
+                  <IconButton onClick={toggleActivity(ActivityId.SharedIframe)}>
+                    <LibraryAddIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             )}
 
             <Box display="flex" flexDirection="column" alignItems="center">

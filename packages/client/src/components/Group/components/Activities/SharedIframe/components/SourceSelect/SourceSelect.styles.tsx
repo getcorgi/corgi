@@ -6,7 +6,7 @@ import {
   styled,
 } from '@material-ui/core';
 
-import { backgroundColor } from '../../../../../../lib/theme';
+import { backgroundColor } from '../../../../../../../lib/theme';
 
 export const Select = styled(MuiSelect)({
   fontSize: '14px',
