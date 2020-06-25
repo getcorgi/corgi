@@ -103,8 +103,14 @@ export default function PinnedVideoLayout(props: Props) {
       {otherActivities.map(id => {
         if (id === ActivityId.SharedIframe) {
           return (
-            <Box key={id} width="100%" position="relative" pb="56.25%">
-              <SharedIframe />;
+            <Box
+              key={id}
+              width="100%"
+              position="relative"
+              pb="56.25%"
+              overflow="hidden"
+            >
+              <SharedIframe />
             </Box>
           );
         }
