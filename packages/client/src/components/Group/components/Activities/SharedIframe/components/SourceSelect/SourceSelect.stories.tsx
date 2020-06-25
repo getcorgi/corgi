@@ -28,6 +28,7 @@ export const Default = () => {
         setActivityUrl={noop}
         onSubmit={noop}
         updateActivityUrl={noop}
+        onClickRefresh={noop}
       />
     </Container>
   );

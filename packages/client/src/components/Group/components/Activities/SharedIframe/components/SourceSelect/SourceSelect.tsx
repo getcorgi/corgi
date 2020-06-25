@@ -1,5 +1,6 @@
 import { Box, Divider, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -14,6 +15,7 @@ interface Props {
   setActivityUrl: (url: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   updateActivityUrl: (value: string) => void;
+  onClickRefresh: () => void;
 }
 
 enum PresetKind {
@@ -101,6 +103,10 @@ export function SourceSelect(props: Props) {
     props.setActivityUrl(event.target.value);
   };
 
+  const onClickRefresh = () => {
+    props.onClickRefresh();
+  };
+
   return (
     <Box display="flex" width="100%" bgcolor={backgroundColor[900]}>
       <S.Form onSubmit={props.onSubmit}>
@@ -115,6 +121,12 @@ export function SourceSelect(props: Props) {
             })}
           </S.Select>
           <Divider orientation="vertical" flexItem={true} />
+          <IconButton
+            onClick={onClickRefresh}
+            style={{ margin: '4px', padding: '4px 6px' }}
+          >
+            <RefreshIcon style={{ fontSize: '16px' }} />
+          </IconButton>
           <S.Input
             value={props.activityUrl}
             onChange={onInputChange}
@@ -131,6 +143,7 @@ export function SourceSelect(props: Props) {
           </IconButton>
         </Box>
       </S.Form>
+
       {isAdmin && (
         <Box>
           <IconButton

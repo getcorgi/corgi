@@ -1,5 +1,5 @@
 import Box from '@material-ui/core/Box';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
 import useGroup from '../../../../../lib/hooks/useGroup';
@@ -27,6 +27,8 @@ export default function SharedIframe() {
   const group = useGroup(groupId);
   const updateGroup = useUpdateGroup();
 
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
   const [sharedIframeUrlInput, setSharedIframeUrlInput] = useState(
     addProtocol(group.data?.activityUrl || 'https://'),
   );
@@ -51,6 +53,13 @@ export default function SharedIframe() {
     setSharedIframeUrl(sharedIframeUrlInput);
   };
 
+  const onClickRefresh = () => {
+    const src = iframeRef.current?.src;
+    if (iframeRef.current?.src) {
+      iframeRef.current.src = src || '';
+    }
+  };
+
   return (
     <Box display="flex" flexDirection="column" height="100%" bgcolor="black">
       <SourceSelect
@@ -58,9 +67,11 @@ export default function SharedIframe() {
         onSubmit={onSubmitSource}
         setActivityUrl={setSharedIframeUrlInput}
         updateActivityUrl={updateActivityUrl}
+        onClickRefresh={onClickRefresh}
       />
       <iframe
         title="shared-browser"
+        ref={iframeRef}
         style={{
           border: 0,
           outline: 'none',
