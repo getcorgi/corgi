@@ -4,6 +4,7 @@ import React from 'react';
 import { UserDocumentData } from '../../../../../../lib/hooks/useUser';
 import { User } from '../../../../lib/useSocketHandler';
 import { ActivityId } from '../../../Activities/lib/useActivities';
+import SharedIframe from '../../../Activities/SharedIframe';
 import DraggableSplitWrapper from '../../../DraggableSplitWrapper';
 import Video from '../../../Video';
 import { ReactionMap } from '../../lib/useReactions';
@@ -27,11 +28,23 @@ export default function PinnedVideoLayout(props: Props) {
     return stream.stream?.id !== props.pinnedStreamId;
   });
 
+  const pinnedActivity = props.activeActivityIds.find(
+    id => id === props.pinnedStreamId,
+  );
+
+  const otherActivities = props.activeActivityIds.filter(
+    id => id !== props.pinnedStreamId,
+  );
+
   const myReaction = props.reactions[props.me?.firebaseAuthId]?.text || '';
 
-  const left = (
-    <Box height="100%" width="100%">
-      {pinnedStream && pinnedStream.stream && (
+  const renderPinnedItem = () => {
+    if (pinnedActivity) {
+      if (pinnedActivity === ActivityId.SharedIframe) {
+        return <SharedIframe />;
+      }
+    } else if (pinnedStream && pinnedStream.stream) {
+      return (
         <Video
           hasContextMenu={true}
           isMuted={false}
@@ -39,7 +52,14 @@ export default function PinnedVideoLayout(props: Props) {
           srcObject={pinnedStream.stream}
           user={pinnedStream.user}
         />
-      )}
+      );
+    }
+    return null;
+  };
+
+  const left = (
+    <Box height="100%" width="100%">
+      {renderPinnedItem()}
     </Box>
   );
   const right = (
@@ -52,7 +72,7 @@ export default function PinnedVideoLayout(props: Props) {
             isMuted={true}
             isMirrored={true}
             user={props.me}
-            label=""
+            label={props.me.name}
             overlayText={myReaction}
           />
         </Box>
@@ -78,6 +98,16 @@ export default function PinnedVideoLayout(props: Props) {
             />
           </Box>
         );
+      })}
+
+      {otherActivities.map(id => {
+        if (id === ActivityId.SharedIframe) {
+          return (
+            <Box key={id} width="100%" position="relative" pb="56.25%">
+              <SharedIframe />;
+            </Box>
+          );
+        }
       })}
     </S.Streams>
   );

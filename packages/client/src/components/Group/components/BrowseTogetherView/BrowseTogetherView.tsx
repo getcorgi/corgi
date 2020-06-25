@@ -83,7 +83,7 @@ function BrowseTogetherView(props: Props) {
             isMirrored={true}
             user={props.me}
             overlayText={myReaction}
-            label=""
+            label={props.me?.name}
           />
         </Box>
       )}

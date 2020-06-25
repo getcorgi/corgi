@@ -91,7 +91,7 @@ export default function TiledVideoLayout(props: Props) {
               isMuted={true}
               isMirrored={true}
               user={props.me}
-              label=""
+              label={props.me.name}
               overlayText={myReaction}
             />
           </Box>

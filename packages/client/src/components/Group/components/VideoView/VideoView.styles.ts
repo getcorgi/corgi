@@ -13,6 +13,7 @@ export const VideoView = styled(Box)({
     opacity: 0.2,
     backgroundSize: '500px',
     pointerEvents: 'none',
+    zIndex: -1,
   },
 });
 

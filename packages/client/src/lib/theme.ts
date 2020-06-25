@@ -36,9 +36,14 @@ export default createMuiTheme({
   },
 });
 
-// Thanks danphillips <3
-const COLORS = Object.values(colors) as Color[];
+const filteredColors = Object.entries(colors).filter(([colorName, values]) => {
+  const unusedColors = ['common', 'brown', 'grey', 'blueGrey'];
+  return !unusedColors.includes(colorName);
+});
 
+const COLORS = filteredColors.map(([_, values]) => values) as Color[];
+
+// Thanks danphillips <3
 const hashString = (string: string): number => {
   let hash = 0;
 

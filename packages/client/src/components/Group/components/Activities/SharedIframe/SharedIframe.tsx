@@ -51,10 +51,8 @@ export default function SharedIframe() {
     setSharedIframeUrl(sharedIframeUrlInput);
   };
 
-  console.log(sharedIframeUrl);
-
   return (
-    <Box display="flex" flexDirection="column" height="100%">
+    <Box display="flex" flexDirection="column" height="100%" bgcolor="black">
       <SourceSelect
         activityUrl={sharedIframeUrlInput}
         onSubmit={onSubmitSource}

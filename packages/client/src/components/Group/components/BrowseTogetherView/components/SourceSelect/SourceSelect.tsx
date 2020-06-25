@@ -2,6 +2,7 @@ import { Box, Divider, IconButton, Paper } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useState } from 'react';
 
+import theme from '../../../../../../lib/theme';
 import * as S from './SourceSelect.styles';
 
 interface Props {
@@ -88,7 +89,7 @@ export function SourceSelect(props: Props) {
   };
 
   return (
-    <Paper component="form" square onSubmit={props.onSubmit}>
+    <S.Form onSubmit={props.onSubmit}>
       <Box px={2} display="flex" justifyContent="space-between">
         <S.Select value={srcPreset} onChange={onSelectChange}>
           <S.MenuItem value="https://">Url</S.MenuItem>
@@ -114,6 +115,6 @@ export function SourceSelect(props: Props) {
           <SearchIcon style={{ fontSize: '22px' }} />
         </IconButton>
       </Box>
-    </Paper>
+    </S.Form>
   );
 }

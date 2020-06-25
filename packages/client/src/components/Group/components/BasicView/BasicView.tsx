@@ -35,7 +35,8 @@ export default function BasicView(props: Props) {
 
   const [isCopiedTooltipOpen, setIsCopiedTooltipOpen] = useState(false);
 
-  const isEmpty = streams.length + activeActivityIds.length < 1;
+  const itemsLength = streams.length + activeActivityIds.length;
+  const isEmpty = itemsLength < 1;
 
   const onClickShareLink = () => {
     navigator.clipboard.writeText(window.location.href).then(function() {
@@ -47,6 +48,8 @@ export default function BasicView(props: Props) {
       }, 1000);
     });
   };
+
+  console.log(pinnedStreamId);
 
   return (
     <Box height="100%" width="100%">
@@ -79,7 +82,7 @@ export default function BasicView(props: Props) {
         </Box>
       )}
       <>
-        {pinnedStreamId && streams.length > 1 ? (
+        {pinnedStreamId && itemsLength > 1 ? (
           <PinnedVideoLayout
             activeActivityIds={activeActivityIds}
             streams={streams}

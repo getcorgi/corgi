@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
 import useGroup from '../../../../../lib/hooks/useGroup';
 import useUpdateGroup from '../../../../../lib/hooks/useUpdateGroup';
-import { groupIdState } from '../../../lib/GroupState';
+import { groupIdState, pinnedStreamIdState } from '../../../lib/GroupState';
 
 export enum ActivityId {
   SharedIframe = 'SharedIframe',
@@ -15,28 +15,52 @@ export const activeActivityIdsState = atom<ActivityId[]>({
 });
 
 const useSyncActivities = (groupId: string) => {
-  const [hasMounted, setHasMounted] = useState(false);
   const [activeActivityIds, setActiveActivityIds] = useRecoilState(
     activeActivityIdsState,
   );
+
+  const [pinnedStreamId, setPinnedStreamId] = useRecoilState(
+    pinnedStreamIdState,
+  );
+
   const group = useGroup(groupId);
 
   useEffect(() => {
-    if (group.data?.activityIds && !hasMounted) {
-      setHasMounted(true);
-      group.data?.activityIds.forEach(id => {
-        if (!activeActivityIds.includes(id)) {
-          setActiveActivityIds(ids => {
-            return [...ids, id];
-          });
+    if (group.data?.activityIds) {
+      if (
+        JSON.stringify(activeActivityIds) !==
+        JSON.stringify(group.data?.activityIds)
+      ) {
+        const ids = group.data?.activityIds;
+
+        if (
+          Object.keys(ActivityId).includes(pinnedStreamId || '') &&
+          !ids.length
+        ) {
+          setPinnedStreamId(null);
         }
-      });
+
+        if (ids.length === 1) {
+          setPinnedStreamId(ids[0]);
+        }
+
+        setActiveActivityIds(group.data?.activityIds);
+      }
     }
-  }, [activeActivityIds, group.data, hasMounted, setActiveActivityIds]);
+  }, [
+    activeActivityIds,
+    group.data,
+    pinnedStreamId,
+    setActiveActivityIds,
+    setPinnedStreamId,
+  ]);
 };
 
 export default function useActivities() {
   const groupId = useRecoilValue(groupIdState);
+  const [pinnedStreamId, setPinnedStreamId] = useRecoilState(
+    pinnedStreamIdState,
+  );
   const [activeActivityIds, setActiveActivityIds] = useRecoilState(
     activeActivityIdsState,
   );
@@ -45,10 +69,14 @@ export default function useActivities() {
 
   const toggleActivity = useCallback(
     (activityId: ActivityId) => () => {
-      let newIds = [...activeActivityIds, activityId];
+      const doesActivityExist = activeActivityIds.includes(activityId);
 
-      if (activeActivityIds.includes(activityId)) {
+      let newIds = [];
+
+      if (doesActivityExist) {
         newIds = activeActivityIds.filter(id => id !== activityId);
+      } else {
+        newIds = [...activeActivityIds, activityId];
       }
 
       setActiveActivityIds(newIds);

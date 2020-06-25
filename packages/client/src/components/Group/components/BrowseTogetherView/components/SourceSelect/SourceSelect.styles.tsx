@@ -1,10 +1,13 @@
 import {
+  Box,
   InputBase,
   ListSubheader as MuiListSubheader,
   MenuItem as MuiMenuItem,
   Select as MuiSelect,
   styled,
 } from '@material-ui/core';
+
+import theme, { backgroundColor } from '../../../../../../lib/theme';
 
 export const Select = styled(MuiSelect)({
   fontSize: '14px',
@@ -36,4 +39,8 @@ export const MenuItem = styled(MuiMenuItem)({
 export const ListSubheader = styled(MuiListSubheader)({
   lineHeight: '16px',
   marginTop: '8px',
+});
+
+export const Form = styled('form')({
+  backgroundColor: backgroundColor[900],
 });
