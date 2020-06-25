@@ -13,6 +13,7 @@ import PermissionsAlert from './components/PermissionsAlert';
 import Preview from './components/Preview';
 import VideoView from './components/VideoView';
 import { groupAdminIdState, groupIdState } from './lib/GroupState';
+import useIsAdmin from './lib/useIsAdmin';
 import useMediaStream from './lib/useLocalMediaStream';
 import useMute from './lib/useMute';
 import useScreenShareSocketHandler from './lib/useScreenShareSocketHandler';
@@ -32,11 +33,7 @@ export default function GroupContainer(
   const { isPermissonAlertOpen, handleClosePermissionAlert } = useContext(
     MediaSettingsContext,
   );
-
-  const isAdmin = Boolean(
-    group.data?.roles.editors.some(editor => editor === me?.firebaseAuthId),
-  );
-
+  const isAdmin = useIsAdmin(groupId);
   const creatorId = Object.keys(group?.data?.roles.byId || {})[0];
 
   useEffect(() => {

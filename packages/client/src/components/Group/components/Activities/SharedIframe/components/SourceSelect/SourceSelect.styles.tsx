@@ -6,8 +6,6 @@ import {
   styled,
 } from '@material-ui/core';
 
-import { backgroundColor } from '../../../../../../../lib/theme';
-
 export const Select = styled(MuiSelect)({
   fontSize: '14px',
   fontWeight: 'bold',
@@ -41,5 +39,6 @@ export const ListSubheader = styled(MuiListSubheader)({
 });
 
 export const Form = styled('form')({
-  backgroundColor: backgroundColor[900],
+  width: '100%',
+  display: 'flex',
 });
