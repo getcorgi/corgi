@@ -37,3 +37,8 @@ export const ListSubheader = styled(MuiListSubheader)({
   lineHeight: '16px',
   marginTop: '8px',
 });
+
+export const Form = styled('form')({
+  width: '100%',
+  display: 'flex',
+});

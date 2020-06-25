@@ -5,7 +5,12 @@ export const pinnedStreamIdState = atom<null | string>({
   default: null,
 });
 
-export const groupAdminId = atom({
+export const groupAdminIdState = atom({
   key: 'Group__adminId',
+  default: '',
+});
+
+export const groupIdState = atom({
+  key: 'Group__id',
   default: '',
 });

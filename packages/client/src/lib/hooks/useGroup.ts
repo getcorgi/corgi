@@ -2,11 +2,12 @@ import { useContext } from 'react';
 import { useDocument } from 'react-firebase-hooks/firestore';
 
 import { FirebaseContext } from '../../components/Firebase';
+import { ActivityId } from '../../components/Group/components/Activities/lib/useActivities';
 import { DocumentQueryResult } from '../types';
 
 interface GroupDocumentData {
   id: string;
-  activityId: string;
+  activityIds: ActivityId[];
   activityUrl?: string; //TEMPORARY: This will live elswhere,
   type: string;
   name: string;

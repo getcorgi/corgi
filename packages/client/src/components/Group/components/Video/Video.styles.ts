@@ -51,7 +51,7 @@ export const VideoWrapper = styled('div')({
 export const EmptyVideo = styled(Box)({
   position: 'absolute',
   backgroundColor: ({ userColor }: { userColor?: Color }) =>
-    desaturate(0.58, darken(0.22, userColor?.[900] || '#222')),
+    desaturate(0.7, darken(0.3, userColor?.['A700'] || '#222')),
 });
 
 export const LoadingIndicator = styled(Box)({

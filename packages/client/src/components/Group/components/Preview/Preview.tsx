@@ -78,7 +78,7 @@ export default function Preview(props: Props) {
                     srcObject={props.stream}
                     isMuted={true}
                     isMirrored={true}
-                    label=""
+                    label={props.me?.name}
                     user={props.me as User}
                   />
                 )}
@@ -139,6 +139,9 @@ export default function Preview(props: Props) {
                         required={true}
                         value={props.userName}
                         variant="outlined"
+                        inputProps={{
+                          maxLength: '42',
+                        }}
                       />
                     </Box>
 

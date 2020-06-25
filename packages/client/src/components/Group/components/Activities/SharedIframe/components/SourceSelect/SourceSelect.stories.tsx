@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { noop } from '../../../../../../constants';
-import { backgroundColor } from '../../../../../../lib/theme';
+import { noop } from '../../../../../../../constants';
+import { backgroundColor } from '../../../../../../../lib/theme';
 import { SourceSelect } from './SourceSelect';
 
 export default {
@@ -28,6 +28,7 @@ export const Default = () => {
         setActivityUrl={noop}
         onSubmit={noop}
         updateActivityUrl={noop}
+        onClickRefresh={noop}
       />
     </Container>
   );

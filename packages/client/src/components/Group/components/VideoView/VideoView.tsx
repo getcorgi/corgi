@@ -14,7 +14,6 @@ export interface StreamsDict {
 }
 
 interface Props {
-  activeViewId: string;
   children: ({
     streams,
     messages,
@@ -30,7 +29,6 @@ interface Props {
   messages: Message[];
   onHangup: () => void;
   sendMessage: (msg: string) => void;
-  setActiveViewId: (id: string) => void;
   setUnreadMessageCount: (count: number) => void;
   streams: StreamsDict;
   toggleCamera: () => void;
@@ -43,12 +41,10 @@ export default function VideoView(props: Props) {
 
   return (
     <Sidebar
-      activeViewId={props.activeViewId}
       unreadMessageCount={props.unreadMessageCount}
       isAdmin={props.isAdmin}
       messages={props.messages}
       sendMessage={props.sendMessage}
-      setActiveViewId={props.setActiveViewId}
       setUnreadMessageCount={props.setUnreadMessageCount}
       isSharingScreen={props.isSharingScreen}
       toggleIsSharingScreen={props.toggleIsSharingScreen}

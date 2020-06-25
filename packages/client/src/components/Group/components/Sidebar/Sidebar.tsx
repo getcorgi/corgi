@@ -9,13 +9,14 @@ import {
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import ChatIcon from '@material-ui/icons/Chat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import useSound from 'use-sound';
 
 import theme from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
-import ActivityTabs from '../ActivityTabs';
+import useActivities, { ActivityId } from '../Activities/lib/useActivities';
 import Chat from '../Chat';
 import ChatSnackbar from '../ChatSnackbar/ChatSnackbar';
 import OverflowMenu from './components/OverflowMenu';
@@ -51,13 +52,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  activeViewId: string;
   children: React.ReactNode;
   isAdmin: boolean;
   isSharingScreen: boolean;
   messages: Message[];
   sendMessage: (msg: string) => void;
-  setActiveViewId: (id: string) => void;
   setUnreadMessageCount: (count: number) => void;
   toggleIsSharingScreen: () => void;
   unreadMessageCount: number;
@@ -66,6 +65,7 @@ interface Props {
 export default function SideBar(props: Props) {
   const classes = useStyles();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { toggleActivity } = useActivities();
 
   const toggleDrawerOpen = () => {
     props.setUnreadMessageCount(0);
@@ -126,13 +126,17 @@ export default function SideBar(props: Props) {
             display="flex"
             flexDirection="column"
             justifyContent={props.isAdmin ? 'space-between' : 'flex-end'}
+            alignItems="center"
             height="100%"
           >
             {props.isAdmin && (
-              <ActivityTabs
-                setActiveViewId={props.setActiveViewId}
-                activeViewId={props.activeViewId}
-              />
+              <Box mt={theme.spacing(0.2)}>
+                <Tooltip title="Add Activity" placement="left">
+                  <IconButton onClick={toggleActivity(ActivityId.SharedIframe)}>
+                    <LibraryAddIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
             )}
 
             <Box display="flex" flexDirection="column" alignItems="center">
