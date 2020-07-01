@@ -2,10 +2,11 @@ import Box from '@material-ui/core/Box';
 import React, { useEffect, useRef, useState } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import useGroup from '../../../../../lib/hooks/useGroup';
-import useUpdateGroup from '../../../../../lib/hooks/useUpdateGroup';
-import { groupIdState } from '../../../lib/GroupState';
-import { SourceSelect } from './components/SourceSelect/SourceSelect';
+import useGroup from '../../../../../../lib/hooks/useGroup';
+import useUpdateGroup from '../../../../../../lib/hooks/useUpdateGroup';
+import { groupIdState } from '../../../../lib/GroupState';
+import { ActivityId } from '../../lib/useActivities';
+import { IframeToolbar } from '../IframeToolbar/IframeToolbar';
 
 function addProtocol(url: string) {
   if (!/^(?:f|ht)tps?:\/\//.test(url)) {
@@ -61,8 +62,16 @@ export default function SharedIframe() {
   };
 
   return (
-    <Box display="flex" flexDirection="column" height="100%" bgcolor="black">
-      <SourceSelect
+    <Box
+      display="flex"
+      flexDirection="column"
+      height="100%"
+      bgcolor="black"
+      position="absolute"
+      width="100%"
+    >
+      <IframeToolbar
+        activityId={ActivityId.SharedIframe}
         activityUrl={sharedIframeUrlInput}
         onSubmit={onSubmitSource}
         setActivityUrl={setSharedIframeUrlInput}

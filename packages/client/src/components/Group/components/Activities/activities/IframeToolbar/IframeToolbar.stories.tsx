@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { noop } from '../../../../../../../constants';
-import { backgroundColor } from '../../../../../../../lib/theme';
-import { SourceSelect } from './SourceSelect';
+import { noop } from '../../../../../../constants';
+import { backgroundColor } from '../../../../../../lib/theme';
+import { ActivityId } from '../../lib/useActivities';
+import { IframeToolbar } from './IframeToolbar';
 
 export default {
   title: 'SourceSelect',
@@ -23,7 +24,8 @@ const Container = (props: { children: React.ReactNode }) => (
 export const Default = () => {
   return (
     <Container>
-      <SourceSelect
+      <IframeToolbar
+        activityId={ActivityId.SharedIframe}
         activityUrl="http://corgi.chat"
         setActivityUrl={noop}
         onSubmit={noop}

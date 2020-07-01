@@ -7,6 +7,9 @@ import { groupIdState, pinnedStreamIdState } from '../../../lib/GroupState';
 
 export enum ActivityId {
   SharedIframe = 'SharedIframe',
+  Twitch = 'Twitch',
+  Dominion = 'Dominion',
+  Excalidraw = 'Excalidraw',
 }
 
 export const activeActivityIdsState = atom<ActivityId[]>({

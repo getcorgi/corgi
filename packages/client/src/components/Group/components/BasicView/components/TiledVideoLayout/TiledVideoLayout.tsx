@@ -4,8 +4,9 @@ import useResizeObserver from 'use-resize-observer';
 
 import { UserDocumentData } from '../../../../../../lib/hooks/useUser';
 import { User } from '../../../../lib/useSocketHandler';
+import SharedIframe from '../../../Activities/activities/SharedIframe';
+import mapActivityIdToComponent from '../../../Activities/lib/mapActivityIdToComponent';
 import { ActivityId } from '../../../Activities/lib/useActivities';
-import SharedIframe from '../../../Activities/SharedIframe';
 import Video from '../../../Video';
 import { Reaction, ReactionMap } from '../../lib/useReactions';
 import getVideoDimensions from './lib/getVideoDimensions';
@@ -37,16 +38,19 @@ export default function TiledVideoLayout(props: Props) {
   const myReaction = props.reactions[props.me?.firebaseAuthId]?.text || '';
 
   const renderActivites = () => {
-    return props.activeActivityIds.map(id => {
-      if (id === ActivityId.SharedIframe) {
-        return (
-          <Box width={videoWidth} key={id} height={videoHeight}>
-            <SharedIframe />
-          </Box>
-        );
-      }
-      return null;
-    });
+    return props.activeActivityIds.map(id => (
+      <Box
+        width={videoWidth}
+        key={id}
+        height={videoHeight}
+        position="relative"
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        {mapActivityIdToComponent(id)}
+      </Box>
+    ));
   };
 
   return (
