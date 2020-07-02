@@ -4,6 +4,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ScreenShareIcon from '@material-ui/icons/ScreenShare';
 import SettingsIcon from '@material-ui/icons/Settings';
 import StopScreenShareIcon from '@material-ui/icons/StopScreenShare';
+import { FEEDBACK_FORM_URL } from 'lib/constants';
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 
@@ -40,7 +41,7 @@ export default function OverflowMenu(props: Props) {
   };
 
   const onFeedBackClick = () => {
-    window.open('https://forms.gle/HYwvYR679uojdGpNA');
+    window.open(FEEDBACK_FORM_URL);
   };
 
   return (

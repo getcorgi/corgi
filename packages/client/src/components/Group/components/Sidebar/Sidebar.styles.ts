@@ -1,6 +1,5 @@
 import { styled } from '@material-ui/core';
-
-import theme from '../../../../lib/theme';
+import theme from 'lib/theme';
 
 const HEADER_HEIGHT = 44;
 export const DRAWER_WIDTH = 360;

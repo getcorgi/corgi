@@ -11,7 +11,6 @@ export default function useSocketEvents({
   localStream,
   myUserData,
   playUserJoinedBloop,
-  playUserLeftBloop,
   setStreams,
   setUsers,
   socket,
@@ -53,7 +52,6 @@ export default function useSocketEvents({
     const onUserLeftRoom = ({ socketId }: { socketId: string }) => {
       const connection = connections.get(socketId);
       if (connection?.peer) {
-        playUserLeftBloop({});
         connection?.peer?.destroy();
 
         connections.delete(socketId);
@@ -129,7 +127,6 @@ export default function useSocketEvents({
     localStream,
     myUserData,
     playUserJoinedBloop,
-    playUserLeftBloop,
     setStreams,
     setUsers,
     socket,

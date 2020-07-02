@@ -1,7 +1,7 @@
 import { Box } from '@material-ui/core';
+import useIdleTimer from 'lib/hooks/useIdleTImer';
 import React from 'react';
 
-import useIdleTimer from '../../../../lib/hooks/useIdleTImer';
 import { User } from '../../lib/useSocketHandler';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import { Reaction } from '../BasicView/lib/useReactions';

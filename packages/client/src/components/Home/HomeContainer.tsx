@@ -1,18 +1,18 @@
+import { GroupType } from 'lib/types';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import useUpdateGroups from '../../lib/hooks/useUpdateGroups';
-import { GroupType } from '../../lib/types';
 import Home from './Home';
+import useUpdateGroups from './lib/useUpdateGroups';
 
 export default function GroupsContainer() {
-  const updateGroup = useUpdateGroups();
+  const updateGroups = useUpdateGroups();
   const [roomName, setRoomName] = useState('');
   const history = useHistory();
 
   async function onAddGroup(event: React.SyntheticEvent) {
     event.preventDefault();
-    const group = await updateGroup({
+    const group = await updateGroups({
       type: GroupType.Group,
       name: roomName,
     });

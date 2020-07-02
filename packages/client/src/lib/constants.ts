@@ -13,3 +13,5 @@ export const appConfig = {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export const noop = (...args: any[]): any => {};
+
+export const FEEDBACK_FORM_URL = 'https://forms.gle/HYwvYR679uojdGpNA';

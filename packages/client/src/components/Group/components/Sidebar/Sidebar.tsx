@@ -11,12 +11,14 @@ import ChatIcon from '@material-ui/icons/Chat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import clsx from 'clsx';
+import theme from 'lib/theme';
 import React, { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import useSound from 'use-sound';
 
-import theme from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
-import useActivities, { ActivityId } from '../Activities/lib/useActivities';
+import ActivityChooserModal from '../Activities/ActivityChooserModal';
+import { isActivityChooserModalOpenState } from '../Activities/ActivityChooserModal/ActivityChooserModal';
 import Chat from '../Chat';
 import ChatSnackbar from '../ChatSnackbar/ChatSnackbar';
 import OverflowMenu from './components/OverflowMenu';
@@ -65,7 +67,9 @@ interface Props {
 export default function SideBar(props: Props) {
   const classes = useStyles();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { toggleActivity } = useActivities();
+  const setIsActivityChooserModalOpen = useSetRecoilState(
+    isActivityChooserModalOpenState,
+  );
 
   const toggleDrawerOpen = () => {
     props.setUnreadMessageCount(0);
@@ -132,7 +136,9 @@ export default function SideBar(props: Props) {
             {props.isAdmin && (
               <Box mt={theme.spacing(0.2)}>
                 <Tooltip title="Add Activity" placement="left">
-                  <IconButton onClick={toggleActivity(ActivityId.SharedIframe)}>
+                  <IconButton
+                    onClick={() => setIsActivityChooserModalOpen(true)}
+                  >
                     <LibraryAddIcon />
                   </IconButton>
                 </Tooltip>
@@ -165,6 +171,9 @@ export default function SideBar(props: Props) {
         )}
       </Drawer>
       <S.Main isDrawerOpen={isDrawerOpen}>{props.children}</S.Main>
+
+      <ActivityChooserModal />
+
       <ChatSnackbar
         sholdShowSnackbar={!isDrawerOpen}
         messages={props.messages}

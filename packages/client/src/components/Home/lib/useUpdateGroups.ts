@@ -1,7 +1,7 @@
+import { GroupType } from 'lib/types';
 import { useContext } from 'react';
 
-import { FirebaseContext } from '../../components/Firebase';
-import { GroupType } from '../types';
+import { FirebaseContext } from '../../Firebase';
 
 export default function(options?: { client?: typeof firebase }) {
   const { firebase } = useContext(FirebaseContext);

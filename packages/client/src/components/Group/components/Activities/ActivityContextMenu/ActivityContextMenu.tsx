@@ -1,8 +1,8 @@
 import { Box, FormControlLabel, Menu, Switch } from '@material-ui/core';
+import theme from 'lib/theme';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import theme from '../../../../../lib/theme';
 import { pinnedStreamIdState } from '../../../lib/GroupState';
 import { ActivityId } from '../lib/useActivities';
 
@@ -42,17 +42,9 @@ export default function ActivityContextMenu(props: Props) {
     setPinnedStreamId(event.target.checked ? props.activityId : null);
   };
 
-  const onDoubleClick = () => {
-    setPinnedStreamId(
-      pinnedStreamId === props.activityId ? null : props.activityId,
-    );
-  };
-
   return (
     <>
-      <Box onContextMenu={handleOpenMenu} onDoubleClick={onDoubleClick}>
-        {props.children}
-      </Box>
+      <Box onContextMenu={handleOpenMenu}>{props.children}</Box>
       <Menu
         keepMounted
         open={state.mouseY !== null}

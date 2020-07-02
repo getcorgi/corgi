@@ -1,8 +1,8 @@
 import emojiRegex from 'emoji-regex';
+import { currentUserState } from 'lib/hooks/useUser';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { currentUserState } from '../../../../../lib/hooks/useUser';
 import { Message } from '../../../lib/useSocketHandler/lib/useChatMessages';
 
 interface Props {

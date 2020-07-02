@@ -1,8 +1,8 @@
+import { appConfig } from 'lib/constants';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import io from 'socket.io-client';
 import useSound from 'use-sound';
 
-import { appConfig } from '../../../../constants';
 import useChatMessages from './lib/useChatMessages';
 import useSocketEvents from './lib/useSocketEvents';
 import useSyncPeers from './lib/useSyncPeers';

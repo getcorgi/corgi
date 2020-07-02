@@ -1,11 +1,11 @@
 import 'firebase/auth';
 
 import firebase from 'firebase/app';
+import { appConfig } from 'lib/constants';
 import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils';
 
-import { appConfig } from '../../constants';
 import { FirebaseContext, FirebaseProvider } from './Firebase';
 
 jest.mock('firebase/app', () => {

@@ -7,11 +7,11 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import MicOffIcon from '@material-ui/icons/MicOff';
+import { UserDocumentData } from 'lib/hooks/useUser';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import useResizeObserver from 'use-resize-observer';
 
-import { UserDocumentData } from '../../../../lib/hooks/useUser';
 import CrownIcon from '../../../Icons/Crown';
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
 import { groupAdminIdState } from '../../lib/GroupState';

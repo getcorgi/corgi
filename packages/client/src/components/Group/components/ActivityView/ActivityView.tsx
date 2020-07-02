@@ -1,6 +1,6 @@
+import useActivity from 'lib/hooks/useActivity';
 import React from 'react';
 
-import useActivity from '../../../../lib/hooks/useActivity';
 import { StreamsDict } from '../VideoView/VideoView';
 import parseComponentTree from './lib/parseComponentTree';
 

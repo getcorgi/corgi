@@ -8,10 +8,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import { VolumeDown, VolumeUp } from '@material-ui/icons';
+import theme from 'lib/theme';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import theme from '../../../../lib/theme';
 import { pinnedStreamIdState } from '../../lib/GroupState';
 
 interface Props {

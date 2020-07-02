@@ -1,7 +1,6 @@
 import { Box, Link as MuiLink } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
-
-import theme, { backgroundColor } from '../../lib/theme';
+import theme, { backgroundColor } from 'lib/theme';
 
 export const FormWrapper = styled(Box)({});
 

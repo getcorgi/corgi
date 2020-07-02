@@ -1,11 +1,12 @@
 import Box from '@material-ui/core/Box';
+import useGroup from 'lib/hooks/useGroup';
+import useUpdateGroup from 'lib/hooks/useUpdateGroup';
 import React, { useEffect, useRef, useState } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import useGroup from '../../../../../lib/hooks/useGroup';
-import useUpdateGroup from '../../../../../lib/hooks/useUpdateGroup';
-import { groupIdState } from '../../../lib/GroupState';
-import { SourceSelect } from './components/SourceSelect/SourceSelect';
+import { groupIdState } from '../../../../lib/GroupState';
+import { ActivityId } from '../../lib/useActivities';
+import { IframeToolbar } from '../IframeToolbar/IframeToolbar';
 
 function addProtocol(url: string) {
   if (!/^(?:f|ht)tps?:\/\//.test(url)) {
@@ -16,7 +17,7 @@ function addProtocol(url: string) {
 
 export const sharedIframeUrlState = atom<string>({
   key: 'Activities__sharedIframeUrl',
-  default: 'https://',
+  default: '',
 });
 
 export default function SharedIframe() {
@@ -30,21 +31,21 @@ export default function SharedIframe() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const [sharedIframeUrlInput, setSharedIframeUrlInput] = useState(
-    addProtocol(group.data?.activityUrl || 'https://'),
+    addProtocol(group.data?.sharedIframeUrl || ''),
   );
 
   useEffect(() => {
     if (
-      group.data?.activityUrl &&
-      group.data?.activityUrl !== sharedIframeUrl
+      group.data?.sharedIframeUrl &&
+      group.data?.sharedIframeUrl !== sharedIframeUrl
     ) {
-      setSharedIframeUrl(addProtocol(group.data?.activityUrl));
-      setSharedIframeUrlInput(addProtocol(group.data?.activityUrl));
+      setSharedIframeUrl(addProtocol(group.data?.sharedIframeUrl));
+      setSharedIframeUrlInput(addProtocol(group.data?.sharedIframeUrl));
     }
   }, [group, setSharedIframeUrl, sharedIframeUrl]);
 
   const updateActivityUrl = (value: string) => {
-    updateGroup({ groupId, activityUrl: value });
+    updateGroup({ groupId, sharedIframeUrl: value });
   };
 
   const onSubmitSource = (e: React.FormEvent) => {
@@ -61,13 +62,21 @@ export default function SharedIframe() {
   };
 
   return (
-    <Box display="flex" flexDirection="column" height="100%" bgcolor="black">
-      <SourceSelect
-        activityUrl={sharedIframeUrlInput}
+    <Box
+      display="flex"
+      flexDirection="column"
+      height="100%"
+      bgcolor="black"
+      position="absolute"
+      width="100%"
+    >
+      <IframeToolbar
+        activityId={ActivityId.SharedIframe}
+        value={sharedIframeUrlInput}
         onSubmit={onSubmitSource}
-        setActivityUrl={setSharedIframeUrlInput}
-        updateActivityUrl={updateActivityUrl}
+        setValue={setSharedIframeUrlInput}
         onClickRefresh={onClickRefresh}
+        placeholder="https://yoursite.com"
       />
       <iframe
         title="shared-browser"

@@ -1,6 +1,6 @@
 import { styled } from '@material-ui/core';
+import theme, { backgroundColor } from 'lib/theme';
 
-import theme, { backgroundColor } from '../../../../lib/theme';
 import { User } from '../../lib/useSocketHandler';
 
 export const ChatMessages = styled('div')({

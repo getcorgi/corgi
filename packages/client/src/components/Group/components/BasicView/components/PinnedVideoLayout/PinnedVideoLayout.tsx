@@ -1,10 +1,10 @@
 import { Box } from '@material-ui/core';
+import { UserDocumentData } from 'lib/hooks/useUser';
 import React from 'react';
 
-import { UserDocumentData } from '../../../../../../lib/hooks/useUser';
 import { User } from '../../../../lib/useSocketHandler';
+import mapActivityIdToComponent from '../../../Activities/lib/mapActivityIdToComponent';
 import { ActivityId } from '../../../Activities/lib/useActivities';
-import SharedIframe from '../../../Activities/SharedIframe';
 import DraggableSplitWrapper from '../../../DraggableSplitWrapper';
 import Video from '../../../Video';
 import { ReactionMap } from '../../lib/useReactions';
@@ -39,11 +39,13 @@ export default function PinnedVideoLayout(props: Props) {
   const myReaction = props.reactions[props.me?.firebaseAuthId]?.text || '';
 
   const renderPinnedItem = () => {
-    if (pinnedActivity) {
-      if (pinnedActivity === ActivityId.SharedIframe) {
-        return <SharedIframe />;
-      }
-    } else if (pinnedStream && pinnedStream.stream) {
+    const pinnedVideo = mapActivityIdToComponent(pinnedActivity);
+
+    if (pinnedVideo) {
+      return pinnedVideo;
+    }
+
+    if (pinnedStream && pinnedStream.stream) {
       return (
         <Video
           hasContextMenu={true}
@@ -101,20 +103,17 @@ export default function PinnedVideoLayout(props: Props) {
       })}
 
       {otherActivities.map(id => {
-        if (id === ActivityId.SharedIframe) {
-          return (
-            <Box
-              key={id}
-              width="100%"
-              position="relative"
-              pb="56.25%"
-              overflow="hidden"
-            >
-              <SharedIframe />
-            </Box>
-          );
-        }
-        return null;
+        return (
+          <Box
+            key={id}
+            width="100%"
+            position="relative"
+            pb="76.25%"
+            overflow="hidden"
+          >
+            {mapActivityIdToComponent(id)}
+          </Box>
+        );
       })}
     </S.Streams>
   );

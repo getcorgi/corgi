@@ -3,9 +3,9 @@ import 'emoji-mart/css/emoji-mart.css';
 import { Popover } from '@material-ui/core';
 import EmojiEmotionsTwoToneIcon from '@material-ui/icons/EmojiEmotionsTwoTone';
 import { BaseEmoji, Picker } from 'emoji-mart';
+import theme from 'lib/theme';
 import React, { useRef, useState } from 'react';
 
-import theme from '../../../../../../lib/theme';
 import * as S from './EmojiPicker.styles';
 
 interface Props {
