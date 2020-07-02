@@ -55,7 +55,7 @@ export default function useGroup(
 
   useEffect(() => {
     if (
-      snapshotData?.groupId &&
+      snapshotData?.createdAt &&
       JSON.stringify(groupData) !== JSON.stringify(snapshotData)
     ) {
       setGroupData((snapshotData as GroupDocumentData) || null);
