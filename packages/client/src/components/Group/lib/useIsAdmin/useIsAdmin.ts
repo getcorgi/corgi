@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import useGroup from '../../../../lib/hooks/useGroup';
+import { groupDataState } from '../../../../lib/hooks/useGroup';
 import { currentUserState } from '../../../../lib/hooks/useUser';
 
 export const isAdminState = atom({
@@ -11,17 +11,17 @@ export const isAdminState = atom({
 
 export default function useIsAdmin(groupId: string) {
   const [isAdmin, setIsAdmin] = useRecoilState(isAdminState);
-  const group = useGroup(groupId);
+  const group = useRecoilValue(groupDataState);
   const me = useRecoilValue(currentUserState);
 
   useEffect(() => {
     const newIsAdmin = Boolean(
-      group.data?.roles.editors.some(editor => editor === me?.firebaseAuthId),
+      group?.roles?.editors.some(editor => editor === me?.firebaseAuthId),
     );
     if (isAdmin !== newIsAdmin) {
       setIsAdmin(newIsAdmin);
     }
-  }, [group.data, isAdmin, me, setIsAdmin]);
+  }, [group, isAdmin, me, setIsAdmin]);
 
   return isAdmin;
 }

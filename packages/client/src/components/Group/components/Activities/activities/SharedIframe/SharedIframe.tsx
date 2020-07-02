@@ -17,7 +17,7 @@ function addProtocol(url: string) {
 
 export const sharedIframeUrlState = atom<string>({
   key: 'Activities__sharedIframeUrl',
-  default: 'https://',
+  default: '',
 });
 
 export default function SharedIframe() {

@@ -42,17 +42,9 @@ export default function ActivityContextMenu(props: Props) {
     setPinnedStreamId(event.target.checked ? props.activityId : null);
   };
 
-  const onDoubleClick = () => {
-    setPinnedStreamId(
-      pinnedStreamId === props.activityId ? null : props.activityId,
-    );
-  };
-
   return (
     <>
-      <Box onContextMenu={handleOpenMenu} onDoubleClick={onDoubleClick}>
-        {props.children}
-      </Box>
+      <Box onContextMenu={handleOpenMenu}>{props.children}</Box>
       <Menu
         keepMounted
         open={state.mouseY !== null}

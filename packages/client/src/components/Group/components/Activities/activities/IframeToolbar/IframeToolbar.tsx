@@ -1,11 +1,14 @@
 import { Box, Divider, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
+import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchIcon from '@material-ui/icons/Search';
 import React, { useRef } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { backgroundColor } from '../../../../../../lib/theme';
+import { pinnedStreamIdState } from '../../../../lib/GroupState';
 import { isAdminState } from '../../../../lib/useIsAdmin/useIsAdmin';
 import ActivityContextMenu from '../../ActivityContextMenu/ActivityContextMenu';
 import useActivities, { ActivityId } from '../../lib/useActivities';
@@ -25,6 +28,9 @@ export function IframeToolbar({ title = null, ...props }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { toggleActivity } = useActivities();
+  const [pinnedActivityId, setPinnedActivityId] = useRecoilState(
+    pinnedStreamIdState,
+  );
 
   const isAdmin = useRecoilValue(isAdminState);
 
@@ -38,6 +44,14 @@ export function IframeToolbar({ title = null, ...props }: Props) {
 
   const onClickRefresh = () => {
     props.onClickRefresh();
+  };
+
+  const togglePinnedActivity = () => {
+    if (pinnedActivityId === props.activityId) {
+      setPinnedActivityId(null);
+      return;
+    }
+    setPinnedActivityId(props.activityId);
   };
 
   return (
@@ -85,6 +99,19 @@ export function IframeToolbar({ title = null, ...props }: Props) {
             </IconButton>
           </Box>
         </S.Form>
+
+        <Box>
+          <IconButton
+            style={{ margin: '4px', padding: '4px 6px' }}
+            onClick={togglePinnedActivity}
+          >
+            {pinnedActivityId === props.activityId ? (
+              <FullscreenExitIcon style={{ fontSize: '22px' }} />
+            ) : (
+              <FullscreenIcon style={{ fontSize: '22px' }} />
+            )}
+          </IconButton>
+        </Box>
 
         {isAdmin && (
           <Box>

@@ -1,10 +1,13 @@
 import { Box, Divider, IconButton } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
+import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { backgroundColor } from '../../../../../../lib/theme';
+import { pinnedStreamIdState } from '../../../../lib/GroupState';
 import { isAdminState } from '../../../../lib/useIsAdmin/useIsAdmin';
 import ActivityContextMenu from '../../ActivityContextMenu/ActivityContextMenu';
 import { ACTIVITIES_BY_ID } from '../../lib/activityData';
@@ -18,6 +21,9 @@ interface Props {
 
 export function ReadOnlyIframeToolbar(props: Props) {
   const isAdmin = useRecoilValue(isAdminState);
+  const [pinnedActivityId, setPinnedActivityId] = useRecoilState(
+    pinnedStreamIdState,
+  );
 
   const activity = ACTIVITIES_BY_ID[props.activityId];
 
@@ -26,6 +32,14 @@ export function ReadOnlyIframeToolbar(props: Props) {
   };
 
   const { toggleActivity } = useActivities();
+
+  const togglePinnedActivity = () => {
+    if (pinnedActivityId === props.activityId) {
+      setPinnedActivityId(null);
+      return;
+    }
+    setPinnedActivityId(props.activityId);
+  };
 
   return (
     <ActivityContextMenu activityId={props.activityId}>
@@ -41,6 +55,19 @@ export function ReadOnlyIframeToolbar(props: Props) {
           <Box ml={2}>
             <S.Title>{activity.label}</S.Title>
           </Box>
+        </Box>
+
+        <Box>
+          <IconButton
+            style={{ margin: '4px', padding: '4px 6px' }}
+            onClick={togglePinnedActivity}
+          >
+            {pinnedActivityId === props.activityId ? (
+              <FullscreenExitIcon style={{ fontSize: '22px' }} />
+            ) : (
+              <FullscreenIcon style={{ fontSize: '22px' }} />
+            )}
+          </IconButton>
         </Box>
 
         {isAdmin && (

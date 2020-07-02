@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import useGroup from '../../../../../lib/hooks/useGroup';
+import { groupDataState } from '../../../../../lib/hooks/useGroup';
 import useUpdateGroup from '../../../../../lib/hooks/useUpdateGroup';
 import { groupIdState, pinnedStreamIdState } from '../../../lib/GroupState';
 
@@ -26,15 +26,14 @@ const useSyncActivities = (groupId: string) => {
     pinnedStreamIdState,
   );
 
-  const group = useGroup(groupId);
+  const group = useRecoilValue(groupDataState);
 
   useEffect(() => {
-    if (group.data?.activityIds) {
+    if (group?.activityIds) {
       if (
-        JSON.stringify(activeActivityIds) !==
-        JSON.stringify(group.data?.activityIds)
+        JSON.stringify(activeActivityIds) !== JSON.stringify(group?.activityIds)
       ) {
-        const ids = group.data?.activityIds;
+        const ids = group?.activityIds;
 
         if (
           Object.keys(ActivityId).includes(pinnedStreamId || '') &&
@@ -47,12 +46,12 @@ const useSyncActivities = (groupId: string) => {
           setPinnedStreamId(ids[0]);
         }
 
-        setActiveActivityIds(group.data?.activityIds);
+        setActiveActivityIds(group?.activityIds);
       }
     }
   }, [
     activeActivityIds,
-    group.data,
+    group,
     pinnedStreamId,
     setActiveActivityIds,
     setPinnedStreamId,

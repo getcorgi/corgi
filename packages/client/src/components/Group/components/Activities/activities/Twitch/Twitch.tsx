@@ -2,24 +2,24 @@ import Box from '@material-ui/core/Box';
 import React, { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import useGroup from '../../../../../../lib/hooks/useGroup';
+import { groupDataState } from '../../../../../../lib/hooks/useGroup';
 import useUpdateGroup from '../../../../../../lib/hooks/useUpdateGroup';
-import { groupIdState } from '../../../../lib/GroupState';
 import { ActivityId } from '../../lib/useActivities';
 import { IframeToolbar } from '../IframeToolbar/IframeToolbar';
 
-export default function SharedIframe() {
-  const groupId = useRecoilValue(groupIdState);
-  const group = useGroup(groupId);
+export default function Twitch() {
+  const group = useRecoilValue(groupDataState);
+
   const updateGroup = useUpdateGroup();
   const [channelIdInput, setChannelIdInput] = useState(
-    group.data?.twitchChannel || '',
+    group?.twitchChannel || '',
   );
+
   const [isChannelIdSynced, setIsChannelIdSynced] = useState(false);
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const channelId = group.data?.twitchChannel || '';
+  const channelId = group?.twitchChannel || '';
 
   useEffect(() => {
     if (channelId && channelIdInput !== channelId && !isChannelIdSynced) {
@@ -29,7 +29,7 @@ export default function SharedIframe() {
   }, [channelId, channelIdInput, isChannelIdSynced]);
 
   const updateActivityUrl = (value: string) => {
-    updateGroup({ groupId, twitchChannel: value });
+    updateGroup({ groupId: group?.groupId, twitchChannel: value });
   };
 
   const onSubmitSource = (e: React.FormEvent) => {

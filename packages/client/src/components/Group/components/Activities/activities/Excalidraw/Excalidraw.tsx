@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import useGroup from '../../../../../../lib/hooks/useGroup';
+import { groupDataState } from '../../../../../../lib/hooks/useGroup';
 import useUpdateGroup from '../../../../../../lib/hooks/useUpdateGroup';
-import { groupIdState } from '../../../../lib/GroupState';
 import { ActivityId } from '../../lib/useActivities';
 import ActivityIframe from '../ActivityIframe';
 
@@ -25,28 +24,27 @@ const generateExalidrawUrl = () => {
 };
 
 export default function Excalidraw() {
-  const groupId = useRecoilValue(groupIdState);
-  const group = useGroup(groupId);
+  const group = useRecoilValue(groupDataState);
   const updateGroup = useUpdateGroup();
 
   const [url, setUrl] = useState('');
 
   useEffect(() => {
-    if (group.data?.excalidrawUrl && !url) {
-      setUrl(group.data?.excalidrawUrl);
+    if (group?.excalidrawUrl && !url) {
+      setUrl(group?.excalidrawUrl);
       return;
     }
 
-    if (!url && group.data?.id) {
+    if (!url && group?.groupId) {
       const newUrl = generateExalidrawUrl();
 
       updateGroup({
-        groupId,
+        groupId: group?.groupId,
         excalidrawUrl: newUrl,
       });
       setUrl(newUrl);
     }
-  }, [group, groupId, updateGroup, url]);
+  }, [group, updateGroup, url]);
 
   return <ActivityIframe id={ActivityId.Excalidraw} url={url} />;
 }
