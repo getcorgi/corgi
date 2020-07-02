@@ -1,10 +1,9 @@
 import Box from '@material-ui/core/Box';
-import useGroup from 'lib/hooks/useGroup';
+import { groupDataState } from 'lib/hooks/useGroup';
 import useUpdateGroup from 'lib/hooks/useUpdateGroup';
 import React, { useEffect, useRef, useState } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import { groupIdState } from '../../../../lib/GroupState';
 import { ActivityId } from '../../lib/useActivities';
 import { IframeToolbar } from '../IframeToolbar/IframeToolbar';
 
@@ -24,28 +23,29 @@ export default function SharedIframe() {
   const [sharedIframeUrl, setSharedIframeUrl] = useRecoilState(
     sharedIframeUrlState,
   );
-  const groupId = useRecoilValue(groupIdState);
-  const group = useGroup(groupId);
+  const group = useRecoilValue(groupDataState);
+
   const updateGroup = useUpdateGroup();
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const [sharedIframeUrlInput, setSharedIframeUrlInput] = useState(
-    addProtocol(group.data?.sharedIframeUrl || ''),
+    addProtocol(group?.sharedIframeUrl || ''),
   );
 
   useEffect(() => {
     if (
-      group.data?.sharedIframeUrl &&
-      group.data?.sharedIframeUrl !== sharedIframeUrl
+      group?.sharedIframeUrl &&
+      (group?.sharedIframeUrl !== sharedIframeUrlInput ||
+        group?.sharedIframeUrl !== sharedIframeUrl)
     ) {
-      setSharedIframeUrl(addProtocol(group.data?.sharedIframeUrl));
-      setSharedIframeUrlInput(addProtocol(group.data?.sharedIframeUrl));
+      setSharedIframeUrl(addProtocol(group?.sharedIframeUrl));
+      setSharedIframeUrlInput(addProtocol(group?.sharedIframeUrl));
     }
-  }, [group, setSharedIframeUrl, sharedIframeUrl]);
+  }, [group, setSharedIframeUrl, sharedIframeUrl, sharedIframeUrlInput]);
 
   const updateActivityUrl = (value: string) => {
-    updateGroup({ groupId, sharedIframeUrl: value });
+    updateGroup({ groupId: group?.groupId, sharedIframeUrl: value });
   };
 
   const onSubmitSource = (e: React.FormEvent) => {
