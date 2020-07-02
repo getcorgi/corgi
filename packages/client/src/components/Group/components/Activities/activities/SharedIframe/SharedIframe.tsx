@@ -23,6 +23,7 @@ export default function SharedIframe() {
   const [sharedIframeUrl, setSharedIframeUrl] = useRecoilState(
     sharedIframeUrlState,
   );
+  const [isSyncedWithServer, setIsSyncedWithServer] = useState(false);
   const group = useRecoilValue(groupDataState);
 
   const updateGroup = useUpdateGroup();
@@ -34,18 +35,24 @@ export default function SharedIframe() {
   );
 
   useEffect(() => {
-    if (
-      group?.sharedIframeUrl &&
-      (group?.sharedIframeUrl !== sharedIframeUrlInput ||
-        group?.sharedIframeUrl !== sharedIframeUrl)
-    ) {
+    if (group?.sharedIframeUrl && !isSyncedWithServer) {
       setSharedIframeUrl(addProtocol(group?.sharedIframeUrl));
       setSharedIframeUrlInput(addProtocol(group?.sharedIframeUrl));
+      setIsSyncedWithServer(true);
     }
-  }, [group, setSharedIframeUrl, sharedIframeUrl, sharedIframeUrlInput]);
+  }, [
+    group,
+    isSyncedWithServer,
+    setSharedIframeUrl,
+    sharedIframeUrl,
+    sharedIframeUrlInput,
+  ]);
 
   const updateActivityUrl = (value: string) => {
-    updateGroup({ groupId: group?.groupId, sharedIframeUrl: value });
+    updateGroup({
+      groupId: group?.groupId,
+      sharedIframeUrl: addProtocol(value),
+    });
   };
 
   const onSubmitSource = (e: React.FormEvent) => {
@@ -88,7 +95,7 @@ export default function SharedIframe() {
         }}
         width="100%"
         height="100%"
-        src={sharedIframeUrl}
+        src={addProtocol(sharedIframeUrl)}
       />
     </Box>
   );
