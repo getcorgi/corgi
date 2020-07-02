@@ -33,7 +33,8 @@ export default function GroupContainer(
   const { isPermissonAlertOpen, handleClosePermissionAlert } = useContext(
     MediaSettingsContext,
   );
-  const isAdmin = useIsAdmin(groupId);
+  const isAdmin = useIsAdmin();
+
   const creatorId = Object.keys(group?.data?.roles.byId || {})[0];
 
   useEffect(() => {

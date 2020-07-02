@@ -8,7 +8,7 @@ export const isAdminState = atom({
   default: false,
 });
 
-export default function useIsAdmin(groupId: string) {
+export default function useIsAdmin() {
   const [isAdmin, setIsAdmin] = useRecoilState(isAdminState);
   const group = useRecoilValue(groupDataState);
   const me = useRecoilValue(currentUserState);
