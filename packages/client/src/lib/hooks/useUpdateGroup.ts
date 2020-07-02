@@ -14,6 +14,7 @@ export default function(options?: { client?: typeof firebase }) {
     sharedIframeUrl?: string; // TEMPORARY. This will live elsewhere.
     excalidrawUrl?: string; // TEMPORARY. This will live elsewhere.
     twitchChannel?: string; // TEMPORARY. This will live elsewhere.
+    youtubeVideoId?: string; // TEMPORARY. This will live elsewhere.
   }) => {
     const currentUser = firebase.auth().currentUser;
 

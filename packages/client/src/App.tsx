@@ -1,5 +1,6 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
+import SocketProvider from 'components/Group/lib/SocketContext';
 import { appConfig } from 'lib/constants';
 import useUser from 'lib/hooks/useUser';
 import theme from 'lib/theme';
@@ -35,14 +36,16 @@ const App: React.FC = () => {
 
 const Root = () => (
   <RecoilRoot>
-    <ThemeProvider theme={theme}>
-      <FirebaseProvider config={appConfig}>
-        <Suspense fallback="loading...">
-          <CssBaseline />
-          <App />
-        </Suspense>
-      </FirebaseProvider>
-    </ThemeProvider>
+    <SocketProvider>
+      <ThemeProvider theme={theme}>
+        <FirebaseProvider config={appConfig}>
+          <Suspense fallback="loading...">
+            <CssBaseline />
+            <App />
+          </Suspense>
+        </FirebaseProvider>
+      </ThemeProvider>
+    </SocketProvider>
   </RecoilRoot>
 );
 

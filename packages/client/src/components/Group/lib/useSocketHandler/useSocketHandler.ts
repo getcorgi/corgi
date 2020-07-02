@@ -1,8 +1,7 @@
-import { appConfig } from 'lib/constants';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import io from 'socket.io-client';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
 
+import { SocketContext } from '../SocketContext';
 import useChatMessages from './lib/useChatMessages';
 import useSocketEvents from './lib/useSocketEvents';
 import useSyncPeers from './lib/useSyncPeers';
@@ -21,13 +20,7 @@ export default function useSocketHandler({
   isCameraOff: boolean;
   userData: User;
 }) {
-  const socket = useMemo(() => {
-    return {
-      current: io(appConfig.socketServer, {
-        transports: ['websocket'],
-      }),
-    };
-  }, []);
+  const { socket } = useContext(SocketContext);
 
   const connections = useRef<Connections>(new Map([]));
   const [users, setUsers] = useState<User[]>([]);
@@ -59,7 +52,7 @@ export default function useSocketHandler({
     playUserLeftBloop,
     setStreams,
     setUsers,
-    socket: socket.current,
+    socket,
   });
 
   const joinRoom = () => {
@@ -68,8 +61,8 @@ export default function useSocketHandler({
   };
 
   const leaveRoom = useCallback(() => {
-    socket.current.emit('userIsLeavingRoom', {
-      socketId: socket.current.id,
+    socket.emit('userIsLeavingRoom', {
+      socketId: socket.id,
     });
 
     connections.current = new Map([]);
@@ -80,7 +73,7 @@ export default function useSocketHandler({
 
   const disconnect = useCallback(() => {
     leaveRoom();
-    socket.current.close();
+    socket.close();
   }, [leaveRoom, socket]);
 
   useEffect(() => {
@@ -98,12 +91,12 @@ export default function useSocketHandler({
       peer.write(
         JSON.stringify({
           message: { isMuted, isCameraOff },
-          id: socket.current.id,
+          id: socket.id,
         }),
       );
     });
 
-    socket.current.emit('userUpdated', { isMuted, isCameraOff });
+    socket.emit('userUpdated', { isMuted, isCameraOff });
   }, [isMuted, isCameraOff, socket]);
 
   useEffect(() => {
@@ -120,19 +113,19 @@ export default function useSocketHandler({
   }, [localStream, isInRoom]);
 
   useEffect(() => {
-    if (!socket.current.id) return;
+    if (!socket.id) return;
 
-    socket.current.emit('userIsInPreview', { roomId: groupId });
+    socket.emit('userIsInPreview', { roomId: groupId });
 
-    socket.current.emit('getUsers', {
-      from: socket.current.id,
+    socket.emit('getUsers', {
+      from: socket.id,
       roomId: groupId,
     });
-    socket.current.on('gotUsers', ({ users }: { users: User[] }) => {
+    socket.on('gotUsers', ({ users }: { users: User[] }) => {
       if (!users?.length) return;
       setUsers(users.filter(Boolean));
     });
-  }, [groupId, socket, socket.current.id]);
+  }, [groupId, socket, socket.id]);
 
   const {
     messages,
@@ -140,7 +133,7 @@ export default function useSocketHandler({
     setUnreadMessageCount,
     unreadMessageCount,
   } = useChatMessages({
-    socket: socket.current,
+    socket: socket,
   });
 
   useEffect(() => {
@@ -166,7 +159,7 @@ export default function useSocketHandler({
 
   useSyncPeers({
     groupId,
-    socket: socket.current,
+    socket: socket,
   });
 
   return {

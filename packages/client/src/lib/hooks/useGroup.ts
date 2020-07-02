@@ -12,6 +12,7 @@ export interface GroupDocumentData {
   activityIds: ActivityId[];
   sharedIframeUrl?: string; //TEMPORARY: This will live elswhere,
   excalidrawUrl?: string; // TEMPORARY. This will live elsewhere.
+  youtubeVideoId?: string; // TEMPORARY. This will live elsewhere.
   twitchChannel?: string; // TEMPORARY. This will live elsewhere.
   type: string;
   name: string;
