@@ -1,13 +1,28 @@
 import Box from '@material-ui/core/Box';
+import { SocketContext } from 'components/Group/lib/SocketContext';
+import { User } from 'components/Group/lib/useSocketHandler';
 import { groupDataState } from 'lib/hooks/useGroup';
 import useUpdateGroup from 'lib/hooks/useUpdateGroup';
-import React, { useEffect, useRef, useState } from 'react';
+import { currentUserState } from 'lib/hooks/useUser';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import YouTubePlayer, { YouTubeProps } from 'react-youtube';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 
 import { ActivityId } from '../../lib/useActivities';
 import { IframeToolbar } from '../IframeToolbar/IframeToolbar';
+
+interface YoutubeSyncMessage {
+  data: string;
+  user: User;
+  createdAt: number;
+}
 
 const S = {
   Youtube: styled(Box)`
@@ -20,6 +35,8 @@ const S = {
 
 export default function Youtube() {
   const group = useRecoilValue(groupDataState);
+  const { socket } = useContext(SocketContext);
+  const me = useRecoilValue(currentUserState);
 
   const updateGroup = useUpdateGroup();
   const [videoIdInput, setVideoIdInput] = useState(group?.youtubeVideoId || '');
@@ -27,6 +44,8 @@ export default function Youtube() {
   const [isVideoIdSynced, setIsChannelIdSynced] = useState(false);
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  const videoPlayerInstance = useRef();
 
   const videoId = group?.youtubeVideoId || '';
 
@@ -64,6 +83,35 @@ export default function Youtube() {
     }
   };
 
+  const sendYoutubeSyncData = useCallback(
+    (data: string) => {
+      socket.emit('sendYoutubeSyncData', { data });
+    },
+    [socket],
+  );
+
+  useEffect(() => {
+    socket.on('receivedYoutubeSyncData', (message: YoutubeSyncMessage) => {
+      if (message.user.firebaseAuthId !== me.firebaseAuthId) {
+        if (!videoPlayerInstance.current) return;
+
+        if (message.data === 'play') {
+          // @ts-ignore
+          videoPlayerInstance.current?.playVideo();
+        }
+
+        if (message.data === 'pause') {
+          // @ts-ignore
+          videoPlayerInstance.current?.pauseVideo();
+        }
+      }
+    });
+
+    return function cleanup() {
+      socket.removeEventListener('receivedYoutubeSyncData');
+    };
+  }, [me.firebaseAuthId, socket]);
+
   const youtubePlayerOpts = {
     height: '100%',
     width: '100%',
@@ -72,12 +120,16 @@ export default function Youtube() {
     },
   };
 
+  const onReady: YouTubeProps['onReady'] = e => {
+    videoPlayerInstance.current = e.target;
+  };
+
   const onPlay: YouTubeProps['onPlay'] = e => {
-    console.log(e, 'tell everyone to play');
+    sendYoutubeSyncData('play');
   };
 
   const onPause: YouTubeProps['onPause'] = e => {
-    console.log(e, 'tell everyone to pause');
+    sendYoutubeSyncData('pause');
   };
 
   return (
@@ -104,6 +156,7 @@ export default function Youtube() {
         containerClassName="react-youtube-player"
         onPlay={onPlay} // defaults -> noop
         onPause={onPause}
+        onReady={onReady}
       />
     </S.Youtube>
   );

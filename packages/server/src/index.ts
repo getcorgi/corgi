@@ -123,4 +123,11 @@ io.on('connection', (socket: ExtendedSocket) => {
       createdAt: new Date().getTime(),
     });
   });
+
+  socket.on('sendYoutubeSyncData', ({ data }: { data: string }) => {
+    io.in(room).emit('receivedYoutubeSyncData', {
+      data,
+      user: socket.userData,
+    });
+  });
 });
