@@ -4,7 +4,6 @@ import useResizeObserver from 'use-resize-observer';
 
 import { UserDocumentData } from '../../../../../../lib/hooks/useUser';
 import { User } from '../../../../lib/useSocketHandler';
-import SharedIframe from '../../../Activities/activities/SharedIframe';
 import mapActivityIdToComponent from '../../../Activities/lib/mapActivityIdToComponent';
 import { ActivityId } from '../../../Activities/lib/useActivities';
 import Video from '../../../Video';

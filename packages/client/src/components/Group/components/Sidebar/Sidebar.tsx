@@ -12,14 +12,13 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import useSound from 'use-sound';
 
 import theme from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import ActivityChooserModal from '../Activities/ActivityChooserModal';
 import { isActivityChooserModalOpenState } from '../Activities/ActivityChooserModal/ActivityChooserModal';
-import { ActivityId } from '../Activities/lib/useActivities';
 import Chat from '../Chat';
 import ChatSnackbar from '../ChatSnackbar/ChatSnackbar';
 import OverflowMenu from './components/OverflowMenu';

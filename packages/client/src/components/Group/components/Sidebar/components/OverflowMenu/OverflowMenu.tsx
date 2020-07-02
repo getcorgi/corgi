@@ -7,6 +7,7 @@ import StopScreenShareIcon from '@material-ui/icons/StopScreenShare';
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 
+import { FEEDBACK_FORM_URL } from '../../../../../../constants';
 import { mediaSettingsModalIsOpenState } from '../../../MediaSettingsModal/MediaSettingsModal';
 import * as S from './OverflowMenu.styles';
 
@@ -40,7 +41,7 @@ export default function OverflowMenu(props: Props) {
   };
 
   const onFeedBackClick = () => {
-    window.open('https://forms.gle/HYwvYR679uojdGpNA');
+    window.open(FEEDBACK_FORM_URL);
   };
 
   return (

@@ -3,7 +3,6 @@ import React from 'react';
 
 import { UserDocumentData } from '../../../../../../lib/hooks/useUser';
 import { User } from '../../../../lib/useSocketHandler';
-import SharedIframe from '../../../Activities/activities/SharedIframe';
 import mapActivityIdToComponent from '../../../Activities/lib/mapActivityIdToComponent';
 import { ActivityId } from '../../../Activities/lib/useActivities';
 import DraggableSplitWrapper from '../../../DraggableSplitWrapper';
