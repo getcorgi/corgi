@@ -8,7 +8,9 @@ import { DocumentQueryResult } from '../types';
 interface GroupDocumentData {
   id: string;
   activityIds: ActivityId[];
-  activityUrl?: string; //TEMPORARY: This will live elswhere,
+  sharedIframeUrl?: string; //TEMPORARY: This will live elswhere,
+  excalidrawUrl?: string; // TEMPORARY. This will live elsewhere.
+  twitchChannel?: string; // TEMPORARY. This will live elsewhere.
   type: string;
   name: string;
   roles: {

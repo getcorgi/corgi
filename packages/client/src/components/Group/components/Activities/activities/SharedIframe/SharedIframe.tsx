@@ -31,21 +31,21 @@ export default function SharedIframe() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const [sharedIframeUrlInput, setSharedIframeUrlInput] = useState(
-    addProtocol(group.data?.activityUrl || 'https://'),
+    addProtocol(group.data?.sharedIframeUrl || 'https://'),
   );
 
   useEffect(() => {
     if (
-      group.data?.activityUrl &&
-      group.data?.activityUrl !== sharedIframeUrl
+      group.data?.sharedIframeUrl &&
+      group.data?.sharedIframeUrl !== sharedIframeUrl
     ) {
-      setSharedIframeUrl(addProtocol(group.data?.activityUrl));
-      setSharedIframeUrlInput(addProtocol(group.data?.activityUrl));
+      setSharedIframeUrl(addProtocol(group.data?.sharedIframeUrl));
+      setSharedIframeUrlInput(addProtocol(group.data?.sharedIframeUrl));
     }
   }, [group, setSharedIframeUrl, sharedIframeUrl]);
 
   const updateActivityUrl = (value: string) => {
-    updateGroup({ groupId, activityUrl: value });
+    updateGroup({ groupId, sharedIframeUrl: value });
   };
 
   const onSubmitSource = (e: React.FormEvent) => {

@@ -11,7 +11,9 @@ export default function(options?: { client?: typeof firebase }) {
   return async (variables: {
     groupId?: string;
     activityIds?: ActivityId[];
-    activityUrl?: string; // TEMPORARY. This will live elsewhere.
+    sharedIframeUrl?: string; // TEMPORARY. This will live elsewhere.
+    excalidrawUrl?: string; // TEMPORARY. This will live elsewhere.
+    twitchChannel?: string; // TEMPORARY. This will live elsewhere.
   }) => {
     const currentUser = firebase.auth().currentUser;
 

@@ -1,18 +1,16 @@
 import Box from '@material-ui/core/Box';
 import React, { useRef } from 'react';
 
-import { ACTIVITIES_BY_ID } from '../../lib/activityData';
 import { ActivityId } from '../../lib/useActivities';
 import { ReadOnlyIframeToolbar } from '../IframeToolbar/ReadOnlyIframeToolbar';
 
 interface Props {
-  activityId: ActivityId;
+  id: ActivityId;
+  url: string;
 }
 
 export default function ActivityIframe(props: Props) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  const activity = ACTIVITIES_BY_ID[props.activityId];
 
   const onClickRefresh = () => {
     const src = iframeRef.current?.src;
@@ -32,10 +30,10 @@ export default function ActivityIframe(props: Props) {
     >
       <ReadOnlyIframeToolbar
         onClickRefresh={onClickRefresh}
-        activityId={props.activityId}
+        activityId={props.id}
       />
       <iframe
-        title={props.activityId}
+        title={props.id}
         ref={iframeRef}
         style={{
           border: 0,
@@ -44,7 +42,7 @@ export default function ActivityIframe(props: Props) {
         }}
         width="100%"
         height="100%"
-        src={activity.url}
+        src={props.url}
       />
     </Box>
   );
