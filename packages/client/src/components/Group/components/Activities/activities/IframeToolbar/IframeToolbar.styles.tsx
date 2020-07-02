@@ -5,10 +5,18 @@ import {
 } from '@material-ui/core';
 import styled from 'styled-components';
 
+import { backgroundColor } from '../../../../../../lib/theme';
+
 export const Input = styled(InputBase)`
   width: 100%;
-  padding-left: 16px;
-  font-size: 14px;
+  margin-left: 16px;
+
+  & > input {
+    background: ${backgroundColor[700]};
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 12px;
+  }
 `;
 
 export const MenuItem = styled(MuiMenuItem)`

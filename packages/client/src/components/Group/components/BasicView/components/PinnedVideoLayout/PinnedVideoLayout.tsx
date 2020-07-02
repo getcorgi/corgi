@@ -109,7 +109,7 @@ export default function PinnedVideoLayout(props: Props) {
             key={id}
             width="100%"
             position="relative"
-            pb="56.25%"
+            pb="76.25%"
             overflow="hidden"
           >
             {mapActivityIdToComponent(id)}

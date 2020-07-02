@@ -12,15 +12,16 @@ import useActivities, { ActivityId } from '../../lib/useActivities';
 import * as S from './IframeToolbar.styles';
 
 interface Props {
-  activityUrl: string;
+  value: string;
   activityId: ActivityId;
-  setActivityUrl: (url: string) => void;
+  setValue: (url: string) => void;
   onSubmit: (e: React.FormEvent) => void;
-  updateActivityUrl: (value: string) => void;
   onClickRefresh: () => void;
+  placeholder: string;
+  title?: string | null;
 }
 
-export function IframeToolbar(props: Props) {
+export function IframeToolbar({ title = null, ...props }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { toggleActivity } = useActivities();
@@ -28,11 +29,11 @@ export function IframeToolbar(props: Props) {
   const isAdmin = useRecoilValue(isAdminState);
 
   const onClick = () => {
-    inputRef.current?.setSelectionRange(0, props.activityUrl.length);
+    inputRef.current?.setSelectionRange(0, props.value.length);
   };
 
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    props.setActivityUrl(event.target.value);
+    props.setValue(event.target.value);
   };
 
   const onClickRefresh = () => {
@@ -48,6 +49,7 @@ export function IframeToolbar(props: Props) {
             display="flex"
             justifyContent="space-between"
             width="100%"
+            alignItems="center"
           >
             <IconButton
               onClick={onClickRefresh}
@@ -56,12 +58,19 @@ export function IframeToolbar(props: Props) {
               <RefreshIcon style={{ fontSize: '16px' }} />
             </IconButton>
             <Divider orientation="vertical" flexItem={true} />
+            {title && (
+              <Box ml={2}>
+                <S.Title>{title}</S.Title>
+              </Box>
+            )}
+
             <S.Input
-              value={props.activityUrl}
+              value={props.value}
               onChange={onInputChange}
               onClick={onClick}
               inputProps={{ 'aria-label': 'go to url' }}
               inputRef={inputRef}
+              placeholder={props.placeholder}
             />
             <IconButton
               type="submit"

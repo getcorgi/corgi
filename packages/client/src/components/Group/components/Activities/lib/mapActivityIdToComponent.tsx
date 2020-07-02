@@ -3,6 +3,7 @@ import React from 'react';
 import ActivityIframe from '../activities/ActivityIframe';
 import Excalidraw from '../activities/Excalidraw';
 import SharedIframe from '../activities/SharedIframe';
+import Twitch from '../activities/Twitch';
 import { ActivityId } from './useActivities';
 
 export default function mapActivityIdToComponent(id?: ActivityId) {
@@ -12,9 +13,7 @@ export default function mapActivityIdToComponent(id?: ActivityId) {
     case ActivityId.Dominion:
       return <ActivityIframe id={id} url="http://dominion.games" />;
     case ActivityId.Twitch:
-      return (
-        <ActivityIframe id={id} url="https://player.twitch.tv/?channel=" />
-      );
+      return <Twitch />;
     case ActivityId.Excalidraw:
       return <Excalidraw />;
     default:

@@ -26,11 +26,11 @@ export const Default = () => {
     <Container>
       <IframeToolbar
         activityId={ActivityId.SharedIframe}
-        activityUrl="http://corgi.chat"
-        setActivityUrl={noop}
+        value="http://corgi.chat"
+        setValue={noop}
         onSubmit={noop}
-        updateActivityUrl={noop}
         onClickRefresh={noop}
+        placeholder="hello!"
       />
     </Container>
   );

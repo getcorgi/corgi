@@ -1,6 +1,6 @@
 import Box from '@material-ui/core/Box';
 import React, { useEffect, useRef, useState } from 'react';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 import useGroup from '../../../../../../lib/hooks/useGroup';
 import useUpdateGroup from '../../../../../../lib/hooks/useUpdateGroup';
@@ -8,50 +8,33 @@ import { groupIdState } from '../../../../lib/GroupState';
 import { ActivityId } from '../../lib/useActivities';
 import { IframeToolbar } from '../IframeToolbar/IframeToolbar';
 
-function addProtocol(url: string) {
-  if (!/^(?:f|ht)tps?:\/\//.test(url)) {
-    url = 'https://' + url;
-  }
-  return url;
-}
-
-export const sharedIframeUrlState = atom<string>({
-  key: 'Activities__sharedIframeUrl',
-  default: 'https://',
-});
-
 export default function SharedIframe() {
-  const [sharedIframeUrl, setSharedIframeUrl] = useRecoilState(
-    sharedIframeUrlState,
-  );
   const groupId = useRecoilValue(groupIdState);
   const group = useGroup(groupId);
   const updateGroup = useUpdateGroup();
+  const [channelIdInput, setChannelIdInput] = useState(
+    group.data?.twitchChannel || '',
+  );
+  const [isChannelIdSynced, setIsChannelIdSynced] = useState(false);
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const [sharedIframeUrlInput, setSharedIframeUrlInput] = useState(
-    addProtocol(group.data?.sharedIframeUrl || ''),
-  );
+  const channelId = group.data?.twitchChannel || '';
 
   useEffect(() => {
-    if (
-      group.data?.sharedIframeUrl &&
-      group.data?.sharedIframeUrl !== sharedIframeUrl
-    ) {
-      setSharedIframeUrl(addProtocol(group.data?.sharedIframeUrl));
-      setSharedIframeUrlInput(addProtocol(group.data?.sharedIframeUrl));
+    if (channelId && channelIdInput !== channelId && !isChannelIdSynced) {
+      setChannelIdInput(channelId);
+      setIsChannelIdSynced(true);
     }
-  }, [group, setSharedIframeUrl, sharedIframeUrl]);
+  }, [channelId, channelIdInput, isChannelIdSynced]);
 
   const updateActivityUrl = (value: string) => {
-    updateGroup({ groupId, sharedIframeUrl: value });
+    updateGroup({ groupId, twitchChannel: value });
   };
 
   const onSubmitSource = (e: React.FormEvent) => {
     e.preventDefault();
-    updateActivityUrl(addProtocol(sharedIframeUrlInput));
-    setSharedIframeUrl(sharedIframeUrlInput);
+    updateActivityUrl(channelIdInput);
   };
 
   const onClickRefresh = () => {
@@ -71,15 +54,16 @@ export default function SharedIframe() {
       width="100%"
     >
       <IframeToolbar
-        activityId={ActivityId.SharedIframe}
-        value={sharedIframeUrlInput}
+        activityId={ActivityId.Twitch}
+        value={channelIdInput}
         onSubmit={onSubmitSource}
-        setValue={setSharedIframeUrlInput}
+        setValue={setChannelIdInput}
         onClickRefresh={onClickRefresh}
-        placeholder="https://yoursite.com"
+        placeholder="Channel name eg: grandpoobear"
+        title="Twitch"
       />
       <iframe
-        title="shared-browser"
+        title="twitch"
         ref={iframeRef}
         style={{
           border: 0,
@@ -88,7 +72,7 @@ export default function SharedIframe() {
         }}
         width="100%"
         height="100%"
-        src={sharedIframeUrl}
+        src={`https://player.twitch.tv?channel=${channelId}&parent=corgi.chat&parent=localhost`}
       />
     </Box>
   );

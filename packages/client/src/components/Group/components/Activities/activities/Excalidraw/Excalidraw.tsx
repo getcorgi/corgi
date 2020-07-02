@@ -31,8 +31,6 @@ export default function Excalidraw() {
 
   const [url, setUrl] = useState('');
 
-  console.log(group);
-
   useEffect(() => {
     if (group.data?.excalidrawUrl && !url) {
       setUrl(group.data?.excalidrawUrl);
@@ -49,8 +47,6 @@ export default function Excalidraw() {
       setUrl(newUrl);
     }
   }, [group, groupId, updateGroup, url]);
-
-  console.log(url);
 
   return <ActivityIframe id={ActivityId.Excalidraw} url={url} />;
 }
