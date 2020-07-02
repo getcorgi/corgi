@@ -1,8 +1,7 @@
+import { groupDataState } from 'lib/hooks/useGroup';
+import { currentUserState } from 'lib/hooks/useUser';
 import { useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
-
-import { groupDataState } from '../../../../lib/hooks/useGroup';
-import { currentUserState } from '../../../../lib/hooks/useUser';
 
 export const isAdminState = atom({
   key: 'Group__isAdmin',

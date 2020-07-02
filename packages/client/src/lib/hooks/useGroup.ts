@@ -54,8 +54,11 @@ export default function useGroup(
   const snapshotData = snapshot?.data();
 
   useEffect(() => {
-    if (!groupData && snapshotData) {
-      setGroupData((snapshot?.data() as GroupDocumentData) || null);
+    if (
+      snapshotData?.groupId &&
+      JSON.stringify(groupData) !== JSON.stringify(snapshotData)
+    ) {
+      setGroupData((snapshotData as GroupDocumentData) || null);
     }
   }, [groupData, setGroupData, snapshot, snapshotData]);
 

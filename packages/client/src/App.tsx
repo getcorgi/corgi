@@ -1,5 +1,8 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider } from '@material-ui/core/styles';
+import { appConfig } from 'lib/constants';
+import useUser from 'lib/hooks/useUser';
+import theme from 'lib/theme';
 import React, { Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -9,9 +12,6 @@ import ErrorPage from './components/ErrorPage';
 import { FirebaseProvider } from './components/Firebase';
 import Group from './components/Group';
 import Home from './components/Home';
-import { appConfig } from './constants';
-import useUser from './lib/hooks/useUser';
-import theme from './lib/theme';
 
 const App: React.FC = () => {
   useUser();

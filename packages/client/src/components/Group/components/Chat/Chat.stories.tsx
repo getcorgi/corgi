@@ -1,6 +1,6 @@
+import { backgroundColor } from 'lib/theme';
 import React, { useState } from 'react';
 
-import { backgroundColor } from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import Chat from './Chat';
 

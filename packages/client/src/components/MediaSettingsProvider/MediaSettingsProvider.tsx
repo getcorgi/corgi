@@ -1,6 +1,5 @@
+import { noop } from 'lib/constants';
 import React, { useEffect, useState } from 'react';
-
-import { noop } from '../../constants';
 
 const DEFAULT_MEDIA_CONSTRAINTS = {
   video: false,

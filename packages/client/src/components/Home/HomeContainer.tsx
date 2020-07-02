@@ -1,7 +1,7 @@
+import { GroupType } from 'lib/types';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { GroupType } from '../../lib/types';
 import Home from './Home';
 import useUpdateGroups from './lib/useUpdateGroups';
 

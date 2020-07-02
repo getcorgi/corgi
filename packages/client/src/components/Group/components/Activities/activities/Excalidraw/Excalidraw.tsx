@@ -1,8 +1,8 @@
+import { groupDataState } from 'lib/hooks/useGroup';
+import useUpdateGroup from 'lib/hooks/useUpdateGroup';
 import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { groupDataState } from '../../../../../../lib/hooks/useGroup';
-import useUpdateGroup from '../../../../../../lib/hooks/useUpdateGroup';
 import { ActivityId } from '../../lib/useActivities';
 import ActivityIframe from '../ActivityIframe';
 

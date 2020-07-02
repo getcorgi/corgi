@@ -1,9 +1,9 @@
 import { Box, Dialog, DialogContent } from '@material-ui/core';
+import { FEEDBACK_FORM_URL } from 'lib/constants';
+import theme from 'lib/theme';
 import React from 'react';
 import { atom, useRecoilState } from 'recoil';
 
-import { FEEDBACK_FORM_URL } from '../../../../../constants';
-import theme from '../../../../../lib/theme';
 import { ACTIVITIES_BY_ID, ACTIVITY_IDS_BY_GROUP } from '../lib/activityData';
 import useActivities, { ActivityId } from '../lib/useActivities';
 import * as S from './ActivityChooserModal.styles';

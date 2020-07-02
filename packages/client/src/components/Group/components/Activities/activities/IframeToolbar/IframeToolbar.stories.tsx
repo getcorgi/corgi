@@ -1,7 +1,7 @@
+import { noop } from 'lib/constants';
+import { backgroundColor } from 'lib/theme';
 import React from 'react';
 
-import { noop } from '../../../../../../constants';
-import { backgroundColor } from '../../../../../../lib/theme';
 import { ActivityId } from '../../lib/useActivities';
 import { IframeToolbar } from './IframeToolbar';
 

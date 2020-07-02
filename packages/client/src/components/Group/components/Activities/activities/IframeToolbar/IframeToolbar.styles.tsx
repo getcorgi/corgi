@@ -3,9 +3,8 @@ import {
   ListSubheader as MuiListSubheader,
   MenuItem as MuiMenuItem,
 } from '@material-ui/core';
+import { backgroundColor } from 'lib/theme';
 import styled from 'styled-components';
-
-import { backgroundColor } from '../../../../../../lib/theme';
 
 export const Input = styled(InputBase)`
   width: 100%;

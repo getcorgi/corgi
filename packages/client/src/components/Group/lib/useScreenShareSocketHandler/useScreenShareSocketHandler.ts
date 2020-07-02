@@ -1,7 +1,7 @@
+import { appConfig } from 'lib/constants';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import io from 'socket.io-client';
 
-import { appConfig } from '../../../../constants';
 import useScreenShare from '../useScreenShare';
 import useScreenShareSocketEvents from './lib/useScreenShareSocketEvents';
 import { Connections, User } from './types';

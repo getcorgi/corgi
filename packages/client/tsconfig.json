@@ -14,7 +14,8 @@
     "isolatedModules": true,
     "downlevelIteration": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": "src"
   },
   "include": ["src"],
   "exclude": ["**/*.stories/**"]

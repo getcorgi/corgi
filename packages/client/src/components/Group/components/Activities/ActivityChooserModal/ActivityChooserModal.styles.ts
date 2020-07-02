@@ -1,7 +1,6 @@
 import { ButtonBase, Typography } from '@material-ui/core';
+import theme from 'lib/theme';
 import styled from 'styled-components';
-
-import theme from '../../../../../lib/theme';
 
 export const ActivityChoice = styled(ButtonBase)<{ isActive: boolean }>`
   border: 1px solid ${theme.palette.primary.main};

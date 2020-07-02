@@ -1,7 +1,7 @@
 import { Box } from '@material-ui/core';
+import { UserDocumentData } from 'lib/hooks/useUser';
 import React from 'react';
 
-import { UserDocumentData } from '../../../../../../lib/hooks/useUser';
 import { User } from '../../../../lib/useSocketHandler';
 import mapActivityIdToComponent from '../../../Activities/lib/mapActivityIdToComponent';
 import { ActivityId } from '../../../Activities/lib/useActivities';

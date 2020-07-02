@@ -1,9 +1,9 @@
 import { Typography, useTheme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import { UserDocumentData } from 'lib/hooks/useUser';
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { UserDocumentData } from '../../../../lib/hooks/useUser';
 import { pinnedStreamIdState } from '../../lib/GroupState';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import { activeActivityIdsState } from '../Activities/lib/useActivities';

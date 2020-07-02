@@ -1,16 +1,12 @@
 import { useContext } from 'react';
-import { useSetRecoilState } from 'recoil';
 
 import { FirebaseContext } from '../../components/Firebase';
 import { ActivityId } from '../../components/Group/components/Activities/lib/useActivities';
-import { groupDataState } from './useGroup';
 
 export default function(options?: { client?: typeof firebase }) {
   const { firebase } = useContext(FirebaseContext);
   const client = (options && options.client) || firebase;
   const db = client.firestore();
-
-  const setGroupData = useSetRecoilState(groupDataState);
 
   return async (variables: {
     groupId?: string;
@@ -26,11 +22,6 @@ export default function(options?: { client?: typeof firebase }) {
     }
 
     const ref = db.collection('groups').doc(variables.groupId);
-
-    setGroupData(prevData => ({
-      ...prevData,
-      ...variables,
-    }));
 
     return await ref.update({
       ...variables,

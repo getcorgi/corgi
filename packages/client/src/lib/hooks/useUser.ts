@@ -1,10 +1,10 @@
 import { Color } from '@material-ui/core';
 import firebase from 'firebase/app';
+import { getColorFromHash } from 'lib/theme';
 import { useContext, useEffect, useRef } from 'react';
 import { atom, useRecoilState } from 'recoil';
 
 import { FirebaseContext } from '../../components/Firebase';
-import { getColorFromHash } from '../theme';
 import { DocumentQueryResult } from '../types';
 
 export interface UserDocumentData {

@@ -1,8 +1,8 @@
 import { Box, FormControlLabel, Menu, Switch } from '@material-ui/core';
+import theme from 'lib/theme';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import theme from '../../../../../lib/theme';
 import { pinnedStreamIdState } from '../../../lib/GroupState';
 import { ActivityId } from '../lib/useActivities';
 

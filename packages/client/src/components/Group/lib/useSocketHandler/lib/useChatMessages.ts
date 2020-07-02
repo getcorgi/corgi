@@ -1,7 +1,7 @@
+import { currentUserState } from 'lib/hooks/useUser';
 import { useCallback, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-import { currentUserState } from '../../../../../lib/hooks/useUser';
 import { User } from '../types';
 
 export interface Message {

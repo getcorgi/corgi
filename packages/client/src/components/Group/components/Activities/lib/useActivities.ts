@@ -1,8 +1,8 @@
+import { groupDataState } from 'lib/hooks/useGroup';
+import useUpdateGroup from 'lib/hooks/useUpdateGroup';
 import { useCallback, useEffect } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import { groupDataState } from '../../../../../lib/hooks/useGroup';
-import useUpdateGroup from '../../../../../lib/hooks/useUpdateGroup';
 import { groupIdState, pinnedStreamIdState } from '../../../lib/GroupState';
 
 export enum ActivityId {

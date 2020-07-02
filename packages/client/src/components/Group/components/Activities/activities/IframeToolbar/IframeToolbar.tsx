@@ -4,10 +4,10 @@ import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SearchIcon from '@material-ui/icons/Search';
+import { backgroundColor } from 'lib/theme';
 import React, { useRef } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import { backgroundColor } from '../../../../../../lib/theme';
 import { pinnedStreamIdState } from '../../../../lib/GroupState';
 import { isAdminState } from '../../../../lib/useIsAdmin/useIsAdmin';
 import ActivityContextMenu from '../../ActivityContextMenu/ActivityContextMenu';

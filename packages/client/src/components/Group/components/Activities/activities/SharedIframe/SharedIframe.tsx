@@ -1,9 +1,9 @@
 import Box from '@material-ui/core/Box';
+import useGroup from 'lib/hooks/useGroup';
+import useUpdateGroup from 'lib/hooks/useUpdateGroup';
 import React, { useEffect, useRef, useState } from 'react';
 import { atom, useRecoilState, useRecoilValue } from 'recoil';
 
-import useGroup from '../../../../../../lib/hooks/useGroup';
-import useUpdateGroup from '../../../../../../lib/hooks/useUpdateGroup';
 import { groupIdState } from '../../../../lib/GroupState';
 import { ActivityId } from '../../lib/useActivities';
 import { IframeToolbar } from '../IframeToolbar/IframeToolbar';

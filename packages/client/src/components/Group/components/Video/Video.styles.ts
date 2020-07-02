@@ -1,7 +1,6 @@
 import { Avatar, Box, Color, styled } from '@material-ui/core';
+import theme from 'lib/theme';
 import { darken, desaturate } from 'polished';
-
-import theme from '../../../../lib/theme';
 
 export const AudioIndicator = styled('div')({
   width: '28px',

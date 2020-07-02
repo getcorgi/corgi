@@ -11,11 +11,11 @@ import ChatIcon from '@material-ui/icons/Chat';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import clsx from 'clsx';
+import theme from 'lib/theme';
 import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import useSound from 'use-sound';
 
-import theme from '../../../../lib/theme';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import ActivityChooserModal from '../Activities/ActivityChooserModal';
 import { isActivityChooserModalOpenState } from '../Activities/ActivityChooserModal/ActivityChooserModal';

@@ -13,10 +13,10 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import VideocamOffIcon from '@material-ui/icons/VideocamOff';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
+import { UserDocumentData } from 'lib/hooks/useUser';
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { UserDocumentData } from '../../../../lib/hooks/useUser';
 import Button from '../../../Button/Button';
 import Header from '../../../Header';
 import { keyLabelMap } from '../../../Hotkeys/Hotkeys';
