@@ -13,6 +13,10 @@ export const ActivityChoice = styled(ButtonBase)<{ isActive: boolean }>`
     `
     background: ${theme.palette.primary.main};
   `}
+
+  &:hover {
+    background: ${theme.palette.primary.dark};
+  }
 `;
 
 export const GroupLabel = styled(Typography)`
