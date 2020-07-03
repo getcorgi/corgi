@@ -1,5 +1,6 @@
 import Box from '@material-ui/core/Box';
 import { SocketContext } from 'components/Group/lib/SocketContext';
+import useIsAdmin from 'components/Group/lib/useIsAdmin';
 import { User } from 'components/Group/lib/useSocketHandler';
 import { groupDataState } from 'lib/hooks/useGroup';
 import useUpdateGroup from 'lib/hooks/useUpdateGroup';
@@ -19,7 +20,7 @@ import { ActivityId } from '../../lib/useActivities';
 import { IframeToolbar } from '../IframeToolbar/IframeToolbar';
 
 interface YoutubeSyncMessage {
-  data: string;
+  data: { [key: string]: any };
   user: User;
   createdAt: number;
 }
@@ -37,6 +38,7 @@ export default function Youtube() {
   const group = useRecoilValue(groupDataState);
   const { socket } = useContext(SocketContext);
   const me = useRecoilValue(currentUserState);
+  const isAdmin = useIsAdmin();
 
   const updateGroup = useUpdateGroup();
   const [videoIdInput, setVideoIdInput] = useState(group?.youtubeVideoId || '');
@@ -48,6 +50,8 @@ export default function Youtube() {
   const videoPlayerInstance = useRef();
 
   const videoId = group?.youtubeVideoId || '';
+
+  const updateInterval = useRef(-1);
 
   useEffect(() => {
     if (videoId && videoIdInput !== videoId && !isVideoIdSynced) {
@@ -84,25 +88,41 @@ export default function Youtube() {
   };
 
   const sendYoutubeSyncData = useCallback(
-    (data: string) => {
+    (data: YoutubeSyncMessage['data']) => {
       socket.emit('sendYoutubeSyncData', { data });
     },
     [socket],
   );
+
+  const sendYoutubeLatestPosition = () => {
+    // @ts-ignore
+    const position = videoPlayerInstance.current?.getCurrentTime();
+
+    sendYoutubeSyncData({ position });
+  };
 
   useEffect(() => {
     socket.on('receivedYoutubeSyncData', (message: YoutubeSyncMessage) => {
       if (message.user.firebaseAuthId !== me.firebaseAuthId) {
         if (!videoPlayerInstance.current) return;
 
-        if (message.data === 'play') {
+        if (message.data?.play) {
           // @ts-ignore
           videoPlayerInstance.current?.playVideo();
         }
 
-        if (message.data === 'pause') {
+        if (message.data?.pause) {
           // @ts-ignore
           videoPlayerInstance.current?.pauseVideo();
+        }
+        if (message.data?.position) {
+          // @ts-ignore
+          const currentTime = videoPlayerInstance.current.getCurrentTime();
+          const hostTime = message.data.position;
+          if (hostTime - currentTime > 0.25 || currentTime - hostTime > 0.25) {
+            // @ts-ignore
+            videoPlayerInstance.current?.seekTo(message.data.position);
+          }
         }
       }
     });
@@ -125,11 +145,22 @@ export default function Youtube() {
   };
 
   const onPlay: YouTubeProps['onPlay'] = e => {
-    sendYoutubeSyncData('play');
+    sendYoutubeSyncData({ play: true });
+
+    if (isAdmin) {
+      updateInterval.current = window.setInterval(
+        sendYoutubeLatestPosition,
+        500,
+      );
+    }
   };
 
   const onPause: YouTubeProps['onPause'] = e => {
-    sendYoutubeSyncData('pause');
+    sendYoutubeSyncData({ pause: true });
+
+    if (isAdmin && updateInterval.current) {
+      window.clearInterval(updateInterval.current);
+    }
   };
 
   return (
@@ -157,6 +188,7 @@ export default function Youtube() {
         onPlay={onPlay} // defaults -> noop
         onPause={onPause}
         onReady={onReady}
+        onEnd={onPause}
       />
     </S.Youtube>
   );
