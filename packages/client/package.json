@@ -44,6 +44,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.4.1",
     "react-use-bind-keys": "^0.0.4",
+    "react-youtube": "^7.11.2",
     "recoil": "^0.0.8",
     "simple-peer": "^9.6.2",
     "socket.io-client": "^2.3.0",

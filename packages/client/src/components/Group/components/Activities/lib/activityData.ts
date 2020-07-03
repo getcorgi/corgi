@@ -1,7 +1,7 @@
 import { ActivityId } from './useActivities';
 
 export const ACTIVITY_IDS_BY_GROUP = {
-  Video: [ActivityId.Twitch],
+  Video: [ActivityId.Twitch, ActivityId.Youtube],
   Games: [ActivityId.Dominion],
   Tools: [ActivityId.Excalidraw, ActivityId.SharedIframe],
 };
@@ -11,12 +11,10 @@ export const ACTIVITIES_BY_ID = {
     label: 'Twitch',
     id: ActivityId.Twitch,
   },
-  // {
-  //   label: 'Youtube',
-  //   id: 'youtube',
-  //   url: 'https://www.youtube.com/embed/',
-  //   kind: PresetKind.Item,
-  // },
+  [ActivityId.Youtube]: {
+    label: 'Youtube',
+    id: ActivityId.Youtube,
+  },
   [ActivityId.Dominion]: {
     label: 'Dominion',
     id: ActivityId.Dominion,

@@ -40,7 +40,7 @@ export default function ActivityChooserModal() {
           <DialogContent>
             {Object.entries(ACTIVITY_IDS_BY_GROUP).map(([groupName, items]) => {
               return (
-                <Box mb="24px">
+                <Box mb="24px" key={groupName}>
                   <S.GroupLabel variant="subtitle2">{groupName}</S.GroupLabel>
                   <Box display="flex">
                     {items.map(id => {
