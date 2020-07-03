@@ -119,7 +119,7 @@ export default function Youtube() {
           // @ts-ignore
           const currentTime = videoPlayerInstance.current.getCurrentTime();
           const hostTime = message.data.position;
-          if (hostTime - currentTime > 0.25 || currentTime - hostTime > 0.25) {
+          if (hostTime - currentTime > 0.75 || currentTime - hostTime > 0.75) {
             // @ts-ignore
             videoPlayerInstance.current?.seekTo(message.data.position);
           }
