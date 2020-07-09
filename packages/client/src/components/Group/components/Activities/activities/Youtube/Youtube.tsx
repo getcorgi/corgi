@@ -97,7 +97,6 @@ export default function Youtube() {
   const sendYoutubeLatestPosition = () => {
     // @ts-ignore
     const position = videoPlayerInstance.current?.getCurrentTime();
-
     sendYoutubeSyncData({ position });
   };
 
@@ -162,6 +161,12 @@ export default function Youtube() {
       window.clearInterval(updateInterval.current);
     }
   };
+
+  useEffect(() => {
+    return function cleanup() {
+      window.clearInterval(updateInterval.current);
+    };
+  }, []);
 
   return (
     <S.Youtube
