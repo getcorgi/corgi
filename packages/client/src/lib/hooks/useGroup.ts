@@ -13,6 +13,7 @@ export interface GroupDocumentData {
   sharedIframeUrl?: string; //TEMPORARY: This will live elswhere,
   excalidrawUrl?: string; // TEMPORARY. This will live elsewhere.
   youtubeVideoId?: string; // TEMPORARY. This will live elsewhere.
+  youtubeHostUserId?: string; // TEMPORARY. Please move this somewhere else!
   twitchChannel?: string; // TEMPORARY. This will live elsewhere.
   type: string;
   name: string;
