@@ -11,7 +11,6 @@ export enum ActivityId {
   Dominion = 'Dominion',
   Excalidraw = 'Excalidraw',
   Youtube = 'Youtube',
-  Draw = 'Draw',
 }
 
 export const activeActivityIdsState = atom<ActivityId[]>({

@@ -45,6 +45,7 @@ export const Video = styled('div')({
 export const VideoWrapper = styled('div')({
   background: '#111',
   height: '100%',
+  position: 'relative',
 });
 
 export const EmptyVideo = styled(Box)({

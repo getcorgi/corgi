@@ -16,6 +16,7 @@ import CrownIcon from '../../../Icons/Crown';
 import { MediaSettingsContext } from '../../../MediaSettingsProvider';
 import { groupAdminIdState } from '../../lib/GroupState';
 import { User } from '../../lib/useSocketHandler';
+import Draw from '../Activities/activities/Draw';
 import AudioVisualizer from '../AudioVisualizer';
 import VideoContextMenu from '../VideoContextMenu/VideoContextMenu';
 import VideoOverlay from './components/VideoOverlay/VideoOverlay';
@@ -216,6 +217,7 @@ export default function(props: Props) {
       {props.overlayText && (
         <VideoOverlay text={props.overlayText} size={avatarSize} />
       )}
+      {isScreenShare && <Draw />}
     </S.Video>
   );
 

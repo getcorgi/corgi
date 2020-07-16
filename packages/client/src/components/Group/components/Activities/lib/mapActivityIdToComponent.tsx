@@ -1,7 +1,6 @@
 import React from 'react';
 
 import ActivityIframe from '../activities/ActivityIframe';
-import Draw from '../activities/Draw';
 import Excalidraw from '../activities/Excalidraw';
 import SharedIframe from '../activities/SharedIframe';
 import Twitch from '../activities/Twitch';
@@ -20,8 +19,6 @@ export default function mapActivityIdToComponent(id?: ActivityId) {
       return <Excalidraw />;
     case ActivityId.Youtube:
       return <Youtube />;
-    case ActivityId.Draw:
-      return <Draw />;
     default:
       return null;
   }

@@ -1,9 +1,10 @@
-import Box from '@material-ui/core/Box';
 import { SocketContext } from 'components/Group/lib/SocketContext';
 import { currentUserState } from 'lib/hooks/useUser';
 import throttle from 'lodash.throttle';
 import React, { useContext, useEffect, useRef } from 'react';
 import { useRecoilValue } from 'recoil';
+
+import * as S from './Draw.styles';
 
 const STROKE_WIDTH = 5;
 
@@ -110,7 +111,7 @@ export default function Draw() {
         lineOpacities[userId] = 1;
       }
 
-      lineOpacities[userId] -= 0.05;
+      lineOpacities[userId] -= 0.025;
 
       if (lineOpacities[userId] <= 0) {
         clearInterval(fadeOutTimers.current[userId]);
@@ -227,17 +228,10 @@ export default function Draw() {
   }, [me, me.color, socket]);
 
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      height="100%"
-      bgcolor="black"
-      position="absolute"
-      width="100%"
-    >
+    <S.Draw>
       <div ref={wrapperRef} style={{ width: '100%', height: '100%' }}>
         <canvas style={{ width: '100%', height: '100%' }} ref={canvasRef} />
       </div>
-    </Box>
+    </S.Draw>
   );
 }

@@ -3,7 +3,7 @@ import { ActivityId } from './useActivities';
 export const ACTIVITY_IDS_BY_GROUP = {
   Video: [ActivityId.Twitch, ActivityId.Youtube],
   Games: [ActivityId.Dominion],
-  Tools: [ActivityId.Excalidraw, ActivityId.Draw, ActivityId.SharedIframe],
+  Tools: [ActivityId.Excalidraw, ActivityId.SharedIframe],
 };
 
 export const ACTIVITIES_BY_ID = {
@@ -26,9 +26,5 @@ export const ACTIVITIES_BY_ID = {
   [ActivityId.SharedIframe]: {
     label: 'Web Browser',
     id: ActivityId.SharedIframe,
-  },
-  [ActivityId.Draw]: {
-    label: 'Draw',
-    id: ActivityId.Draw,
   },
 };
