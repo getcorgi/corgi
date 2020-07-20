@@ -12,7 +12,7 @@ export default function mapActivityIdToComponent(id?: ActivityId) {
     case ActivityId.SharedIframe:
       return <SharedIframe />;
     case ActivityId.Dominion:
-      return <ActivityIframe id={id} url="http://dominion.games" />;
+      return <ActivityIframe id={id} url="https://dominion.games" />;
     case ActivityId.Twitch:
       return <Twitch />;
     case ActivityId.Excalidraw:
