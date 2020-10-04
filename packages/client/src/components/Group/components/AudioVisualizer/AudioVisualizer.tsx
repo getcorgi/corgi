@@ -33,7 +33,9 @@ export default function AudioVisualizer(props: Props) {
   useEffect(() => {
     if (!props.mediaStream) return;
 
-    const audioContext = new AudioContext();
+    const audioContext = new (window.AudioContext ||
+      /* @ts-ignore */
+      window.webkitAudioContext)();
     const audioSource = audioContext.createMediaStreamSource(props.mediaStream);
     const analyser = audioContext.createAnalyser();
     audioSource.connect(analyser);
