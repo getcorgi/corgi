@@ -12,8 +12,8 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import clsx from 'clsx';
 import theme from 'lib/theme';
-import React, { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import React, { useEffect } from 'react';
+import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import useSound from 'use-sound';
 
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
@@ -64,16 +64,23 @@ interface Props {
   unreadMessageCount: number;
 }
 
+export const isChatDrawerOpenState = atom({
+  key: 'Group__Sidebar__isChatDrawerOpen',
+  default: false,
+});
+
 export default function SideBar(props: Props) {
   const classes = useStyles();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isChatDrawerOpen, setIsChatDrawerOpen] = useRecoilState(
+    isChatDrawerOpenState,
+  );
   const setIsActivityChooserModalOpen = useSetRecoilState(
     isActivityChooserModalOpenState,
   );
 
   const toggleDrawerOpen = () => {
     props.setUnreadMessageCount(0);
-    setIsDrawerOpen(!isDrawerOpen);
+    setIsChatDrawerOpen(!isChatDrawerOpen);
   };
 
   const [chatReceivedBoop] = useSound(
@@ -82,10 +89,10 @@ export default function SideBar(props: Props) {
   );
 
   useEffect(() => {
-    if (props.unreadMessageCount > 0 && !isDrawerOpen) {
+    if (props.unreadMessageCount > 0 && !isChatDrawerOpen) {
       chatReceivedBoop({});
     }
-  }, [chatReceivedBoop, isDrawerOpen, props.unreadMessageCount]);
+  }, [chatReceivedBoop, isChatDrawerOpen, props.unreadMessageCount]);
 
   return (
     <>
@@ -93,17 +100,17 @@ export default function SideBar(props: Props) {
         variant="permanent"
         anchor="right"
         className={clsx(classes.drawer, {
-          [classes.drawerOpen]: isDrawerOpen,
-          [classes.drawerClose]: !isDrawerOpen,
+          [classes.drawerOpen]: isChatDrawerOpen,
+          [classes.drawerClose]: !isChatDrawerOpen,
         })}
         classes={{
           paper: clsx(classes.drawerPaper, {
-            [classes.drawerOpen]: isDrawerOpen,
-            [classes.drawerClose]: !isDrawerOpen,
+            [classes.drawerOpen]: isChatDrawerOpen,
+            [classes.drawerClose]: !isChatDrawerOpen,
           }),
         }}
       >
-        {isDrawerOpen && (
+        {isChatDrawerOpen && (
           <Box height="100%" display="flex" flexDirection="column">
             <S.Header>
               <Box p={theme.spacing(0.1)}>
@@ -125,7 +132,7 @@ export default function SideBar(props: Props) {
           </Box>
         )}
 
-        {!isDrawerOpen && (
+        {!isChatDrawerOpen && (
           <Box
             display="flex"
             flexDirection="column"
@@ -170,12 +177,12 @@ export default function SideBar(props: Props) {
           </Box>
         )}
       </Drawer>
-      <S.Main isDrawerOpen={isDrawerOpen}>{props.children}</S.Main>
+      <S.Main isChatDrawerOpen={isChatDrawerOpen}>{props.children}</S.Main>
 
       <ActivityChooserModal />
 
       <ChatSnackbar
-        sholdShowSnackbar={!isDrawerOpen}
+        sholdShowSnackbar={!isChatDrawerOpen}
         messages={props.messages}
         handleOpenChatWindow={toggleDrawerOpen}
       />

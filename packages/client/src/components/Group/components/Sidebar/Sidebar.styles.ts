@@ -18,13 +18,13 @@ export const Header = styled.div`
 `;
 
 export const Main = styled.main.withConfig({
-  shouldForwardProp: prop => !['isDrawerOpen'].includes(prop),
+  shouldForwardProp: prop => !['isChatDrawerOpen'].includes(prop),
 })`
   flex-grow: 1;
   height: 100%;
   margin-right: ${CLOSED_DRAWER_WIDTH};
-  width: ${({ isDrawerOpen }: { isDrawerOpen: boolean }) =>
-    `calc(100% - ${isDrawerOpen ? DRAWER_WIDTH : CLOSED_DRAWER_WIDTH}px)`};
+  width: ${({ isChatDrawerOpen }: { isChatDrawerOpen: boolean }) =>
+    `calc(100% - ${isChatDrawerOpen ? DRAWER_WIDTH : CLOSED_DRAWER_WIDTH}px)`};
 
   transition: width ${theme.transitions.duration.enteringScreen}ms;
 `;

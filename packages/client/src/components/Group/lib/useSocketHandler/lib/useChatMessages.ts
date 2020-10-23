@@ -1,3 +1,4 @@
+import { isChatDrawerOpenState } from 'components/Group/components/Sidebar/Sidebar';
 import { currentUserState } from 'lib/hooks/useUser';
 import { useCallback, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -15,6 +16,7 @@ export default function useChatMessages({
 }: {
   socket: SocketIOClient.Socket;
 }) {
+  const isChatDrawerOpen = useRecoilValue(isChatDrawerOpenState);
   const me = useRecoilValue(currentUserState);
   const [messages, setMessages] = useState<Message[]>([]);
   const [unreadMessageCount, setUnreadMessageCount] = useState(0);
@@ -28,7 +30,10 @@ export default function useChatMessages({
 
   useEffect(() => {
     socket.on('receivedChatMessage', (message: Message) => {
-      if (message.user.firebaseAuthId !== me.firebaseAuthId) {
+      if (
+        !isChatDrawerOpen &&
+        message.user.firebaseAuthId !== me.firebaseAuthId
+      ) {
         setUnreadMessageCount(count => count + 1);
       }
 
@@ -40,7 +45,7 @@ export default function useChatMessages({
     return function cleanup() {
       socket.removeEventListener('receivedChatMessage');
     };
-  }, [me, me.id, socket]);
+  }, [isChatDrawerOpen, me, me.id, socket]);
 
   return {
     messages,
