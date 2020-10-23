@@ -101,9 +101,15 @@ export default function Draw() {
     }
 
     function onMouseDown(e: MouseEvent) {
+      const canvas = canvasRef.current;
+
+      if (!canvas) return;
+
+      const { top, x } = canvas?.getBoundingClientRect();
+
       isDrawing = true;
-      current.x = e.clientX;
-      current.y = e.clientY;
+      current.x = e.clientX - x;
+      current.y = e.clientY - top;
     }
 
     function handleFadeOutLines(userId: string) {
@@ -126,6 +132,10 @@ export default function Draw() {
         return;
       }
 
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const { top, x } = canvas?.getBoundingClientRect();
+
       fadeOutTimers.current[me.id] = setInterval(
         () => handleFadeOutLines(me.id),
         100,
@@ -135,8 +145,8 @@ export default function Draw() {
       handleDrawLine({
         x0: current.x,
         y0: current.y,
-        x1: e.clientX,
-        y1: e.clientY,
+        x1: e.clientX - x,
+        y1: e.clientY - top,
       });
     }
 
@@ -145,6 +155,10 @@ export default function Draw() {
         return;
       }
 
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const { top, x } = canvas?.getBoundingClientRect();
+
       clearInterval(fadeOutTimers.current[me.id]);
       fadeOutTimers.current[me.id] = -1;
       lineOpacities[me.id] = 1;
@@ -152,11 +166,11 @@ export default function Draw() {
       handleDrawLine({
         x0: current.x,
         y0: current.y,
-        x1: e.clientX,
-        y1: e.clientY,
+        x1: e.clientX - x,
+        y1: e.clientY - top,
       });
-      current.x = e.clientX;
-      current.y = e.clientY;
+      current.x = e.clientX - x;
+      current.y = e.clientY - top;
     }
 
     function onResize() {
@@ -209,7 +223,11 @@ export default function Draw() {
       },
     );
 
-    onResize();
+    // Defer the initial onResize so the canvas has time to mount
+    setTimeout(() => {
+      onResize();
+    }, 1);
+
     animate();
 
     canvas.addEventListener('mousedown', onMouseDown, false);
