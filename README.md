@@ -74,6 +74,7 @@ REACT_APP_MESSAGING_SENDER_ID=<firebaseMessagingSenderId>
 REACT_APP_ID=<firebaseAppId>
 REACT_APP_MEASUREMENT_ID=<firebaseMeasurementId>
 REACT_APP_SOCKET_SERVER="http://localhost:8080"
+REACT_APP_GIPHY_API_KEY=<giphyAPIKey>
 ```
 
 ## Available Scripts

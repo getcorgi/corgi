@@ -69,3 +69,10 @@ export const EmojiPicker = styled('div')({
   transform: 'translateY(-50%)',
   top: '50%',
 });
+
+export const GiphySearch = styled('div')({
+  position: 'absolute',
+  right: '50px',
+  transform: 'translateY(-50%)',
+  top: '50%',
+});

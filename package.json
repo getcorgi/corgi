@@ -26,5 +26,9 @@
     "concurrently": "^5.1.0",
     "husky": "^4.0.6",
     "lint-staged": "^9.5.0"
+  },
+  "dependencies": {
+    "@giphy/js-fetch-api": "^1.7.0",
+    "@giphy/react-components": "^1.9.1"
   }
 }

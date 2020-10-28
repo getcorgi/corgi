@@ -13,7 +13,7 @@ interface Props {
   onExited: () => void;
 }
 
-export default function EmojiPicker(props: Props) {
+function EmojiPicker(props: Props) {
   const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
 
   const anchorElementRef = useRef<HTMLDivElement>(null);
@@ -76,3 +76,5 @@ export default function EmojiPicker(props: Props) {
     </>
   );
 }
+
+export default React.memo(EmojiPicker);
