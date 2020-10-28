@@ -9,6 +9,7 @@ export const appConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
   socketServer: process.env.REACT_APP_SOCKET_SERVER || '',
   sentryDsn: process.env.REACT_APP_SENTRY_DSN,
+  giphyKey: process.env.REACT_APP_GIPHY_API_KEY,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
