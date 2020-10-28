@@ -8,6 +8,7 @@ import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import * as S from './Chat.styles';
 import EmojiPicker from './components/EmojiPicker/EmojiPicker';
 import EmojiQuickSelect from './components/EmojiQuckSelect/EmojiQuickSelect';
+import GiphySearch from './components/GiphySearch/GiphySearch';
 
 interface Props {
   messages: Message[];
@@ -81,6 +82,7 @@ export default function Chat(props: Props) {
 
   const messagesRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const gifAnchorElementRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     const messages = messagesRef?.current;
@@ -164,6 +166,19 @@ export default function Chat(props: Props) {
     });
   };
 
+  const onGiphyPickerExited = () => {
+    // HACK: doesn't focus right without it ¯\_(ツ)_/¯
+    // setTimeout(() => {
+    inputRef.current?.focus();
+    // }, 1);
+  };
+
+  const onGifSelect = (gif: string) => {
+    setNewChatMessage(message => {
+      return `${message} ${gif}`;
+    });
+  };
+
   return (
     <S.Chat>
       <S.ChatMessages ref={messagesRef}>
@@ -207,6 +222,12 @@ export default function Chat(props: Props) {
             onExited={onEmojiPickerExited}
           />
         </S.EmojiPicker>
+        <S.GiphySearch ref={gifAnchorElementRef}>
+          <GiphySearch
+            onGifClick={onGifSelect}
+            onExited={onGiphyPickerExited}
+          />
+        </S.GiphySearch>
       </S.ChatInputForm>
     </S.Chat>
   );
