@@ -167,10 +167,7 @@ export default function Chat(props: Props) {
   };
 
   const onGiphyPickerExited = () => {
-    // HACK: doesn't focus right without it ¯\_(ツ)_/¯
-    // setTimeout(() => {
     inputRef.current?.focus();
-    // }, 1);
   };
 
   const onGifSelect = (gif: string) => {

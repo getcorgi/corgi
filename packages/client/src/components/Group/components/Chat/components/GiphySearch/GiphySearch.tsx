@@ -1,5 +1,3 @@
-import 'emoji-mart/css/emoji-mart.css';
-
 import {
   Grid, // our UI Component to display the results
   SearchBar, // the search bar the user will type into
