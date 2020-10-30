@@ -1,12 +1,17 @@
 import {
   Grid, // our UI Component to display the results
-  SearchBar, // the search bar the user will type into
   SearchContext, // the context that wraps and connects our components
   SearchContextManager, // the context manager, includes the Context.Provider
 } from '@giphy/react-components';
-import { createStyles, makeStyles, Popover, Theme } from '@material-ui/core';
+import { Box, Popover } from '@material-ui/core';
 import GifTwoToneIcon from '@material-ui/icons/GifTwoTone';
-import React, { forwardRef, useContext, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import * as S from './GiphySearch.styles';
 
@@ -15,19 +20,10 @@ interface Props {
   onExited: () => void;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    giphySearchBar: {
-      height: '32px',
-    },
-  }),
-);
 function GiphySearch(props: Props) {
   const [isGifPickerOpen, setIsGifPickerOpen] = useState(false);
 
   const gifAnchorElementRef = useRef<HTMLDivElement>(null);
-
-  const classes = useStyles(props);
 
   const handleGifClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setIsGifPickerOpen(!isGifPickerOpen);
@@ -46,15 +42,32 @@ function GiphySearch(props: Props) {
     handleClose();
   };
 
+  // HACK: sets focus on input, giphy doesnt expose the ref or an autofocus prop
+  useEffect(() => {
+    if (isGifPickerOpen) {
+      setTimeout(() => {
+        const input: HTMLInputElement | null = document?.querySelector(
+          '.giphy-search-bar input',
+        );
+
+        if (input) {
+          input.focus();
+        }
+      }, 1);
+    }
+  }, [isGifPickerOpen]);
+
   const GiphySearchContainer = forwardRef(() => (
     <S.GiphyWrapper>
       <SearchContextManager apiKey={process.env.REACT_APP_GIPHY_API_KEY || ''}>
-        <SearchBar
-          placeholder="search..."
-          clear
-          className={classes.giphySearchBar}
-        />
-        <GiphyResults />
+        <Box display="flex" flexDirection="column" height="100%">
+          <S.SearchWrapper>
+            <S.SearchBar placeholder="search..." clear />
+          </S.SearchWrapper>
+          <Box height="100%" overflow="auto" p={1}>
+            <GiphyResults />
+          </Box>
+        </Box>
       </SearchContextManager>
     </S.GiphyWrapper>
   ));
@@ -66,7 +79,7 @@ function GiphySearch(props: Props) {
         <Grid
           key={searchKey}
           columns={3}
-          width={window.innerWidth > 800 ? 780 : window.innerWidth - 40}
+          width={380}
           fetchGifs={fetchGifs}
           onGifClick={onGifSelect}
         />
@@ -76,13 +89,13 @@ function GiphySearch(props: Props) {
 
   return (
     <>
-      <S.GiphySearch
+      <S.GiphySearchIcon
         tabIndex={1}
         onClick={handleGifClick}
         ref={gifAnchorElementRef}
       >
-        <GifTwoToneIcon />
-      </S.GiphySearch>
+        <GifTwoToneIcon fontSize="large" />
+      </S.GiphySearchIcon>
       <Popover
         open={isGifPickerOpen}
         anchorEl={gifAnchorElementRef.current}

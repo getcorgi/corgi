@@ -75,7 +75,7 @@ const getShouldGroupMessages = (
   return false;
 };
 
-export default function Chat(props: Props) {
+function Chat(props: Props) {
   const [newChatMessage, setNewChatMessage] = useState('');
   const [cursorPosition, setCursorPosition] = useState(-1);
   const [isEmojiQuickSelectOpen, setIsEmojiQuickSelectOpen] = useState(false);
@@ -229,3 +229,5 @@ export default function Chat(props: Props) {
     </S.Chat>
   );
 }
+
+export default React.memo(Chat);
