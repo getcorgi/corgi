@@ -1,5 +1,6 @@
 import { Box } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
+import theme from 'lib/theme';
 
 export const ContentWrapper = styled(Box)({
   height: '100%',
@@ -16,6 +17,11 @@ interface DraggerProps {
   width: number;
 }
 
+interface DraggerWrapperProps {
+  width: number;
+  bgcolor: string;
+}
+
 const getPaddedWidth = (width: number) => {
   return width + width * 0.8;
 };
@@ -28,4 +34,14 @@ export const Dragger = styled('div')({
   height: '100%',
   position: 'absolute',
   zIndex: 1,
+});
+
+export const DraggerWrapper = styled('div')({
+  position: 'relative',
+  height: '100%',
+  background: (props: DraggerWrapperProps) => props.bgcolor,
+  width: (props: DraggerWrapperProps) => props.width,
+  '&:hover': {
+    background: theme.palette.primary.main,
+  },
 });

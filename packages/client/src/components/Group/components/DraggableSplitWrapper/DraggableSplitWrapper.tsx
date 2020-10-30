@@ -75,9 +75,7 @@ function DraggableSplitWrapper(props: Props) {
           {props.left}
         </S.ContentWrapper>
 
-        <Box
-          position="relative"
-          height="100%"
+        <S.DraggerWrapper
           width={props.draggerSize}
           bgcolor={props.draggerColor}
         >
@@ -86,7 +84,7 @@ function DraggableSplitWrapper(props: Props) {
             ref={draggerRef}
             width={props.draggerSize}
           />
-        </Box>
+        </S.DraggerWrapper>
 
         <S.ContentWrapper
           width={asideWidth}
