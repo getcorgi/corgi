@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import ActivityIframe from '../activities/ActivityIframe';
 import Excalidraw from '../activities/Excalidraw';
@@ -19,6 +20,8 @@ export default function mapActivityIdToComponent(id?: ActivityId) {
       return <Excalidraw />;
     case ActivityId.Youtube:
       return <Youtube />;
+    case ActivityId.HeadsUp:
+      return <Redirect to={{ pathname: '/heads-up' }} />;
     default:
       return null;
   }

@@ -5,7 +5,6 @@ import React from 'react';
 import { User } from '../../lib/useSocketHandler';
 import { Message } from '../../lib/useSocketHandler/lib/useChatMessages';
 import { Reaction } from '../BasicView/lib/useReactions';
-import Sidebar from '../Sidebar';
 import VideoControls from '../VideoControls';
 import * as S from './VideoView.styles';
 
@@ -38,38 +37,29 @@ interface Props {
 
 export default function VideoView(props: Props) {
   const { isIdle } = useIdleTimer({ wait: 3500 });
+  console.log('video view');
 
   return (
-    <Sidebar
-      unreadMessageCount={props.unreadMessageCount}
-      isAdmin={props.isAdmin}
-      messages={props.messages}
-      sendMessage={props.sendMessage}
-      setUnreadMessageCount={props.setUnreadMessageCount}
-      isSharingScreen={props.isSharingScreen}
-      toggleIsSharingScreen={props.toggleIsSharingScreen}
+    <S.VideoView
+      position="relative"
+      display="flex"
+      flexDirection="column"
+      justifyContent="space-between"
+      height="100%"
     >
-      <S.VideoView
-        position="relative"
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        height="100%"
-      >
-        <Box height="100%">
-          {props.children({ streams: props.streams, messages: props.messages })}
-        </Box>
+      <Box height="100%">
+        {props.children({ streams: props.streams, messages: props.messages })}
+      </Box>
 
-        <S.Controls isIdle={isIdle}>
-          <VideoControls
-            isCameraOff={props.isCameraOff}
-            isMuted={props.isMuted}
-            onHangup={props.onHangup}
-            toggleCamera={props.toggleCamera}
-            toggleIsMuted={props.toggleIsMuted}
-          />
-        </S.Controls>
-      </S.VideoView>
-    </Sidebar>
+      <S.Controls isIdle={isIdle}>
+        <VideoControls
+          isCameraOff={props.isCameraOff}
+          isMuted={props.isMuted}
+          onHangup={props.onHangup}
+          toggleCamera={props.toggleCamera}
+          toggleIsMuted={props.toggleIsMuted}
+        />
+      </S.Controls>
+    </S.VideoView>
   );
 }

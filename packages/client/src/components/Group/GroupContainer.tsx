@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { RouteComponentProps } from 'react-router-dom';
+import { Route, RouteComponentProps, Switch } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import useGroup from '../../lib/hooks/useGroup';
@@ -8,9 +8,11 @@ import { currentUserState } from '../../lib/hooks/useUser';
 import Hotkeys from '../Hotkeys/Hotkeys';
 import { MediaSettingsContext } from '../MediaSettingsProvider';
 import BasicView from './components/BasicView';
+import FullActivityView from './components/FullActivityView';
 import MediaSettingsModal from './components/MediaSettingsModal';
 import PermissionsAlert from './components/PermissionsAlert';
 import Preview from './components/Preview';
+import Sidebar from './components/Sidebar';
 import VideoView from './components/VideoView';
 import { groupAdminIdState, groupIdState } from './lib/GroupState';
 import useIsAdmin from './lib/useIsAdmin';
@@ -167,32 +169,70 @@ export default function GroupContainer(
     return (
       <Hotkeys toggleCamera={toggleCamera} toggleIsMuted={toggleIsMuted}>
         {renderCommon()}
-        <VideoView
+        <Sidebar
+          unreadMessageCount={unreadMessageCount}
           isAdmin={isAdmin}
-          isCameraOff={isCameraOff}
-          isMuted={isMuted}
-          isSharingScreen={isSharingScreen}
-          onHangup={onHangup}
-          streams={streams}
-          toggleCamera={toggleCamera}
-          toggleIsMuted={toggleIsMuted}
-          toggleIsSharingScreen={toggleIsSharingScreen}
           messages={messages}
           sendMessage={sendMessage}
           setUnreadMessageCount={setUnreadMessageCount}
-          unreadMessageCount={unreadMessageCount}
+          isSharingScreen={isSharingScreen}
+          toggleIsSharingScreen={toggleIsSharingScreen}
         >
-          {({ streams, messages }) => {
-            return (
-              <BasicView
-                localStream={localStream}
-                me={me}
+          <Switch>
+            <Route path={`${props.match.url}/:activityId`}>
+              <FullActivityView
+                isCameraOff={isCameraOff}
+                isMuted={isMuted}
+                onHangup={onHangup}
                 streams={streams}
+                toggleCamera={toggleCamera}
+                toggleIsMuted={toggleIsMuted}
+                toggleIsSharingScreen={toggleIsSharingScreen}
                 messages={messages}
-              />
-            );
-          }}
-        </VideoView>
+                localStream={localStream}
+              >
+                {({ streams, messages }) => {
+                  return (
+                    <BasicView
+                      localStream={localStream}
+                      me={me}
+                      streams={streams}
+                      messages={messages}
+                    />
+                  );
+                }}
+              </FullActivityView>
+            </Route>
+            <Route path={props.match.url}>
+              <VideoView
+                isAdmin={isAdmin}
+                isCameraOff={isCameraOff}
+                isMuted={isMuted}
+                isSharingScreen={isSharingScreen}
+                onHangup={onHangup}
+                streams={streams}
+                toggleCamera={toggleCamera}
+                toggleIsMuted={toggleIsMuted}
+                toggleIsSharingScreen={toggleIsSharingScreen}
+                messages={messages}
+                sendMessage={sendMessage}
+                setUnreadMessageCount={setUnreadMessageCount}
+                unreadMessageCount={unreadMessageCount}
+              >
+                {({ streams, messages }) => {
+                  return (
+                    <BasicView
+                      localStream={localStream}
+                      me={me}
+                      streams={streams}
+                      messages={messages}
+                    />
+                  );
+                }}
+              </VideoView>
+            </Route>
+          </Switch>
+        </Sidebar>
       </Hotkeys>
     );
   }

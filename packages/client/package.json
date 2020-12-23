@@ -44,7 +44,7 @@
     "react-helmet": "^6.0.0",
     "react-linkify": "^1.0.0-alpha",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.1",
+    "react-scripts": "^3.4.3",
     "react-use-bind-keys": "^0.0.4",
     "react-youtube": "^7.11.2",
     "recoil": "^0.0.8",

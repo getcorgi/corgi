@@ -27,7 +27,7 @@ const App: React.FC = () => {
 
       <Router>
         <Route exact path="/" component={Home} />
-        <Route exact path="/groups/:groupId" component={Group} />
+        <Route path="/groups/:groupId" component={Group} />
         <Route exact path="/error" component={ErrorPage} />
       </Router>
     </>
