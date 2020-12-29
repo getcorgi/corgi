@@ -19,6 +19,7 @@ const MockComponent = () => {
 
 describe('FirebaseProvider', () => {
   it('should initialize firebase', () => {
+    // eslint-disable-next-line
     (firebase as jest.Mocked<any>).auth.mockReturnValue({
       signInAnonymously: jest.fn(() => new Promise(jest.fn())),
       onAuthStateChanged: jest.fn(),

@@ -69,7 +69,7 @@ export default function useScreenShareSocketEvents({
 
       const peer = new Peer({ stream: localStream });
 
-      peer.on('signal', (data: any) => {
+      peer.on('signal', (data: Record<string, unknown>) => {
         socket.emit('sendSignal', {
           to: clientId,
           signal: data,

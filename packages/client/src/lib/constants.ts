@@ -12,7 +12,7 @@ export const appConfig = {
   giphyKey: process.env.REACT_APP_GIPHY_API_KEY,
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
+// eslint-disable-next-line
 export const noop = (...args: any[]): any => {};
 
 export const FEEDBACK_FORM_URL = 'https://forms.gle/HYwvYR679uojdGpNA';

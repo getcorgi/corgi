@@ -34,7 +34,7 @@ export default function AudioVisualizer(props: Props) {
     if (!props.mediaStream) return;
 
     const audioContext = new (window.AudioContext ||
-      /* @ts-ignore */
+      // eslint-disable-next-line
       window.webkitAudioContext)();
     const audioSource = audioContext.createMediaStreamSource(props.mediaStream);
     const analyser = audioContext.createAnalyser();

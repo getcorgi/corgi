@@ -16,7 +16,9 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'warn',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     'prettier/prettier': 'error',
     'simple-import-sort/sort': 'error',
+    'import/no-anonymous-default-export': 'off',
   },
 };

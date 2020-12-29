@@ -1,3 +1,4 @@
+import { Meta } from '@storybook/react';
 import { backgroundColor } from 'lib/theme';
 import React, { useState } from 'react';
 
@@ -6,7 +7,7 @@ import Chat from './Chat';
 
 export default {
   title: 'Chat',
-};
+} as Meta;
 
 const Container = (props: { children: React.ReactNode }) => (
   <div

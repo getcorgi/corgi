@@ -75,7 +75,7 @@ export default function useSocketEvents({
       }
       const peer = new Peer({ stream: localStream });
 
-      peer.on('signal', (data: any) => {
+      peer.on('signal', (data: Record<string, unknown>) => {
         socket.emit('sendSignal', {
           to: userData.id,
           signal: data,

@@ -49,7 +49,7 @@ export default function VideoContextMenu(props: Props) {
   };
 
   const onVolumeChange = (
-    e: React.ChangeEvent<{}>,
+    e: React.ChangeEvent<Record<string, unknown>>,
     value: number | number[],
   ) => {
     if (typeof value === 'number') {

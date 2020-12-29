@@ -20,7 +20,11 @@ import { ActivityId } from '../../lib/useActivities';
 import { IframeToolbar } from '../IframeToolbar/IframeToolbar';
 
 interface YoutubeSyncMessage {
-  data: { [key: string]: any };
+  data: {
+    position?: number;
+    play?: boolean;
+    pause?: boolean;
+  };
   user: User;
   createdAt: number;
 }
@@ -47,7 +51,9 @@ export default function Youtube() {
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const videoPlayerInstance = useRef();
+  const videoPlayerInstance = useRef<
+    ReturnType<YouTubePlayer['getInternalPlayer']>
+  >();
 
   const videoId = group?.youtubeVideoId || '';
 
@@ -95,7 +101,6 @@ export default function Youtube() {
   );
 
   const sendYoutubeLatestPosition = () => {
-    // @ts-ignore
     const position = videoPlayerInstance.current?.getCurrentTime();
     sendYoutubeSyncData({ position });
   };
@@ -106,21 +111,17 @@ export default function Youtube() {
         if (!videoPlayerInstance.current) return;
 
         if (message.data?.play) {
-          // @ts-ignore
           videoPlayerInstance.current?.playVideo();
         }
 
         if (message.data?.pause) {
-          // @ts-ignore
           videoPlayerInstance.current?.pauseVideo();
         }
         if (message.data?.position) {
-          // @ts-ignore
           const currentTime = videoPlayerInstance.current.getCurrentTime();
           const hostTime = message.data.position;
           if (hostTime - currentTime > 0.75 || currentTime - hostTime > 0.75) {
-            // @ts-ignore
-            videoPlayerInstance.current?.seekTo(message.data.position);
+            videoPlayerInstance.current?.seekTo(message.data.position, false);
           }
         }
       }

@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
 interface ExperimentalMediaDevices extends MediaDevices {
-  getDisplayMedia: (options: any) => Promise<MediaStream>;
+  getDisplayMedia: (options: Record<string, unknown>) => Promise<MediaStream>;
 }
 
 const DISPLAY_OPTIONS = {
@@ -13,7 +13,7 @@ const DISPLAY_OPTIONS = {
   },
 };
 
-async function startCapture(options?: any) {
+async function startCapture() {
   let captureStream = null;
 
   const mediaDevices = navigator.mediaDevices as ExperimentalMediaDevices;

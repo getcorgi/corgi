@@ -1,3 +1,4 @@
+import { Meta } from '@storybook/react';
 import { noop } from 'lib/constants';
 import { backgroundColor } from 'lib/theme';
 import React from 'react';
@@ -7,7 +8,7 @@ import { IframeToolbar } from './IframeToolbar';
 
 export default {
   title: 'SourceSelect',
-};
+} as Meta;
 
 const Container = (props: { children: React.ReactNode }) => (
   <div

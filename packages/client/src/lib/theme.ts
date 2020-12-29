@@ -55,7 +55,7 @@ const hashString = (string: string): number => {
   return hash;
 };
 
-const hashStringToArrayEntry = (string: string, array: Color[]): any => {
+const hashStringToArrayEntry = (string: string, array: Color[]) => {
   const hash = hashString(string);
   const index = hash % array.length;
 
