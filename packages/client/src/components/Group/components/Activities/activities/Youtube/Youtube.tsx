@@ -135,7 +135,7 @@ export default function Youtube() {
     height: '100%',
     width: '100%',
     playerVars: {
-      modestbranding: 1 as 1,
+      modestbranding: 1 as const,
     },
   };
 
