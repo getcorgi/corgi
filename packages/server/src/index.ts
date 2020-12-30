@@ -2,18 +2,7 @@ import http from 'http';
 import socketIo from 'socket.io';
 
 import { handleUserIsInPreview } from './socketEventHandlers';
-
-interface User {
-  avatarUrl?: string;
-  id?: string;
-  isMuted: boolean;
-  isCameraOff: boolean;
-  name?: string;
-}
-
-export interface ExtendedSocket extends SocketIO.Socket {
-  userData: User;
-}
+import { ExtendedSocket, User } from './types';
 
 const PORT = process.env.PORT || 8080;
 
@@ -85,7 +74,11 @@ io.on('connection', (socket: ExtendedSocket) => {
 
   socket.on(
     'sendSignal',
-    (data: { signal: {}; to: string; socket: ExtendedSocket }) => {
+    (data: {
+      signal: Record<string, unknown>;
+      to: string;
+      socket: ExtendedSocket;
+    }) => {
       io.to(data.to).emit('gotSignal', {
         signal: data.signal,
         from: socket.id,
@@ -126,7 +119,7 @@ io.on('connection', (socket: ExtendedSocket) => {
 
   socket.on(
     'sendYoutubeSyncData',
-    ({ data }: { data: { [key: string]: any } }) => {
+    ({ data }: { data: Record<string, unknown> }) => {
       io.in(room).emit('receivedYoutubeSyncData', {
         data,
         user: socket.userData,

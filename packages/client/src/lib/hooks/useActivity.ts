@@ -7,7 +7,7 @@ import { DocumentQueryResult } from '../types';
 
 type ComponentTree = {
   component: keyof typeof components;
-  properties?: { [key: string]: any };
+  properties?: Record<string, unknown>;
   id: string;
   children?: ComponentTree;
 }[];

@@ -67,7 +67,7 @@ function DraggableSplitWrapper(props: Props) {
       flexDirection="column"
       height="100%"
       position="relative"
-      // @ts-ignore
+      // @ts-expect-error refs have issues with material ui
       ref={wrapperRef}
     >
       <Box display="flex" height="100%">

@@ -4,7 +4,7 @@ import React from 'react';
 import { StreamsDict } from '../VideoView/VideoView';
 import parseComponentTree from './lib/parseComponentTree';
 
-export default function(props: {
+export default function ActivityView(props: {
   id: string;
   localStream: MediaStream | null;
   streams: StreamsDict;

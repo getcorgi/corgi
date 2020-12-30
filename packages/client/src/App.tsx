@@ -14,7 +14,7 @@ import { FirebaseProvider } from './components/Firebase';
 import Group from './components/Group';
 import Home from './components/Home';
 
-const App: React.FC = () => {
+const App = () => {
   useUser();
 
   return (

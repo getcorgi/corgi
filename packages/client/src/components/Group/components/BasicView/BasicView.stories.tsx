@@ -1,11 +1,12 @@
 import { number } from '@storybook/addon-knobs';
+import { Meta } from '@storybook/react';
 import React from 'react';
 
 import BasicView from './BasicView';
 
 export default {
   title: 'BasicView',
-};
+} as Meta;
 
 const createStream = (id: string) => ({
   [id]: {

@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 
-ReactDOM.createPortal = jest.fn((element, node) => {
+ReactDOM.createPortal = jest.fn(element => {
   return element;
 });
 

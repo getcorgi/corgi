@@ -78,7 +78,7 @@ interface ExperimentalHTMLVideoElement extends HTMLVideoElement {
   setSinkId: (id: string) => Promise<void>;
 }
 
-export default function(props: Props) {
+export default function Video(props: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const {
     ref: containerRef,

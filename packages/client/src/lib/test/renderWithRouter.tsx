@@ -13,7 +13,7 @@ export default function renderWithRouter(
     history?: MemoryHistory;
   } = {},
 ) {
-  const Wrapper = (props: { children: any }) => (
+  const Wrapper = (props: { children: React.ReactNode }) => (
     <Router history={history}>{props.children}</Router>
   );
 

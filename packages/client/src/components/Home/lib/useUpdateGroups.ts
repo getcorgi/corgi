@@ -3,7 +3,9 @@ import { useContext } from 'react';
 
 import { FirebaseContext } from '../../Firebase';
 
-export default function(options?: { client?: typeof firebase }) {
+export default function useUpdateGroups(options?: {
+  client?: typeof firebase;
+}) {
   const { firebase } = useContext(FirebaseContext);
   const client = (options && options.client) || firebase;
   const db = client.firestore();
