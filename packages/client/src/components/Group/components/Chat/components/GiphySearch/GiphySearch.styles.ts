@@ -21,13 +21,14 @@ export const SearchBar = styled(_SearchBar)`
     border-radius: 20px;
     overflow: hidden;
     background: ${backgroundColor[700]};
+    max-height: 42px;
 
     & > input {
       background: ${backgroundColor[700]};
       border-radius: 20px 0 0 20px;
       color: white;
       padding-left: 24px;
-      border: 1px solid transparent;
+      border: 1px solid #47494e;
 
       &:focus {
         outline: none;

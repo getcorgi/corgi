@@ -9,7 +9,6 @@ import { Helmet } from 'react-helmet';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import ErrorPage from './components/ErrorPage';
 import { FirebaseProvider } from './components/Firebase';
 import Group from './components/Group';
 import Home from './components/Home';
@@ -28,7 +27,6 @@ const App = () => {
       <Router>
         <Route exact path="/" component={Home} />
         <Route exact path="/groups/:groupId" component={Group} />
-        <Route exact path="/error" component={ErrorPage} />
       </Router>
     </>
   );
